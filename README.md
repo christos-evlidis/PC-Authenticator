@@ -7,6 +7,11 @@
 
 ---
 
+### 📌 Jump to section:
+[🔐 Security](#-security--privacy) • [☁️ Backup](#-cloud--backup) • [📱 Management](#-account-management) • [🔍 UX](#-user-experience) • [🛠 Tech](#-tech-stack) • [📥 Install](#-installation) • [🧭 Roadmap](#-roadmap) • [⚠️ License](#-license) • [📬 Contact](#-contact)
+
+---
+
 ## 🖥️ A Desktop Authenticator for Managing 2FA Codes
 
 **PC Authenticator** is a powerful and user-friendly Chrome extension designed to help you securely manage your two-factor authentication (2FA) codes right from your desktop. With a modern, intuitive interface, it makes it easy to add, organize, and access your 2FA accounts for all your online services.
@@ -44,8 +49,8 @@
 
 ## 🛠 Tech Stack
 
-- **Frontend:** JavaScript, HTML, CSS
-- **Backend:** Python
+- **Frontend:** JavaScript, HTML, CSS  
+- **Backend:** Python  
 - **Platform:** Chrome Extension
 
 ---
@@ -78,7 +83,8 @@ This project is **not open-source**. The code is private and not available for d
 
 ## 📬 Contact
 
-For bug reports, feedback, collaborations, or feature suggestions, reach out via GitHub issues or email: `chrisevlidis.main@gmail.com`
+For bug reports, feedback, collaborations, or feature suggestions, reach out via GitHub issues or email:  
+📧 `chrisevlidis.main@gmail.com`
 
 ---
 
