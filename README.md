@@ -19,30 +19,29 @@ https://github.com/christos-evlidis/PC-Authenticator?tab=readme-ov-file#-account
 
 ## 🔐 Security & Privacy
 
-- **Privacy First:** All sensitive data is encrypted and stored securely.
-- **One-Time Account Number:** Your account number is shown only once during setup and never again — ensuring maximum security.
+- All sensitive data is encrypted and stored securely.
+- Your account number is shown only once during setup and never again — ensuring maximum security.
 
 ---
 
 ## ☁️ Cloud & Backup
 
-- **Cloud Backup:** Safely back up your 2FA accounts and restore them anytime.
-- **One-Click Sync:** Instantly back up or restore your 2FA data with a single click.
-- **Cross-Device Access:** Restore your 2FA codes on any device using your secure account number.
+- Safely back up your 2FA accounts and restore them anytime.
+- Restore your 2FA codes on any device using your secure account number.
 
 ---
 
 ## 📱 Account Management
 
-- **Easy Edits:** Add, edit, or delete any 2FA entry with a few clicks.
-- **Built-In QR Scanning:** Capture QR codes from any tab using a desktop overlay snipping tool.
+- Add, edit, or delete any 2FA entry with a few clicks.
+- Capture QR codes from any tab using a desktop overlay snipping tool.
 
 ---
 
 ## 🔍 User Experience
 
-- **Quick Search:** Instantly locate any account by name.
-- **Modern UI:** Sleek, responsive design with tooltips, icons, and a fluid interface.
+- Instantly locate any account by name.
+- Sleek, responsive design with tooltips, icons, and a fluid interface.
 
 ---
 
