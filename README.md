@@ -1,14 +1,9 @@
-# PC Authenticator 🔐
+# PC Authenticator
 
 <p align="center">
   <img src="https://lh3.googleusercontent.com/mMMvBZGGKQDmpIL6JyeXmKsdpvgL7RprS1Af4jvK0cj76P9gk1gm61kODb2jZD82cbAC8gL65lpfxhHrubhqbnC5QHU=s1280-w1280-h800" width="48%" />
   <img src="https://lh3.googleusercontent.com/0aCc3T6nP2aywqzfELHONx6BvQBoPRphub0O5ksP0clZ009T0bhDaI6_WNwkdr61FNwZcIZngNEYN6OaGIvv7gpxGGU=s1280-w1280-h800" width="48%" />
 </p>
-
----
-
-### 📌 Jump to section:
-[🔐 Security](#-security--privacy) • [☁️ Backup](#-cloud--backup) • [📱 Management](#-account-management) • [🔍 UX](#-user-experience) • [🛠 Tech](#-tech-stack) • [📥 Install](#-installation) • [🧭 Roadmap](#-roadmap) • [⚠️ License](#-license) • [📬 Contact](#-contact)
 
 ---
 
