@@ -7,10 +7,6 @@
 
 ---
 
-https://github.com/christos-evlidis/PC-Authenticator?tab=readme-ov-file#-account-management
-
----
-
 ## 🖥️ A Desktop Authenticator for Managing 2FA Codes
 
 **PC Authenticator** is a powerful and user-friendly Chrome extension designed to help you securely manage your two-factor authentication (2FA) codes right from your desktop. With a modern, intuitive interface, it makes it easy to add, organize, and access your 2FA accounts for all your online services.
