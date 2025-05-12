@@ -1,4 +1,8 @@
-# PC Authenticator
+<p align="center">
+  <img src="https://easyfiles.cc/2025/5/6370b0a4-4169-4122-8bd1-27c4671fc8c8/Add%20a%20heading%20(2)-Photoroom.png"/>
+</p>
+
+---
 
 <p align="center">
   <img src="https://lh3.googleusercontent.com/mMMvBZGGKQDmpIL6JyeXmKsdpvgL7RprS1Af4jvK0cj76P9gk1gm61kODb2jZD82cbAC8gL65lpfxhHrubhqbnC5QHU=s1280-w1280-h800" width="48%" />
