@@ -1,0 +1,16 @@
+{
+  "name": "google-authenticator-pc",
+  "version": "1.0.0",
+  "description": "A desktop version of Google Authenticator",
+  "main": "popup.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "dependencies": {
+    "otplib": "^12.0.1"
+  },
+  "devDependencies": {
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+} 
