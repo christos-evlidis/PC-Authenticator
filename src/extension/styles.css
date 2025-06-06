@@ -258,15 +258,48 @@ h1 {
     display: flex;
     align-items: flex-start;
     min-height: 100px;
-    transition: filter 0.2s ease-out;
-    cursor: pointer;
+    width: 100%;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .account-block:hover {
     background-color: #f8f9fa;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.account-block.copied {
+    pointer-events: none;
+    width: 100%;
+}
+
+.account-block.copied .account-info,
+.account-block.copied .timer-wrapper,
+.account-block.copied .delete-button,
+.account-block.copied .edit-button {
+    filter: blur(4px);
+}
+
+.copied-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: monospace;
+    font-size: 32px;
+    font-weight: bold;
+    color: #4285f4;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    width: 100%;
+    text-align: center;
+    pointer-events: none;
+}
+
+.account-block.copied .copied-message {
+    opacity: 1;
 }
 
 .account-block.blurred {

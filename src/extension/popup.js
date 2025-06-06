@@ -1246,7 +1246,22 @@ function renderAccounts() {
         const clickHandler = () => {
             const otpCode = accountBlock.querySelector('.otp-code').textContent;
             navigator.clipboard.writeText(otpCode).then(() => {
-                showMessage('Code copied to clipboard!', 'success', account.id);
+                // Add copied message element if it doesn't exist
+                let copiedMessage = accountBlock.querySelector('.copied-message');
+                if (!copiedMessage) {
+                    copiedMessage = document.createElement('div');
+                    copiedMessage.className = 'copied-message';
+                    copiedMessage.textContent = 'Copied';
+                    accountBlock.appendChild(copiedMessage);
+                }
+                
+                // Add copied class to show blur and message
+                accountBlock.classList.add('copied');
+                
+                // Remove copied class after 1.5 seconds
+                setTimeout(() => {
+                    accountBlock.classList.remove('copied');
+                }, 1500);
             }).catch(err => {
                 showMessage('Failed to copy code', 'error');
             });
@@ -1401,7 +1416,7 @@ function renderAccounts() {
             
             // Position the dialog
             const buttonRect = deleteButton.getBoundingClientRect();
-            confirmationDialog.style.top = `${buttonRect.top - 10}px`;
+            confirmationDialog.style.top = `${buttonRect.top + window.scrollY - 10}px`;
             confirmationDialog.style.right = `${window.innerWidth - buttonRect.right}px`;
             
             // Add event listeners to buttons
@@ -1410,7 +1425,6 @@ function renderAccounts() {
             
             confirmButton.addEventListener('click', async () => {
                 confirmationDialog.remove();
-                document.removeEventListener('click', clickOutsideHandler);
                 try {
                     // Delete from cloud first
                     const success = await deleteAccount(account.id);
@@ -1436,18 +1450,16 @@ function renderAccounts() {
                 accountBlock.classList.remove('blurred');
             });
             
-            // Add click outside handler
-            const clickOutsideHandler = (e) => {
-                if (!confirmationDialog.contains(e.target) && e.target !== deleteButton) {
+            // Add click outside handler to the dialog itself
+            confirmationDialog.addEventListener('click', (e) => {
+                if (e.target === confirmationDialog) {
                     confirmationDialog.remove();
                     accountBlock.classList.remove('blurred');
-                    document.removeEventListener('click', clickOutsideHandler);
                 }
-            };
+            });
             
             // Add the dialog to the document
             document.body.appendChild(confirmationDialog);
-            document.addEventListener('click', clickOutsideHandler);
         });
         accountBlock.appendChild(deleteButton);
         
