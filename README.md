@@ -55,7 +55,7 @@
 
 ## 📥 Installation
 
-Available on the [Chrome Web Store](#) *(link coming soon)*.
+Available on the [Chrome Web Store](https://chromewebstore.google.com/detail/authenticator-for-pc/ppkkcfblhfgmdmefkmkoomenhgecbemi?authuser=0&hl=en).
 
 1. Visit the Chrome Web Store.
 2. Search for **PC Authenticator**.
