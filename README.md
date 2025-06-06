@@ -75,7 +75,7 @@ Available on the [Chrome Web Store](https://chromewebstore.google.com/detail/aut
 
 ## ⚠️ License
 
-This project is **not open-source**. The code is private and not available for distribution.
+This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
