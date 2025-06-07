@@ -12,7 +12,8 @@ let scanQRBtn;
 let searchInput;
 let searchContainer;
 let signInBtn;
-let signOutBtn;
+let userMenuBtn;
+let userDropdown;
 let loginForm;
 let accountNumberInput;
 let loginButton;
@@ -21,6 +22,9 @@ let cancelLoginBtn;
 let downloadButton;
 let cloudBackupBtn;
 let inlineSignOutBtn;
+let export2FABtn;
+let toggleThemeBtn;
+let signOutBtn;
 
 // State
 let accounts = [];
@@ -32,6 +36,7 @@ let isSaving = false;
 let unlocked = false;
 let sliderJustUnlocked = false;
 let accountCreatedThisSession = false;
+let isDarkTheme = false;
 
 const API_BASE_URL = 'https://pc-authenticator-pdpy.onrender.com/api';
 
@@ -161,8 +166,13 @@ function stopBackupCheck() {
 
 // Update UI based on login state
 function updateLoginUI(isLoggedIn) {
+    // Remove all existing placeholder-text elements
+    document.querySelectorAll('.placeholder-text').forEach(el => el.remove());
+
     const signInBtn = document.getElementById('signIn');
-    const signOutBtn = document.getElementById('signOut');
+    const signInContainer = signInBtn.closest('.tooltip-container');
+    const userMenuBtn = document.getElementById('userMenu');
+    const userDropdown = document.querySelector('.user-dropdown');
     const accountNumberInput = document.getElementById('accountNumber');
     const loginButton = document.getElementById('loginButton');
     const createAccountButton = document.getElementById('createAccountButton');
@@ -176,16 +186,9 @@ function updateLoginUI(isLoggedIn) {
     const blurBackground = document.querySelector('.blur-background');
     const inlineSignOutBtn = document.getElementById('inlineSignOut');
 
-    // Remove any existing placeholder
-    const existingPlaceholder = document.querySelector('.placeholder-text');
-    if (existingPlaceholder) {
-        existingPlaceholder.remove();
-    }
-
     if (isLoggedIn) {
-        signInBtn.classList.add('hidden');
-        signOutBtn.classList.remove('hidden');
-        if (inlineSignOutBtn) inlineSignOutBtn.classList.remove('hidden');
+        signInContainer.classList.add('hidden');
+        userMenuBtn.classList.remove('hidden');
         accountNumberInput.value = currentAccountNumber;
         accountNumberInput.readOnly = true;
         loginButton.classList.add('hidden');
@@ -218,9 +221,9 @@ function updateLoginUI(isLoggedIn) {
         `;
         document.body.appendChild(placeholder);
 
-        signInBtn.classList.remove('hidden');
-        signOutBtn.classList.add('hidden');
-        if (inlineSignOutBtn) inlineSignOutBtn.classList.add('hidden');
+        signInContainer.classList.remove('hidden');
+        userMenuBtn.classList.add('hidden');
+        userDropdown.classList.add('hidden');
         accountNumberInput.value = '';
         accountNumberInput.readOnly = false;
         loginButton.classList.remove('hidden');
@@ -515,7 +518,8 @@ function stopAutoSave() {
 // Initialize login functionality
 function initLogin() {
     signInBtn = document.getElementById('signIn');
-    signOutBtn = document.getElementById('signOut');
+    userMenuBtn = document.getElementById('userMenu');
+    userDropdown = document.querySelector('.user-dropdown');
     loginForm = document.getElementById('loginForm');
     accountNumberInput = document.getElementById('accountNumber');
     loginButton = document.getElementById('loginButton');
@@ -523,6 +527,58 @@ function initLogin() {
     cancelLoginBtn = document.getElementById('cancelLogin');
     const downloadButton = document.getElementById('downloadAccount');
     const blurBackground = document.querySelector('.blur-background');
+    export2FABtn = document.getElementById('export2FA');
+    toggleThemeBtn = document.getElementById('toggleTheme');
+    signOutBtn = document.getElementById('signOut');
+
+    // Toggle user dropdown
+    userMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userDropdown.classList.toggle('hidden');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+            userDropdown.classList.add('hidden');
+        }
+    });
+
+    // Handle export 2FA codes
+    export2FABtn.addEventListener('click', () => {
+        const accountsData = accounts.map(account => ({
+            name: account.name,
+            email: account.email,
+            secret: account.secret
+        }));
+        const blob = new Blob([JSON.stringify(accountsData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '2fa-codes-backup.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        userDropdown.classList.add('hidden');
+    });
+
+    // Handle theme toggle
+    toggleThemeBtn.addEventListener('click', () => {
+        isDarkTheme = !isDarkTheme;
+        document.body.classList.toggle('dark-theme');
+        const themeIcon = toggleThemeBtn.querySelector('i');
+        themeIcon.classList.toggle('fa-moon');
+        themeIcon.classList.toggle('fa-sun');
+        userDropdown.classList.add('hidden');
+    });
+
+    // Handle sign out
+    signOutBtn.addEventListener('click', () => {
+        userDropdown.classList.add('hidden');
+        handleSignOut();
+    });
+
     let sliderBlock = document.getElementById('sliderBlock');
     let sliderTrack = sliderBlock.parentElement;
     let sliderFill = sliderTrack.querySelector('.slider-fill');

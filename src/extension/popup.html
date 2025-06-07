@@ -33,10 +33,27 @@
                     <button id="signIn" class="icon-button">
                         <i class="fas fa-user"></i>
                     </button>
-                    <button id="signOut" class="icon-button hidden">
-                        <i class="fas fa-sign-out-alt"></i>
+                    <div class="tooltip">Sign In</div>
+                </div>
+                <div class="tooltip-container user-menu-container">
+                    <button id="userMenu" class="icon-button hidden">
+                        <i class="fas fa-user"></i>
                     </button>
-                    <div class="tooltip">Sign In/Out</div>
+                    <div class="user-dropdown hidden">
+                        <div class="dropdown-item" id="export2FA">
+                            <i class="fas fa-file-export"></i>
+                            <span>Export 2FA Codes</span>
+                        </div>
+                        <div class="dropdown-item" id="toggleTheme">
+                            <i class="fas fa-moon"></i>
+                            <span>Dark Theme</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item" id="signOut">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Sign Out</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </header>
