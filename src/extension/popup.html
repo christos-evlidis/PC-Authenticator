@@ -4,6 +4,7 @@
     <title>PC Authenticator</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="scripts/qrcode.min.js"></script>
 </head>
 <body>
     <div class="blur-background"></div>
@@ -132,6 +133,20 @@
             <div class="button-group">
                 <button id="confirmAccountNumberWarning" class="primary-button">I have saved it</button>
                 <button id="cancelAccountNumberWarning" class="secondary-button">Cancel</button>
+            </div>
+        </div>
+
+        <!-- QR Code Modal -->
+        <div id="qrCodeModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Scan QR Code</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="qrcode"></div>
+                    <p class="qr-instructions">Scan this QR code with your authenticator app</p>
+                </div>
             </div>
         </div>
     </div>

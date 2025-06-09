@@ -551,16 +551,41 @@ function initLogin() {
             email: account.email,
             secret: account.secret
         }));
-        const blob = new Blob([JSON.stringify(accountsData, null, 2)], { type: 'application/json' });
+
+        // Create the otpauth-migration URL
+        const migrationData = {
+            version: 1,
+            batchSize: accountsData.length,
+            batchIndex: 0,
+            batchId: Date.now().toString(),
+            otpParameters: accountsData.map(account => ({
+                secret: account.secret,
+                name: account.email ? `${account.name}:${account.email}` : account.name,
+                issuer: account.name,
+                type: 'TOTP',
+                algorithm: 'SHA1',
+                digits: 6,
+                counter: 0
+            }))
+        };
+
+        // Convert to base64
+        const jsonStr = JSON.stringify(migrationData);
+        const base64Data = btoa(jsonStr);
+        const migrationUrl = `otpauth-migration://offline?data=${base64Data}`;
+
+        // Create a text file with the migration URL
+        const blob = new Blob([migrationUrl], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = '2fa-codes-backup.json';
+        a.download = 'google-authenticator-import.txt';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
         userDropdown.classList.add('hidden');
+        showMessage('Export file created. You can now import it into Google Authenticator!', 'success');
     });
 
     // Handle theme toggle
@@ -1363,8 +1388,8 @@ function renderAccounts() {
             e.stopPropagation();
             editButton.classList.add('hidden');
             deleteButton.classList.add('hidden');
+            qrButton.classList.add('hidden'); // Hide QR button when editing
             accountBlock.classList.add('editing');
-            accountBlock.removeEventListener('click', clickHandler);
             accountName.contentEditable = true;
             // Make email or username editable
             if (account.email) {
@@ -1421,6 +1446,7 @@ function renderAccounts() {
                 buttonContainer.remove();
                 editButton.classList.remove('hidden');
                 deleteButton.classList.remove('hidden');
+                qrButton.classList.remove('hidden'); // Show QR button when editing is done
                 accountBlock.classList.remove('editing');
                 accountBlock.addEventListener('click', clickHandler);
                 await chrome.storage.local.set({ accounts });
@@ -1444,6 +1470,7 @@ function renderAccounts() {
                 buttonContainer.remove();
                 editButton.classList.remove('hidden');
                 deleteButton.classList.remove('hidden');
+                qrButton.classList.remove('hidden'); // Show QR button when editing is cancelled
                 accountBlock.classList.remove('editing');
                 accountBlock.addEventListener('click', clickHandler);
             });
@@ -1518,6 +1545,17 @@ function renderAccounts() {
             document.body.appendChild(confirmationDialog);
         });
         accountBlock.appendChild(deleteButton);
+        
+        // Add QR code button
+        const qrButton = document.createElement('button');
+        qrButton.className = 'qr-button';
+        qrButton.innerHTML = '<i class="fas fa-qrcode"></i>';
+        qrButton.title = 'Show QR Code';
+        qrButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showQRCode(account);
+        });
+        accountBlock.appendChild(qrButton);
         
         // SVG Pie Timer with countdown text
         const timerWrapper = document.createElement('div');
@@ -1782,5 +1820,52 @@ function showAccountNumberWarning(onConfirm) {
     cancelBtn.onclick = () => {
         modal.classList.add('hidden');
         loginForm.classList.remove('hidden');
+    };
+}
+
+// Generate TOTP URI for QR code
+function generateTOTPUri(account) {
+    const label = account.email ? 
+        `${encodeURIComponent(account.name)}:${encodeURIComponent(account.email)}` : 
+        encodeURIComponent(account.name);
+    return `otpauth://totp/${label}?secret=${account.secret}&issuer=${encodeURIComponent(account.name)}`;
+}
+
+// Show QR code modal
+function showQRCode(account) {
+    const modal = document.getElementById('qrCodeModal');
+    const qrcodeDiv = document.getElementById('qrcode');
+    const closeBtn = modal.querySelector('.close-modal');
+    
+    // Clear previous QR code
+    qrcodeDiv.innerHTML = '';
+    
+    // Generate new QR code
+    const totpUri = generateTOTPUri(account);
+    new QRCode(qrcodeDiv, {
+        text: totpUri,
+        width: 256,
+        height: 256,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    
+    // Show modal
+    modal.classList.remove('hidden');
+    modal.classList.add('show');
+    
+    // Close modal when clicking close button
+    closeBtn.onclick = () => {
+        modal.classList.remove('show');
+        modal.classList.add('hidden');
+    };
+    
+    // Close modal when clicking outside
+    modal.onclick = (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+            modal.classList.add('hidden');
+        }
     };
 }
