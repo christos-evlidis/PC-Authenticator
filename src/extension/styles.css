@@ -375,7 +375,8 @@ h1 {
 .account-block.copied .account-info,
 .account-block.copied .timer-wrapper,
 .account-block.copied .delete-button,
-.account-block.copied .edit-button {
+.account-block.copied .edit-button,
+.account-block.copied .qr-button {
     filter: blur(4px);
 }
 
