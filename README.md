@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://easyfiles.cc/2025/5/6370b0a4-4169-4122-8bd1-27c4671fc8c8/Add%20a%20heading%20(2)-Photoroom.png"/>
+  <img width="1280" height="272" alt="image" src="https://github.com/user-attachments/assets/7bb93e06-bda6-4be8-a5b0-8ab10b7f05fd" />
 </p>
 
 ---
@@ -66,10 +66,9 @@ Available on the [Chrome Web Store](https://chromewebstore.google.com/detail/aut
 
 ## 🧭 Roadmap
 
-- [ ] Encrypted local storage improvements
-- [ ] Optional cloud sync toggle
+- [ ] Export options to another app
+
 - [ ] Firefox & Edge support
-- [ ] UI customization & themes
 
 ---
 
