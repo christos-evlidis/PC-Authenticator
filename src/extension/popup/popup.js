@@ -33,23 +33,174 @@ let currentAccountNumber = null;
 let lastBackupTime = null;
 let backupCheckInterval = null;
 let isSaving = false;
+let accountsLoadedThisSession = false;
 let unlocked = false;
 let sliderJustUnlocked = false;
 let accountCreatedThisSession = false;
 let isDarkTheme = false;
 
+// Load saved theme preference
+async function loadThemePreference() {
+    try {
+        const result = await chrome.storage.local.get(['theme']);
+        if (result.theme) {
+            isDarkTheme = result.theme === 'dark';
+            if (isDarkTheme) {
+                document.body.classList.add('dark-theme');
+                const themeIcon = document.getElementById('toggleTheme')?.querySelector('i');
+                if (themeIcon) {
+                    themeIcon.classList.add('fa-sun');
+                    themeIcon.classList.remove('fa-moon');
+                }
+                // Also update sign-in dropdown theme button
+                const signInThemeIcon = document.getElementById('signInToggleTheme')?.querySelector('i');
+                if (signInThemeIcon) {
+                    signInThemeIcon.classList.add('fa-sun');
+                    signInThemeIcon.classList.remove('fa-moon');
+                }
+            }
+        }
+    } catch (error) {
+        console.log('Error loading theme preference:', error);
+    }
+}
+
+// ============================================================================
+// DATA STORAGE FUNCTIONS
+// ============================================================================
+
+// Cache for cloud accounts to avoid multiple API calls
+let cloudAccountsCache = null;
+let lastCloudFetchTime = 0;
+const CLOUD_CACHE_DURATION = 5000; // 5 seconds cache
+
+// ============================================================================
+// ENCRYPTION FUNCTIONS
+// ============================================================================
+
+/**
+ * Encrypt accounts data using account number as key
+ * @param {Array} accounts - Array of account objects to encrypt
+ * @param {string} accountNumber - User's account number (encryption key)
+ * @returns {string} - Encrypted JSON string
+ */
+function encryptAccounts(accounts, accountNumber) {
+    if (!checkCryptoJS()) {
+        throw new Error('CryptoJS library not available');
+    }
+    
+    // Don't encrypt empty arrays
+    if (!accounts || accounts.length === 0) {
+        throw new Error('Cannot encrypt empty accounts array');
+    }
+    
+    try {
+        const accountsJson = JSON.stringify(accounts);
+        const encrypted = CryptoJS.AES.encrypt(accountsJson, accountNumber).toString();
+        return encrypted;
+    } catch (error) {
+        console.error('Error encrypting accounts:', error);
+        throw new Error('Failed to encrypt accounts');
+    }
+}
+
+/**
+ * Decrypt accounts data using account number as key
+ * @param {string} encryptedData - Encrypted JSON string
+ * @param {string} accountNumber - User's account number (decryption key)
+ * @returns {Array} - Decrypted array of account objects
+ */
+function decryptAccounts(encryptedData, accountNumber) {
+    if (!checkCryptoJS()) {
+        throw new Error('CryptoJS library not available');
+    }
+    
+    try {
+        const decrypted = CryptoJS.AES.decrypt(encryptedData, accountNumber);
+        const accountsJson = decrypted.toString(CryptoJS.enc.Utf8);
+        
+        if (!accountsJson) {
+            throw new Error('Failed to decrypt data - invalid key or corrupted data');
+        }
+        
+        const accounts = JSON.parse(accountsJson);
+        return Array.isArray(accounts) ? accounts : [];
+    } catch (error) {
+        console.error('Error decrypting accounts:', error);
+        throw new Error('Failed to decrypt accounts - invalid key or corrupted data');
+    }
+}
+
+/**
+ * Check if data is encrypted (starts with U2FsdGVkX1)
+ * @param {string} data - Data to check
+ * @returns {boolean} - True if encrypted
+ */
+function isEncrypted(data) {
+    return typeof data === 'string' && data.startsWith('U2FsdGVkX1');
+}
+
+/**
+ * Check if CryptoJS is available
+ * @returns {boolean} - True if available
+ */
+function checkCryptoJS() {
+    return typeof CryptoJS !== 'undefined' && CryptoJS.AES;
+}
+
+
 const API_BASE_URL = 'https://pc-authenticator-pdpy.onrender.com/api';
 
-// Generate a random account number
-function generateAccountNumber() {
-    const length = 24;
-    const chars = '0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
+// Centralized function to get cloud accounts with caching
+async function getCloudAccounts(useCache = true) {
+    const now = Date.now();
+    
+    // Return cached result if available and not expired
+    if (useCache && cloudAccountsCache && (now - lastCloudFetchTime) < CLOUD_CACHE_DURATION) {
+        return cloudAccountsCache;
     }
-    return result;
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/restore-accounts`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ account_number: currentAccountNumber })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success && data.accounts) {
+            let accounts = [];
+            
+            if (isEncrypted(data.accounts)) {
+                // Encrypted data - decrypt it
+                try {
+                    accounts = decryptAccounts(data.accounts, currentAccountNumber);
+                } catch (error) {
+                    console.error('Failed to decrypt cloud accounts:', error);
+                    accounts = [];
+                }
+            } else if (Array.isArray(data.accounts)) {
+                // Plain JSON data (legacy)
+                accounts = data.accounts;
+            }
+            
+            cloudAccountsCache = accounts;
+            lastCloudFetchTime = now;
+            return accounts;
+        } else {
+            cloudAccountsCache = [];
+            lastCloudFetchTime = now;
+            return [];
+        }
+    } catch (error) {
+        console.error('Error fetching cloud accounts:', error);
+        cloudAccountsCache = [];
+        lastCloudFetchTime = now;
+        return [];
+    }
 }
+
 
 // Save account number to storage
 async function saveAccountNumber(accountNumber) {
@@ -74,9 +225,9 @@ async function checkAccountNumber(accountNumber) {
         });
         
         const data = await response.json();
-        return data.success;
+        return { success: data.success, error: data.error };
     } catch (error) {
-        return false;
+        return { success: false, error: 'Network error' };
     }
 }
 
@@ -91,28 +242,17 @@ async function checkBackupStatus() {
     if (!currentAccountNumber) return false;
 
     try {
-        const response = await fetch(`${API_BASE_URL}/get-latest-backup`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ account_number: currentAccountNumber })
-        });
+        const backupAccounts = await getCloudAccounts(true); // Use cache
         
-        const data = await response.json();
-        
-        if (data.success && data.backup) {
-            const backupAccounts = JSON.parse(data.backup.backup_data);
-            // Check if all current accounts are in the backup
-            const allBackedUp = accounts.every(account => 
-                backupAccounts.some(backupAccount => 
-                    backupAccount.id === account.id
-                )
-            );
-            return allBackedUp;
-        }
-        return false;
+        // Check if all current accounts are in the backup
+        const allBackedUp = accounts.every(account => 
+            backupAccounts.some(backupAccount => 
+                backupAccount.id === account.id
+            )
+        );
+        return allBackedUp;
     } catch (error) {
+        console.error('Error checking backup status:', error);
         return false;
     }
 }
@@ -147,22 +287,6 @@ async function updateBackupIcon() {
     }
 }
 
-// Start backup status checking
-function startBackupCheck() {
-    if (backupCheckInterval) {
-        clearInterval(backupCheckInterval);
-    }
-    backupCheckInterval = setInterval(updateBackupIcon, 60000); // Check every minute
-    updateBackupIcon(); // Initial check
-}
-
-// Stop backup status checking
-function stopBackupCheck() {
-    if (backupCheckInterval) {
-        clearInterval(backupCheckInterval);
-        backupCheckInterval = null;
-    }
-}
 
 // Update UI based on login state
 function updateLoginUI(isLoggedIn) {
@@ -171,6 +295,7 @@ function updateLoginUI(isLoggedIn) {
 
     const signInBtn = document.getElementById('signIn');
     const signInContainer = signInBtn.closest('.tooltip-container');
+    const signInDropdown = document.querySelector('.sign-in-dropdown');
     const userMenuBtn = document.getElementById('userMenu');
     const userDropdown = document.querySelector('.user-dropdown');
     const accountNumberInput = document.getElementById('accountNumber');
@@ -188,21 +313,17 @@ function updateLoginUI(isLoggedIn) {
 
     if (isLoggedIn) {
         signInContainer.classList.add('hidden');
+        signInDropdown.classList.add('hidden');
         userMenuBtn.classList.remove('hidden');
         accountNumberInput.value = currentAccountNumber;
         accountNumberInput.readOnly = true;
         loginButton.classList.add('hidden');
         createAccountButton.classList.add('hidden');
-        // Keep blur if login form is visible
-        if (!loginForm.classList.contains('hidden')) {
-            blurBackground.classList.add('active');
-        } else {
-            blurBackground.classList.remove('active');
-        }
+        // No blur background needed since login form covers entire popup
         accountsList.classList.remove('hidden');
         addAccountBtn.classList.remove('hidden');
         scanQRBtn.classList.remove('hidden');
-        searchContainer.classList.remove('hidden');
+        
         cloudBackupBtn.classList.remove('hidden');
         // Only hide download button if we're not in the account creation flow
         if (!accountNumberInput.classList.contains('new-account')) {
@@ -210,6 +331,9 @@ function updateLoginUI(isLoggedIn) {
         }
         startAutoSave(); // Start auto-saving
     } else {
+        signInContainer.classList.remove('hidden');
+        userMenuBtn.classList.add('hidden');
+        userDropdown.classList.add('hidden');
         // Add placeholder text when not logged in
         const placeholder = document.createElement('div');
         placeholder.className = 'placeholder-text';
@@ -233,104 +357,155 @@ function updateLoginUI(isLoggedIn) {
         addAccountBtn.classList.add('hidden');
         scanQRBtn.classList.add('hidden');
         searchContainer.classList.add('hidden');
-        loginForm.classList.remove('hidden');
-        blurBackground.classList.add('active');
+        // Login form stays hidden by default - only shown when user clicks "Login" in dropdown
         cloudBackupBtn.classList.add('hidden');
         stopAutoSave(); // Stop auto-saving
     }
 }
 
+// Delete the user's backup data from the backend when no accounts are left
+async function deleteBackendEntry() {
+    if (!currentAccountNumber) {
+        console.log('No account number available for deletion');
+        return;
+    }
+    
+    try {
+        console.log('Deleting backup data for user:', currentAccountNumber);
+        const response = await fetch(`${API_BASE_URL}/delete-user`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                account_number: currentAccountNumber
+            })
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+            console.log('Backup data deleted successfully');
+            setCloudIconState('not-backed-up');
+            await updateBackupIcon();
+        } else {
+            console.error('Failed to delete backup data:', data.error);
+        }
+    } catch (error) {
+        console.error('Error deleting backup data:', error);
+    }
+}
+
 // Helper to merge two account arrays by unique secret
 function mergeAccounts(arr1, arr2) {
+    console.log('mergeAccounts - arr1:', arr1.length, arr1);
+    console.log('mergeAccounts - arr2:', arr2.length, arr2);
     const seen = new Set();
     const merged = [];
     for (const acc of [...arr1, ...arr2]) {
         if (!seen.has(acc.secret)) {
             merged.push(acc);
             seen.add(acc.secret);
+        } else {
+            console.log('mergeAccounts - Duplicate secret found:', acc.secret);
         }
     }
+    console.log('mergeAccounts - result:', merged.length, merged);
     return merged;
 }
 
-// Update loadAccounts to merge local and backend accounts
+// Load accounts from cloud and local storage
 async function loadAccounts() {
     if (!currentAccountNumber) {
         accounts = [];
-        renderAccounts();
-        await updateBackupIcon();
-        return;
-    }
-    chrome.storage.local.get(['accounts'], async (result) => {
-        let localAccounts = (result.accounts && Array.isArray(result.accounts)) ? result.accounts : [];
-        try {
-            const response = await fetch(`${API_BASE_URL}/restore-accounts`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ account_number: currentAccountNumber })
-            });
-            const data = await response.json();
-            if (data.success && data.accounts) {
-                accounts = mergeAccounts(localAccounts, data.accounts);
-                await chrome.storage.local.set({ accounts });
-                renderAccounts();
-                await updateBackupIcon();
-            } else {
-                accounts = localAccounts;
-                await chrome.storage.local.set({ accounts });
-                renderAccounts();
-                await updateBackupIcon();
-            }
-        } catch (error) {
-            accounts = localAccounts;
-            await chrome.storage.local.set({ accounts });
             renderAccounts();
             await updateBackupIcon();
+            accountsLoadedThisSession = true;
+            return;
+    }
+    
+    console.log('loadAccounts() called - accountsLoadedThisSession:', accountsLoadedThisSession);
+    
+    chrome.storage.local.get(['accounts', 'encrypted'], async (result) => {
+        let localAccounts = [];
+        let needsMigration = false;
+        
+        // Load accounts from local storage
+        if (result.encrypted && result.accounts && isEncrypted(result.accounts)) {
+            // Encrypted local data - decrypt it
+            try {
+                localAccounts = decryptAccounts(result.accounts, currentAccountNumber);
+            } catch (error) {
+                console.error('Failed to decrypt local accounts:', error);
+                localAccounts = [];
+            }
+        } else if (result.accounts && Array.isArray(result.accounts)) {
+            // Legacy unencrypted data - mark for migration
+            localAccounts = result.accounts;
+            needsMigration = true;
+            console.log('Legacy unencrypted data detected - will migrate on next backup');
+        }
+        
+        try {
+            // Fetch from cloud (no cache on initial load)
+            const cloudAccounts = await getCloudAccounts(false);
+            
+            // Merge local and cloud accounts
+            accounts = mergeAccounts(localAccounts, cloudAccounts);
+            
+            // Always encrypt and save merged accounts to local storage
+            if (accounts.length > 0) {
+                const encryptedAccounts = encryptAccounts(accounts, currentAccountNumber);
+                await chrome.storage.local.set({ 
+                    accounts: encryptedAccounts,
+                    encrypted: true
+                });
+            } else {
+                // For empty arrays, save as plain empty array
+                await chrome.storage.local.set({ 
+                    accounts: [],
+                    encrypted: false
+                });
+            }
+            
+            renderAccounts();
+            await updateBackupIcon();
+            accountsLoadedThisSession = true;
+            
+            // If this was legacy data, trigger migration backup
+            if (needsMigration && accounts.length > 0) {
+                console.log('Migrating legacy data to encrypted format...');
+                await backupAndRestore();
+            }
+        } catch (error) {
+            // Cloud fetch failed, use local accounts
+            accounts = localAccounts;
+            
+            // Always encrypt and save local accounts to local storage
+            if (accounts.length > 0) {
+                const encryptedAccounts = encryptAccounts(accounts, currentAccountNumber);
+                await chrome.storage.local.set({ 
+                    accounts: encryptedAccounts,
+                    encrypted: true
+                });
+            } else {
+                // For empty arrays, save as plain empty array
+                await chrome.storage.local.set({ 
+                    accounts: [],
+                    encrypted: false
+                });
+            }
+            
+            renderAccounts();
+            await updateBackupIcon();
+            accountsLoadedThisSession = true;
+            
+            // If this was legacy data, trigger migration backup
+            if (needsMigration && accounts.length > 0) {
+                console.log('Migrating legacy data to encrypted format...');
+                await backupAndRestore();
+            }
         }
     });
 }
 
-// Save accounts to cloud storage
-async function saveAccounts() {
-    if (!currentAccountNumber) {
-        return;
-    }
-    // Prevent saving an empty array if the previous backup was not empty
-    if (accounts.length === 0) {
-        try {
-            const response = await fetch(`${API_BASE_URL}/get-latest-backup`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ account_number: currentAccountNumber })
-            });
-            const data = await response.json();
-            if (data.success && data.backup && JSON.parse(data.backup.backup_data).length > 0) {
-                return;
-            }
-        } catch (e) {
-            // If error, proceed to save to avoid blocking legitimate clears
-        }
-    }
-    try {
-        const response = await fetch(`${API_BASE_URL}/backup-accounts`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-                account_number: currentAccountNumber,
-                accounts: accounts
-            })
-        });
-        const data = await response.json();
-        if (data.success) {
-        } else {
-            throw new Error(data.error || 'Failed to save accounts');
-        }
-    } catch (error) {
-        throw error;
-    }
-}
 
 // Handle sign out
 function handleSignOut() {
@@ -356,15 +531,23 @@ async function handleLogin() {
         return;
     }
 
-    const isValid = await checkAccountNumber(accountNumber);
-    if (isValid) {
+    const result = await checkAccountNumber(accountNumber);
+    if (result.success) {
         currentAccountNumber = accountNumber;
         await saveAccountNumber(accountNumber);
-        await loadAccounts(); // Load accounts after successful login
+        // Always restore accounts after successful login to get latest data from cloud
+        console.log('Login: Restoring accounts after verification');
+        await loadAccounts(); // Load accounts after successful login (restore only)
         updateLoginUI(true);
-        showFormMessage('Successfully logged in!', 'success');
+        // Close the login modal
+        loginForm.classList.add('hidden');
     } else {
-        showFormMessage('Invalid account number', 'error');
+        // Show appropriate error message based on the error type
+        if (result.error && result.error.includes('rate limit')) {
+            showFormMessage('Rate limited. Try again later.', 'error');
+        } else {
+            showFormMessage('Invalid account number', 'error');
+        }
     }
 }
 
@@ -388,16 +571,29 @@ async function handleCreateAccount() {
             if (success) {
                 currentAccountNumber = newAccountNumber;
                 accounts = []; // Initialize empty accounts array
-                await saveAccounts(); // Save empty accounts array
+                // Don't backup empty array - wait until user adds accounts
                 accountNumberInput.value = newAccountNumber;
                 accountNumberInput.readOnly = true;
                 accountNumberInput.classList.add('new-account');
                 const downloadButton = document.getElementById('downloadAccount');
                 downloadButton.classList.remove('hidden');
                 downloadButton.classList.add('glow');
-                showFormMessage('Account created. Please save this number!', 'success');
+                // Change title to indicate account creation
+                const title = loginForm.querySelector('h2');
+                if (title) title.textContent = 'Account Created!';
                 // Automatically sign in
-                await loadAccounts(); // Load accounts for the new user
+                if (!accountsLoadedThisSession) {
+                    console.log('Create Account: New user - skipping loadAccounts');
+                    console.log('Create Account: accounts array length:', accounts.length);
+                    console.log('Create Account: searchContainer exists:', !!searchContainer);
+                    // For new users, show empty state (search bar will be hidden by renderAccounts)
+                    renderAccounts(); // This will show empty state with hidden search bar
+                } else {
+                    console.log('Create Account: Loading accounts (first time this session)');
+                    await loadAccounts(); // Load accounts for existing users
+                    // After loading, do backup + restore once
+                    await backupAndRestore();
+                }
                 updateLoginUI(true); // Show the authenticated view
                 accountCreatedThisSession = true;
             } else {
@@ -421,8 +617,16 @@ async function handleCloudBackup() {
         showMessage('Accounts are currently being saved. Please wait...', 'error');
         return;
     }
+    
+    // Don't backup empty arrays
+    if (accounts.length === 0) {
+        showMessage('No accounts to backup', 'error');
+        return;
+    }
+    
     try {
         isSaving = true;
+        const encryptedAccounts = encryptAccounts(accounts, currentAccountNumber);
         const response = await fetch(`${API_BASE_URL}/backup-accounts`, {
             method: 'POST',
             headers: {
@@ -430,7 +634,8 @@ async function handleCloudBackup() {
             },
             body: JSON.stringify({ 
                 account_number: currentAccountNumber,
-                accounts: accounts
+                accounts: encryptedAccounts,
+                encrypted: true
             })
         });
         const data = await response.json();
@@ -451,29 +656,47 @@ async function handleCloudBackup() {
     }
 }
 
-// Auto save accounts
-async function autoSaveAccounts() {
+// Helper function to get local accounts
+async function getLocalAccounts() {
+    return new Promise((resolve) => {
+        chrome.storage.local.get(['accounts', 'encrypted'], (result) => {
+            let localAccounts = [];
+            
+            if (result.encrypted && result.accounts && isEncrypted(result.accounts)) {
+                // Encrypted local data - decrypt it
+                try {
+                    localAccounts = decryptAccounts(result.accounts, currentAccountNumber);
+                } catch (error) {
+                    console.error('Failed to decrypt local accounts:', error);
+                    localAccounts = [];
+                }
+            } else if (result.accounts && Array.isArray(result.accounts)) {
+                // Legacy unencrypted data
+                localAccounts = result.accounts;
+            }
+            
+            resolve(localAccounts);
+        });
+    });
+}
+
+// Backup accounts to cloud only (no restore)
+async function backupAccounts() {
     if (!currentAccountNumber || isSaving) {
         return;
     }
-    // Prevent saving an empty array if the previous backup was not empty
+    
+    // Don't backup empty arrays
     if (accounts.length === 0) {
-        try {
-            const response = await fetch(`${API_BASE_URL}/get-latest-backup`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ account_number: currentAccountNumber })
-            });
-            const data = await response.json();
-            if (data.success && data.backup && JSON.parse(data.backup.backup_data).length > 0) {
-                return;
-            }
-        } catch (e) {
-            // If error, proceed to save to avoid blocking legitimate clears
-        }
+        console.log('Skipping backup - no accounts to backup');
+        return;
     }
+    
     try {
         isSaving = true;
+        console.log('Backing up accounts to cloud');
+        
+        const encryptedAccounts = encryptAccounts(accounts, currentAccountNumber);
         const response = await fetch(`${API_BASE_URL}/backup-accounts`, {
             method: 'POST',
             headers: {
@@ -481,19 +704,98 @@ async function autoSaveAccounts() {
             },
             body: JSON.stringify({ 
                 account_number: currentAccountNumber,
-                accounts: accounts
+                accounts: encryptedAccounts,
+                encrypted: true
             })
         });
+        
         const data = await response.json();
         if (data.success) {
             lastBackupTime = Date.now();
+            setCloudIconState('backed-up');
             await updateBackupIcon();
+            console.log('Backup successful');
+        } else {
+            setCloudIconState('not-backed-up');
+            await chrome.storage.local.set({ cloudIconState: 'not-backed-up' });
+            showMessage(data.error || 'Failed to backup accounts', 'error');
         }
     } catch (error) {
+        showMessage('Failed to connect to server', 'error');
     } finally {
         isSaving = false;
     }
 }
+
+// Unified backup + restore function
+async function backupAndRestore(forceBackup = false) {
+    if (!currentAccountNumber || isSaving) {
+        return;
+    }
+    
+    // Don't backup empty arrays, unless forced (e.g., after deletion)
+    if (accounts.length === 0 && !forceBackup) {
+        console.log('Skipping backup + restore - no accounts to backup');
+        return;
+    }
+    
+    try {
+        isSaving = true;
+        console.log('Starting backup + restore cycle');
+        
+        // 1. Backup current accounts to cloud
+        const encryptedAccounts = encryptAccounts(accounts, currentAccountNumber);
+        const response = await fetch(`${API_BASE_URL}/backup-accounts`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                account_number: currentAccountNumber,
+                accounts: encryptedAccounts,
+                encrypted: true
+            })
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+            lastBackupTime = Date.now();
+            cloudAccountsCache = null; // Clear cache to force fresh fetch
+            console.log('Backup successful, now restoring...');
+            
+            // 2. Restore from cloud (fetch latest data)
+            const cloudAccounts = await getCloudAccounts(false); // Force fresh fetch
+            const localAccounts = await getLocalAccounts();
+            
+            // 3. Merge and save
+            const mergedAccounts = mergeAccounts(localAccounts, cloudAccounts);
+            const encryptedMerged = encryptAccounts(mergedAccounts, currentAccountNumber);
+            await chrome.storage.local.set({ 
+                accounts: encryptedMerged,
+                encrypted: true
+            });
+            
+            // 4. Update UI
+            accounts = mergedAccounts;
+            
+            // Only render accounts if we're on the main screen (add account form is hidden)
+            const addAccountForm = document.getElementById('addAccountForm');
+            if (addAccountForm && addAccountForm.classList.contains('hidden')) {
+                renderAccounts();
+            } else {
+                console.log('Backup + restore: Skipping renderAccounts - not on main screen');
+            }
+            
+            setCloudIconState('backed-up');
+            console.log('Backup + restore cycle completed');
+        }
+    } catch (error) {
+        console.error('Error in backup + restore cycle:', error);
+    } finally {
+        isSaving = false;
+    }
+}
+
 
 // Start auto-save interval
 function startAutoSave() {
@@ -501,10 +803,9 @@ function startAutoSave() {
         clearInterval(backupCheckInterval);
     }
     backupCheckInterval = setInterval(async () => {
-        await autoSaveAccounts();
-        await updateBackupIcon();
+        await backupAndRestore();
     }, 60000); // Check every minute
-    autoSaveAccounts(); // Initial save
+    // Don't auto-save immediately on login - only on user actions
 }
 
 // Stop auto-save interval
@@ -520,6 +821,7 @@ function initLogin() {
     signInBtn = document.getElementById('signIn');
     userMenuBtn = document.getElementById('userMenu');
     userDropdown = document.querySelector('.user-dropdown');
+    const signInDropdown = document.querySelector('.sign-in-dropdown');
     loginForm = document.getElementById('loginForm');
     accountNumberInput = document.getElementById('accountNumber');
     loginButton = document.getElementById('loginButton');
@@ -530,18 +832,49 @@ function initLogin() {
     export2FABtn = document.getElementById('export2FA');
     toggleThemeBtn = document.getElementById('toggleTheme');
     signOutBtn = document.getElementById('signOut');
+    
+    // Sign-in dropdown elements
+    const signInToggleThemeBtn = document.getElementById('signInToggleTheme');
+    const signInLoginBtn = document.getElementById('signInLogin');
+    
+    // Load saved theme preference
+    loadThemePreference();
 
-    // Toggle user dropdown
+    // Toggle user dropdown (when logged in)
     userMenuBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         userDropdown.classList.toggle('hidden');
     });
 
-    // Close dropdown when clicking outside
+    // Toggle sign-in dropdown (when not logged in)
+    signInBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        signInDropdown.classList.toggle('hidden');
+    });
+
+    // Close dropdowns when clicking outside
     document.addEventListener('click', (e) => {
         if (!userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
             userDropdown.classList.add('hidden');
         }
+        if (!signInBtn.contains(e.target) && !signInDropdown.contains(e.target)) {
+            signInDropdown.classList.add('hidden');
+        }
+    });
+
+    // Handle sign-in dropdown theme toggle
+    signInToggleThemeBtn.addEventListener('click', () => {
+        toggleThemeBtn.click(); // Use the existing theme toggle functionality
+        signInDropdown.classList.add('hidden');
+    });
+
+    // Handle sign-in dropdown login
+    signInLoginBtn.addEventListener('click', () => {
+        loginForm.classList.remove('hidden');
+        addAccountForm.classList.add('hidden');
+        document.querySelector('.form-message-container').innerHTML = '';
+        resetSlider();
+        signInDropdown.classList.add('hidden');
     });
 
     // Handle export 2FA codes
@@ -596,6 +929,14 @@ function initLogin() {
         themeIcon.classList.toggle('fa-moon');
         themeIcon.classList.toggle('fa-sun');
         userDropdown.classList.add('hidden');
+        
+        // Update sign-in dropdown theme button as well
+        const signInThemeIcon = signInToggleThemeBtn.querySelector('i');
+        signInThemeIcon.classList.toggle('fa-moon');
+        signInThemeIcon.classList.toggle('fa-sun');
+        
+        // Save theme preference
+        chrome.storage.local.set({ theme: isDarkTheme ? 'dark' : 'light' });
     });
 
     // Handle sign out
@@ -620,6 +961,8 @@ function initLogin() {
             loginButton.disabled = false;
             createAccountButton.disabled = false;
             sliderFill.style.width = '100%';
+            // Add swiped class to show form elements
+            loginForm.classList.add('swiped');
             // Change arrow to checkmark
             const arrow = sliderBlock.querySelector('.slider-arrow i');
             if (arrow) {
@@ -683,6 +1026,8 @@ function initLogin() {
         sliderTrack.classList.remove('unlocked');
         sliderBlock.style.left = '0px';
         sliderFill.style.width = '0%';
+        // Remove swiped class to hide form elements
+        loginForm.classList.remove('swiped');
         const arrow = sliderBlock.querySelector('.slider-arrow i');
         if (arrow) {
             arrow.classList.remove('fa-check');
@@ -761,19 +1106,11 @@ function initLogin() {
     // Initial attach for the first slider
     attachSliderEvents(sliderBlock, sliderTrack, sliderFill);
 
-    // Reset slider when login form is shown
-    signInBtn.addEventListener('click', () => {
-        loginForm.classList.remove('hidden');
-        blurBackground.classList.add('active');
-        addAccountForm.classList.add('hidden');
-        document.querySelector('.form-message-container').innerHTML = '';
-        resetSlider();
-    });
+    // Login modal is now opened from the sign-in dropdown, not directly from the sign-in button
     cancelLoginBtn.addEventListener('click', () => {
         if (accountCreatedThisSession) {
             showAccountNumberWarning(() => {
                 loginForm.classList.add('hidden');
-                blurBackground.classList.remove('active');
                 downloadButton.classList.add('hidden');
                 downloadButton.classList.remove('glow');
                 document.querySelector('.form-message-container').innerHTML = '';
@@ -783,7 +1120,6 @@ function initLogin() {
             });
         } else {
             loginForm.classList.add('hidden');
-            blurBackground.classList.remove('active');
             downloadButton.classList.add('hidden');
             downloadButton.classList.remove('glow');
             document.querySelector('.form-message-container').innerHTML = '';
@@ -798,7 +1134,13 @@ function initLogin() {
     chrome.storage.local.get(['accountNumber'], async (result) => {
         if (result.accountNumber) {
             currentAccountNumber = result.accountNumber;
-            await loadAccounts();
+            // Only load accounts if not already loaded this session
+            if (!accountsLoadedThisSession) {
+                console.log('DOMContentLoaded: Loading accounts (first time this session)');
+                await loadAccounts(); // Only restore, no backup
+            } else {
+                console.log('DOMContentLoaded: Skipping loadAccounts - already loaded this session');
+            }
             updateLoginUI(true);
         } else {
             updateLoginUI(false);
@@ -834,16 +1176,14 @@ function initLogin() {
     }
 }
 
-function checkCryptoJS() {
-    if (typeof CryptoJS === 'undefined') {
-        return false;
-    }
-    return true;
-}
 
-// Listen for QR code detection
+// Listen for QR code detection and logging
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === 'scanQRCode') {
+    if (request.action === 'log') {
+        // Handle logging from background/content scripts
+        console.log(`[${request.level.toUpperCase()}] ${request.timestamp}: ${request.message}`, request.data);
+        return;
+    } else if (request.action === 'scanQRCode') {
         try {
             // Convert the received array back to Uint8ClampedArray
             const imageData = new Uint8ClampedArray(request.imageData);
@@ -879,7 +1219,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
                 // Fill in the form fields
                 accountNameInput.value = issuer;
-                accountEmailInput.value = email;
+                accountEmailInput.value = email || 'user@example.com'; // Use placeholder email if none provided
                 secretKeyInput.value = secret;
 
                 // Automatically save the account
@@ -910,23 +1250,48 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 const newAccount = {
                     id: Date.now().toString(),
                     name: issuer,
-                    email: email,
+                    email: email || 'user@example.com', // Use placeholder email if none provided
                     username: username,
                     secret: extractedSecret
                 };
 
                 // Load latest from local storage and merge
-                chrome.storage.local.get(['accounts'], async (result) => {
-                    let localAccounts = (result.accounts && Array.isArray(result.accounts)) ? result.accounts : [];
+                chrome.storage.local.get(['accounts', 'encrypted'], async (result) => {
+                    console.log('QR Processing - Local storage result:', result);
+                    let localAccounts = [];
+                    
+                    if (result.accounts) {
+                        if (result.encrypted) {
+                            // Decrypt the accounts
+                            console.log('QR Processing - Decrypting accounts...');
+                            localAccounts = decryptAccounts(result.accounts, currentAccountNumber);
+                            console.log('QR Processing - Decrypted accounts:', localAccounts);
+                        } else {
+                            // Use as-is if not encrypted (legacy)
+                            localAccounts = Array.isArray(result.accounts) ? result.accounts : [];
+                            console.log('QR Processing - Using legacy accounts:', localAccounts);
+                        }
+                    } else {
+                        console.log('QR Processing - No accounts in local storage');
+                    }
+                    
+                    console.log('QR Processing - Before merge - localAccounts:', localAccounts.length, 'newAccount:', newAccount);
                     const mergedAccounts = mergeAccounts(localAccounts, [newAccount]);
+                    console.log('QR Processing - After merge - mergedAccounts:', mergedAccounts.length);
                     accounts = mergedAccounts;
                     newlyAddedAccountId = newAccount.id;
-                    await chrome.storage.local.set({ accounts });
-                    await saveAccounts();
-                    await loadAccounts();
-                    renderAccounts();
-                    addAccountForm.classList.add('hidden');
-                    accountsList.classList.remove('hidden');
+                    
+                    // Encrypt and save to local storage
+                    const encryptedAccounts = encryptAccounts(accounts, currentAccountNumber);
+                    await chrome.storage.local.set({ 
+                        accounts: encryptedAccounts,
+                        encrypted: true
+                    });
+                    
+            // Backup and restore to update UI with latest data
+            await backupAndRestore();
+            addAccountForm.classList.add('hidden');
+            accountsList.classList.remove('hidden');
                     if (errorMessage) {
                         errorMessage.classList.add('hidden');
                     }
@@ -956,10 +1321,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 // Initialize the popup
 document.addEventListener('DOMContentLoaded', () => {
-    if (!checkCryptoJS()) {
-        alert('Error: CryptoJS library not loaded. Please refresh the extension.');
-        return;
-    }
 
     // Initialize DOM elements
     accountsList = document.getElementById('accountsList');
@@ -974,12 +1335,17 @@ document.addEventListener('DOMContentLoaded', () => {
     scanQRBtn = document.getElementById('scanQR');
     searchInput = document.getElementById('searchInput');
     searchContainer = document.querySelector('.search-container');
+    
+    
 
     // Initialize login functionality
     initLogin();
 
-    // Load accounts immediately
-    loadAccounts();
+    // Clear any existing auto-save interval on popup open
+    if (backupCheckInterval) {
+        clearInterval(backupCheckInterval);
+        backupCheckInterval = null;
+    }
 
     // Check for stored QR data when popup opens
     chrome.runtime.sendMessage({ action: 'getQRData' }, (response) => {
@@ -1042,24 +1408,52 @@ document.addEventListener('DOMContentLoaded', () => {
     scanQRBtn.addEventListener('click', async () => {
         if (scanQRBtn.disabled) return;
         try {
+            console.log('QR scan button clicked');
+            
             // Get the active tab
             const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
             if (!tabs[0]) {
                 throw new Error('No active tab found');
             }
+            
+            console.log('Active tab found:', tabs[0].id, tabs[0].url);
 
-            // Inject the content script if not already injected
-            await chrome.scripting.executeScript({
-                target: { tabId: tabs[0].id },
-                files: ['scripts/content.js']
-            });
+            // Check if content script is already loaded
+            try {
+                const response = await chrome.tabs.sendMessage(tabs[0].id, { action: 'ping' });
+                if (response && response.loaded) {
+                    console.log('Content script already loaded');
+                }
+            } catch (error) {
+                // Content script not loaded, inject it
+                console.log('Injecting content script...');
+                await chrome.scripting.executeScript({
+                    target: { tabId: tabs[0].id },
+                    files: ['scripts/qr-scanner-content-script.js']
+                });
+                console.log('Content script injected successfully');
+            }
 
             // Start the QR scanner
-            const response = await chrome.tabs.sendMessage(tabs[0].id, { action: 'startQRScan' });
+            console.log('Sending startQRScan message...');
+            
+            // Add a timeout to the message sending
+            const response = await Promise.race([
+                chrome.tabs.sendMessage(tabs[0].id, { action: 'startQRScan' }),
+                new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Message timeout after 5 seconds')), 5000)
+                )
+            ]);
+            
+            console.log('Response from content script:', response);
+            
             if (!response || !response.success) {
                 throw new Error(response?.error || 'Failed to start QR scanner');
             }
+            
+            console.log('QR scanner started successfully');
         } catch (error) {
+            console.error('QR scan error:', error);
             showError('Failed to start QR code scanner: ' + error.message);
         }
     });
@@ -1084,10 +1478,9 @@ document.addEventListener('DOMContentLoaded', () => {
             showError('Please fill in all required fields');
             return;
         }
-        // Require at least email or username
+        // Use placeholder email if none provided
         if (!accountEmail && !accountName) {
-            showError('Please provide an email or username');
-            return;
+            accountEmail = 'user@example.com'; // Placeholder email
         }
         // Validate email if provided
         if (accountEmail && !isValidEmail(accountEmail)) {
@@ -1117,27 +1510,59 @@ document.addEventListener('DOMContentLoaded', () => {
         const newAccount = {
             id: Date.now().toString(),
             name: accountName,
-            email: accountEmail,
+            email: accountEmail || 'user@example.com', // Use placeholder email if none provided
             secret: extractedSecret
         };
 
         try {
-            // 1. Save to local storage immediately
-            accounts.push(newAccount);
+            // 1. Load existing accounts from local storage and merge
+            const result = await chrome.storage.local.get(['accounts', 'encrypted']);
+            console.log('Manual Addition - Local storage result:', result);
+            let localAccounts = [];
+            
+            if (result.accounts) {
+                if (result.encrypted) {
+                    // Decrypt the accounts
+                    console.log('Manual Addition - Decrypting accounts...');
+                    localAccounts = decryptAccounts(result.accounts, currentAccountNumber);
+                    console.log('Manual Addition - Decrypted accounts:', localAccounts);
+                } else {
+                    // Use as-is if not encrypted (legacy)
+                    localAccounts = Array.isArray(result.accounts) ? result.accounts : [];
+                    console.log('Manual Addition - Using legacy accounts:', localAccounts);
+                }
+            } else {
+                console.log('Manual Addition - No accounts in local storage');
+            }
+            
+            // 2. Merge with new account
+            console.log('Manual Addition - Before merge - localAccounts:', localAccounts.length, 'newAccount:', newAccount);
+            const mergedAccounts = mergeAccounts(localAccounts, [newAccount]);
+            console.log('Manual Addition - After merge - mergedAccounts:', mergedAccounts.length);
+            accounts = mergedAccounts;
             newlyAddedAccountId = newAccount.id;
-            await chrome.storage.local.set({ accounts });
-            // 2. Update UI
-            renderAccounts();
+            
+            // 3. Encrypt and save to local storage
+            const encryptedAccounts = encryptAccounts(accounts, currentAccountNumber);
+            await chrome.storage.local.set({
+                accounts: encryptedAccounts,
+                encrypted: true
+            });
+            
+            // 4. Update UI first
             addAccountForm.classList.add('hidden');
             accountsList.classList.remove('hidden');
             searchContainer.classList.remove('hidden');
+            
+            // 5. Backup and restore to update UI with latest data (after form is hidden)
+            await backupAndRestore();
             accountNameInput.value = '';
             accountEmailInput.value = '';
             secretKeyInput.value = '';
             showSuccess('Account added successfully!');
-            // 3. Trigger backup, but don't wait for it
-            await saveAccounts();
-            await loadAccounts();
+            
+            // 4. Backup to cloud (no restore needed)
+            await backupAccounts();
         } catch (error) {
             // If cloud save fails, remove the account from local array
             accounts = accounts.filter(a => a.id !== newAccount.id);
@@ -1295,9 +1720,21 @@ function renderAccounts() {
         }, 3000);
     }
     
+    // Show/hide search container based on account count
+    if (searchContainer) {
+        if (accounts.length === 0) {
+            searchContainer.classList.add('hidden');
+            console.log('renderAccounts: Hiding search container (no accounts)');
+        } else {
+            searchContainer.classList.remove('hidden');
+            console.log('renderAccounts: Showing search container (has accounts)');
+        }
+    } else {
+        console.log('renderAccounts: searchContainer not found');
+    }
+    
     // Ensure accounts list is visible
     accountsList.classList.remove('hidden');
-    searchContainer.classList.remove('hidden');
     
     if (accounts.length === 0) {
         const emptyMessage = document.createElement('div');
@@ -1390,6 +1827,8 @@ function renderAccounts() {
             deleteButton.classList.add('hidden');
             qrButton.classList.add('hidden'); // Hide QR button when editing
             accountBlock.classList.add('editing');
+            // Remove click handler to prevent copying when editing
+            accountBlock.removeEventListener('click', clickHandler);
             accountName.contentEditable = true;
             // Make email or username editable
             if (account.email) {
@@ -1421,10 +1860,9 @@ function renderAccounts() {
                     showMessage('Account name cannot be empty', 'error', account.id);
                     return;
                 }
-                // Require at least email or username
+                // Use placeholder email if none provided
                 if (!newEmail && !newUsername) {
-                    showMessage('Please provide an email or username', 'error', account.id);
-                    return;
+                    newEmail = 'user@example.com'; // Placeholder email
                 }
                 if (account.email && newEmail && !isValidEmail(newEmail)) {
                     showMessage('Please enter a valid email address', 'error', account.id);
@@ -1449,8 +1887,13 @@ function renderAccounts() {
                 qrButton.classList.remove('hidden'); // Show QR button when editing is done
                 accountBlock.classList.remove('editing');
                 accountBlock.addEventListener('click', clickHandler);
-                await chrome.storage.local.set({ accounts });
-                await saveAccounts();
+                // Encrypt and save to local storage
+                const encryptedAccounts = encryptAccounts(accounts, currentAccountNumber);
+                await chrome.storage.local.set({ 
+                    accounts: encryptedAccounts,
+                    encrypted: true
+                });
+                await backupAccounts();
                 showMessage('Account updated successfully!', 'success', account.id);
             });
             cancelButton.addEventListener('click', (e) => {
@@ -1509,19 +1952,36 @@ function renderAccounts() {
             confirmButton.addEventListener('click', async () => {
                 confirmationDialog.remove();
                 try {
-                    // Delete from cloud first
-                    const success = await deleteAccount(account.id);
-                    if (!success) {
-                        showMessage('Failed to delete account from cloud', 'error');
-                        return;
-                    }
-                    // Remove from local array
+                    // Remove from local array first
                     accounts = accounts.filter(a => a.id !== account.id);
-                    // Save updated accounts to local storage and cloud
-                    await chrome.storage.local.set({ accounts });
-                    await saveAccounts();
-                    // Update UI
-                    renderAccounts();
+                    
+                    // Save updated accounts to local storage (handle empty array case)
+                    if (accounts.length === 0) {
+                        // Save empty array as plain JSON (not encrypted)
+                        await chrome.storage.local.set({ 
+                            accounts: [],
+                            encrypted: false
+                        });
+                    } else {
+                        // Encrypt and save non-empty accounts
+                        const encryptedAccounts = encryptAccounts(accounts, currentAccountNumber);
+                        await chrome.storage.local.set({ 
+                            accounts: encryptedAccounts,
+                            encrypted: true
+                        });
+                    }
+                    
+                    // Handle cloud backup based on whether we have accounts left
+                    if (accounts.length === 0) {
+                        // Delete the backup data from backend when no accounts left
+                        await deleteBackendEntry();
+                        // Update UI to show no accounts state
+                        renderAccounts();
+                    } else {
+                        // Re-upload entire accounts array to cloud (overwrites cloud backup)
+                        await backupAndRestore(true);
+                    }
+                    
                     showMessage('Account deleted successfully!', 'success');
                 } catch (error) {
                     showMessage('Failed to delete account', 'error');
@@ -1581,6 +2041,30 @@ function renderAccounts() {
         let lastPath = ''; // Cache the last path
         let isInverted = false; // Track the current color state
         
+        // Load inverted state from localStorage
+        const loadInvertedState = async () => {
+            try {
+                const result = await chrome.storage.local.get(['timerInverted']);
+                isInverted = result.timerInverted || false;
+                if (isInverted) {
+                    timerWrapper.classList.add('inverted');
+                } else {
+                    timerWrapper.classList.remove('inverted');
+                }
+            } catch (error) {
+                console.error('Error loading inverted state:', error);
+            }
+        };
+        
+        // Save inverted state to localStorage
+        const saveInvertedState = async (inverted) => {
+            try {
+                await chrome.storage.local.set({ timerInverted: inverted });
+            } catch (error) {
+                console.error('Error saving inverted state:', error);
+            }
+        };
+        
         const updateOTP = () => {
             const otp = generateOTP(account.secret);
             const timeLeft = 30 - (Math.floor(Date.now() / 1000) % 30);
@@ -1594,14 +2078,10 @@ function renderAccounts() {
             if (progress === 0) {
                 pieFg.style.display = '';
                 
-                // Swap colors using CSS variables
-                const bgCircle = timerWrapper.querySelector('.pie-bg');
-                const currentBgColor = getComputedStyle(bgCircle).getPropertyValue('--pie-bg-color') || '#4285f4';
-                const currentFgColor = getComputedStyle(pieFg).getPropertyValue('--pie-fg-color') || '#e0e0e0';
-                
-                bgCircle.style.setProperty('--pie-bg-color', currentFgColor);
-                pieFg.style.setProperty('--pie-fg-color', currentBgColor);
+                // Toggle inverted state using CSS class
+                timerWrapper.classList.toggle('inverted');
                 isInverted = !isInverted;
+                saveInvertedState(isInverted);
             }
         
             if (progress === 1) {
@@ -1610,14 +2090,10 @@ function renderAccounts() {
                 pieFg.setAttribute('d', `M16 16 L16 1.5 A15 15 0 1 1 16 30.5 A15 15 0 1 1 16 1.5 Z`);
                 lastPath = '';
                 
-                // Get current colors
-                const bgCircle = timerWrapper.querySelector('.pie-bg');
-                const currentBgColor = getComputedStyle(bgCircle).getPropertyValue('--pie-bg-color') || '#4285f4';
-                const currentFgColor = getComputedStyle(pieFg).getPropertyValue('--pie-fg-color') || '#e0e0e0';
-                
-                bgCircle.style.setProperty('--pie-bg-color', currentFgColor);
-                pieFg.style.setProperty('--pie-fg-color', currentBgColor);
+                // Toggle inverted state using CSS class
+                timerWrapper.classList.toggle('inverted');
                 isInverted = !isInverted;
+                saveInvertedState(isInverted);
             } else {
                 pieFg.style.display = '';
              
@@ -1655,9 +2131,11 @@ function renderAccounts() {
             }
         };
         
-
-        updateOTP();
-        setInterval(updateOTP, 1000);
+        // Load the saved inverted state before starting the timer
+        loadInvertedState().then(() => {
+            updateOTP();
+            setInterval(updateOTP, 1000);
+        });
     });
 }
 
@@ -1703,7 +2181,7 @@ async function processQRData(qrData) {
 
             // Fill in the form fields
             accountNameInput.value = issuer;
-            accountEmailInput.value = email;
+            accountEmailInput.value = email || 'user@example.com'; // Use placeholder email if none provided
             secretKeyInput.value = secret;
 
             // Automatically save the account
@@ -1734,21 +2212,46 @@ async function processQRData(qrData) {
             const newAccount = {
                 id: Date.now().toString(),
                 name: issuer,
-                email: email,
+                email: email || 'user@example.com', // Use placeholder email if none provided
                 username: username,
                 secret: extractedSecret
             };
 
             // Load latest from local storage and merge
-            chrome.storage.local.get(['accounts'], async (result) => {
-                let localAccounts = (result.accounts && Array.isArray(result.accounts)) ? result.accounts : [];
+            chrome.storage.local.get(['accounts', 'encrypted'], async (result) => {
+                console.log('QR Processing - Local storage result:', result);
+                let localAccounts = [];
+                
+                if (result.accounts) {
+                    if (result.encrypted) {
+                        // Decrypt the accounts
+                        console.log('QR Processing - Decrypting accounts...');
+                        localAccounts = decryptAccounts(result.accounts, currentAccountNumber);
+                        console.log('QR Processing - Decrypted accounts:', localAccounts);
+                    } else {
+                        // Use as-is if not encrypted (legacy)
+                        localAccounts = Array.isArray(result.accounts) ? result.accounts : [];
+                        console.log('QR Processing - Using legacy accounts:', localAccounts);
+                    }
+                } else {
+                    console.log('QR Processing - No accounts in local storage');
+                }
+                
+                console.log('QR Processing - Before merge - localAccounts:', localAccounts.length, 'newAccount:', newAccount);
                 const mergedAccounts = mergeAccounts(localAccounts, [newAccount]);
+                console.log('QR Processing - After merge - mergedAccounts:', mergedAccounts.length);
                 accounts = mergedAccounts;
                 newlyAddedAccountId = newAccount.id;
-                await chrome.storage.local.set({ accounts });
-                await saveAccounts();
-                await loadAccounts();
-                renderAccounts();
+                
+                // Encrypt and save to local storage
+                const encryptedAccounts = encryptAccounts(accounts, currentAccountNumber);
+                await chrome.storage.local.set({ 
+                    accounts: encryptedAccounts,
+                    encrypted: true
+                });
+                
+                // Backup and restore to update UI with latest data
+                await backupAndRestore();
                 addAccountForm.classList.add('hidden');
                 accountsList.classList.remove('hidden');
                 if (errorMessage) {
@@ -1764,36 +2267,6 @@ async function processQRData(qrData) {
         }
     } catch (error) {
         showError('Failed to process QR code: ' + error.message);
-    }
-}
-
-// Delete account from cloud database
-async function deleteAccount(accountId) {
-    if (!currentAccountNumber) {
-        return false;
-    }
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/delete-account`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-                account_number: currentAccountNumber,
-                account_id: accountId
-            })
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            return true;
-        } else {
-            return false;
-        }
-    } catch (error) {
-        return false;
     }
 }
 
@@ -1815,10 +2288,16 @@ function showAccountNumberWarning(onConfirm) {
 
     confirmBtn.onclick = () => {
         modal.classList.add('hidden');
+        // Reset title back to original
+        const title = loginForm.querySelector('h2');
+        if (title) title.textContent = 'Login or Create Account';
         onConfirm();
     };
     cancelBtn.onclick = () => {
         modal.classList.add('hidden');
+        // Reset title back to original
+        const title = loginForm.querySelector('h2');
+        if (title) title.textContent = 'Login or Create Account';
         loginForm.classList.remove('hidden');
     };
 }
@@ -1844,8 +2323,8 @@ function showQRCode(account) {
     const totpUri = generateTOTPUri(account);
     new QRCode(qrcodeDiv, {
         text: totpUri,
-        width: 256,
-        height: 256,
+        width: 200,
+        height: 200,
         colorDark: "#000000",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H

@@ -16,12 +16,12 @@ body.dark-theme {
     --error-color: #f28b82;
     --pie-bg-color: #8ab4f8;
     --pie-fg-color: #3c4043;
-    background-color: #202124;
+    background-color: rgb(17, 17, 17);
     color: var(--text-color);
 }
 
 body.dark-theme .user-dropdown {
-    background-color: #202124;
+    background-color: rgb(17, 17, 17);
     border: 1px solid var(--border-color);
 }
 
@@ -42,7 +42,7 @@ body.dark-theme .dropdown-divider {
 }
 
 body.dark-theme .account-block {
-    background-color: #202124;
+    background-color: rgb(17, 17, 17);
     border-color: var(--border-color);
 }
 
@@ -59,7 +59,7 @@ body.dark-theme .otp-code {
 }
 
 body.dark-theme .search-input {
-    background-color: #202124;
+    background-color: rgb(17, 17, 17);
     border-color: var(--border-color);
     color: var(--text-color);
 }
@@ -73,16 +73,21 @@ body.dark-theme .search-icon {
 }
 
 body.dark-theme .login-form {
-    background-color: #202124;
-    border: 1px solid var(--border-color);
+    background-color: rgb(17, 17, 17);
+}
+
+body.dark-theme .login-form-content {
+    background-color: rgb(17, 17, 17);
+    
 }
 
 body.dark-theme .login-form h2 {
+    margin-bottom: 10px;
     color: var(--text-color);
 }
 
 body.dark-theme input {
-    background-color: #202124;
+    background-color: rgb(17, 17, 17);
     border-color: var(--border-color);
     color: var(--text-color);
 }
@@ -102,6 +107,15 @@ body.dark-theme .secondary-button:hover {
 
 body.dark-theme .blur-background {
     background-color: rgba(32, 33, 36, 0.8);
+}
+
+body.dark-theme .add-account-form {
+    background-color: rgb(17, 17, 17);
+    color: var(--text-color);
+}
+
+body.dark-theme .add-account-form h2 {
+    color: var(--text-color);
 }
 
 * {
@@ -171,7 +185,7 @@ header {
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #202124;
+    background-color: rgb(17, 17, 17);
     color: white;
     padding: 4px 8px;
     border-radius: 4px;
@@ -337,13 +351,12 @@ h1 {
 
 .success-message-container,
 .error-message-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 2;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 1000;
     pointer-events: none;
-    margin-bottom: 10px;
 }
 
 .account-block {
@@ -511,12 +524,111 @@ h1 {
     background-color: #f1f3f4;
 }
 
+/* Dark theme for delete confirmation modal */
+body.dark-theme .delete-confirmation {
+    background-color: rgb(17, 17, 17);
+    
+}
+
+body.dark-theme .delete-confirmation-text {
+    color: var(--text-color);
+}
+
+body.dark-theme .delete-confirmation-button.confirm {
+    color: #f28b82;
+}
+
+body.dark-theme .delete-confirmation-button.confirm:hover {
+    background-color: #3c4043;
+}
+
+body.dark-theme .delete-confirmation-button.cancel {
+    color: var(--text-color);
+}
+
+body.dark-theme .delete-confirmation-button.cancel:hover {
+    background-color: #3c4043;
+}
+
+/* Dark theme for sign-in dropdown */
+body.dark-theme .sign-in-dropdown {
+    background-color: rgb(17, 17, 17);
+    border: 1px solid var(--border-color);
+}
+
+/* Dark theme for user dropdown */
+body.dark-theme .user-dropdown {
+    background-color: rgb(17, 17, 17);
+    border: 1px solid var(--border-color);
+}
+
+/* Dark theme for dropdown items */
+body.dark-theme .dropdown-item:hover {
+    background-color: #3c4043;
+}
+
+/* Dark theme for login form elements */
+body.dark-theme .login-form .form-group label {
+    color: var(--text-color);
+   
+}
+
+body.dark-theme .login-form .download-button {
+    color: var(--primary-color);
+}
+
+body.dark-theme .login-form .button-group .secondary-button {
+    background-color: #3c4043;
+    color: var(--text-color);
+}
+
+body.dark-theme .login-form .button-group .secondary-button:hover {
+    background-color: #5f6368;
+}
+
+/* Dark theme for slider elements */
+body.dark-theme .slider-label {
+    color: var(--text-color);
+}
+
+body.dark-theme .slider-track {
+    background: #3c4043;
+}
+
+body.dark-theme .slider-track-label {
+    color: var(--text-color);
+}
+
+/* Blur background removed - no longer needed */
+
+/* Dark theme for form messages */
+body.dark-theme .login-form .form-message.success {
+    background-color: #1e3a1e;
+    color: #4caf50;
+    border: 1px solid #2e7d32;
+}
+
+body.dark-theme .login-form .form-message.error {
+    background-color: #3e1e1e;
+    color: #f44336;
+    border: 1px solid #d32f2f;
+}
+
 .pie-timer-svg {
     display: block;
     shape-rendering: geometricPrecision;
     position: relative;
     z-index: 2;
     overflow: hidden;
+}
+
+/* Inverted timer state - swaps background and foreground colors */
+.timer-wrapper.inverted .pie-bg {
+    fill: var(--pie-fg-color);
+}
+
+.timer-wrapper.inverted .pie-fg {
+    fill: var(--pie-bg-color);
 }
 
 .name-email-container {
@@ -575,8 +687,40 @@ h1 {
     display: none;
 }
 
-.form-group {
-    margin-bottom: 16px;
+
+
+/* Hide elements initially - show after swipe */
+.login-form .form-group,
+.login-form h2 {
+    display: none;
+}
+
+/* Show elements after swipe */
+.login-form.swiped .form-group,
+.login-form.swiped h2 {
+    display: block;
+}
+
+/* Always show elements in warning modal */
+#accountNumberWarningModal .form-group {
+    display: block;
+}
+
+/* Hide the title in warning modal */
+#accountNumberWarningModal h2 {
+    display: none;
+}
+
+#accountNumberWarningModal .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 25px;
+}
+
+/* Hide slider after swipe */
+.login-form.swiped .slider-container {
+    display: none;
 }
 
 label {
@@ -669,6 +813,10 @@ input::placeholder {
 .add-account-form h2 {
     margin-bottom: 20px;
     padding-top: 10px;
+}
+
+.add-account-form input {
+    margin-bottom: 10px;
 }
 
 .account-block.highlight {
@@ -808,28 +956,35 @@ input::placeholder {
 /* Login Form Styles */
 .login-form {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    padding: 30px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form-content {
     background-color: #ffffff;
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    
     max-width: 400px;
-    width: 90%;
-    z-index: 1000;
+    width: 110%;
 }
 
 .login-form h2 {
-    margin-bottom: 25px;
     color: #333;
     text-align: center;
-    font-size: 24px;
+    font-size: 30px;
 }
 
-.login-form .form-group {
-    margin-bottom: 20px;
-}
+
 
 .login-form .input-group {
     position: relative;
@@ -874,10 +1029,14 @@ input::placeholder {
 }
 
 .login-form .button-group {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 10px;
-    margin-top: 25px;
+    margin-top: 10px;
+}
+
+.login-form.swiped .button-group {
+    display: flex;
 }
 
 .login-form .primary-buttons {
@@ -923,34 +1082,19 @@ input::placeholder {
     display: none;
 }
 
-/* Blur effect for background */
-.blur-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(4px);
-    z-index: 999;
-    display: none;
-}
-
-.blur-background.active {
-    display: block;
-}
+/* Blur background removed - login form now covers entire popup */
 
 .login-form .form-message-container {
-    margin-bottom: 15px;
+    margin-top: 15px;
     min-height: 20px;
 }
 
 .login-form .form-message {
-    padding: 10px;
+    padding: 10px 10px 20px 10px;
     border-radius: 6px;
     font-size: 14px;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .login-form .form-message.success {
@@ -976,6 +1120,10 @@ input::placeholder {
     transform: translate(-50%, -50%);
     font-size: 0.5em;
     color: #ffffff;
+}
+
+body.dark-theme #cloudBackup.backed-up i.fa-check {
+    color: #000000;
 }
 
 .placeholder-text {
@@ -1021,6 +1169,28 @@ input::placeholder {
 
 #signIn i {
     animation: continuousGlow 2s infinite;
+}
+
+/* Sign In Dropdown Styles */
+.sign-in-container {
+    position: relative;
+}
+
+.sign-in-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.sign-in-dropdown.hidden {
+    display: none;
 }
 
 /* User Menu Dropdown Styles */
@@ -1191,9 +1361,9 @@ input::placeholder {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
     z-index: 1000;
     justify-content: center;
     align-items: center;
@@ -1204,13 +1374,13 @@ input::placeholder {
 }
 
 .modal-content {
-    background-color: white;
-    padding: 20px;
+    background-color: #ffffff;
+    padding: 30px;
     border-radius: 12px;
-    width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     max-width: 400px;
+    width: 110%;
     position: relative;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
@@ -1245,10 +1415,12 @@ input::placeholder {
 #qrcode {
     display: flex;
     justify-content: center;
-    
+    align-items: center;
     background-color: white;
-    padding: 20px;
+    padding: 15px;
     border-radius: 12px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .qr-instructions {
@@ -1256,6 +1428,19 @@ input::placeholder {
     color: var(--text-color);
     margin-top: 15px;
     padding-top: 18px;
+}
+
+/* Dark theme for QR code modal */
+body.dark-theme .modal {
+    background-color: rgb(17, 17, 17);
+}
+
+body.dark-theme .modal-content {
+    background-color: rgb(17, 17, 17);
+}
+
+body.dark-theme #qrcode {
+    background-color: white; /* Keep QR code background white for better contrast */
 }
 
 .qr-button {
