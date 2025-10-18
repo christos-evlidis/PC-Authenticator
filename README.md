@@ -66,10 +66,9 @@ Available on the [Chrome Web Store](https://chromewebstore.google.com/detail/aut
 
 ## 🧭 Roadmap
 
-- [ ] Encrypted local storage improvements
-- [ ] Optional cloud sync toggle
+- [ ] Export options to another app
+
 - [ ] Firefox & Edge support
-- [ ] UI customization & themes
 
 ---
 
