@@ -1,3 +1,4 @@
 # Ignore README and LICENSE files
 README.md
 LICENSE
+.db

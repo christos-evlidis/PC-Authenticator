@@ -1,0 +1,89 @@
+/* Extension viewport */
+:root {
+    --extension-width: 350px;
+    --extension-height: 600px;
+    --frame-padding-top: 12px;
+    --frame-padding-right: 12px;
+    --frame-padding-bottom: 12px;
+    --frame-padding-left: 12px;
+    --header-radius: 12px;
+    --font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --icon-color: #176cca;
+    --icon-color-hover: #125aa8;
+    --color-frame: #ebebeb;
+    --color-surface: #ffffff;
+    --color-text: #1a1a1a;
+    --color-text-secondary: #5f6368;
+    --color-text-placeholder: #9aa0a6;
+    --color-border: #dadce0;
+    --color-icon-muted: #dadce0;
+    --color-input-readonly: #f1f3f4;
+    --color-menu-backdrop: rgba(235, 235, 235, 0.45);
+    --color-accent-soft: rgba(23, 108, 202, 0.12);
+    --color-accent-hover: rgba(23, 108, 202, 0.1);
+    --color-on-accent: #ffffff;
+}
+
+body.theme-dark {
+    color-scheme: dark;
+    --icon-color: #176cca;
+    --icon-color-hover: #125aa8;
+    --color-frame: #121212;
+    --color-surface: #1e1e1e;
+    --color-text: #e8eaed;
+    --color-text-secondary: #9aa0a6;
+    --color-text-placeholder: #80868b;
+    --color-border: #3c4043;
+    --color-icon-muted: #5f6368;
+    --color-input-readonly: #2d2d2d;
+    --color-menu-backdrop: rgba(0, 0, 0, 0.55);
+    --color-accent-soft: rgba(138, 180, 248, 0.16);
+    --color-accent-hover: rgba(138, 180, 248, 0.12);
+    --color-on-accent: #202124;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+html {
+    width: var(--extension-width);
+    height: var(--extension-height);
+    overflow: hidden;
+    font-family: var(--font-family);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: var(--extension-width);
+    height: var(--extension-height);
+    overflow: hidden;
+    background: var(--color-frame);
+    color: var(--color-text);
+    transition: background 0.2s ease, color 0.2s ease;
+    font-family: var(--font-family);
+}
+
+.extension-frame {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: var(--extension-width);
+    height: var(--extension-height);
+    padding: var(--frame-padding-top) var(--frame-padding-right) var(--frame-padding-bottom) var(--frame-padding-left);
+    overflow: hidden;
+}
+
+
+
