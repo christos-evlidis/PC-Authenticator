@@ -1,4 +1,6 @@
-# Ignore README and LICENSE files
+# Local documentation (not versioned)
 README.md
 LICENSE
-.db
+
+# Database files
+*.db
