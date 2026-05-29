@@ -14,7 +14,7 @@
     padding: 12px 14px;
     border-radius: var(--header-radius);
     background: var(--color-surface);
-    transition: background 0.2s ease;
+    transition: background-color var(--theme-transition-ms) ease;
     overflow: hidden;
 }
 
@@ -35,61 +35,131 @@
     color: var(--color-text-secondary);
 }
 
-.app-body > .signed-out-view .signed-out-view__content i {
+.signed-out-view__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
     font-size: 56px;
     line-height: 1;
     color: var(--color-icon-muted);
-    margin-bottom: 16px;
+    transform-origin: center center;
 }
 
-.app-body > .signed-out-view .signed-out-view__content p {
+.signed-out-view__icon i {
+    font-size: 1em;
+    line-height: 1;
+    color: inherit;
+}
+
+.signed-out-view__icon.is-pop-pending {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.4);
+    pointer-events: none;
+}
+
+.signed-out-view__icon.is-pop-active {
+    visibility: visible;
+    animation: signed-out-icon-pop 250ms ease-out forwards;
+    pointer-events: auto;
+}
+
+.signed-out-view__icon.is-pop-revealed {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.extension-frame.is-app-intro-pending .signed-out-view__icon.is-pop-pending {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.4);
+}
+
+.extension-frame.is-app-intro-pending .signed-out-view__icon.is-pop-pending + .signed-out-view__message-stack {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.signed-out-view__message-stack {
+    display: grid;
+    width: 100%;
+    max-width: 220px;
+}
+
+.signed-out-view__message-stack .signed-out-view__message {
+    grid-area: 1 / 1;
     margin: 0;
     max-width: 220px;
     font-size: 14px;
     line-height: 1.5;
+    text-align: center;
+}
+
+.signed-out-view__message--spacer {
+    visibility: hidden;
+    pointer-events: none;
+    user-select: none;
+}
+
+.signed-out-view__message--display.is-intro-typing {
+    white-space: pre-line;
 }
 
 .app-body > .signed-in-view {
     padding: 0;
 }
 
-.codes-section {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px 14px;
-    border-radius: var(--header-radius);
-    background: var(--color-surface);
-    transition: background 0.2s ease;
-    overflow-y: auto;
+.extension-frame.is-post-login-blank .app-body > .signed-in-view {
+    display: none !important;
 }
 
-.codes-section__empty {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 24px 20px;
-    color: var(--color-text-secondary);
+.extension-frame.is-post-login-blank .codes-section__empty,
+.extension-frame.is-post-login-blank .codes-section__list {
+    display: none !important;
 }
 
-.codes-section__empty i {
-    display: block;
-    font-size: 56px;
-    line-height: 1;
-    color: var(--color-icon-muted);
-    margin-bottom: 16px;
+.extension-frame.is-post-login-blank .app-header__title,
+.extension-frame.is-post-login-blank .app-header .signed-out-view,
+.extension-frame.is-post-login-blank .signed-out-view__content {
+    visibility: hidden;
+    pointer-events: none;
 }
 
-.codes-section__empty p {
-    margin: 0;
-    max-width: 220px;
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--color-text-secondary);
+.signed-out-view__content.is-login-fade-out.is-login-fade-out--active,
+.signed-out-view__content.is-login-fade-out.is-login-fade-out--active .signed-out-view__icon {
+    opacity: 0 !important;
+    visibility: hidden !important;
 }
+
+.extension-frame.is-post-login-blank .app-header .signed-in-view {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.extension-frame.is-post-logout-blank .app-header__title,
+.extension-frame.is-post-logout-blank .app-header .signed-in-view,
+.extension-frame.is-post-logout-blank .app-header .signed-out-view,
+.extension-frame.is-post-logout-blank .signed-out-view__icon,
+.extension-frame.is-post-logout-blank .signed-out-view__message-stack,
+.extension-frame.is-post-logout-blank .codes-section__empty > *,
+.extension-frame.is-post-logout-blank .codes-section__list .account-block {
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+}
+
+@keyframes signed-out-icon-pop {
+    from {
+        opacity: 0;
+        transform: scale(0.4);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+

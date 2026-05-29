@@ -206,53 +206,27 @@
         const icon = document.querySelector(selector);
         if (!icon) return;
 
-        cancelStatusAnimations(icon);
         icon.classList.add('hidden');
         icon.classList.remove('is-shown', 'is-hiding', 'is-animating', 'is-drawn');
-        icon.style.opacity = '0';
-        icon.style.visibility = 'hidden';
-    }
-
-    async function animateStatusOpacity(element, fromOpacity, toOpacity, durationMs) {
-        element.classList.remove('hidden');
-        element.style.visibility = 'visible';
-        cancelStatusAnimations(element);
-
-        const animation = element.animate(
-            [{ opacity: fromOpacity }, { opacity: toOpacity }],
-            {
-                duration: durationMs,
-                easing: 'ease',
-                fill: 'forwards'
-            }
-        );
-
-        try {
-            await animation.finished;
-        } catch {
-            // Animation was cancelled.
-        }
     }
 
     async function fadeInStatus(element) {
         const durationMs = getStatusFadeInMs(element);
 
-        element.classList.remove('is-hiding');
-        element.style.opacity = '0';
-        await animateStatusOpacity(element, 0, 1, durationMs);
+        element.classList.remove('hidden', 'is-hiding');
+        void element.offsetWidth;
         element.classList.add('is-shown');
-        element.style.opacity = '1';
+        await waitForTransitionEnd(element, 'opacity', durationMs + 32);
     }
 
     async function fadeOutStatus(element) {
         const durationMs = getStatusFadeOutMs(element);
 
         element.classList.add('is-hiding');
-        await animateStatusOpacity(element, 1, 0, durationMs);
-        element.classList.remove('is-shown', 'is-hiding', 'is-animating', 'is-drawn');
+        element.classList.remove('is-shown');
+        await waitForTransitionEnd(element, 'opacity', durationMs + 32);
+        element.classList.remove('is-hiding', 'is-animating', 'is-drawn');
         element.classList.add('hidden');
-        element.style.opacity = '0';
-        element.style.visibility = 'hidden';
     }
 
     function waitForIconDraw(icon) {
@@ -384,6 +358,16 @@
         return secret.trim().replace(/\s+/g, '').replace(/[^A-Z2-7]/gi, '').toUpperCase().slice(0, 64);
     }
 
+    function isValidTotpSecret(secret) {
+        const sanitized = sanitizeSecret(secret);
+
+        if (!sanitized) {
+            return false;
+        }
+
+        return Boolean(window.Codes?.generateOTP?.(sanitized));
+    }
+
     function isValidEmail(email) {
         return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email);
     }
@@ -411,11 +395,32 @@
         form.reset();
     }
 
+    function prepareManualSetupChromeForReveal(form, formSnapshot = null) {
+        if (formSnapshot) {
+            restoreFormSnapshot(form, formSnapshot);
+        } else {
+            clearForm(form);
+        }
+
+        isAddAccountSequenceRunning = false;
+        setAuthFlowLock(false);
+        setSubmitDisabled(false);
+    }
+
     function setSubmitDisabled(isDisabled) {
         const submit = getManualSetupForm()?.querySelector('.manual-setup-form__submit');
+
         if (submit) {
             submit.disabled = isDisabled;
         }
+    }
+
+    function createAddAccountPromise(formData) {
+        if (!isValidTotpSecret(formData.secret)) {
+            return Promise.reject(new Error('Invalid secret key.'));
+        }
+
+        return saveManualAccountToLocal(formData);
     }
 
     async function saveManualAccountToLocal(formData) {
@@ -492,11 +497,16 @@
             const apiResult = await runLoaderPhase(loader, setupBody, apiPromise);
 
             if (apiResult.success) {
+                const addedAccount = apiResult.value;
+
                 await playResultIcon(MANUAL_SETUP_SUCCESS_SELECTOR);
+
                 await exitPanelImmersive(panel);
                 await shrinkSetupBody(panel, setupBody);
+                prepareManualSetupChromeForReveal(form);
                 await revealSetupChrome();
-                clearForm(form);
+
+                await window.Codes?.animateManualAccountAdd?.(addedAccount);
                 succeeded = true;
 
                 const { accountNumber } = await chrome.storage.local.get(['accountNumber']);
@@ -505,6 +515,7 @@
                     await window.AccountsStorage.handleSync(accountNumber);
                 } catch (error) {
                     console.error('Cloud backup failed after manual account add:', error);
+                    await window.Codes?.render?.();
                 }
 
                 return apiResult;
@@ -513,8 +524,8 @@
             await playResultIcon(MANUAL_SETUP_ERROR_SELECTOR);
             await exitPanelImmersive(panel);
             await shrinkSetupBody(panel, setupBody);
+            prepareManualSetupChromeForReveal(form, formSnapshot);
             await revealSetupChrome();
-            restoreFormSnapshot(form, formSnapshot);
             return apiResult;
         } finally {
             isAddAccountSequenceRunning = false;
@@ -613,7 +624,7 @@
 
         const form = event.currentTarget;
         const snapshot = getFormSnapshot(form);
-        const apiPromise = saveManualAccountToLocal(snapshot);
+        const apiPromise = createAddAccountPromise(snapshot);
 
         try {
             await playAddAccountSequence(apiPromise, snapshot);

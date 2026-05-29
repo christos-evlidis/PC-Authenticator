@@ -4,7 +4,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>PC Authenticator</title>
-        
+
+        <script src="../js/theme-bootstrap.js"></script>
+
         <!-- Styles -->
         <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css" />
         <link rel="stylesheet" href="../css/base.css" />
@@ -12,13 +14,14 @@
         <link rel="stylesheet" href="../css/section-handling/section_body.css" />
         <link rel="stylesheet" href="../css/section-handling/section_user-menu.css" />
         <link rel="stylesheet" href="../css/section-handling/section_manual-setup.css" />
+        <link rel="stylesheet" href="../css/section-handling/section_codes.css" />
     </head>
     <body>
         <!-- Extension Frame -->
-        <div class="extension-frame">
+        <div class="extension-frame is-app-intro-pending">
             <!-- Header Section -->
             <header class="app-header">
-                <h1 class="app-header__title">PC Authenticator</h1>
+                <h1 class="app-header__title" data-full-title="PC Authenticator"></h1>
                 <!-- Signed-out View -->
                 <section class="signed-out-view">
                     <div class="app-header__actions">
@@ -36,9 +39,6 @@
                         <button type="button" class="app-header__btn scan-qr-btn">
                             <i class="fas fa-qrcode"></i>
                         </button>
-                        <button type="button" class="app-header__btn cloud-backup-btn">
-                            <i class="fas fa-cloud"></i>
-                        </button>
                         <button type="button" class="app-header__btn user-menu-btn">
                             <i class="fas fa-user"></i>
                         </button>
@@ -51,15 +51,90 @@
                 <!-- Signed-out View -->
                 <section class="signed-out-view">
                     <div class="signed-out-view__content">
-                        <i class="fas fa-lock"></i>
-                        <p>To use the authenticator<br>sign in or sign up.</p>
+                        <span class="signed-out-view__icon" aria-hidden="true">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <div
+                            class="signed-out-view__message-stack"
+                            data-full-text="To use the authenticator&#10;sign in or sign up."
+                        >
+                            <p class="signed-out-view__message signed-out-view__message--spacer" aria-hidden="true"></p>
+                            <p class="signed-out-view__message signed-out-view__message--display"></p>
+                        </div>
                     </div>
                 </section>
 
                 <!-- Signed-in View -->
                 <section class="signed-in-view hidden">
                     <!-- Codes section -->
-                    <section class="codes-section"></section>
+                    <section class="codes-section" aria-label="Authentication codes">
+                        <div class="codes-section__empty hidden">
+                            <span class="codes-section__empty-icon" aria-hidden="true">
+                                <i class="fas fa-shield-halved"></i>
+                            </span>
+                            <div
+                                class="codes-section__message-stack"
+                                data-full-text="No accounts yet,&#10;use + or scan a QR code to add one."
+                            >
+                                <p class="codes-section__message codes-section__message--spacer" aria-hidden="true"></p>
+                                <p class="codes-section__message codes-section__message--display"></p>
+                            </div>
+                        </div>
+
+                        <ul class="codes-section__list hidden" role="list"></ul>
+
+                        <template class="code-card-template">
+                            <li class="account-block" role="listitem">
+                                <header class="account-block__header">
+                                    <div class="account-block__identity">
+                                        <div class="account-name"></div>
+                                        <div class="account-email hidden"></div>
+                                    </div>
+                                    <div class="account-block__actions">
+                                        <button
+                                            type="button"
+                                            class="edit-button"
+                                            title="Edit account"
+                                            aria-label="Edit account"
+                                        >
+                                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="delete-button"
+                                            title="Delete account"
+                                            aria-label="Delete account"
+                                        >&times;</button>
+                                    </div>
+                                </header>
+                                <div class="account-block__body">
+                                    <div class="otp-code" aria-live="polite">000000</div>
+                                    <div class="timer-wrapper">
+                                        <svg
+                                            width="35"
+                                            height="35"
+                                            class="pie-timer-svg"
+                                            viewBox="0 0 32 32"
+                                            style="overflow: visible;"
+                                            aria-hidden="true"
+                                        >
+                                            <circle class="pie-bg" cx="16" cy="16" r="14.5" />
+                                            <path class="pie-fg" d="" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="account-block__copy-feedback" aria-hidden="true">
+                                    <span class="account-block__copy-fill"></span>
+                                    <div class="account-block__copy-check">
+                                        <svg class="copy-check__icon" viewBox="0 0 52 52" aria-hidden="true">
+                                            <circle class="copy-check__circle" cx="26" cy="26" r="24" fill="none" />
+                                            <path class="copy-check__mark" fill="none" d="M14 27l7 7 16-16" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </li>
+                        </template>
+                    </section>
                 </section>
             </section>
 
@@ -222,7 +297,7 @@
                         <div class="manual-setup-body__content">
                             <form class="manual-setup-form">
                                 <label class="manual-setup-form__label">
-                                    <span class="manual-setup-form__label-text">Account name *</span>
+                                    <span class="manual-setup-form__label-text">Account Name *</span>
                                     <input
                                         type="text"
                                         class="manual-setup-form__input"
@@ -233,7 +308,7 @@
                                     />
                                 </label>
                                 <label class="manual-setup-form__label">
-                                    <span class="manual-setup-form__label-text">Secret key *</span>
+                                    <span class="manual-setup-form__label-text">Secret Key *</span>
                                     <input
                                         type="text"
                                         class="manual-setup-form__input manual-setup-form__input--secret"
@@ -270,6 +345,7 @@
         <script src="../js/account-handling/accounts-storage.js"></script>
         <script src="../js/section-handling/section_codes.js"></script>
         <script src="../js/section-handling/section_header.js"></script>
+        <script src="../js/section-handling/section_body.js"></script>
         <script src="../js/section-handling/section_user-menu.js"></script>
         <script src="../js/section-handling/section_manual-setup.js"></script>
     </body>

@@ -114,28 +114,19 @@ window.AccountsStorage = {
             return [];
         }
 
+        let plainAccounts = [];
+
         if (typeof result.accounts === 'string' && window.AccountsCrypto?.isEncryptedData(result.accounts)) {
-            const accounts = await this.decryptAccounts(accountNumber);
-            await chrome.storage.local.set({ [this.ACCOUNTS_ALL_KEY]: accounts });
-            await this.clearEncryptedAccounts();
-            await this.clearDecryptedAccounts();
-            await this.clearMergedAccounts();
-            return accounts;
+            plainAccounts = await this.decryptAccounts(accountNumber);
+        } else if (Array.isArray(result.accounts)) {
+            plainAccounts = result.accounts;
         }
 
-        if (Array.isArray(result.accounts)) {
-            await chrome.storage.local.set({ [this.ACCOUNTS_ALL_KEY]: result.accounts });
-            await this.clearEncryptedAccounts();
-            await this.clearDecryptedAccounts();
-            await this.clearMergedAccounts();
-            return result.accounts;
-        }
-
-        await chrome.storage.local.set({ [this.ACCOUNTS_ALL_KEY]: [] });
+        await chrome.storage.local.set({ [this.ACCOUNTS_ALL_KEY]: plainAccounts });
         await this.clearEncryptedAccounts();
         await this.clearDecryptedAccounts();
         await this.clearMergedAccounts();
-        return [];
+        return plainAccounts;
     },
 
     async getAccountsAll() {
@@ -155,10 +146,86 @@ window.AccountsStorage = {
         });
     },
 
-    async handleLoad(accountNumber) {
+    async handleDelete(accountNumber, accountId) {
         if (!accountNumber) {
-            throw new Error('Sign in to load accounts.');
+            throw new Error('Sign in to delete accounts.');
         }
+
+        if (accountId == null) {
+            throw new Error('Account id is required.');
+        }
+
+        const deleteId = String(accountId);
+
+        await this.restoreAccounts(accountNumber);
+
+        let decrypted = await this.decryptAccounts(accountNumber);
+
+        if (!decrypted.length) {
+            decrypted = await this.getAccountsAll();
+        }
+
+        const filtered = decrypted.filter((account) => String(account?.id) !== deleteId);
+
+        if (filtered.length === decrypted.length) {
+            throw new Error('Account not found.');
+        }
+
+        const encryptedPayload = window.AccountsCrypto.encryptAccounts(filtered, accountNumber);
+        await window.PcAuthApi.backupAccounts(accountNumber, encryptedPayload);
+
+        await this.clearEncryptedAccounts();
+        await this.clearDecryptedAccounts();
+        await this.clearMergedAccounts();
+
+        return this.setAccountsAll(accountNumber);
+    },
+
+    async handleUpdate(accountNumber, accountId, patch) {
+        if (!accountNumber) {
+            throw new Error('Sign in to update accounts.');
+        }
+
+        if (accountId == null) {
+            throw new Error('Account id is required.');
+        }
+
+        const updateId = String(accountId);
+
+        await this.restoreAccounts(accountNumber);
+
+        let decrypted = await this.decryptAccounts(accountNumber);
+
+        if (!decrypted.length) {
+            decrypted = await this.getAccountsAll();
+        }
+
+        const index = decrypted.findIndex((account) => String(account?.id) === updateId);
+
+        if (index === -1) {
+            throw new Error('Account not found.');
+        }
+
+        const account = decrypted[index];
+
+        if (patch.name != null) {
+            account.name = patch.name;
+        }
+
+        if (patch.email !== undefined) {
+            account.email = patch.email;
+        }
+
+        if (patch.username !== undefined) {
+            account.username = patch.username;
+        }
+
+        const encryptedPayload = window.AccountsCrypto.encryptAccounts(decrypted, accountNumber);
+        await window.PcAuthApi.backupAccounts(accountNumber, encryptedPayload);
+
+        await this.clearEncryptedAccounts();
+        await this.clearDecryptedAccounts();
+        await this.clearMergedAccounts();
 
         return this.setAccountsAll(accountNumber);
     },

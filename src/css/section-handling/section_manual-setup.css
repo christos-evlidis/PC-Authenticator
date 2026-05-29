@@ -61,9 +61,9 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     display: flex;
     flex-direction: column;
     gap: var(--manual-setup-panel-gap);
-    height: 375px;
-    min-height: 375px;
-    max-height: 375px;
+    height: 370px;
+    min-height: 370px;
+    max-height: 370px;
     flex-shrink: 0;
     padding: var(--manual-setup-panel-padding);
     background: var(--color-frame);
@@ -213,7 +213,7 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     min-height: 0;
     display: flex;
     flex-direction: column;
-    padding: 12px 14px;
+    padding: 14px;
     overflow-y: auto;
     transition: opacity var(--login-ui-fade-duration) ease, visibility var(--login-ui-fade-duration) ease;
 }
@@ -221,7 +221,7 @@ body.is-user-menu-blurred .extension-frame > .app-body {
 .manual-setup-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
     flex: 1;
     min-height: 0;
 }
