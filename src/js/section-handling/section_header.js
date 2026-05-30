@@ -227,6 +227,32 @@ function popHeaderButtons(buttons) {
     });
 }
 
+function revealHeaderIntroStatic() {
+    const header = document.querySelector('.app-header');
+    const title = header?.querySelector('.app-header__title');
+
+    if (title) {
+        const fullTitle = title.dataset.fullTitle || title.textContent.trim() || 'PC Authenticator';
+
+        title.dataset.fullTitle = fullTitle;
+        title.textContent = fullTitle;
+        title.classList.remove('is-title-awaiting-type', 'is-intro-typing');
+        clearLoginFadeClasses(title);
+    }
+
+    getVisibleHeaderButtons().forEach((button) => {
+        button.classList.remove('is-pop-pending', 'is-pop-active');
+        clearLoginFadeClasses(button);
+    });
+
+    header?.classList.add('is-intro-complete');
+
+    if (!headerIntroPlayed) {
+        headerIntroPlayed = true;
+        resolveHeaderIntroComplete();
+    }
+}
+
 async function playHeaderIntro() {
     if (headerIntroPlayed) {
         resolveHeaderIntroComplete();
@@ -420,8 +446,16 @@ async function playSignedInHeaderIntro() {
 }
 
 async function initHeader() {
+    const skipIntro = await window.PopupResume?.whenReady?.();
+
     await refreshHeaderAuthState();
     setHeaderActionsEnabled(true);
+
+    if (skipIntro) {
+        revealHeaderIntroStatic();
+        return;
+    }
+
     await playHeaderIntro();
 }
 
@@ -445,5 +479,6 @@ window.Header = {
     clearChromeFadeState,
     clearHeaderChromeFadeState,
     playSignedOutHeaderIntro,
-    playSignedInHeaderIntro
+    playSignedInHeaderIntro,
+    revealHeaderIntroStatic
 };

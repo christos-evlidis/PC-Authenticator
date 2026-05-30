@@ -350,28 +350,6 @@
         setSubmitDisabled(false);
     }
 
-    function sanitizeName(name) {
-        return name.trim().replace(/[^\w\s@.-]/g, '').slice(0, 64);
-    }
-
-    function sanitizeSecret(secret) {
-        return secret.trim().replace(/\s+/g, '').replace(/[^A-Z2-7]/gi, '').toUpperCase().slice(0, 64);
-    }
-
-    function isValidTotpSecret(secret) {
-        const sanitized = sanitizeSecret(secret);
-
-        if (!sanitized) {
-            return false;
-        }
-
-        return Boolean(window.Codes?.generateOTP?.(sanitized));
-    }
-
-    function isValidEmail(email) {
-        return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email);
-    }
-
     function getFormSnapshot(form) {
         const data = new FormData(form);
         return {
@@ -416,10 +394,6 @@
     }
 
     function createAddAccountPromise(formData) {
-        if (!isValidTotpSecret(formData.secret)) {
-            return Promise.reject(new Error('Invalid secret key.'));
-        }
-
         return saveManualAccountToLocal(formData);
     }
 
@@ -430,30 +404,8 @@
             throw new Error('Sign in to add accounts.');
         }
 
-        const name = sanitizeName(formData.name);
-        if (!name) {
-            throw new Error('Enter a valid account name.');
-        }
-
-        const secret = sanitizeSecret(formData.secret);
-        if (!secret) {
-            throw new Error('Enter a valid secret key.');
-        }
-
-        const emailRaw = formData.email.trim();
-        if (emailRaw && !isValidEmail(emailRaw)) {
-            throw new Error('Enter a valid email address.');
-        }
-
-        const account = {
-            id: String(Date.now()),
-            name,
-            secret
-        };
-
-        if (emailRaw) {
-            account.email = emailRaw;
-        }
+        const parsed = window.AccountsOtpauth.parseManualAccountInput(formData);
+        const account = window.AccountsStorage.buildAccountRecord(parsed);
 
         await window.AccountsStorage.appendAccountUnencrypted(account);
 
@@ -547,6 +499,10 @@
     async function closeOtherOverlays() {
         if (window.UserMenu?.isActive?.()) {
             await window.UserMenu.close();
+        }
+
+        if (window.QrCodeSetup?.isActive?.()) {
+            await window.QrCodeSetup.close();
         }
     }
 

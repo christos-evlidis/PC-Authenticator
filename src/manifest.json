@@ -8,11 +8,18 @@
     "default_popup": "html/index.html"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "tabs",
+    "scripting",
+    "activeTab"
   ],
   "host_permissions": [
-    "https://pc-authenticator-pdpy.onrender.com/*"
+    "https://pc-authenticator-pdpy.onrender.com/*",
+    "<all_urls>"
   ],
+  "background": {
+    "service_worker": "js/qr-scan/qr-scan-service-worker.js"
+  },
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",

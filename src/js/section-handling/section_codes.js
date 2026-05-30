@@ -1,5 +1,4 @@
 (function () {
-    const TOTP_STEP_SEC = 30;
     const PIE_CENTER = 16;
     const PIE_ARC_RADIUS = 15;
     const TIMER_INVERTED_KEY = 'timerInverted';
@@ -45,108 +44,7 @@
         updateHeaderActionsLock();
     }
 
-    function base32Decode(base32) {
-        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-        let bits = '';
-        const bytes = [];
-
-        for (const char of base32.replace(/\s+/g, '')) {
-            const val = alphabet.indexOf(char.toUpperCase());
-            if (val === -1) continue;
-            bits += val.toString(2).padStart(5, '0');
-        }
-
-        for (let i = 0; i + 8 <= bits.length; i += 8) {
-            bytes.push(parseInt(bits.substring(i, i + 8), 2));
-        }
-
-        return bytes;
-    }
-
-    function uint8ArrayToWordArray(u8Array) {
-        const words = [];
-
-        for (let i = 0; i < u8Array.length; i += 4) {
-            words.push(
-                (u8Array[i] << 24)
-                | ((u8Array[i + 1] ?? 0) << 16)
-                | ((u8Array[i + 2] ?? 0) << 8)
-                | (u8Array[i + 3] ?? 0)
-            );
-        }
-
-        return CryptoJS.lib.WordArray.create(words, u8Array.length);
-    }
-
-    function generateOTP(secret) {
-        if (!secret) return null;
-
-        try {
-            const keyBytes = base32Decode(secret);
-            if (!keyBytes.length) return null;
-
-            const epoch = Math.floor(Date.now() / 1000);
-            let timeCounter = Math.floor(epoch / TOTP_STEP_SEC);
-            const timeArray = new Uint8Array(8);
-
-            for (let i = 7; i >= 0; i--) {
-                timeArray[i] = timeCounter & 0xff;
-                timeCounter >>= 8;
-            }
-
-            const keyWordArray = uint8ArrayToWordArray(new Uint8Array(keyBytes));
-            const timeWordArray = uint8ArrayToWordArray(timeArray);
-            const hmac = CryptoJS.HmacSHA1(timeWordArray, keyWordArray);
-            const hmacBytes = hmac.words.reduce((acc, word) => acc.concat([
-                (word >> 24) & 0xff,
-                (word >> 16) & 0xff,
-                (word >> 8) & 0xff,
-                word & 0xff
-            ]), []);
-
-            const offset = hmacBytes[hmacBytes.length - 1] & 0x0f;
-            const binary = ((hmacBytes[offset] & 0x7f) << 24)
-                | (hmacBytes[offset + 1] << 16)
-                | (hmacBytes[offset + 2] << 8)
-                | hmacBytes[offset + 3];
-            const otp = binary % 1_000_000;
-
-            return otp.toString().padStart(6, '0');
-        } catch {
-            return null;
-        }
-    }
-
-    function getTotpClock() {
-        const epochSec = Math.floor(Date.now() / 1000);
-        const elapsedInStep = epochSec % TOTP_STEP_SEC;
-        const period = Math.floor(epochSec / TOTP_STEP_SEC);
-        const timeLeft = elapsedInStep === 0 ? 0 : TOTP_STEP_SEC - elapsedInStep;
-
-        let fillAngle = 0;
-        if (elapsedInStep >= 29) {
-            fillAngle = 360;
-        } else {
-            // Step 0 right after a rollover is the first slice, not an empty circle.
-            fillAngle = ((elapsedInStep + 1) / TOTP_STEP_SEC) * 360;
-        }
-
-        return {
-            period,
-            timeLeft,
-            elapsedInStep,
-            progress: (elapsedInStep + 1) / TOTP_STEP_SEC,
-            angle: fillAngle
-        };
-    }
-
-    function formatOtpDisplay(otp) {
-        if (!otp || otp.length !== 6) {
-            return '------';
-        }
-
-        return otp;
-    }
+    const otpauth = () => window.AccountsOtpauth;
 
     function buildPiePath(angle) {
         if (angle <= 0) {
@@ -227,13 +125,12 @@
     }
 
     function runSecondTick() {
-        const clock = getTotpClock();
-
         for (const root of cardRoots) {
-            updateCardSecondTick(root, clock);
-        }
+            const clock = otpauth().getTotpClock(otpauth().getAccountTotpOptions(root.account));
 
-        updateAllTimerVisuals(clock);
+            updateCardSecondTick(root, clock);
+            updateTimerVisuals(root, clock);
+        }
     }
 
     function startTicker() {
@@ -244,16 +141,18 @@
         }
 
         globalLastTimerPeriod = null;
-        const clock = getTotpClock();
 
         syncAllTimersInverted();
-        handlePeriodRollover(clock);
+        handlePeriodRollover(otpauth().getTotpClock(
+            cardRoots[0] ? otpauth().getAccountTotpOptions(cardRoots[0].account) : {}
+        ));
 
         for (const root of cardRoots) {
-            updateCardSecondTick(root, clock);
-        }
+            const clock = otpauth().getTotpClock(otpauth().getAccountTotpOptions(root.account));
 
-        updateAllTimerVisuals(clock);
+            updateCardSecondTick(root, clock);
+            updateTimerVisuals(root, clock);
+        }
 
         const msUntilNextSecond = 1000 - (Date.now() % 1000);
 
@@ -334,10 +233,14 @@
 
     function updateCardSecondTick(root, clock) {
         const { account, els, card } = root;
-        const otp = generateOTP(account.secret);
+        const totpOptions = otpauth().getAccountTotpOptions(account);
+        const otp = otpauth().generateOTP(account.secret, totpOptions);
 
         if (els.code) {
-            els.code.textContent = formatOtpDisplay(otp);
+            const digits = totpOptions.digits;
+            els.code.textContent = (otp && otp.length === digits)
+                ? otp
+                : '-'.repeat(digits);
             card.classList.toggle('account-block--invalid', !otp);
         }
     }
@@ -788,7 +691,7 @@
             return;
         }
 
-        const clock = getTotpClock();
+        const clock = otpauth().getTotpClock(otpauth().getAccountTotpOptions(root.account));
 
         updateCardSecondTick(root, clock);
         updateTimerVisuals(root, clock);
@@ -855,9 +758,14 @@
     }
 
     async function copyCode(card, codeText) {
-        const raw = codeText.replace(/\s+/g, '');
+        const raw = String(codeText ?? '').replace(/\s+/g, '');
+        const root = cardRoots.find((item) => item.card === card);
+        const expectedDigits = root
+            ? otpauth().getAccountTotpOptions(root.account).digits
+            : otpauth().TOTP_DIGITS;
+        const codePattern = new RegExp(`^\\d{${expectedDigits}}$`);
 
-        if (!/^\d{6}$/.test(raw)) {
+        if (!codePattern.test(raw)) {
             return;
         }
 
@@ -1536,7 +1444,9 @@
     }
 
     async function initOnLoad() {
-        const playIntro = shouldPlayCodesIntro;
+        const skipIntroForQrResume = await window.PopupResume?.whenReady?.();
+        const playIntro = shouldPlayCodesIntro && !skipIntroForQrResume;
+
         shouldPlayCodesIntro = false;
 
         try {
@@ -1573,11 +1483,17 @@
             } else if (!cards.length) {
                 await window.Header?.waitForIntroComplete?.();
                 revealCodesEmptyStatic();
+            } else if (skipIntroForQrResume) {
+                await window.Header?.waitForIntroComplete?.();
             } else {
                 await window.Header?.waitForIntroComplete?.();
             }
         } finally {
             finishAppBodyIntro();
+
+            if (skipIntroForQrResume) {
+                await window.QrCodeSetup?.processPendingScan?.({ instantOpen: true });
+            }
         }
     }
 
@@ -1589,8 +1505,6 @@
         restore,
         render: renderFromStorage,
         clear,
-        generateOTP,
-        getTotpClock,
         renderAccounts,
         animateManualAccountAdd,
         initOnLoad,

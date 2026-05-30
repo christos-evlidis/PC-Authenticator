@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>PC Authenticator</title>
 
-        <script src="../js/theme-bootstrap.js"></script>
+        <script src="../js/base.js"></script>
 
         <!-- Styles -->
         <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css" />
@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="../css/section-handling/section_user-menu.css" />
         <link rel="stylesheet" href="../css/section-handling/section_manual-setup.css" />
         <link rel="stylesheet" href="../css/section-handling/section_codes.css" />
+        <link rel="stylesheet" href="../css/section-handling/section_qr-code-setup.css" />
     </head>
     <body>
         <!-- Extension Frame -->
@@ -336,17 +337,66 @@
                     </section>
                 </div>
             </section>
+
+            <!-- QR Setup Section -->
+            <section class="qr-setup-section">
+                <div class="qr-setup-backdrop"></div>
+                <div class="qr-setup-panel">
+                    <header class="qr-setup-header">
+                        <h2 class="qr-setup-header__title">QR Code Setup</h2>
+                        <button type="button" class="qr-setup-header__btn qr-setup-close-btn" disabled aria-disabled="true">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </header>
+                    <section class="qr-setup-body">
+                        <div class="qr-setup-body__content">
+                            <div class="qr-setup-guide">
+                                <div class="qr-setup-guide__media" aria-hidden="true">
+                                    <span class="qr-setup-guide__icon">
+                                        <i class="fas fa-qrcode"></i>
+                                    </span>
+                                    <div class="qr-setup-guide__status">
+                                        <div class="login-status login-status--loading qr-setup-status--loading hidden">
+                                            <span class="login-status__dot"></span>
+                                            <span class="login-status__dot"></span>
+                                            <span class="login-status__dot"></span>
+                                        </div>
+                                        <div class="login-status login-status--success qr-setup-status--success hidden">
+                                            <svg class="login-status__icon" viewBox="0 0 52 52" aria-hidden="true">
+                                                <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
+                                                <path class="login-status__icon-mark login-status__icon-mark--check" fill="none" d="M14 27l7 7 16-16" />
+                                            </svg>
+                                        </div>
+                                        <div class="login-status login-status--error qr-setup-status--error hidden">
+                                            <svg class="login-status__icon" viewBox="0 0 52 52" aria-hidden="true">
+                                                <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
+                                                <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M18 18 L34 34" />
+                                                <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M34 18 L18 34" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="qr-setup-guide__text">
+                                    Drag your mouse over the QR code to select and scan it.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
         </div>
 
         <!-- Scripts -->
         <script src="../libs/crypto-js.min.js"></script>
         <script src="../js/account-handling/accounts-crypto.js"></script>
         <script src="../js/account-handling/api.js"></script>
+        <script src="../js/account-handling/accounts-otpauth.js"></script>
         <script src="../js/account-handling/accounts-storage.js"></script>
         <script src="../js/section-handling/section_codes.js"></script>
         <script src="../js/section-handling/section_header.js"></script>
         <script src="../js/section-handling/section_body.js"></script>
         <script src="../js/section-handling/section_user-menu.js"></script>
         <script src="../js/section-handling/section_manual-setup.js"></script>
+        <script src="../js/section-handling/section_qr-code-setup.js"></script>
     </body>
 </html>

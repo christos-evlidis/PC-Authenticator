@@ -146,6 +146,36 @@ window.AccountsStorage = {
         });
     },
 
+    buildAccountRecord({ name, secret, email, algorithm, digits, period }) {
+        const account = {
+            id: String(Date.now()),
+            name,
+            secret,
+            algorithm: algorithm ?? window.AccountsOtpauth.TOTP_ALGORITHM,
+            digits: digits ?? window.AccountsOtpauth.TOTP_DIGITS,
+            period: period ?? window.AccountsOtpauth.TOTP_PERIOD
+        };
+
+        if (email) {
+            account.email = email;
+        }
+
+        return account;
+    },
+
+    async handleQrAdd(accountNumber, otpauthUri) {
+        if (!accountNumber) {
+            throw new Error('Sign in to add accounts.');
+        }
+
+        const parsed = window.AccountsOtpauth.parseQRCodeAccountInput(otpauthUri);
+        const account = this.buildAccountRecord(parsed);
+
+        await this.appendAccountUnencrypted(account);
+
+        return account;
+    },
+
     async handleDelete(accountNumber, accountId) {
         if (!accountNumber) {
             throw new Error('Sign in to delete accounts.');

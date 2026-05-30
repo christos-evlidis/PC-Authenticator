@@ -109,3 +109,50 @@
         persist: persistTheme
     };
 })();
+
+(function () {
+    function queryPendingQrScan() {
+        return new Promise((resolve) => {
+            if (!chrome?.runtime?.sendMessage) {
+                resolve(null);
+                return;
+            }
+
+            chrome.runtime.sendMessage({ action: 'getQrScanPending' }, (response) => {
+                if (chrome.runtime.lastError) {
+                    resolve(null);
+                    return;
+                }
+
+                if (response?.status === 'ready' || response?.status === 'error') {
+                    resolve(response);
+                    return;
+                }
+
+                resolve(null);
+            });
+        });
+    }
+
+    window.PopupResume = {
+        pending: null,
+        skipIntro: false,
+        ready: queryPendingQrScan().then((pending) => {
+            window.PopupResume.pending = pending;
+            window.PopupResume.skipIntro = Boolean(pending);
+
+            if (window.PopupResume.skipIntro) {
+                document.documentElement.classList.add('is-popup-qr-resume');
+                document.body.classList.add('is-user-menu-blurred');
+            }
+
+            return window.PopupResume.skipIntro;
+        }),
+        whenReady() {
+            return window.PopupResume.ready;
+        },
+        getPending() {
+            return window.PopupResume.pending;
+        }
+    };
+})();
