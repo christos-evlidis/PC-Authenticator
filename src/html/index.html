@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="../css/section-handling/section_manual-setup.css" />
         <link rel="stylesheet" href="../css/section-handling/section_codes.css" />
         <link rel="stylesheet" href="../css/section-handling/section_qr-code-setup.css" />
+        <link rel="stylesheet" href="../css/section-handling/section_review-prompt.css" />
     </head>
     <body>
         <!-- Extension Frame -->
@@ -110,6 +111,10 @@
                                 </header>
                                 <div class="account-block__body">
                                     <div class="otp-code" aria-live="polite">000000</div>
+                                    <div
+                                        class="account-hotp-counter hidden"
+                                        aria-label="HOTP counter"
+                                    ></div>
                                     <div class="timer-wrapper">
                                         <svg
                                             width="35"
@@ -330,7 +335,24 @@
                                         autocomplete="email"
                                     />
                                 </label>
-                                
+
+                                <div class="manual-setup-type-selector">
+                                    <div class="manual-setup-type-selector__track">
+                                        <span class="manual-setup-type-selector__thumb"></span>
+                                        <button
+                                            type="button"
+                                            class="manual-setup-type-selector__btn is-active"
+                                            data-otp-type="totp"
+                                        >TOTP</button>
+                                        <button
+                                            type="button"
+                                            class="manual-setup-type-selector__btn"
+                                            data-otp-type="hotp"
+                                        >HOTP</button>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="type" value="totp" />
+
                                 <button type="submit" class="manual-setup-form__submit">Add Account</button>
                             </form>
                         </div>
@@ -344,7 +366,7 @@
                 <div class="qr-setup-panel">
                     <header class="qr-setup-header">
                         <h2 class="qr-setup-header__title">QR Code Setup</h2>
-                        <button type="button" class="qr-setup-header__btn qr-setup-close-btn" disabled aria-disabled="true">
+                        <button type="button" class="qr-setup-header__btn qr-setup-close-btn" aria-label="Close QR code setup">
                             <i class="fas fa-times"></i>
                         </button>
                     </header>
@@ -384,6 +406,52 @@
                     </section>
                 </div>
             </section>
+
+            <!-- Review prompt (full-screen slide-up) -->
+            <section
+                class="review-prompt"
+                aria-hidden="true"
+                aria-label="Rate PC Authenticator"
+            >
+                <div class="review-prompt__panel">
+                    <div class="review-prompt__content is-layout-reserved">
+                        <div class="review-prompt__star-slot">
+                            <span class="review-prompt__stars" aria-hidden="true">
+                                <i class="fas fa-star review-prompt__star is-seq-hidden"></i>
+                                <i class="fas fa-star review-prompt__star is-seq-hidden"></i>
+                                <i class="fas fa-star review-prompt__star is-seq-hidden"></i>
+                                <i class="fas fa-star review-prompt__star is-seq-hidden"></i>
+                                <i class="fas fa-star review-prompt__star is-seq-hidden"></i>
+                            </span>
+                        </div>
+                        <div class="review-prompt__title-slot">
+                            <span class="review-prompt__title-reserve" aria-hidden="true">Enjoying PC Authenticator?</span>
+                            <h2
+                                class="review-prompt__title-live is-seq-hidden"
+                                data-full-text="Enjoying PC Authenticator?"
+                            ></h2>
+                        </div>
+                        <div class="review-prompt__message-slot">
+                            <p class="review-prompt__message-reserve" aria-hidden="true">
+                                You get
+                                <span class="review-prompt__mark-reserve">10% off your subscription</span>
+                                forever by leaving a review!
+                            </p>
+                            <p class="review-prompt__message-live is-seq-hidden">
+                                <span
+                                    class="review-prompt__message-part"
+                                    data-full-text="You get "
+                                ></span><span class="review-prompt__mark"><span class="review-prompt__mark-text" data-full-text="10% off your subscription"></span><span class="review-prompt__mark-strokes" aria-hidden="true"></span></span><span
+                                    class="review-prompt__message-part"
+                                    data-full-text=" forever by leaving a review!"
+                                ></span>
+                            </p>
+                        </div>
+                        <button type="button" class="review-prompt__rate is-seq-hidden">Leave a Review</button>
+                        <button type="button" class="review-prompt__dismiss is-seq-hidden">Not Now</button>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <!-- Scripts -->
@@ -398,5 +466,6 @@
         <script src="../js/section-handling/section_user-menu.js"></script>
         <script src="../js/section-handling/section_manual-setup.js"></script>
         <script src="../js/section-handling/section_qr-code-setup.js"></script>
+        <script src="../js/section-handling/section_review-prompt.js"></script>
     </body>
 </html>

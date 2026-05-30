@@ -158,17 +158,6 @@
         });
     }
 
-    function setQrSetupCloseEnabled(isEnabled) {
-        const closeBtn = document.querySelector(QR_SETUP_CLOSE_BTN_SELECTOR);
-
-        if (!closeBtn) {
-            return;
-        }
-
-        closeBtn.disabled = !isEnabled;
-        closeBtn.setAttribute('aria-disabled', String(!isEnabled));
-    }
-
     function getQrSetupGuide() {
         return document.querySelector(QR_GUIDE_SELECTOR);
     }
@@ -238,16 +227,13 @@
         panel?.classList.remove('is-fading-setup-ui');
     }
 
-    async function closeQrSetupAfterSequence() {
+    async function closeQrSetupWithoutAnimation() {
         const section = getQrSetupSection();
-        const panel = getQrSetupPanel();
 
-        section?.classList.remove('is-instant-open');
-        void panel?.offsetWidth;
-
+        section?.classList.add('is-instant-open');
         isQrSequenceRunning = false;
         setAuthFlowLock(false);
-        await closeQrSetup();
+        await closeQrSetup({ force: true });
     }
 
     function cancelStatusAnimations(element) {
@@ -411,7 +397,6 @@
         section.classList.add('is-active', 'is-panel-open', 'is-instant-open');
         document.body.classList.add(BODY_BLUR_CLASS);
         setQrSetupButtonsActive(true);
-        setQrSetupCloseEnabled(false);
 
         return true;
     }
@@ -437,7 +422,6 @@
         section.classList.add('is-active');
         document.body.classList.add(BODY_BLUR_CLASS);
         setQrSetupButtonsActive(true);
-        setQrSetupCloseEnabled(false);
 
         void blurTarget?.offsetWidth;
         await waitForTransitionEnd(blurTarget, 'filter', getBlurDurationMs() + 16);
@@ -469,7 +453,7 @@
     async function closeQrSetup(options = {}) {
         const { force = false } = options;
 
-        if (!force && (isAuthFlowLocked() || isQrSequenceRunning || isAwaitingPageSelection)) {
+        if (!force && (isAuthFlowLocked() || isQrSequenceRunning)) {
             return;
         }
 
@@ -508,7 +492,7 @@
 
         section.classList.remove('is-active', 'is-panel-open', 'is-instant-open');
         setQrSetupButtonsActive(false);
-        setQrSetupCloseEnabled(true);
+        isAwaitingPageSelection = false;
         prepareQrSetupChromeForReveal();
     }
 
@@ -569,19 +553,23 @@
 
             beginQrAddProcessingLayout();
 
-            const apiResult = await playQrOutcomeSequence(
+            const apiResult = await runLoaderPhase(
                 loader,
                 setupBody,
                 createQrAddPromise(accountNumber, otpauthUri)
             );
 
-            await closeQrSetupAfterSequence();
-
             if (apiResult.success) {
                 const addedAccount = apiResult.value;
 
-                await window.Codes?.animateManualAccountAdd?.(addedAccount);
                 succeeded = true;
+
+                await Promise.all([
+                    playResultIcon(QR_SETUP_SUCCESS_SELECTOR),
+                    window.Codes?.animateManualAccountAdd?.(addedAccount)
+                ]);
+
+                await closeQrSetupWithoutAnimation();
 
                 try {
                     await window.AccountsStorage.handleSync(accountNumber);
@@ -592,6 +580,9 @@
 
                 return { success: true, value: addedAccount };
             }
+
+            await playResultIcon(QR_SETUP_ERROR_SELECTOR);
+            await closeQrSetupWithoutAnimation();
 
             return { success: false, error: apiResult.error };
         } finally {
@@ -628,7 +619,7 @@
                 setupBody,
                 Promise.reject(new Error('QR scan failed'))
             );
-            await closeQrSetupAfterSequence();
+            await closeQrSetupWithoutAnimation();
         } finally {
             isQrSequenceRunning = false;
             setAuthFlowLock(false);
@@ -711,7 +702,7 @@
         event.stopPropagation();
 
         if (isQrSetupActive()) {
-            if (!isAwaitingPageSelection && !isQrSequenceRunning) {
+            if (!isQrSequenceRunning) {
                 closeQrSetup();
             }
 
@@ -723,8 +714,21 @@
 
     function handleQrScanCancelled() {
         isAwaitingPageSelection = false;
-        setQrSetupCloseEnabled(true);
         setGuideText('Scan cancelled. Tap the QR button to try again.');
+    }
+
+    function handleQrSetupKeyDown(event) {
+        if (event.key !== 'Escape') {
+            return;
+        }
+
+        if (!isQrSetupActive() || isQrSequenceRunning) {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+        closeQrSetup();
     }
 
     function initQrCodeSetup() {
@@ -743,19 +747,10 @@
 
         closeBtn?.addEventListener('click', (event) => {
             event.stopPropagation();
-
-            if (closeBtn.disabled) {
-                return;
-            }
-
             closeQrSetup();
         });
 
         backdrop?.addEventListener('click', () => {
-            if (isAwaitingPageSelection) {
-                return;
-            }
-
             closeQrSetup();
         });
 
@@ -763,6 +758,7 @@
             event.stopPropagation();
         });
 
+        document.addEventListener('keydown', handleQrSetupKeyDown, true);
     }
 
     document.addEventListener('DOMContentLoaded', initQrCodeSetup);

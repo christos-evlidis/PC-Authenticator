@@ -1,11 +1,13 @@
 .pc-auth-qr-scan-overlay {
     position: fixed;
     inset: 0;
-    z-index: 2147483647;
+    z-index: 2147483647 !important;
     background-color: rgba(0, 0, 0, 0.72);
     cursor: crosshair;
     user-select: none;
     touch-action: none;
+    pointer-events: auto;
+    box-sizing: border-box;
 }
 
 .pc-auth-qr-scan-selection {
@@ -30,5 +32,5 @@
     font: 600 14px/1.4 Arial, sans-serif;
     text-align: center;
     pointer-events: none;
-    z-index: 2147483649;
+    z-index: 2147483647 !important;
 }

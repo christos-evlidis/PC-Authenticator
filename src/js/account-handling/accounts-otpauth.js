@@ -1,12 +1,90 @@
 window.AccountsOtpauth = {
     TOTP_TYPE: 'totp',
-    TOTP_ALGORITHM: 'SHA1',
+    HOTP_TYPE: 'hotp',
+    DEFAULT_ALGORITHM: 'SHA1',
     TOTP_DIGITS: 6,
     TOTP_PERIOD: 30,
+    HOTP_DEFAULT_COUNTER: 0,
     MIN_DIGITS: 1,
     MAX_DIGITS: 10,
     MIN_PERIOD: 1,
+    MIN_COUNTER: 0,
     SUPPORTED_ALGORITHMS: ['SHA1', 'SHA256', 'SHA512'],
+
+    isHotpAccount(account) {
+        return (account?.type ?? this.TOTP_TYPE) === this.HOTP_TYPE;
+    },
+
+    isTotpAccount(account) {
+        return !this.isHotpAccount(account);
+    },
+
+    encodeCounterBytes(counter) {
+        let remaining = Math.floor(Math.max(0, Number(counter)));
+        const bytes = new Uint8Array(8);
+
+        for (let i = 7; i >= 0; i--) {
+            bytes[i] = remaining & 0xff;
+            remaining = Math.floor(remaining / 256);
+        }
+
+        return bytes;
+    },
+
+    base32ToKeyBytes(sanitized) {
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+        let bits = '';
+        const keyBytes = [];
+
+        for (const char of sanitized) {
+            const val = alphabet.indexOf(char);
+            bits += val.toString(2).padStart(5, '0');
+        }
+
+        for (let i = 0; i + 8 <= bits.length; i += 8) {
+            keyBytes.push(parseInt(bits.substring(i, i + 8), 2));
+        }
+
+        return keyBytes;
+    },
+
+    toWordArray(u8Array) {
+        const words = [];
+
+        for (let i = 0; i < u8Array.length; i += 4) {
+            words.push(
+                (u8Array[i] << 24)
+                | ((u8Array[i + 1] ?? 0) << 16)
+                | ((u8Array[i + 2] ?? 0) << 8)
+                | (u8Array[i + 3] ?? 0)
+            );
+        }
+
+        return CryptoJS.lib.WordArray.create(words, u8Array.length);
+    },
+
+    resolveCounter(options = {}) {
+        const type = options.type ?? this.TOTP_TYPE;
+
+        if (type === this.HOTP_TYPE) {
+            const counter = options.counter ?? this.HOTP_DEFAULT_COUNTER;
+
+            if (!Number.isInteger(counter) || counter < this.MIN_COUNTER) {
+                return null;
+            }
+
+            return counter;
+        }
+
+        const period = options.period ?? this.TOTP_PERIOD;
+
+        if (!Number.isInteger(period) || period < this.MIN_PERIOD) {
+            return null;
+        }
+
+        const epochSec = Math.floor(Date.now() / 1000);
+        return Math.floor(epochSec / period);
+    },
 
     generateOTP(secret, options = {}) {
         const sanitized = this.normalizeBase32Secret(secret);
@@ -15,9 +93,8 @@ window.AccountsOtpauth = {
             return null;
         }
 
-        const period = options.period ?? this.TOTP_PERIOD;
         const digits = options.digits ?? this.TOTP_DIGITS;
-        const algorithm = options.algorithm ?? this.TOTP_ALGORITHM;
+        const algorithm = options.algorithm ?? this.DEFAULT_ALGORITHM;
         const hmacFn = {
             SHA1: CryptoJS.HmacSHA1,
             SHA256: CryptoJS.HmacSHA256,
@@ -28,51 +105,23 @@ window.AccountsOtpauth = {
             return null;
         }
 
+        const counterValue = this.resolveCounter(options);
+
+        if (counterValue == null) {
+            return null;
+        }
+
         try {
-            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-            let bits = '';
-            const keyBytes = [];
-
-            for (const char of sanitized) {
-                const val = alphabet.indexOf(char);
-                bits += val.toString(2).padStart(5, '0');
-            }
-
-            for (let i = 0; i + 8 <= bits.length; i += 8) {
-                keyBytes.push(parseInt(bits.substring(i, i + 8), 2));
-            }
+            const keyBytes = this.base32ToKeyBytes(sanitized);
 
             if (!keyBytes.length) {
                 return null;
             }
 
-            const epochSec = Math.floor(Date.now() / 1000);
-            let timeCounter = Math.floor(epochSec / period);
-            const timeArray = new Uint8Array(8);
-
-            for (let i = 7; i >= 0; i--) {
-                timeArray[i] = timeCounter & 0xff;
-                timeCounter >>= 8;
-            }
-
-            const toWordArray = (u8Array) => {
-                const words = [];
-
-                for (let i = 0; i < u8Array.length; i += 4) {
-                    words.push(
-                        (u8Array[i] << 24)
-                        | ((u8Array[i + 1] ?? 0) << 16)
-                        | ((u8Array[i + 2] ?? 0) << 8)
-                        | (u8Array[i + 3] ?? 0)
-                    );
-                }
-
-                return CryptoJS.lib.WordArray.create(words, u8Array.length);
-            };
-
+            const counterBytes = this.encodeCounterBytes(counterValue);
             const hmac = hmacFn(
-                toWordArray(timeArray),
-                toWordArray(new Uint8Array(keyBytes))
+                this.toWordArray(counterBytes),
+                this.toWordArray(new Uint8Array(keyBytes))
             );
             const hmacBytes = hmac.words.reduce((acc, word) => acc.concat([
                 (word >> 24) & 0xff,
@@ -118,12 +167,27 @@ window.AccountsOtpauth = {
         };
     },
 
-    getAccountTotpOptions(account) {
-        return {
-            algorithm: account?.algorithm ?? this.TOTP_ALGORITHM,
-            digits: account?.digits ?? this.TOTP_DIGITS,
-            period: account?.period ?? this.TOTP_PERIOD
+    getAccountOtpOptions(account) {
+        const type = account?.type ?? this.TOTP_TYPE;
+        const options = {
+            type,
+            algorithm: account?.algorithm ?? this.DEFAULT_ALGORITHM,
+            digits: account?.digits ?? this.TOTP_DIGITS
         };
+
+        if (type === this.HOTP_TYPE) {
+            options.counter = Number.isInteger(account?.counter)
+                ? account.counter
+                : this.HOTP_DEFAULT_COUNTER;
+        } else {
+            options.period = account?.period ?? this.TOTP_PERIOD;
+        }
+
+        return options;
+    },
+
+    getAccountTotpOptions(account) {
+        return this.getAccountOtpOptions(account);
     },
 
     sanitizeAccountName(name) {
@@ -184,18 +248,19 @@ window.AccountsOtpauth = {
         try {
             return new URL(rawUri);
         } catch {
-            const match = String(rawUri).match(/^otpauth:\/\/totp\/([^?#]*)(\?[^#]*)?$/i);
+            const match = String(rawUri).match(/^otpauth:\/\/(totp|hotp)\/([^?#]*)(\?[^#]*)?$/i);
 
             if (!match) {
                 throw new Error('Invalid QR code format.');
             }
 
-            const pathPart = match[1] ?? '';
-            const queryPart = match[2] ?? '';
+            const type = match[1].toLowerCase();
+            const pathPart = match[2] ?? '';
+            const queryPart = match[3] ?? '';
             const encodedPath = Array.from(pathPart)
                 .map((char) => encodeURIComponent(char))
                 .join('');
-            const rebuilt = `otpauth://totp/${encodedPath}${queryPart}`;
+            const rebuilt = `otpauth://${type}/${encodedPath}${queryPart}`;
 
             return new URL(rebuilt);
         }
@@ -229,29 +294,7 @@ window.AccountsOtpauth = {
         return trimmed.toUpperCase();
     },
 
-    parseQRCodeAccountInput(uri) {
-        let raw = String(uri ?? '').trim();
-
-        if (raw.toLowerCase().startsWith('apple-otpauth://')) {
-            raw = `otpauth://${raw.slice('apple-otpauth://'.length)}`;
-        }
-
-        if (!raw.toLowerCase().startsWith('otpauth://')) {
-            throw new Error('Not a valid authenticator QR code.');
-        }
-
-        let url;
-
-        try {
-            url = this.parseOtpauthUri(raw);
-        } catch {
-            throw new Error('Invalid QR code format.');
-        }
-
-        if (url.protocol !== 'otpauth:' || url.hostname !== this.TOTP_TYPE) {
-            throw new Error('Only TOTP codes are supported.');
-        }
-
+    parseOtpauthParams(url, type) {
         const secretParam = url.searchParams.get('secret');
 
         if (secretParam == null || secretParam === '') {
@@ -275,19 +318,8 @@ window.AccountsOtpauth = {
             }
         }
 
-        const periodParam = url.searchParams.get('period');
-        let period = this.TOTP_PERIOD;
-
-        if (periodParam != null && periodParam !== '') {
-            period = Number.parseInt(periodParam, 10);
-
-            if (!Number.isInteger(period) || period < this.MIN_PERIOD) {
-                throw new Error('Invalid period in QR code.');
-            }
-        }
-
         const algorithmParam = url.searchParams.get('algorithm');
-        let algorithm = this.TOTP_ALGORITHM;
+        let algorithm = this.DEFAULT_ALGORITHM;
 
         if (algorithmParam != null && algorithmParam !== '') {
             if (!this.SUPPORTED_ALGORITHMS.includes(algorithmParam)) {
@@ -297,12 +329,69 @@ window.AccountsOtpauth = {
             algorithm = algorithmParam;
         }
 
-        const totpOptions = { algorithm, digits, period };
+        const otpOptions = { type, algorithm, digits };
 
-        if (!this.generateOTP(secret, totpOptions)) {
+        if (type === this.HOTP_TYPE) {
+            let counter = this.HOTP_DEFAULT_COUNTER;
+            const counterParam = url.searchParams.get('counter');
+
+            if (counterParam != null && counterParam !== '') {
+                counter = Number.parseInt(counterParam, 10);
+
+                if (!Number.isInteger(counter) || counter < this.MIN_COUNTER) {
+                    throw new Error('Invalid counter in QR code.');
+                }
+            }
+
+            otpOptions.counter = counter;
+        } else {
+            let period = this.TOTP_PERIOD;
+            const periodParam = url.searchParams.get('period');
+
+            if (periodParam != null && periodParam !== '') {
+                period = Number.parseInt(periodParam, 10);
+
+                if (!Number.isInteger(period) || period < this.MIN_PERIOD) {
+                    throw new Error('Invalid period in QR code.');
+                }
+            }
+
+            otpOptions.period = period;
+        }
+
+        if (!this.generateOTP(secret, otpOptions)) {
             throw new Error('Invalid secret key in QR code.');
         }
 
+        return { secret, algorithm, digits, otpOptions };
+    },
+
+    parseQRCodeAccountInput(uri) {
+        let raw = String(uri ?? '').trim();
+
+        if (raw.toLowerCase().startsWith('apple-otpauth://')) {
+            raw = `otpauth://${raw.slice('apple-otpauth://'.length)}`;
+        }
+
+        if (!raw.toLowerCase().startsWith('otpauth://')) {
+            throw new Error('Not a valid authenticator QR code.');
+        }
+
+        let url;
+
+        try {
+            url = this.parseOtpauthUri(raw);
+        } catch {
+            throw new Error('Invalid QR code format.');
+        }
+
+        const type = url.hostname.toLowerCase();
+
+        if (type !== this.TOTP_TYPE && type !== this.HOTP_TYPE) {
+            throw new Error('Unsupported authenticator type.');
+        }
+
+        const { secret, algorithm, digits, otpOptions } = this.parseOtpauthParams(url, type);
         const pathLabel = this.decodeOtpauthPath(url.pathname);
         let pathIssuer = '';
         let label = pathLabel;
@@ -325,8 +414,19 @@ window.AccountsOtpauth = {
         }
 
         const { name, email } = this.buildAccountNameFromLabel(issuer, label);
+        const account = {
+            name,
+            secret,
+            type,
+            algorithm,
+            digits
+        };
 
-        const account = { name, secret, algorithm, digits, period };
+        if (type === this.HOTP_TYPE) {
+            account.counter = otpOptions.counter;
+        } else {
+            account.period = otpOptions.period;
+        }
 
         if (email) {
             account.email = email;
@@ -335,7 +435,7 @@ window.AccountsOtpauth = {
         return account;
     },
 
-    parseManualAccountInput({ name, secret, email }) {
+    parseManualAccountInput({ name, secret, email, type }) {
         const sanitizedName = this.formatIssuerName(name);
 
         if (!sanitizedName) {
@@ -349,7 +449,23 @@ window.AccountsOtpauth = {
             .toUpperCase()
             .slice(0, 64);
 
-        if (!sanitizedSecret || !this.generateOTP(sanitizedSecret)) {
+        const otpType = String(type ?? '').toLowerCase() === this.HOTP_TYPE
+            ? this.HOTP_TYPE
+            : this.TOTP_TYPE;
+
+        const otpOptions = {
+            type: otpType,
+            algorithm: this.DEFAULT_ALGORITHM,
+            digits: this.TOTP_DIGITS
+        };
+
+        if (otpType === this.HOTP_TYPE) {
+            otpOptions.counter = this.HOTP_DEFAULT_COUNTER;
+        } else {
+            otpOptions.period = this.TOTP_PERIOD;
+        }
+
+        if (!sanitizedSecret || !this.generateOTP(sanitizedSecret, otpOptions)) {
             throw new Error('Invalid secret key.');
         }
 
@@ -363,10 +479,16 @@ window.AccountsOtpauth = {
         const account = {
             name: sanitizedName,
             secret: sanitizedSecret,
-            algorithm: this.TOTP_ALGORITHM,
-            digits: this.TOTP_DIGITS,
-            period: this.TOTP_PERIOD
+            type: otpType,
+            algorithm: otpOptions.algorithm,
+            digits: otpOptions.digits
         };
+
+        if (otpType === this.HOTP_TYPE) {
+            account.counter = otpOptions.counter;
+        } else {
+            account.period = otpOptions.period;
+        }
 
         if (emailRaw) {
             account.email = emailRaw;

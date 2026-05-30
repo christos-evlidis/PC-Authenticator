@@ -5,10 +5,84 @@
 
     window.pcAuthQrScanLoaded = true;
 
-    const MIN_SELECTION_PX = 16;
+    const OVERLAY_HOST_CLASS = 'pc-auth-qr-scan-host';
+    const OVERLAY_CSS_PATH = 'css/qr-scan/qr-scan-overlay.css';
+
+    let activeSnip = null;
+
+    function bodyHasOverlayStackingContext() {
+        if (!document.body) {
+            return false;
+        }
+
+        const style = getComputedStyle(document.body);
+
+        return (
+            style.transform !== 'none'
+            || style.filter !== 'none'
+            || style.perspective !== 'none'
+            || style.isolation === 'isolate'
+            || style.willChange.includes('transform')
+            || style.willChange.includes('filter')
+        );
+    }
+
+    function getOverlayMountParent() {
+        return bodyHasOverlayStackingContext()
+            ? document.documentElement
+            : document.body;
+    }
+
+    function removeOverlayHostElement() {
+        document.querySelector(`.${OVERLAY_HOST_CLASS}`)?.remove();
+    }
+
+    function createOverlayHost() {
+        const host = document.createElement('div');
+        host.className = OVERLAY_HOST_CLASS;
+        host.style.cssText = [
+            'position: fixed !important',
+            'inset: 0 !important',
+            'width: 100% !important',
+            'height: 100% !important',
+            'z-index: 2147483647 !important',
+            'pointer-events: none !important',
+            'margin: 0 !important',
+            'padding: 0 !important',
+            'border: none !important',
+            'background: transparent !important'
+        ].join(';');
+
+        const shadow = host.attachShadow({ mode: 'closed' });
+        const stylesheet = document.createElement('link');
+        stylesheet.rel = 'stylesheet';
+        stylesheet.href = chrome.runtime.getURL(OVERLAY_CSS_PATH);
+        shadow.append(stylesheet);
+        getOverlayMountParent().append(host);
+
+        return { host, shadow };
+    }
+
+    function removeSnipOverlay({ notifyCancel = false } = {}) {
+        if (activeSnip?.overlay) {
+            activeSnip.overlay.removeEventListener('pointerdown', activeSnip.onPointerDown);
+            activeSnip.overlay.removeEventListener('pointermove', activeSnip.onPointerMove);
+            activeSnip.overlay.removeEventListener('pointerup', activeSnip.onPointerUp);
+            activeSnip.overlay.removeEventListener('pointercancel', activeSnip.onPointerUp);
+            window.removeEventListener('keydown', activeSnip.onKeyDown, true);
+            activeSnip = null;
+        }
+
+        removeOverlayHostElement();
+
+        if (notifyCancel) {
+            chrome.runtime.sendMessage({ action: 'qrScanCancelled' }).catch(() => {});
+        }
+    }
 
     class SnippingTool {
         constructor() {
+            this.host = null;
             this.overlay = null;
             this.selectionBox = null;
             this.startX = 0;
@@ -21,6 +95,9 @@
         }
 
         createOverlay() {
+            const { host, shadow } = createOverlayHost();
+            this.host = host;
+
             this.overlay = document.createElement('div');
             this.overlay.className = 'pc-auth-qr-scan-overlay';
 
@@ -29,10 +106,10 @@
 
             const instruction = document.createElement('div');
             instruction.className = 'pc-auth-qr-scan-instruction';
-            instruction.textContent = 'Drag your mouse over the QR code to select and scan it. Press ESC 2 times to cancel.';
+            instruction.textContent = 'Drag your mouse over the QR code to select and scan it. Press ESC to cancel.';
 
             this.overlay.append(this.selectionBox, instruction);
-            document.body.append(this.overlay);
+            shadow.append(this.overlay);
 
             this.overlay.addEventListener('pointerdown', this.onPointerDown);
             this.overlay.addEventListener('pointermove', this.onPointerMove);
@@ -75,29 +152,6 @@
             this.updateSelection(event.clientX, event.clientY);
         }
 
-        updateSelection(cursorX, cursorY) {
-            const width = cursorX - this.startX;
-            const height = cursorY - this.startY;
-            const absWidth = Math.abs(width);
-            const absHeight = Math.abs(height);
-            const left = width < 0 ? cursorX : this.startX;
-            const top = height < 0 ? cursorY : this.startY;
-
-            this.selectionBox.style.width = `${absWidth}px`;
-            this.selectionBox.style.height = `${absHeight}px`;
-            this.selectionBox.style.left = `${left}px`;
-            this.selectionBox.style.top = `${top}px`;
-
-            if (absWidth <= 0 || absHeight <= 0) {
-                this.overlay.style.clipPath = 'none';
-                return;
-            }
-
-            const right = left + absWidth;
-            const bottom = top + absHeight;
-            this.overlay.style.clipPath = `polygon(0% 0%, 0% 100%, ${left}px 100%, ${left}px ${top}px, ${right}px ${top}px, ${right}px ${bottom}px, ${left}px ${bottom}px, ${left}px 100%, 100% 100%, 100% 0%)`;
-        }
-
         async onPointerUp(event) {
             if (!this.isSelecting) {
                 return;
@@ -115,11 +169,6 @@
                 width: Math.abs(event.clientX - this.startX),
                 height: Math.abs(event.clientY - this.startY)
             };
-
-            if (selection.width < MIN_SELECTION_PX || selection.height < MIN_SELECTION_PX) {
-                this.cleanup(true);
-                return;
-            }
 
             try {
                 const response = await chrome.runtime.sendMessage({ action: 'captureTab' });
@@ -162,7 +211,7 @@
                     error: error?.message || 'Failed to process selection.'
                 });
             } finally {
-                this.cleanup(false);
+                removeSnipOverlay();
             }
         }
 
@@ -173,32 +222,31 @@
 
             event.preventDefault();
             event.stopPropagation();
-            this.cleanup(true);
+            removeSnipOverlay({ notifyCancel: true });
         }
 
-        cleanup(cancelled) {
-            if (!this.overlay) {
+        updateSelection(cursorX, cursorY) {
+            const width = cursorX - this.startX;
+            const height = cursorY - this.startY;
+            const absWidth = Math.abs(width);
+            const absHeight = Math.abs(height);
+            const left = width < 0 ? cursorX : this.startX;
+            const top = height < 0 ? cursorY : this.startY;
+
+            this.selectionBox.style.width = `${absWidth}px`;
+            this.selectionBox.style.height = `${absHeight}px`;
+            this.selectionBox.style.left = `${left}px`;
+            this.selectionBox.style.top = `${top}px`;
+
+            if (absWidth <= 0 || absHeight <= 0) {
+                this.overlay.style.clipPath = 'none';
                 return;
             }
 
-            this.overlay.removeEventListener('pointerdown', this.onPointerDown);
-            this.overlay.removeEventListener('pointermove', this.onPointerMove);
-            this.overlay.removeEventListener('pointerup', this.onPointerUp);
-            this.overlay.removeEventListener('pointercancel', this.onPointerUp);
-            window.removeEventListener('keydown', this.onKeyDown, true);
-
-            this.overlay.remove();
-            this.overlay = null;
-            this.selectionBox = null;
-
-            if (cancelled) {
-                chrome.runtime.sendMessage({ action: 'qrScanCancelled' });
-            }
+            const right = left + absWidth;
+            const bottom = top + absHeight;
+            this.overlay.style.clipPath = `polygon(0% 0%, 0% 100%, ${left}px 100%, ${left}px ${top}px, ${right}px ${top}px, ${right}px ${bottom}px, ${left}px ${bottom}px, ${left}px 100%, 100% 100%, 100% 0%)`;
         }
-    }
-
-    function removeSnipOverlay() {
-        document.querySelector('.pc-auth-qr-scan-overlay')?.remove();
     }
 
     chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
@@ -215,10 +263,9 @@
 
         if (message.action === 'startQRScan') {
             try {
-                document.querySelector('.pc-auth-qr-scan-overlay')?.remove();
-
-                const snippingTool = new SnippingTool();
-                snippingTool.createOverlay();
+                removeSnipOverlay();
+                activeSnip = new SnippingTool();
+                activeSnip.createOverlay();
                 sendResponse({ success: true });
             } catch (error) {
                 sendResponse({

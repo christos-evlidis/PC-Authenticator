@@ -18,6 +18,7 @@
     const CODE_INTRO_STAGGER_MS = 225;
     const EMPTY_ICON_POP_MS = 250;
     const EMPTY_TYPE_MS = 1000;
+    const LIST_WHEEL_COOLDOWN_MS = 380;
 
     let shouldPlayCodesIntro = true;
     let pendingPostLoginReveal = null;
@@ -124,12 +125,48 @@
         cardRoots = [];
     }
 
+    function hasTotpCards() {
+        return cardRoots.some((root) => otpauth().isTotpAccount(root.account));
+    }
+
+    function getFirstTotpRoot() {
+        return cardRoots.find((root) => otpauth().isTotpAccount(root.account)) ?? null;
+    }
+
+    function updateAccountCode(root) {
+        const { account, els, card } = root;
+        const otpOptions = otpauth().getAccountOtpOptions(account);
+        const otp = otpauth().generateOTP(account.secret, otpOptions);
+
+        if (els.code) {
+            const digits = otpOptions.digits;
+            els.code.textContent = (otp && otp.length === digits)
+                ? otp
+                : '-'.repeat(digits);
+            card.classList.toggle('account-block--invalid', !otp);
+        }
+    }
+
     function runSecondTick() {
+        let rolloverClock = null;
+
         for (const root of cardRoots) {
-            const clock = otpauth().getTotpClock(otpauth().getAccountTotpOptions(root.account));
+            if (otpauth().isHotpAccount(root.account)) {
+                continue;
+            }
+
+            const clock = otpauth().getTotpClock(otpauth().getAccountOtpOptions(root.account));
+
+            if (!rolloverClock) {
+                rolloverClock = clock;
+            }
 
             updateCardSecondTick(root, clock);
             updateTimerVisuals(root, clock);
+        }
+
+        if (rolloverClock) {
+            handlePeriodRollover(rolloverClock);
         }
     }
 
@@ -140,15 +177,32 @@
             return;
         }
 
+        for (const root of cardRoots) {
+            if (otpauth().isHotpAccount(root.account)) {
+                updateAccountCode(root);
+            }
+        }
+
+        if (!hasTotpCards()) {
+            return;
+        }
+
         globalLastTimerPeriod = null;
 
         syncAllTimersInverted();
+
+        const firstTotp = getFirstTotpRoot();
+
         handlePeriodRollover(otpauth().getTotpClock(
-            cardRoots[0] ? otpauth().getAccountTotpOptions(cardRoots[0].account) : {}
+            firstTotp ? otpauth().getAccountOtpOptions(firstTotp.account) : {}
         ));
 
         for (const root of cardRoots) {
-            const clock = otpauth().getTotpClock(otpauth().getAccountTotpOptions(root.account));
+            if (otpauth().isHotpAccount(root.account)) {
+                continue;
+            }
+
+            const clock = otpauth().getTotpClock(otpauth().getAccountOtpOptions(root.account));
 
             updateCardSecondTick(root, clock);
             updateTimerVisuals(root, clock);
@@ -231,18 +285,34 @@
         }
     }
 
-    function updateCardSecondTick(root, clock) {
-        const { account, els, card } = root;
-        const totpOptions = otpauth().getAccountTotpOptions(account);
-        const otp = otpauth().generateOTP(account.secret, totpOptions);
+    function updateCardSecondTick(root, _clock) {
+        updateAccountCode(root);
+    }
 
-        if (els.code) {
-            const digits = totpOptions.digits;
-            els.code.textContent = (otp && otp.length === digits)
-                ? otp
-                : '-'.repeat(digits);
-            card.classList.toggle('account-block--invalid', !otp);
+    function getHotpCounterValue(account) {
+        return Number.isInteger(account?.counter)
+            ? account.counter
+            : otpauth().HOTP_DEFAULT_COUNTER;
+    }
+
+    function formatHotpCounterDisplay(account) {
+        return String(getHotpCounterValue(account));
+    }
+
+    function parseHotpCounterInput(text) {
+        const trimmed = String(text ?? '').trim();
+
+        if (!/^\d+$/.test(trimmed)) {
+            return null;
         }
+
+        const counter = Number.parseInt(trimmed, 10);
+
+        if (!Number.isInteger(counter) || counter < otpauth().MIN_COUNTER) {
+            return null;
+        }
+
+        return counter;
     }
 
     const COPY_FILL_EXPAND_MS = 1000;
@@ -298,11 +368,48 @@
         });
     }
 
-    async function showCopiedFeedback(card) {
+    function applyHotpAdvanceUI(root) {
+        root.account.counter = getHotpCounterValue(root.account) + 1;
+        updateAccountCode(root);
+
+        if (root.els?.counter) {
+            root.els.counter.textContent = formatHotpCounterDisplay(root.account);
+        }
+    }
+
+    function persistHotpAdvance(root) {
+        chrome.storage.local.get(['accountNumber'], async ({ accountNumber }) => {
+            if (!accountNumber || !otpauth().isHotpAccount(root.account)) {
+                return;
+            }
+
+            try {
+                root.account.counter = await window.AccountsStorage.incrementHotpCounter(
+                    accountNumber,
+                    root.account.id
+                );
+                updateAccountCode(root);
+
+                if (root.els?.counter) {
+                    root.els.counter.textContent = formatHotpCounterDisplay(root.account);
+                }
+            } catch (error) {
+                console.error('Failed to advance HOTP counter after copy:', error);
+            }
+        });
+    }
+
+    function advanceHotpOnCopyCheckmarkStart(root) {
+        applyHotpAdvanceUI(root);
+        persistHotpAdvance(root);
+    }
+
+    async function showCopiedFeedback(card, options = {}) {
         if (card.dataset.copyFeedbackActive === '1') {
             return;
         }
 
+        const { onCheckmarkStart } = options;
         const fill = card.querySelector('.account-block__copy-fill');
         const check = card.querySelector('.account-block__copy-check');
 
@@ -319,6 +426,7 @@
 
         await delayCopy(Math.max(0, COPY_FILL_EXPAND_MS - COPY_CHECK_LEAD_MS));
         check.classList.add('is-visible', 'is-animating');
+        onCheckmarkStart?.();
 
         await Promise.all([
             expandDone,
@@ -374,6 +482,11 @@
     function finishEditing(card, els, editBtn, deleteBtn, buttonContainer, onCardClick) {
         els.name.contentEditable = false;
         els.email.contentEditable = false;
+
+        if (els.counter) {
+            els.counter.contentEditable = false;
+        }
+
         buttonContainer.remove();
         editBtn.classList.remove('hidden');
         deleteBtn.classList.remove('hidden');
@@ -386,7 +499,7 @@
         return cardRoots.find((root) => root.card === card);
     }
 
-    function applyAccountEditLocally(account, els, patch) {
+    function applyAccountEditLocally(account, els, patch, root) {
         account.name = patch.name;
 
         if (patch.email !== undefined) {
@@ -397,12 +510,24 @@
             account.username = patch.username;
         }
 
+        if (patch.counter != null) {
+            account.counter = patch.counter;
+        }
+
         if (els.name) {
             els.name.textContent = account.name || 'Account';
         }
 
         if (els.email) {
             els.email.textContent = getAccountContactDisplay(account);
+        }
+
+        if (els.counter) {
+            els.counter.textContent = formatHotpCounterDisplay(account);
+        }
+
+        if (root) {
+            updateAccountCode(root);
         }
     }
 
@@ -430,7 +555,21 @@
             return;
         }
 
-        if (newName === snapshot.name && contactLine === snapshot.contact) {
+        const isHotp = otpauth().isHotpAccount(account);
+        let newCounter = null;
+
+        if (isHotp && els.counter) {
+            newCounter = parseHotpCounterInput(els.counter.textContent);
+
+            if (newCounter == null) {
+                window.alert('Enter a valid counter (0 or greater).');
+                return;
+            }
+        }
+
+        const counterUnchanged = !isHotp || String(newCounter) === snapshot.counter;
+
+        if (newName === snapshot.name && contactLine === snapshot.contact && counterUnchanged) {
             finishEditing(card, els, editBtn, deleteBtn, buttonContainer, onCardClick);
             return;
         }
@@ -456,9 +595,13 @@
             patch.username = newUsername;
         }
 
+        if (isHotp && !counterUnchanged) {
+            patch.counter = newCounter;
+        }
+
         const root = findCardRoot(card);
         const targetAccount = root?.account ?? account;
-        applyAccountEditLocally(targetAccount, els, patch);
+        applyAccountEditLocally(targetAccount, els, patch, root);
         finishEditing(card, els, editBtn, deleteBtn, buttonContainer, onCardClick);
 
         chrome.storage.local.get(['accountNumber'], ({ accountNumber }) => {
@@ -484,14 +627,24 @@
         card.classList.add('editing');
         card.removeEventListener('click', onCardClick);
 
+        const isHotp = otpauth().isHotpAccount(account);
+
         els.name.contentEditable = true;
         els.email.contentEditable = true;
-        els.email.focus();
+
+        if (isHotp && els.counter) {
+            els.counter.contentEditable = true;
+            els.counter.focus();
+        } else {
+            els.email.focus();
+        }
+
         setEditHeaderLock(true);
 
         const snapshot = {
             name: (account.name || 'Account').trim(),
-            contact: getAccountContactDisplay(account).trim()
+            contact: getAccountContactDisplay(account).trim(),
+            counter: isHotp ? formatHotpCounterDisplay(account) : null
         };
 
         const buttonContainer = document.createElement('div');
@@ -531,8 +684,13 @@
 
         cancelButton.addEventListener('click', (event) => {
             event.stopPropagation();
-            els.name.textContent = account.name || 'Account';
-            els.email.textContent = getAccountContactDisplay(account);
+            els.name.textContent = snapshot.name;
+            els.email.textContent = snapshot.contact;
+
+            if (els.counter && snapshot.counter != null) {
+                els.counter.textContent = snapshot.counter;
+            }
+
             finishEditing(card, els, editBtn, deleteBtn, buttonContainer, onCardClick);
         });
     }
@@ -691,7 +849,12 @@
             return;
         }
 
-        const clock = otpauth().getTotpClock(otpauth().getAccountTotpOptions(root.account));
+        if (otpauth().isHotpAccount(root.account)) {
+            updateAccountCode(root);
+            return;
+        }
+
+        const clock = otpauth().getTotpClock(otpauth().getAccountOtpOptions(root.account));
 
         updateCardSecondTick(root, clock);
         updateTimerVisuals(root, clock);
@@ -761,7 +924,7 @@
         const raw = String(codeText ?? '').replace(/\s+/g, '');
         const root = cardRoots.find((item) => item.card === card);
         const expectedDigits = root
-            ? otpauth().getAccountTotpOptions(root.account).digits
+            ? otpauth().getAccountOtpOptions(root.account).digits
             : otpauth().TOTP_DIGITS;
         const codePattern = new RegExp(`^\\d{${expectedDigits}}$`);
 
@@ -771,20 +934,36 @@
 
         try {
             await navigator.clipboard.writeText(raw);
-            await showCopiedFeedback(card);
+
+            const onCheckmarkStart = root && otpauth().isHotpAccount(root.account)
+                ? () => advanceHotpOnCopyCheckmarkStart(root)
+                : undefined;
+
+            await showCopiedFeedback(card, { onCheckmarkStart });
         } catch {
             // Clipboard unavailable
         }
     }
 
     function bindCard(card, account) {
+        const isHotp = otpauth().isHotpAccount(account);
         const els = {
             name: card.querySelector('.account-name'),
             email: card.querySelector('.account-email'),
             code: card.querySelector('.otp-code'),
             timer: card.querySelector('.timer-wrapper'),
-            pieFg: card.querySelector('.pie-fg')
+            pieFg: card.querySelector('.pie-fg'),
+            counter: card.querySelector('.account-hotp-counter')
         };
+
+        if (isHotp) {
+            card.classList.add('account-block--hotp');
+
+            if (els.counter) {
+                els.counter.textContent = formatHotpCounterDisplay(account);
+                els.counter.classList.remove('hidden');
+            }
+        }
 
         if (els.name) {
             els.name.textContent = account.name || 'Account';
@@ -824,6 +1003,7 @@
         };
 
         cardRoots.push(root);
+
         return root;
     }
 
@@ -1443,6 +1623,90 @@
         renderAccounts([]);
     }
 
+    function getCardScrollIndex(list) {
+        const cards = list.querySelectorAll('.account-block');
+
+        if (!cards.length) {
+            return 0;
+        }
+
+        const scrollTop = list.scrollTop;
+        let index = 0;
+        let bestDistance = Infinity;
+
+        cards.forEach((card, cardIndex) => {
+            const distance = Math.abs(card.offsetTop - scrollTop);
+
+            if (distance < bestDistance) {
+                bestDistance = distance;
+                index = cardIndex;
+            }
+        });
+
+        return index;
+    }
+
+    function scrollListToCardIndex(list, index) {
+        const cards = list.querySelectorAll('.account-block');
+
+        if (index < 0 || index >= cards.length) {
+            return;
+        }
+
+        list.scrollTo({
+            top: cards[index].offsetTop,
+            behavior: 'smooth'
+        });
+    }
+
+    function initCodesListWheelSnap() {
+        const list = document.querySelector(SELECTORS.list);
+
+        if (!list || list.dataset.wheelSnapBound === '1') {
+            return;
+        }
+
+        list.dataset.wheelSnapBound = '1';
+
+        let snapLocked = false;
+
+        const releaseSnapLock = () => {
+            snapLocked = false;
+        };
+
+        list.addEventListener('scrollend', releaseSnapLock, { passive: true });
+
+        list.addEventListener(
+            'wheel',
+            (event) => {
+                const cards = list.querySelectorAll('.account-block');
+
+                if (cards.length < 2 || event.deltaY === 0) {
+                    return;
+                }
+
+                if (snapLocked) {
+                    event.preventDefault();
+                    return;
+                }
+
+                const currentIndex = getCardScrollIndex(list);
+                const nextIndex = currentIndex + (event.deltaY > 0 ? 1 : -1);
+
+                if (nextIndex < 0 || nextIndex >= cards.length) {
+                    event.preventDefault();
+                    return;
+                }
+
+                event.preventDefault();
+                snapLocked = true;
+                scrollListToCardIndex(list, nextIndex);
+                window.setTimeout(releaseSnapLock, LIST_WHEEL_COOLDOWN_MS);
+            },
+            { passive: false }
+        );
+    }
+
     async function initOnLoad() {
         const skipIntroForQrResume = await window.PopupResume?.whenReady?.();
         const playIntro = shouldPlayCodesIntro && !skipIntroForQrResume;
@@ -1493,11 +1757,16 @@
 
             if (skipIntroForQrResume) {
                 await window.QrCodeSetup?.processPendingScan?.({ instantOpen: true });
+            } else if (!hasPendingPostLoginReveal()) {
+                await window.ReviewPrompt?.maybeShowOnInit?.();
             }
         }
     }
 
-    document.addEventListener('DOMContentLoaded', initOnLoad);
+    document.addEventListener('DOMContentLoaded', () => {
+        initCodesListWheelSnap();
+        void initOnLoad();
+    });
 
     loadTimerInvertedPreference();
 

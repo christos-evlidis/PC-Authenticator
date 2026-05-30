@@ -7,6 +7,8 @@
     const MANUAL_SETUP_PANEL_SELECTOR = '.manual-setup-panel';
     const MANUAL_SETUP_BODY_SELECTOR = '.manual-setup-body';
     const MANUAL_SETUP_FORM_SELECTOR = '.manual-setup-form';
+    const OTP_TYPE_TRACK_SELECTOR = '.manual-setup-type-selector__track';
+    const OTP_TYPE_BTN_SELECTOR = '.manual-setup-type-selector__btn';
     const MANUAL_SETUP_LOADING_SELECTOR = '.manual-setup-status--loading';
     const MANUAL_SETUP_SUCCESS_SELECTOR = '.manual-setup-status--success';
     const MANUAL_SETUP_ERROR_SELECTOR = '.manual-setup-status--error';
@@ -350,12 +352,38 @@
         setSubmitDisabled(false);
     }
 
+    function getFormOtpType(form) {
+        const typeInput = form.querySelector('[name="type"]');
+        const value = String(typeInput?.value ?? '').toLowerCase();
+
+        return value === 'hotp' ? 'hotp' : 'totp';
+    }
+
+    function setFormOtpType(form, type) {
+        const isHotp = type === 'hotp';
+        const track = form.querySelector(OTP_TYPE_TRACK_SELECTOR);
+        const typeInput = form.querySelector('[name="type"]');
+
+        if (typeInput) {
+            typeInput.value = isHotp ? 'hotp' : 'totp';
+        }
+
+        track?.classList.toggle('is-hotp', isHotp);
+
+        form.querySelectorAll(OTP_TYPE_BTN_SELECTOR).forEach((button) => {
+            const buttonType = button.dataset.otpType === 'hotp' ? 'hotp' : 'totp';
+            button.classList.toggle('is-active', buttonType === (isHotp ? 'hotp' : 'totp'));
+        });
+    }
+
     function getFormSnapshot(form) {
         const data = new FormData(form);
+
         return {
             name: String(data.get('name') ?? ''),
             email: String(data.get('email') ?? ''),
-            secret: String(data.get('secret') ?? '')
+            secret: String(data.get('secret') ?? ''),
+            type: getFormOtpType(form)
         };
     }
 
@@ -367,10 +395,12 @@
         if (nameInput) nameInput.value = snapshot.name;
         if (emailInput) emailInput.value = snapshot.email;
         if (secretInput) secretInput.value = snapshot.secret;
+        setFormOtpType(form, snapshot.type === 'hotp' ? 'hotp' : 'totp');
     }
 
     function clearForm(form) {
         form.reset();
+        setFormOtpType(form, 'totp');
     }
 
     function prepareManualSetupChromeForReveal(form, formSnapshot = null) {
@@ -386,11 +416,21 @@
     }
 
     function setSubmitDisabled(isDisabled) {
-        const submit = getManualSetupForm()?.querySelector('.manual-setup-form__submit');
+        const form = getManualSetupForm();
+
+        if (!form) {
+            return;
+        }
+
+        const submit = form.querySelector('.manual-setup-form__submit');
 
         if (submit) {
             submit.disabled = isDisabled;
         }
+
+        form.querySelectorAll(OTP_TYPE_BTN_SELECTOR).forEach((button) => {
+            button.disabled = isDisabled;
+        });
     }
 
     function createAddAccountPromise(formData) {
@@ -611,6 +651,22 @@
         });
 
         form?.addEventListener('submit', handleManualSetupSubmit);
+
+        if (form) {
+            setFormOtpType(form, 'totp');
+
+            form.querySelectorAll(OTP_TYPE_BTN_SELECTOR).forEach((button) => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
+
+                    if (isAuthFlowLocked() || isAddAccountSequenceRunning) {
+                        return;
+                    }
+
+                    setFormOtpType(form, button.dataset.otpType === 'hotp' ? 'hotp' : 'totp');
+                });
+            });
+        }
     }
 
     document.addEventListener('DOMContentLoaded', initManualSetup);

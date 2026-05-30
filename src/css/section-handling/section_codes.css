@@ -113,6 +113,7 @@
     list-style: none;
     overflow-x: hidden;
     overflow-y: auto;
+    scroll-snap-type: y mandatory;
 }
 
 .codes-section__list.hidden {
@@ -136,6 +137,8 @@
     width: 100%;
     overflow: hidden;
     flex-shrink: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
     transition:
         background-color var(--theme-transition-ms) ease,
         transform 0.2s ease;
@@ -502,6 +505,36 @@
     display: none;
 }
 
+.codes-section__list .account-hotp-counter {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 72px;
+    font-family: monospace;
+    font-size: 30px;
+    line-height: 1;
+    font-weight: bold;
+    color: var(--color-otp);
+    text-align: right;
+    user-select: none;
+    padding: 0;
+    padding-right: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color var(--theme-transition-ms) ease;
+}
+
+.codes-section__list .account-hotp-counter.hidden {
+    display: none;
+}
+
+.codes-section__list .account-block--hotp .timer-wrapper {
+    display: none;
+}
+
 .codes-section__list .otp-code {
     flex: 1;
     min-width: 0;
@@ -564,7 +597,7 @@
 
 .codes-section__list .edit-buttons-container {
     display: flex;
-    gap: 8px;
+    gap: 4px;
     flex-shrink: 0;
 }
 
@@ -601,16 +634,36 @@
     background-color: rgba(217, 48, 37, 0.1);
 }
 
+.codes-section__list .account-block.editing {
+    overflow: visible;
+}
+
+.codes-section__list .account-block.editing .account-block__header {
+    max-height: none;
+    overflow: visible;
+}
+
 .codes-section__list .account-block.editing .account-block__identity {
-    gap: 2px;
+    gap: 3px;
+    overflow: visible;
+}
+
+.codes-section__list .account-block.editing .account-name,
+.codes-section__list .account-block.editing .account-email {
+    overflow: visible;
+}
+
+.codes-section__list .account-block.editing .account-name[contenteditable="true"],
+.codes-section__list .account-block.editing .account-email[contenteditable="true"] {
     overflow: hidden;
 }
 
 .codes-section__list .account-name[contenteditable="true"],
-.codes-section__list .account-email[contenteditable="true"] {
+.codes-section__list .account-email[contenteditable="true"],
+.codes-section__list .account-hotp-counter[contenteditable="true"] {
     box-sizing: border-box;
     width: 100%;
-    max-width: 100%;
+    max-width: 97%;
     min-width: 0;
     margin: 0;
     padding: 0;
@@ -630,14 +683,36 @@
     line-height: 1.25;
 }
 
+.codes-section__list .account-hotp-counter[contenteditable="true"] {
+    width: 72px;
+    max-width: 72px;
+    min-width: 0;
+    padding: 0 10px 0 0;
+    line-height: 1;
+    justify-content: flex-end;
+    text-align: right;
+    color: var(--color-otp);
+    caret-color: var(--color-text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .codes-section__list .account-name[contenteditable="true"]:focus,
 .codes-section__list .account-email[contenteditable="true"]:focus {
-    outline: 1px solid var(--primary-color);
+    outline: 1px solid var(--border-color);
     box-shadow: none;
     white-space: nowrap;
     overflow-x: auto;
     overflow-y: hidden;
     text-overflow: clip;
+}
+
+.codes-section__list .account-hotp-counter[contenteditable="true"]:focus {
+    outline: 1px solid var(--border-color);
+    box-shadow: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .codes-section__list .timer-wrapper {
@@ -648,8 +723,7 @@
     width: 30px;
     height: 30px;
     padding: 0;
-    padding-right: 10px;
-    padding-bottom: 5px;
+    padding-right: 16px;
 }
 
 .codes-section__list .pie-timer-svg {

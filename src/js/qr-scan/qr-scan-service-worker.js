@@ -30,11 +30,6 @@ self.QrScan = {
     },
 
     async injectSelectionOverlay(tabId) {
-        await chrome.scripting.insertCSS({
-            target: { tabId },
-            files: ['css/qr-scan/qr-scan-overlay.css']
-        }).catch(() => {});
-
         await chrome.scripting.executeScript({
             target: { tabId },
             files: ['js/qr-scan/qr-scan-content-script.js']

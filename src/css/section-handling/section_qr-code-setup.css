@@ -44,8 +44,7 @@ body.is-auth-flow-locked.is-user-menu-blurred .qr-setup-backdrop {
     cursor: default;
 }
 
-body.is-auth-flow-locked .qr-setup-close-btn,
-.qr-setup-close-btn:disabled {
+body.is-auth-flow-locked .qr-setup-close-btn {
     pointer-events: none;
     opacity: 0.45;
     cursor: default;
