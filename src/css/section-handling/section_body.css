@@ -1,8 +1,30 @@
 .app-body {
+    --body-border-radius: 12px;
+    --body-surface: #ffffff;
+    --body-text: #5f6368;
+    --body-muted: #9aa0a6;
+    --body-padding-block: 12px;
+    --body-padding-inline: 14px;
+    --body-transition-ms: 220ms;
+    --body-blur-duration: 250ms;
+    --body-icon-size: 56px;
+    --body-message-max-width: 220px;
+    --body-message-size: 14px;
+    --body-content-padding-block: 24px;
+    --body-content-padding-inline: 20px;
+    --body-icon-pop-ms: 250ms;
+    --body-message-type-ms: 1000ms;
+
     flex: 1;
     min-height: 0;
     display: flex;
     flex-direction: column;
+}
+
+html.theme-dark .app-body {
+    --body-surface: #1e1e1e;
+    --body-text: #9aa0a6;
+    --body-muted: #80868b;
 }
 
 .app-body > .signed-out-view,
@@ -11,10 +33,10 @@
     min-height: 0;
     display: flex;
     flex-direction: column;
-    padding: 12px 14px;
-    border-radius: var(--header-radius);
-    background: var(--color-surface);
-    transition: background-color var(--theme-transition-ms) ease;
+    padding: var(--body-padding-block) var(--body-padding-inline);
+    border-radius: var(--body-border-radius);
+    background: var(--body-surface);
+    transition: background-color var(--body-transition-ms) ease;
     overflow: hidden;
 }
 
@@ -23,7 +45,24 @@
     display: none;
 }
 
-.app-body > .signed-out-view .signed-out-view__content {
+.app-body > .signed-in-view {
+    padding: 0;
+}
+
+.app-body.is-intro-pending .app-body__icon.is-pop-pending {
+    opacity: 0;
+    transform: scale(0.4);
+}
+
+.app-body.is-intro-pending .app-body__message--display:empty {
+    opacity: 0;
+}
+
+.app-body.is-intro-pending .app-body__message--display.is-intro-typing {
+    opacity: 1;
+}
+
+.app-body__content {
     flex: 1;
     min-height: 0;
     display: flex;
@@ -31,127 +70,61 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 24px 20px;
-    color: var(--color-text-secondary);
+    padding: var(--body-content-padding-block) var(--body-content-padding-inline);
+    color: var(--body-text);
 }
 
-.signed-out-view__icon {
+.app-body__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 16px;
-    font-size: 56px;
+    font-size: var(--body-icon-size);
     line-height: 1;
-    color: var(--color-icon-muted);
+    color: var(--body-muted);
     transform-origin: center center;
 }
 
-.signed-out-view__icon i {
-    font-size: 1em;
-    line-height: 1;
-    color: inherit;
-}
-
-.signed-out-view__icon.is-pop-pending {
+.app-body__icon.is-pop-pending {
     opacity: 0;
-    visibility: hidden;
     transform: scale(0.4);
-    pointer-events: none;
 }
 
-.signed-out-view__icon.is-pop-active {
-    visibility: visible;
-    animation: signed-out-icon-pop 250ms ease-out forwards;
-    pointer-events: auto;
+.app-body__icon.is-pop-active {
+    animation: body-icon-pop var(--body-icon-pop-ms) ease forwards;
 }
 
-.signed-out-view__icon.is-pop-revealed {
+.app-body__icon.is-pop-revealed {
     opacity: 1;
-    visibility: visible;
     transform: scale(1);
 }
 
-.extension-frame.is-app-intro-pending .signed-out-view__icon.is-pop-pending {
-    opacity: 0;
-    visibility: hidden;
-    transform: scale(0.4);
-}
-
-.extension-frame.is-app-intro-pending .signed-out-view__icon.is-pop-pending + .signed-out-view__message-stack {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.signed-out-view__message-stack {
+.app-body__message-stack {
     display: grid;
     width: 100%;
-    max-width: 220px;
+    max-width: var(--body-message-max-width);
 }
 
-.signed-out-view__message-stack .signed-out-view__message {
+.app-body__message-stack .app-body__message {
     grid-area: 1 / 1;
     margin: 0;
-    max-width: 220px;
-    font-size: 14px;
+    max-width: var(--body-message-max-width);
+    font-size: var(--body-message-size);
     line-height: 1.5;
     text-align: center;
 }
 
-.signed-out-view__message--spacer {
+.app-body__message--spacer {
     visibility: hidden;
     pointer-events: none;
     user-select: none;
 }
 
-.signed-out-view__message--display.is-intro-typing {
+.app-body__message--display.is-intro-typing {
     white-space: pre-line;
 }
 
-.app-body > .signed-in-view {
-    padding: 0;
-}
-
-.extension-frame.is-post-login-blank .app-body > .signed-in-view {
-    display: none !important;
-}
-
-.extension-frame.is-post-login-blank .codes-section__empty,
-.extension-frame.is-post-login-blank .codes-section__list {
-    display: none !important;
-}
-
-.extension-frame.is-post-login-blank .app-header__title,
-.extension-frame.is-post-login-blank .app-header .signed-out-view,
-.extension-frame.is-post-login-blank .signed-out-view__content {
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.signed-out-view__content.is-login-fade-out.is-login-fade-out--active,
-.signed-out-view__content.is-login-fade-out.is-login-fade-out--active .signed-out-view__icon {
-    opacity: 0 !important;
-    visibility: hidden !important;
-}
-
-.extension-frame.is-post-login-blank .app-header .signed-in-view {
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.extension-frame.is-post-logout-blank .app-header__title,
-.extension-frame.is-post-logout-blank .app-header .signed-in-view,
-.extension-frame.is-post-logout-blank .app-header .signed-out-view,
-.extension-frame.is-post-logout-blank .signed-out-view__icon,
-.extension-frame.is-post-logout-blank .signed-out-view__message-stack,
-.extension-frame.is-post-logout-blank .codes-section__empty > *,
-.extension-frame.is-post-logout-blank .codes-section__list .account-block {
-    visibility: hidden;
-    pointer-events: none;
-    opacity: 0;
-}
-
-@keyframes signed-out-icon-pop {
+@keyframes body-icon-pop {
     from {
         opacity: 0;
         transform: scale(0.4);
@@ -163,3 +136,16 @@
     }
 }
 
+body.is-frame-blurred .app-body {
+    filter: blur(5px);
+    transition: filter var(--body-blur-duration) ease;
+}
+
+html.theme-transition-active .app-body,
+html.theme-transition-active .app-body__content,
+html.theme-transition-active .app-body__icon,
+html.theme-transition-active .app-body__message {
+    transition-property: background-color, background, color, border-color, fill, stroke, box-shadow !important;
+    transition-duration: var(--theme-transition-ms) !important;
+    transition-timing-function: ease !important;
+}

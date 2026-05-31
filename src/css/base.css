@@ -1,6 +1,5 @@
 /* Extension viewport */
 :root {
-    --login-fade-ms: 350ms;
     --extension-width: 350px;
     --extension-height: 600px;
     --frame-padding-top: 12px;
@@ -24,6 +23,8 @@
     --color-accent-hover: rgba(23, 108, 202, 0.1);
     --color-on-accent: #ffffff;
     --theme-transition-ms: 220ms;
+    --login-ui-fade-duration: 350ms;
+    --login-check-draw-duration: 500ms;
     --color-code-card: #f8f9fa;
     --color-code-card-hover: #f1f3f4;
     --color-otp: #4285f4;
@@ -35,6 +36,10 @@
     --color-delete-cancel-hover: #f1f3f4;
     --color-delete-confirm: #d32f2f;
     --color-delete-confirm-hover: #ffebee;
+}
+
+html {
+    color-scheme: light;
 }
 
 html.theme-dark {
@@ -67,10 +72,8 @@ html.theme-dark {
 
 html.theme-transition-active,
 html.theme-transition-active body,
+html.theme-transition-active .codes-search,
 html.theme-transition-active .extension-frame,
-html.theme-transition-active .app-header,
-html.theme-transition-active .app-body > .signed-out-view,
-html.theme-transition-active .app-body > .signed-in-view,
 html.theme-transition-active .codes-section,
 html.theme-transition-active .codes-section__list .account-block,
 html.theme-transition-active .codes-section__list .account-block__exit-layer,
@@ -78,25 +81,8 @@ html.theme-transition-active .codes-section__list .account-block__copy-fill,
 html.theme-transition-active .codes-section__list .account-name,
 html.theme-transition-active .codes-section__list .account-email,
 html.theme-transition-active .codes-section__list .otp-code,
-html.theme-transition-active .user-menu-panel,
-html.theme-transition-active .user-menu-header,
-html.theme-transition-active .user-menu-body,
-html.theme-transition-active .user-menu-body__views > .user-menu-auth-view,
-html.theme-transition-active .user-menu-body__views > .user-menu-account-view,
-html.theme-transition-active .user-menu-account-view__content,
-html.theme-transition-active .user-menu-auth-view__tabs > .sign-in-view,
-html.theme-transition-active .user-menu-auth-view__tabs > .sign-up-view,
-html.theme-transition-active .sign-in-view__content,
-html.theme-transition-active .sign-up-view__content,
-html.theme-transition-active .sign-in-form__label-text,
-html.theme-transition-active .sign-in-form__input,
-html.theme-transition-active .sign-up-form__text,
-html.theme-transition-active .account-form,
-html.theme-transition-active .account-form__label-text,
-html.theme-transition-active .account-form__input,
-html.theme-transition-active .user-menu-header__title,
-html.theme-transition-active .thumb-selector__track,
-html.theme-transition-active .thumb-selector__btn,
+html.theme-transition-active .login-status__icon-circle,
+html.theme-transition-active .login-status__icon-mark,
 html.theme-transition-active .manual-setup-panel,
 html.theme-transition-active .manual-setup-header,
 html.theme-transition-active .manual-setup-body,
@@ -158,16 +144,90 @@ body {
     overflow: hidden;
 }
 
-.is-login-fade-out {
-    transition:
-        opacity var(--login-fade-ms) ease,
-        visibility var(--login-fade-ms) ease;
+/* Shared overlay status indicators (manual setup, QR setup, etc.) */
+.login-status {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 200ms ease, visibility 200ms ease;
 }
 
-.is-login-fade-out.is-login-fade-out--active {
+.login-status.hidden {
     opacity: 0;
     visibility: hidden;
 }
 
+.login-status.is-shown {
+    opacity: 1;
+    visibility: visible;
+}
 
+.login-status--loading {
+    gap: 10px;
+}
+
+.login-status__dot {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #176cca;
+}
+
+.login-status__dot:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.login-status__dot:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.login-status__icon {
+    width: 52px;
+    height: 52px;
+}
+
+.login-status__icon-circle {
+    stroke-width: 2;
+    stroke-dasharray: 151;
+    stroke-dashoffset: 151;
+}
+
+.login-status__icon-mark {
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 36;
+    stroke-dashoffset: 36;
+}
+
+.login-status--success .login-status__icon-circle,
+.login-status--success .login-status__icon-mark,
+.login-status--error .login-status__icon-circle,
+.login-status--error .login-status__icon-mark {
+    stroke: var(--icon-color);
+}
+
+.login-status--success.is-animating .login-status__icon-mark,
+.login-status--error.is-animating .login-status__icon-mark {
+    animation-delay: calc(var(--login-check-draw-duration) * 0.45);
+}
+
+.login-status--success.is-drawn .login-status__icon-circle,
+.login-status--error.is-drawn .login-status__icon-circle,
+.login-status--success.is-hiding .login-status__icon-circle,
+.login-status--error.is-hiding .login-status__icon-circle,
+.login-status--success.is-drawn .login-status__icon-mark,
+.login-status--error.is-drawn .login-status__icon-mark,
+.login-status--success.is-hiding .login-status__icon-mark,
+.login-status--error.is-hiding .login-status__icon-mark {
+    stroke-dashoffset: 0;
+}
 

@@ -1,10 +1,6 @@
 :root {
     --qr-setup-panel-padding: 12px;
     --qr-setup-panel-gap: 12px;
-    --qr-setup-header-height: 56px;
-    --qr-setup-body-expand-offset: calc(
-        var(--qr-setup-panel-gap) + var(--qr-setup-header-height)
-    );
 }
 
 .qr-setup-section {
@@ -30,65 +26,40 @@
     inset: 0;
     background: var(--color-menu-backdrop);
     opacity: 0;
-    transition: opacity var(--user-menu-blur-duration) ease;
     pointer-events: none;
 }
 
-body.is-user-menu-blurred .qr-setup-section.is-active .qr-setup-backdrop {
+body.is-frame-blurred .qr-setup-section.is-active .qr-setup-backdrop {
     opacity: 1;
     pointer-events: auto;
 }
 
-body.is-auth-flow-locked.is-user-menu-blurred .qr-setup-backdrop {
+body.is-auth-flow-locked.is-frame-blurred .qr-setup-backdrop {
     pointer-events: none;
-    cursor: default;
-}
-
-body.is-auth-flow-locked .qr-setup-close-btn {
-    pointer-events: none;
-    opacity: 0.45;
     cursor: default;
 }
 
 .qr-setup-panel {
     position: relative;
     z-index: 1;
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: var(--qr-setup-panel-gap);
-    height: 370px;
-    min-height: 370px;
-    max-height: 370px;
+    height: 375px;
+    min-height: 375px;
+    max-height: 375px;
     flex-shrink: 0;
     padding: var(--qr-setup-panel-padding);
     background: var(--color-frame);
     border-radius: var(--header-radius);
     overflow: hidden;
-    transform: translateY(calc(100% + var(--frame-padding-bottom)));
-    transition:
-        transform var(--user-menu-slide-duration) ease,
-        background var(--login-panel-immersive-duration) ease,
-        padding var(--login-panel-immersive-duration) ease,
-        gap var(--login-panel-immersive-duration) ease;
-}
-
-.qr-setup-panel.is-panel-immersive {
-    gap: 0;
-    padding: 0;
-    background: transparent;
-}
-
-.qr-setup-panel.is-panel-immersive .qr-setup-body {
-    border-radius: var(--header-radius);
 }
 
 .qr-setup-section.is-panel-open .qr-setup-panel {
-    transform: translateY(0);
+    display: flex;
 }
 
 .qr-setup-header {
-    position: relative;
-    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -97,10 +68,6 @@ body.is-auth-flow-locked .qr-setup-close-btn {
     border-radius: var(--header-radius);
     background: var(--color-surface);
     flex-shrink: 0;
-    transition:
-        background 0.2s ease,
-        opacity var(--login-ui-fade-duration) ease,
-        visibility var(--login-ui-fade-duration) ease;
 }
 
 .qr-setup-header__title {
@@ -128,7 +95,6 @@ body.is-auth-flow-locked .qr-setup-close-btn {
     background: transparent;
     color: var(--icon-color);
     cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease;
 }
 
 .qr-setup-header__btn:hover {
@@ -141,44 +107,26 @@ body.is-auth-flow-locked .qr-setup-close-btn {
     line-height: 1;
 }
 
-.qr-setup-panel.is-fading-setup-ui .qr-setup-header,
-.qr-setup-panel.is-fading-setup-ui .qr-setup-body__content {
-    opacity: 0 !important;
-    pointer-events: none !important;
-    transition: opacity var(--login-ui-fade-duration) ease !important;
-}
-
-.qr-setup-panel.is-chrome-hidden .qr-setup-header,
-.qr-setup-panel.is-chrome-hidden .qr-setup-body__content {
-    visibility: hidden;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.qr-setup-panel.is-chrome-preparing .qr-setup-header,
-.qr-setup-panel.is-chrome-preparing .qr-setup-body__content {
-    visibility: visible;
-    opacity: 0;
-    transition: opacity var(--login-ui-fade-duration) ease, visibility var(--login-ui-fade-duration) ease;
-}
-
-.qr-setup-panel.is-chrome-visible .qr-setup-header,
-.qr-setup-panel.is-chrome-visible .qr-setup-body__content {
-    opacity: 1;
-    visibility: visible;
-}
-
 .qr-setup-body {
     position: relative;
     flex: 1;
     min-height: 0;
-    z-index: 1;
-    margin-top: 0;
-    padding: 0;
     border-radius: var(--header-radius);
     background: var(--color-surface);
-    transition: margin-top var(--login-body-expand-duration) ease, background 0.2s ease;
     overflow: hidden;
+}
+
+.qr-setup-body__status {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.qr-setup-body__status .login-status {
+    position: absolute;
+    inset: 0;
+    margin: auto;
 }
 
 .qr-setup-body__content {
@@ -192,7 +140,6 @@ body.is-auth-flow-locked .qr-setup-close-btn {
     justify-content: center;
     padding: 20px 18px;
     text-align: center;
-    transition: opacity var(--login-ui-fade-duration) ease, visibility var(--login-ui-fade-duration) ease;
 }
 
 .qr-setup-guide {
@@ -201,13 +148,6 @@ body.is-auth-flow-locked .qr-setup-close-btn {
     align-items: center;
     gap: 12px;
     max-width: 260px;
-}
-
-.qr-setup-guide__media {
-    position: relative;
-    width: 56px;
-    height: 56px;
-    flex-shrink: 0;
 }
 
 .qr-setup-guide__icon {
@@ -221,38 +161,10 @@ body.is-auth-flow-locked .qr-setup-close-btn {
     color: var(--icon-color);
     font-size: 26px;
     line-height: 1;
-    transition: opacity var(--login-ui-fade-duration) ease, visibility var(--login-ui-fade-duration) ease;
 }
 
-.qr-setup-guide.is-status-active {
-    gap: 0;
-}
-
-.qr-setup-guide.is-status-active .qr-setup-guide__icon {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.qr-setup-guide.is-status-active .qr-setup-guide__text,
 .qr-setup-guide__text.hidden {
     display: none;
-}
-
-.qr-setup-guide__status {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-}
-
-.qr-setup-guide__status .login-status {
-    position: absolute;
-    inset: 0;
-    margin: auto;
-    transform: none;
 }
 
 .qr-setup-guide__text {
@@ -262,32 +174,3 @@ body.is-auth-flow-locked .qr-setup-close-btn {
     color: var(--color-text);
 }
 
-body.is-auth-flow-locked .scan-qr-btn {
-    pointer-events: none;
-    opacity: 0.45;
-}
-
-.app-header__btn.scan-qr-btn.is-active {
-    background: var(--color-accent-hover);
-    color: var(--icon-color-hover);
-}
-
-.qr-setup-section.is-instant-open .qr-setup-backdrop {
-    opacity: 1;
-    transition: none;
-}
-
-.qr-setup-section.is-instant-open .qr-setup-panel {
-    transform: translateY(0);
-    transition: none;
-}
-
-html.is-popup-qr-resume body.is-user-menu-blurred .extension-frame > .app-header,
-html.is-popup-qr-resume body.is-user-menu-blurred .extension-frame > .app-body {
-    filter: blur(5px);
-    transition: none;
-}
-
-.qr-setup-body.is-loader-active .qr-setup-guide__status {
-    z-index: 1;
-}
