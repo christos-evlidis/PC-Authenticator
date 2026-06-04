@@ -1,6 +1,7 @@
-import { accountsFinalGet } from "../../accounts/account-index.js";
-import { accountSync } from "../../accounts/account-index.js";
+import { dataFinalGet } from "../../accounts/account-index.js";
+import { dataSync } from "../../accounts/account-index.js";
 import { cross } from "../section-cross.js";
+import { accountNumberGet } from "../../accounts/account-index.js";
 import { setShouldPlayCodesIntro } from "./codes-state.js";
 import { renderAccounts } from "./codes-cards.js";
 import { revealCodesEmptyStatic } from "./codes-empty.js";
@@ -14,13 +15,13 @@ import { loadTimerInvertedPreference } from "./codes-timer.js";
 import { stopTicker } from "./codes-timer.js";
 
 export async function renderFromStorage() {
-  const accounts = await accountsFinalGet();
+  const accounts = await dataFinalGet();
   renderAccounts(accounts);
   return accounts;
 }
 
 export async function restore() {
-  const { accountNumber } = await chrome.storage.local.get(["accountNumber"]);
+  const accountNumber = await accountNumberGet();
 
   if (!accountNumber) {
     renderAccounts([]);
@@ -28,7 +29,7 @@ export async function restore() {
   }
 
   await loadTimerInvertedPreference();
-  const accounts = await accountSync(accountNumber);
+  const accounts = await dataSync(accountNumber);
   renderAccounts(accounts);
   return accounts;
 }
@@ -48,7 +49,7 @@ export function initCodes() {
 export async function initOnLoad(skipIntroForQrResume = false) {
   setShouldPlayCodesIntro(false);
 
-  const { accountNumber } = await chrome.storage.local.get(["accountNumber"]);
+  const accountNumber = await accountNumberGet();
 
   cross.codes.setSearchAuthVisible(Boolean(accountNumber));
 
@@ -58,7 +59,7 @@ export async function initOnLoad(skipIntroForQrResume = false) {
     // Post-login reveal runs when user menu closes.
   } else {
     await loadTimerInvertedPreference();
-    const accounts = await accountSync(accountNumber);
+    const accounts = await dataSync(accountNumber);
     renderAccounts(accounts);
     revealCodesSearchStatic();
   }

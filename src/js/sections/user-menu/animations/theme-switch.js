@@ -3,7 +3,7 @@ import { waitForTransitionEnd } from "../../../utils/utility-animation.js";
 import { THEME_DARK } from "../../../utils/utility-theme.js";
 import { USER_MENU_THEME_DARK_CLASS } from "../constants.js";
 import { USER_MENU_THEME_LIGHT_CLASS } from "../constants.js";
-import { USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
+import { USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
 import { USER_MENU_VAR_THEME_THUMB_MS } from "../constants.js";
 import { USER_MENU_THEME_THUMB_SELECTOR } from "../constants.js";
 import { USER_MENU_THEME_TRACK_SELECTOR } from "../constants.js";
@@ -22,5 +22,9 @@ export async function userMenuThemeSwitchAnimation(theme) {
   track.classList.toggle(USER_MENU_THEME_LIGHT_CLASS, !isDark);
   track.classList.toggle(USER_MENU_THEME_DARK_CLASS, isDark);
 
-  await waitForTransitionEnd(thumb, "transform", cssMs(track, USER_MENU_VAR_THEME_THUMB_MS) + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS);
+  await waitForTransitionEnd(
+    thumb,
+    "transform",
+    cssMs(track, USER_MENU_VAR_THEME_THUMB_MS) + cssMs(track, USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
+  );
 }

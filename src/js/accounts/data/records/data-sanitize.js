@@ -1,5 +1,5 @@
 /** Coerces backup/pending/restore payloads into an account array. */
-export function accountListSanitize(value) {
+export function dataListSanitize(value) {
   try {
     if (value == null) {
       return [];
@@ -23,13 +23,13 @@ export function accountListSanitize(value) {
     }
     return [];
   } catch (error) {
-    console.warn("[account-records] accountListSanitize failed", error);
+    console.warn("[data-records] dataListSanitize failed", error);
     return [];
   }
 }
 
 /** Strips whitespace and padding, then uppercases a base32 OTP secret. */
-export function accountSecretSanitize(raw) {
+export function dataSecretSanitize(raw) {
   try {
     return String(raw)
       .trim()
@@ -37,28 +37,28 @@ export function accountSecretSanitize(raw) {
       .replace(/=+$/, "")
       .toUpperCase();
   } catch (error) {
-    console.warn("[account-records] accountSecretSanitize failed", error);
+    console.warn("[data-records] dataSecretSanitize failed", error);
     throw error;
   }
 }
 
 /** Trims control characters and caps display names at 64 characters. */
-export function accountNameSanitize(name) {
+export function dataNameSanitize(name) {
   try {
     const trimmed = String(name)
       .trim()
       .replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
     return Array.from(trimmed).slice(0, 64).join("").trim();
   } catch (error) {
-    console.warn("[account-records] accountNameSanitize failed", error);
+    console.warn("[data-records] dataNameSanitize failed", error);
     return "";
   }
 }
 
 /** Title-cases each word of an issuer or manual account name. */
-export function accountIssuerSanitize(issuer) {
+export function dataIssuerSanitize(issuer) {
   try {
-    const sanitized = accountNameSanitize(issuer);
+    const sanitized = dataNameSanitize(issuer);
     if (!sanitized) {
       return "";
     }
@@ -77,7 +77,7 @@ export function accountIssuerSanitize(issuer) {
       .filter(Boolean)
       .join(" ");
   } catch (error) {
-    console.warn("[account-records] accountIssuerSanitize failed", error);
+    console.warn("[data-records] dataIssuerSanitize failed", error);
     return "";
   }
 }

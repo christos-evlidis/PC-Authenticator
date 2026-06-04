@@ -1,13 +1,13 @@
-import { DEFAULT_ALGORITHM } from "../account-constants.js";
-import { HOTP_DEFAULT_COUNTER } from "../account-constants.js";
-import { HOTP_TYPE } from "../account-constants.js";
-import { TOTP_DIGITS } from "../account-constants.js";
-import { TOTP_PERIOD } from "../account-constants.js";
-import { accountNameBuild } from "../account-records/account-build.js";
-import { accountSecretSanitize } from "../account-records/account-sanitize.js";
+import { DEFAULT_ALGORITHM } from "../data-constants.js";
+import { HOTP_DEFAULT_COUNTER } from "../data-constants.js";
+import { HOTP_TYPE } from "../data-constants.js";
+import { TOTP_DIGITS } from "../data-constants.js";
+import { TOTP_PERIOD } from "../data-constants.js";
+import { dataNameBuild } from "../records/data-build.js";
+import { dataSecretSanitize } from "../records/data-sanitize.js";
 
 /** Parses a scanned QR otpauth URI into account fields. */
-export function accountQrParse(uri) {
+export function dataQrParse(uri) {
   try {
     let raw = String(uri).trim();
     if (raw.toLowerCase().startsWith("apple-otpauth://")) {
@@ -15,7 +15,7 @@ export function accountQrParse(uri) {
     }
     const url = new URL(raw);
     const type = url.hostname.toLowerCase();
-    const secret = accountSecretSanitize(url.searchParams.get("secret"));
+    const secret = dataSecretSanitize(url.searchParams.get("secret"));
     const digitsParam = url.searchParams.get("digits");
     const digits = digitsParam ? Number.parseInt(digitsParam, 10) : TOTP_DIGITS;
     const algorithmParam = url.searchParams.get("algorithm");
@@ -42,7 +42,7 @@ export function accountQrParse(uri) {
     const issuer = issuerParam
       ? decodeURIComponent(issuerParam).trim()
       : pathIssuer;
-    const { name, email } = accountNameBuild(issuer, label);
+    const { name, email } = dataNameBuild(issuer, label);
     const account = {
       name,
       secret,
@@ -60,7 +60,7 @@ export function accountQrParse(uri) {
     }
     return account;
   } catch (error) {
-    console.warn("[parser-qr] accountQrParse failed", error);
+    console.warn("[data-parser-qr] dataQrParse failed", error);
     throw error;
   }
 }

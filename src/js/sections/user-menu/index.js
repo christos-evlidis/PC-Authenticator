@@ -5,9 +5,6 @@ export { userMenuPanelOpen } from "./actions/open.js";
 export { userMenuPanelClose } from "./actions/close.js";
 export { userMenuThemeSwitch } from "./actions/theme-switch.js";
 
-export { USER_MENU_ACCOUNT_NUMBER_KEY } from "./constants.js";
-export { USER_MENU_ACCOUNT_NUMBER_LENGTH } from "./constants.js";
-
 import { USER_MENU_ACCOUNT_COPY_BTN_SELECTOR } from "./constants.js";
 import { USER_MENU_ACCOUNT_DOWNLOAD_BTN_SELECTOR } from "./constants.js";
 import { USER_MENU_ACCOUNT_INPUT_SELECTOR } from "./constants.js";

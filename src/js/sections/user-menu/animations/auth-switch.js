@@ -2,7 +2,7 @@ import { cssMs } from "../../../utils/utility-animation.js";
 import { waitForTransitionEnd } from "../../../utils/utility-animation.js";
 import { USER_MENU_AUTH_SIGN_IN_CLASS } from "../constants.js";
 import { USER_MENU_AUTH_SIGN_UP_CLASS } from "../constants.js";
-import { USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
+import { USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
 import { USER_MENU_VAR_AUTH_THUMB_MS } from "../constants.js";
 import { USER_MENU_AUTH_THUMB_SELECTOR } from "../constants.js";
 import { USER_MENU_AUTH_TRACK_SELECTOR } from "../constants.js";
@@ -25,6 +25,6 @@ export async function userMenuAuthSwitchAnimation(authView) {
   await waitForTransitionEnd(
     thumb,
     "transform",
-    cssMs(track, USER_MENU_VAR_AUTH_THUMB_MS) + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
+    cssMs(track, USER_MENU_VAR_AUTH_THUMB_MS) + cssMs(track, USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
   );
 }

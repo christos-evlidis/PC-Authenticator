@@ -1,5 +1,6 @@
-import { accountUpdate } from "../../accounts/account-index.js";
-import { accountHotpIs } from "../../accounts/account-index.js";
+import { dataUpdate } from "../../accounts/account-index.js";
+import { dataHotpIs } from "../../accounts/account-index.js";
+import { accountNumberGet } from "../../accounts/account-index.js";
 import { DEFAULT_CONTACT } from "./codes-state.js";
 import { EMAIL_PLACEHOLDER } from "./codes-state.js";
 import { findCardRoot } from "./codes-state.js";
@@ -90,10 +91,10 @@ function applyAccountEditLocally(account, els, patch, root) {
 }
 
 async function persistAccountEditInBackground(accountNumber, accountId, patch) {
-  await accountUpdate(accountNumber, accountId, patch);
+  await dataUpdate(accountNumber, accountId, patch);
 }
 
-function saveAccountEdit(
+async function saveAccountEdit(
   account,
   card,
   els,
@@ -119,7 +120,7 @@ function saveAccountEdit(
     return;
   }
 
-  const isHotp = accountHotpIs(account);
+  const isHotp = dataHotpIs(account);
   let newCounter = null;
 
   if (isHotp && els.counter) {
@@ -172,13 +173,13 @@ function saveAccountEdit(
   applyAccountEditLocally(targetAccount, els, patch, root);
   finishEditing(card, els, editBtn, deleteBtn, buttonContainer, onCardClick);
 
-  chrome.storage.local.get(["accountNumber"], async ({ accountNumber }) => {
-    if (!accountNumber) {
-      throw new Error("No account number in storage.");
-    }
+  const accountNumber = await accountNumberGet();
 
-    await persistAccountEditInBackground(accountNumber, account.id, patch);
-  });
+  if (!accountNumber) {
+    throw new Error("No account number in storage.");
+  }
+
+  await persistAccountEditInBackground(accountNumber, account.id, patch);
 }
 
 export function startAccountEdit(card, account, els, onCardClick) {
@@ -195,7 +196,7 @@ export function startAccountEdit(card, account, els, onCardClick) {
   card.classList.add("editing");
   card.removeEventListener("click", onCardClick);
 
-  const isHotp = accountHotpIs(account);
+  const isHotp = dataHotpIs(account);
 
   els.name.contentEditable = true;
   els.email.contentEditable = true;
@@ -238,7 +239,7 @@ export function startAccountEdit(card, account, els, onCardClick) {
 
   saveButton.addEventListener("click", (event) => {
     event.stopPropagation();
-    saveAccountEdit(
+    void saveAccountEdit(
       account,
       card,
       els,

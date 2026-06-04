@@ -1,5 +1,3 @@
-export const ACCOUNT_API_BASE_URL = "https://pc-authenticator-pdpy.onrender.com/api";
-
 export const ACCOUNTS_FINAL_KEY = "accountsFinal";
 
 export const ACCOUNTS_ENCRYPTED_KEY = "accountsEncrypted";

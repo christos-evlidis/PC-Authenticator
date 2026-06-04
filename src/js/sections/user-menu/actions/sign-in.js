@@ -1,8 +1,8 @@
+import { accountNumberSet } from "../../../accounts/account-index.js";
+import { accountNumberSanitize } from "../../../accounts/account-index.js";
 import { accountVerify } from "../../../accounts/account-index.js";
-import { USER_MENU_ACCOUNT_NUMBER_LENGTH } from "../constants.js";
-import { userMenuAccountSet } from "../storage.js";
+import { ACCOUNT_NUMBER_LENGTH } from "../../../accounts/account-index.js";
 import { userMenuStateGet } from "../state.js";
-import { userMenuAccountSanitize } from "../sanitize.js";
 import { userMenuSignInAnimation } from "../animations/sign-in.js";
 
 // Verifies credentials once at submit time, stores the account, and animates the result.
@@ -11,9 +11,9 @@ export async function userMenuSignIn(accountNumber) {
     return false;
   }
 
-  const sanitized = userMenuAccountSanitize(accountNumber);
+  const sanitized = accountNumberSanitize(accountNumber);
 
-  if (sanitized.length !== USER_MENU_ACCOUNT_NUMBER_LENGTH) {
+  if (sanitized.length !== ACCOUNT_NUMBER_LENGTH) {
     return false;
   }
 
@@ -23,7 +23,7 @@ export async function userMenuSignIn(accountNumber) {
     const result = await accountVerify(sanitized);
 
     if (result?.success === true) {
-      await userMenuAccountSet(sanitized);
+      await accountNumberSet(sanitized);
       isSuccess = true;
     }
   } catch {

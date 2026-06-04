@@ -1,4 +1,5 @@
 import { cross } from "../section-cross.js";
+import { accountNumberGet } from "../../accounts/account-index.js";
 import { createQrAddPromise } from "./qr-code-setup-scan.js";
 import { resumePageQrScan } from "./qr-code-setup-scan.js";
 import {
@@ -19,7 +20,7 @@ export async function playQrAddFromUri(otpauthUri, options = {}) {
     throw new Error("QR add is already running.");
   }
 
-  const { accountNumber } = await chrome.storage.local.get(["accountNumber"]);
+  const accountNumber = await accountNumberGet();
 
   if (!accountNumber) {
     throw new Error("Sign in to add accounts.");

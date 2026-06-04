@@ -14,8 +14,8 @@
     --user-menu-sign-in-restore-fade-ms: 250ms;
     --user-menu-sign-in-expand-up-ms: 250ms;
     --user-menu-sign-in-expand-full-ms: 150ms;
-    --user-menu-sign-in-shrink-padding-ms: 150ms;
-    --user-menu-sign-in-shrink-origin-ms: 250ms;
+    --user-menu-sign-in-shrink-full-ms: 150ms;
+    --user-menu-sign-in-shrink-down-ms: 250ms;
     --user-menu-sign-in-dots-fade-in-ms: 250ms;
     --user-menu-sign-in-dots-run-ms: 2000ms;
     --user-menu-sign-in-dots-fade-out-ms: 250ms;
@@ -25,8 +25,8 @@
     --user-menu-sign-up-restore-fade-ms: 250ms;
     --user-menu-sign-up-expand-up-ms: 250ms;
     --user-menu-sign-up-expand-full-ms: 150ms;
-    --user-menu-sign-up-shrink-padding-ms: 150ms;
-    --user-menu-sign-up-shrink-origin-ms: 250ms;
+    --user-menu-sign-up-shrink-full-ms: 150ms;
+    --user-menu-sign-up-shrink-down-ms: 250ms;
     --user-menu-sign-up-dots-fade-in-ms: 250ms;
     --user-menu-sign-up-dots-run-ms: 2000ms;
     --user-menu-sign-up-dots-fade-out-ms: 250ms;
@@ -36,8 +36,8 @@
     --user-menu-sign-out-restore-fade-ms: 250ms;
     --user-menu-sign-out-expand-up-ms: 250ms;
     --user-menu-sign-out-expand-full-ms: 150ms;
-    --user-menu-sign-out-shrink-padding-ms: 150ms;
-    --user-menu-sign-out-shrink-origin-ms: 250ms;
+    --user-menu-sign-out-shrink-full-ms: 150ms;
+    --user-menu-sign-out-shrink-down-ms: 250ms;
     --user-menu-sign-out-dots-fade-in-ms: 250ms;
     --user-menu-sign-out-dots-run-ms: 2000ms;
     --user-menu-sign-out-dots-fade-out-ms: 250ms;
@@ -47,6 +47,7 @@
     --user-menu-slide-ms: 250ms;
     --user-menu-auth-thumb-ms: 250ms;
     --user-menu-theme-thumb-ms: 250ms;
+    --user-menu-animation-timeout-buffer-ms: 32ms;
     --user-menu-close-btn-accent-ms: 250ms;
     --user-menu-account-action-btn-accent-ms: 250ms;
     --user-menu-account-action-confirm-ms: 500ms;
@@ -506,12 +507,12 @@
     animation: signInExpandFull var(--user-menu-sign-in-expand-full-ms, 150ms) ease forwards;
 }
 
-.app-user-menu__content.is-sign-in-shrink-padding {
-    animation: signInShrinkPadding var(--user-menu-sign-in-shrink-padding-ms, 150ms) ease forwards;
+.app-user-menu__content.is-sign-in-shrink-full {
+    animation: signInShrinkFull var(--user-menu-sign-in-shrink-full-ms, 150ms) ease forwards;
 }
 
-.app-user-menu__content.is-sign-in-shrink-origin {
-    animation: signInShrinkOrigin var(--user-menu-sign-in-shrink-origin-ms, 250ms) ease forwards;
+.app-user-menu__content.is-sign-in-shrink-down {
+    animation: signInShrinkDown var(--user-menu-sign-in-shrink-down-ms, 250ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-up-expand-up {
@@ -522,12 +523,12 @@
     animation: signInExpandFull var(--user-menu-sign-up-expand-full-ms, 150ms) ease forwards;
 }
 
-.app-user-menu__content.is-sign-up-shrink-padding {
-    animation: signInShrinkPadding var(--user-menu-sign-up-shrink-padding-ms, 150ms) ease forwards;
+.app-user-menu__content.is-sign-up-shrink-full {
+    animation: signInShrinkFull var(--user-menu-sign-up-shrink-full-ms, 150ms) ease forwards;
 }
 
-.app-user-menu__content.is-sign-up-shrink-origin {
-    animation: signInShrinkOrigin var(--user-menu-sign-up-shrink-origin-ms, 250ms) ease forwards;
+.app-user-menu__content.is-sign-up-shrink-down {
+    animation: signInShrinkDown var(--user-menu-sign-up-shrink-down-ms, 250ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-out-expand-up {
@@ -538,12 +539,12 @@
     animation: signInExpandFull var(--user-menu-sign-out-expand-full-ms, 150ms) ease forwards;
 }
 
-.app-user-menu__content.is-sign-out-shrink-padding {
-    animation: signInShrinkPadding var(--user-menu-sign-out-shrink-padding-ms, 150ms) ease forwards;
+.app-user-menu__content.is-sign-out-shrink-full {
+    animation: signInShrinkFull var(--user-menu-sign-out-shrink-full-ms, 150ms) ease forwards;
 }
 
-.app-user-menu__content.is-sign-out-shrink-origin {
-    animation: signInShrinkOrigin var(--user-menu-sign-out-shrink-origin-ms, 250ms) ease forwards;
+.app-user-menu__content.is-sign-out-shrink-down {
+    animation: signInShrinkDown var(--user-menu-sign-out-shrink-down-ms, 250ms) ease forwards;
 }
 
 @keyframes signInExpandUp {
@@ -578,7 +579,7 @@
     }
 }
 
-@keyframes signInShrinkPadding {
+@keyframes signInShrinkFull {
     from {
         top: var(--sign-in-full-top);
         left: var(--sign-in-full-left);
@@ -594,7 +595,7 @@
     }
 }
 
-@keyframes signInShrinkOrigin {
+@keyframes signInShrinkDown {
     from {
         top: var(--sign-in-expand-top);
         left: var(--sign-in-expand-left);

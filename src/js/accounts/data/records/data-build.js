@@ -1,17 +1,17 @@
-import { DEFAULT_ALGORITHM } from "../account-constants.js";
-import { HOTP_DEFAULT_COUNTER } from "../account-constants.js";
-import { HOTP_TYPE } from "../account-constants.js";
-import { TOTP_DIGITS } from "../account-constants.js";
-import { TOTP_PERIOD } from "../account-constants.js";
-import { TOTP_TYPE } from "../account-constants.js";
-import { accountIssuerSanitize } from "./account-sanitize.js";
-import { accountNameSanitize } from "./account-sanitize.js";
+import { DEFAULT_ALGORITHM } from "../data-constants.js";
+import { HOTP_DEFAULT_COUNTER } from "../data-constants.js";
+import { HOTP_TYPE } from "../data-constants.js";
+import { TOTP_DIGITS } from "../data-constants.js";
+import { TOTP_PERIOD } from "../data-constants.js";
+import { TOTP_TYPE } from "../data-constants.js";
+import { dataIssuerSanitize } from "./data-sanitize.js";
+import { dataNameSanitize } from "./data-sanitize.js";
 
 /** Builds display name and optional email from issuer and label. */
-export function accountNameBuild(issuer, label) {
+export function dataNameBuild(issuer, label) {
   try {
-    const issuerText = accountIssuerSanitize(issuer);
-    const labelText = accountNameSanitize(label);
+    const issuerText = dataIssuerSanitize(issuer);
+    const labelText = dataNameSanitize(label);
     const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     let name = issuerText;
     let email = "";
@@ -25,16 +25,16 @@ export function accountNameBuild(issuer, label) {
         name = labelText;
       }
     }
-    name = accountNameSanitize(name);
+    name = dataNameSanitize(name);
     return { name, email };
   } catch (error) {
-    console.warn("[account-records] accountNameBuild failed", error);
+    console.warn("[data-records] dataNameBuild failed", error);
     throw error;
   }
 }
 
 /** Turns parsed OTP fields into a storable account object. */
-export function accountFinalBuild({
+export function dataFinalBuild({
   name,
   secret,
   email,
@@ -64,7 +64,7 @@ export function accountFinalBuild({
     }
     return account;
   } catch (error) {
-    console.warn("[account-records] accountFinalBuild failed", error);
+    console.warn("[data-records] dataFinalBuild failed", error);
     throw error;
   }
 }

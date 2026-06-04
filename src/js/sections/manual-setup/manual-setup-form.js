@@ -1,5 +1,6 @@
-import { accountManualAdd } from "../../accounts/account-index.js";
+import { dataManualAdd } from "../../accounts/account-index.js";
 import { cross } from "../section-cross.js";
+import { accountNumberGet } from "../../accounts/account-index.js";
 import { clearForm } from "./manual-setup-form-utils.js";
 import { getFormSnapshot } from "./manual-setup-form-utils.js";
 import { getManualSetupForm } from "./manual-setup-panel.js";
@@ -23,9 +24,9 @@ export {
 } from "./manual-setup-form-utils.js";
 
 export async function createAddAccountPromise(formData) {
-  const { accountNumber } = await chrome.storage.local.get(["accountNumber"]);
+  const accountNumber = await accountNumberGet();
 
-  return accountManualAdd(accountNumber, formData);
+  return dataManualAdd(accountNumber, formData);
 }
 
 export async function submitManualAddAccount(form) {

@@ -1,11 +1,11 @@
 import {
   HOTP_DEFAULT_COUNTER,
   MIN_COUNTER,
-  accountHotpIs,
-  accountOtpClockGet,
-  accountOtpNumberGet,
-  accountOtpOptionsGet,
-  accountTotpIs,
+  dataHotpIs,
+  dataOtpClockGet,
+  dataOtpNumberGet,
+  dataOtpOptionsGet,
+  dataTotpIs,
 } from "../../accounts/account-index.js";
 import {
   PIE_CENTER,
@@ -84,19 +84,19 @@ export function stopTicker() {
 }
 
 function hasTotpCards() {
-  return getCardRoots().some((root) => accountTotpIs(root.account));
+  return getCardRoots().some((root) => dataTotpIs(root.account));
 }
 
 function getFirstTotpRoot() {
   return (
-    getCardRoots().find((root) => accountTotpIs(root.account)) ?? null
+    getCardRoots().find((root) => dataTotpIs(root.account)) ?? null
   );
 }
 
 export function updateAccountCode(root) {
   const { account, els, card } = root;
-  const otpOptions = accountOtpOptionsGet(account);
-  const otp = accountOtpNumberGet(account.secret, otpOptions);
+  const otpOptions = dataOtpOptionsGet(account);
+  const otp = dataOtpNumberGet(account.secret, otpOptions);
 
   if (els.code) {
     const digits = otpOptions.digits;
@@ -110,12 +110,12 @@ function runSecondTick() {
   let rolloverClock = null;
 
   for (const root of getCardRoots()) {
-    if (accountHotpIs(root.account)) {
+    if (dataHotpIs(root.account)) {
       continue;
     }
 
-    const clock = accountOtpClockGet(
-      accountOtpOptionsGet(root.account),
+    const clock = dataOtpClockGet(
+      dataOtpOptionsGet(root.account),
     );
 
     if (!rolloverClock) {
@@ -139,7 +139,7 @@ export function startTicker() {
   }
 
   for (const root of getCardRoots()) {
-    if (accountHotpIs(root.account)) {
+    if (dataHotpIs(root.account)) {
       updateAccountCode(root);
     }
   }
@@ -155,18 +155,18 @@ export function startTicker() {
   const firstTotp = getFirstTotpRoot();
 
   handlePeriodRollover(
-    accountOtpClockGet(
-      firstTotp ? accountOtpOptionsGet(firstTotp.account) : {},
+    dataOtpClockGet(
+      firstTotp ? dataOtpOptionsGet(firstTotp.account) : {},
     ),
   );
 
   for (const root of getCardRoots()) {
-    if (accountHotpIs(root.account)) {
+    if (dataHotpIs(root.account)) {
       continue;
     }
 
-    const clock = accountOtpClockGet(
-      accountOtpOptionsGet(root.account),
+    const clock = dataOtpClockGet(
+      dataOtpOptionsGet(root.account),
     );
 
     updateCardSecondTick(root, clock);
@@ -285,13 +285,13 @@ export function primeAccountCard(card) {
     return;
   }
 
-  if (accountHotpIs(root.account)) {
+  if (dataHotpIs(root.account)) {
     updateAccountCode(root);
     return;
   }
 
-  const clock = accountOtpClockGet(
-    accountOtpOptionsGet(root.account),
+  const clock = dataOtpClockGet(
+    dataOtpOptionsGet(root.account),
   );
 
   updateCardSecondTick(root, clock);

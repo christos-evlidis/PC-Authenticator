@@ -1,17 +1,17 @@
-import { DEFAULT_ALGORITHM } from "../account-constants.js";
-import { HOTP_DEFAULT_COUNTER } from "../account-constants.js";
-import { HOTP_TYPE } from "../account-constants.js";
-import { TOTP_DIGITS } from "../account-constants.js";
-import { TOTP_PERIOD } from "../account-constants.js";
-import { TOTP_TYPE } from "../account-constants.js";
-import { accountIssuerSanitize } from "../account-records/account-sanitize.js";
-import { accountSecretSanitize } from "../account-records/account-sanitize.js";
+import { DEFAULT_ALGORITHM } from "../data-constants.js";
+import { HOTP_DEFAULT_COUNTER } from "../data-constants.js";
+import { HOTP_TYPE } from "../data-constants.js";
+import { TOTP_DIGITS } from "../data-constants.js";
+import { TOTP_PERIOD } from "../data-constants.js";
+import { TOTP_TYPE } from "../data-constants.js";
+import { dataIssuerSanitize } from "../records/data-sanitize.js";
+import { dataSecretSanitize } from "../records/data-sanitize.js";
 
 /** Parses manual setup form fields into account fields. */
-export function accountManualParse({ name, secret, email, type }) {
+export function dataManualParse({ name, secret, email, type }) {
   try {
-    const sanitizedName = accountIssuerSanitize(name);
-    const sanitizedSecret = accountSecretSanitize(secret);
+    const sanitizedName = dataIssuerSanitize(name);
+    const sanitizedSecret = dataSecretSanitize(secret);
     const otpType = type === HOTP_TYPE ? HOTP_TYPE : TOTP_TYPE;
     const otpOptions = {
       type: otpType,
@@ -41,7 +41,7 @@ export function accountManualParse({ name, secret, email, type }) {
     }
     return account;
   } catch (error) {
-    console.warn("[parser-manual] accountManualParse failed", error);
+    console.warn("[data-parser-manual] dataManualParse failed", error);
     throw error;
   }
 }

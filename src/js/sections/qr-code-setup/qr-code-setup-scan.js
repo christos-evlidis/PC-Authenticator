@@ -1,4 +1,5 @@
-import { accountQrAdd } from "../../accounts/account-index.js";
+import { dataQrAdd } from "../../accounts/account-index.js";
+import { accountNumberGet } from "../../accounts/account-index.js";
 import {
   QR_SCAN_UNSUPPORTED_PAGE_ERROR,
   qrScanCancel,
@@ -31,7 +32,7 @@ function resetQrSetupAfterStartError(errorMessage) {
 }
 
 export async function createQrAddPromise(accountNumber, otpauthUri) {
-  return accountQrAdd(accountNumber, otpauthUri);
+  return dataQrAdd(accountNumber, otpauthUri);
 }
 
 export async function cancelPageSelection() {
@@ -84,7 +85,7 @@ export async function startQrScan(options = {}) {
     return;
   }
 
-  const { accountNumber } = await chrome.storage.local.get(["accountNumber"]);
+  const accountNumber = await accountNumberGet();
 
   if (!accountNumber) {
     if (onScanError) {

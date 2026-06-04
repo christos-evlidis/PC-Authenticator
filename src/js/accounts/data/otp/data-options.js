@@ -1,7 +1,7 @@
-import { HOTP_TYPE } from "../account-constants.js";
+import { HOTP_TYPE } from "../data-constants.js";
 
 /** Builds the option object passed into OTP generation for a stored account. */
-export function accountOtpOptionsGet(account) {
+export function dataOtpOptionsGet(account) {
   try {
     const options = {
       type: account.type,
@@ -15,7 +15,7 @@ export function accountOtpOptionsGet(account) {
     }
     return options;
   } catch (error) {
-    console.warn("[account-otp-options] accountOtpOptionsGet failed", error);
+    console.warn("[data-otp-options] dataOtpOptionsGet failed", error);
     throw error;
   }
 }

@@ -36,16 +36,16 @@ import { USER_MENU_VAR_SIGN_OUT_EXPAND_UP_MS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_OUT_FADE_MS } from "../constants.js";
 import { USER_MENU_SIGN_OUT_EXPAND_FULL_CLASS } from "../constants.js";
 import { USER_MENU_SIGN_OUT_EXPAND_UP_CLASS } from "../constants.js";
-import { USER_MENU_SIGN_OUT_SHRINK_ORIGIN_CLASS } from "../constants.js";
-import { USER_MENU_SIGN_OUT_SHRINK_PADDING_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_OUT_SHRINK_DOWN_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_OUT_SHRINK_FULL_CLASS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_OUT_RESTORE_FADE_MS } from "../constants.js";
 import { USER_MENU_SIGN_OUT_RESULT_DRAW_CLASS } from "../constants.js";
 import { USER_MENU_SIGN_OUT_RESULT_FADE_OUT_CLASS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_OUT_RESULT_DRAW_MS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_OUT_RESULT_FADE_OUT_MS } from "../constants.js";
 import { USER_MENU_SIGN_OUT_RUNNING_CLASS } from "../constants.js";
-import { USER_MENU_VAR_SIGN_OUT_SHRINK_ORIGIN_MS } from "../constants.js";
-import { USER_MENU_VAR_SIGN_OUT_SHRINK_PADDING_MS } from "../constants.js";
+import { USER_MENU_VAR_SIGN_OUT_SHRINK_DOWN_MS } from "../constants.js";
+import { USER_MENU_VAR_SIGN_OUT_SHRINK_FULL_MS } from "../constants.js";
 import { USER_MENU_SIGNED_IN_VIEW_SELECTOR } from "../constants.js";
 import { USER_MENU_SIGNED_OUT_VIEW_SELECTOR } from "../constants.js";
 import { USER_MENU_SIGN_IN_INPUT_SELECTOR } from "../constants.js";
@@ -61,7 +61,7 @@ import { USER_MENU_STATUS_ICON_CIRCLE_SELECTOR } from "../constants.js";
 import { USER_MENU_STATUS_ICON_MARK_SELECTOR } from "../constants.js";
 import { USER_MENU_STATUS_LOADING_SELECTOR } from "../constants.js";
 import { USER_MENU_STATUS_SUCCESS_SELECTOR } from "../constants.js";
-import { USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
+import { USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
 import { USER_MENU_SIGN_OUT_FADE_SELECTORS } from "../constants.js";
 import { USER_MENU_SIGN_OUT_CONTENT_PHASE_CLASSES } from "../constants.js";
 import { USER_MENU_SIGN_OUT_LAYOUT_VARS } from "../constants.js";
@@ -176,9 +176,10 @@ export async function userMenuSignOutAnimation() {
     const dotsFadeOutMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_DOTS_FADE_OUT_MS);
     const resultDrawMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_RESULT_DRAW_MS);
     const resultFadeOutMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_RESULT_FADE_OUT_MS);
-    const shrinkPaddingMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_SHRINK_PADDING_MS);
-    const shrinkOriginMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_SHRINK_ORIGIN_MS);
+    const shrinkFullMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_SHRINK_FULL_MS);
+    const shrinkDownMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_SHRINK_DOWN_MS);
     const restoreFadeMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_RESTORE_FADE_MS);
+    const timeoutBufferMs = cssMs(panel, USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS);
     const circleDuration = Math.round(resultDrawMs * 0.45);
     const markDuration = resultDrawMs - circleDuration;
 
@@ -233,7 +234,7 @@ export async function userMenuSignOutAnimation() {
     await waitForAnimationEnd(
       content,
       "signInExpandUp",
-      expandUpMs + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
+      expandUpMs + timeoutBufferMs,
     );
     content.style.setProperty(USER_MENU_VAR_SIGN_OUT_ORIGIN_TOP, `${layout.expandUpTop}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_OUT_ORIGIN_LEFT, `${layout.expandUpLeft}px`);
@@ -251,7 +252,7 @@ export async function userMenuSignOutAnimation() {
     await waitForAnimationEnd(
       content,
       "signInExpandFull",
-      expandFullMs + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
+      expandFullMs + timeoutBufferMs,
     );
     content.style.setProperty(USER_MENU_VAR_SIGN_OUT_ORIGIN_TOP, `${layout.fullTop}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_OUT_ORIGIN_LEFT, `${layout.fullLeft}px`);
@@ -268,7 +269,7 @@ export async function userMenuSignOutAnimation() {
     await waitForAnimationEnd(
       loadingStatus,
       "loginStatusFadeIn",
-      dotsFadeInMs + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
+      dotsFadeInMs + timeoutBufferMs,
     );
     loadingStatus.classList.remove(USER_MENU_SIGN_OUT_DOTS_FADE_IN_CLASS);
     loadingStatus.classList.add(USER_MENU_SIGN_OUT_DOTS_RUN_CLASS);
@@ -288,7 +289,7 @@ export async function userMenuSignOutAnimation() {
     await waitForAnimationEnd(
       loadingStatus,
       "loginStatusFadeOut",
-      dotsFadeOutMs + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
+      dotsFadeOutMs + timeoutBufferMs,
     );
     loadingStatus.classList.remove(USER_MENU_SIGN_OUT_DOTS_FADE_OUT_CLASS);
     loadingStatus.classList.add(USER_MENU_HIDDEN_CLASS);
@@ -310,7 +311,7 @@ export async function userMenuSignOutAnimation() {
       await waitForAnimationEnd(
         circle,
         "loginStatusCircleDraw",
-        circleDuration + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
+        circleDuration + timeoutBufferMs,
       );
     }
 
@@ -320,7 +321,7 @@ export async function userMenuSignOutAnimation() {
 
     await Promise.all(
       marks.map((mark) =>
-        waitForAnimationEnd(mark, "loginStatusMarkDraw", markDuration + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS),
+        waitForAnimationEnd(mark, "loginStatusMarkDraw", markDuration + timeoutBufferMs),
       ),
     );
 
@@ -335,7 +336,7 @@ export async function userMenuSignOutAnimation() {
     await waitForAnimationEnd(
       resultStatus,
       "loginStatusFadeOut",
-      resultFadeOutMs + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
+      resultFadeOutMs + timeoutBufferMs,
     );
     resultStatus.classList.remove(
       USER_MENU_SIGN_OUT_RESULT_DRAW_CLASS,
@@ -347,17 +348,17 @@ export async function userMenuSignOutAnimation() {
       return false;
     }
 
-    content.classList.add(USER_MENU_SIGN_OUT_SHRINK_PADDING_CLASS);
+    content.classList.add(USER_MENU_SIGN_OUT_SHRINK_FULL_CLASS);
     await waitForAnimationEnd(
       content,
-      "signInShrinkPadding",
-      shrinkPaddingMs + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
+      "signInShrinkFull",
+      shrinkFullMs + timeoutBufferMs,
     );
     content.style.setProperty(USER_MENU_VAR_SIGN_OUT_ORIGIN_TOP, `${layout.expandUpTop}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_OUT_ORIGIN_LEFT, `${layout.expandUpLeft}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_OUT_ORIGIN_WIDTH, `${layout.expandUpWidth}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_OUT_ORIGIN_HEIGHT, `${layout.expandUpHeight}px`);
-    content.classList.remove(USER_MENU_SIGN_OUT_SHRINK_PADDING_CLASS);
+    content.classList.remove(USER_MENU_SIGN_OUT_SHRINK_FULL_CLASS);
 
     if (runId !== USER_MENU_SIGN_OUT_ANIMATION_RUN_ID.value) {
       return false;
@@ -365,17 +366,17 @@ export async function userMenuSignOutAnimation() {
 
     await waitForNextFrame();
 
-    content.classList.add(USER_MENU_SIGN_OUT_SHRINK_ORIGIN_CLASS);
+    content.classList.add(USER_MENU_SIGN_OUT_SHRINK_DOWN_CLASS);
     await waitForAnimationEnd(
       content,
-      "signInShrinkOrigin",
-      shrinkOriginMs + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
+      "signInShrinkDown",
+      shrinkDownMs + timeoutBufferMs,
     );
     content.style.setProperty(USER_MENU_VAR_SIGN_OUT_ORIGIN_TOP, `${layout.originTop}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_OUT_ORIGIN_LEFT, `${layout.originLeft}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_OUT_ORIGIN_WIDTH, `${layout.originWidth}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_OUT_ORIGIN_HEIGHT, `${layout.originHeight}px`);
-    content.classList.remove(USER_MENU_SIGN_OUT_SHRINK_ORIGIN_CLASS);
+    content.classList.remove(USER_MENU_SIGN_OUT_SHRINK_DOWN_CLASS);
 
     if (runId !== USER_MENU_SIGN_OUT_ANIMATION_RUN_ID.value) {
       return false;
@@ -471,7 +472,7 @@ export async function userMenuSignOutAnimation() {
     await waitForAnimationEnd(
       header,
       "userMenuRestoreFade",
-      restoreFadeMs + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
+      restoreFadeMs + timeoutBufferMs,
     );
 
     panel.classList.remove(USER_MENU_SIGN_OUT_RESTORE_FADE_CLASS);

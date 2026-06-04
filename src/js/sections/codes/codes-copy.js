@@ -1,6 +1,7 @@
-import { accountUpdate } from "../../accounts/account-index.js";
-import { accountHotpIs } from "../../accounts/account-index.js";
-import { accountOtpOptionsGet } from "../../accounts/account-index.js";
+import { dataUpdate } from "../../accounts/account-index.js";
+import { dataHotpIs } from "../../accounts/account-index.js";
+import { accountNumberGet } from "../../accounts/account-index.js";
+import { dataOtpOptionsGet } from "../../accounts/account-index.js";
 import { TOTP_DIGITS } from "../../accounts/account-index.js";
 import { getCardRoots } from "./codes-state.js";
 import { formatHotpCounterDisplay } from "./codes-timer.js";
@@ -16,21 +17,21 @@ function applyHotpAdvanceUI(root) {
   }
 }
 
-function persistHotpAdvance(root) {
-  chrome.storage.local.get(["accountNumber"], async ({ accountNumber }) => {
-    if (!accountNumber || !accountHotpIs(root.account)) {
-      return;
-    }
+async function persistHotpAdvance(root) {
+  const accountNumber = await accountNumberGet();
 
-    await accountUpdate(accountNumber, root.account.id, {
-      counter: getHotpCounterValue(root.account),
-    });
-    updateAccountCode(root);
+  if (!accountNumber || !dataHotpIs(root.account)) {
+    return;
+  }
 
-    if (root.els?.counter) {
-      root.els.counter.textContent = formatHotpCounterDisplay(root.account);
-    }
+  await dataUpdate(accountNumber, root.account.id, {
+    counter: getHotpCounterValue(root.account),
   });
+  updateAccountCode(root);
+
+  if (root.els?.counter) {
+    root.els.counter.textContent = formatHotpCounterDisplay(root.account);
+  }
 }
 
 export async function showCopiedFeedback() {}
@@ -39,7 +40,7 @@ export async function copyCode(card, codeText) {
   const raw = String(codeText ?? "").replace(/\s+/g, "");
   const root = getCardRoots().find((item) => item.card === card);
   const expectedDigits = root
-    ? accountOtpOptionsGet(root.account).digits
+    ? dataOtpOptionsGet(root.account).digits
     : TOTP_DIGITS;
   const codePattern = new RegExp(`^\\d{${expectedDigits}}$`);
 
@@ -49,8 +50,8 @@ export async function copyCode(card, codeText) {
 
   await navigator.clipboard.writeText(raw);
 
-  if (root && accountHotpIs(root.account)) {
+  if (root && dataHotpIs(root.account)) {
     applyHotpAdvanceUI(root);
-    persistHotpAdvance(root);
+    void persistHotpAdvance(root);
   }
 }

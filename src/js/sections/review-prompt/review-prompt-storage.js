@@ -1,6 +1,7 @@
-import { accountsFinalGet } from "../../accounts/account-index.js";
+import { dataFinalGet } from "../../accounts/account-index.js";
 import { getPopupResumePending } from "../../popup-resume/popup-resume.js";
 import { whenPopupResumeReady } from "../../popup-resume/popup-resume.js";
+import { accountNumberGet } from "../../accounts/account-index.js";
 
 export const STORE_REVIEWS_URL =
   "https://chromewebstore.google.com/detail/authenticator-for-pc/ppkkcfblhfgmdmefkmkoomenhgecbemi/reviews";
@@ -90,7 +91,7 @@ function hasElapsedSince(timestamp, ms) {
 }
 
 async function hasSavedAccount() {
-  const accounts = (await accountsFinalGet()) ?? [];
+  const accounts = (await dataFinalGet()) ?? [];
   return accounts.some((account) => account?.secret);
 }
 
@@ -111,7 +112,7 @@ export async function shouldShowReviewPrompt() {
     return false;
   }
 
-  const { accountNumber } = await chrome.storage.local.get(["accountNumber"]);
+  const accountNumber = await accountNumberGet();
 
   if (!accountNumber) {
     return false;
