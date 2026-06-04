@@ -10,14 +10,19 @@ export { USER_MENU_ACCOUNT_NUMBER_LENGTH } from "./constants.js";
 
 import { USER_MENU_ACCOUNT_COPY_BTN_SELECTOR } from "./constants.js";
 import { USER_MENU_ACCOUNT_DOWNLOAD_BTN_SELECTOR } from "./constants.js";
+import { USER_MENU_AUTH_BAR_SELECTOR } from "./constants.js";
 import { USER_MENU_AUTH_BTN_SELECTOR } from "./constants.js";
 import { USER_MENU_BACKDROP_SELECTOR } from "./constants.js";
 import { USER_MENU_CLOSE_BTN_SELECTOR } from "./constants.js";
+import { USER_MENU_HIDDEN_CLASS } from "./constants.js";
 import { USER_MENU_LOGOUT_BTN_SELECTOR } from "./constants.js";
 import { USER_MENU_OPEN_BTN_SELECTOR } from "./constants.js";
+import { USER_MENU_SIGNED_IN_VIEW_SELECTOR } from "./constants.js";
+import { USER_MENU_SIGNED_OUT_VIEW_SELECTOR } from "./constants.js";
 import { USER_MENU_SIGN_IN_FORM_SELECTOR } from "./constants.js";
 import { USER_MENU_SIGN_IN_INPUT_SELECTOR } from "./constants.js";
 import { USER_MENU_SIGN_UP_BTN_SELECTOR } from "./constants.js";
+import { USER_MENU_THEME_BAR_SELECTOR } from "./constants.js";
 import { USER_MENU_THEME_BTN_SELECTOR } from "./constants.js";
 import { userMenuAccountCopy } from "./actions/copy.js";
 import { userMenuAccountDownload } from "./actions/download.js";
@@ -30,7 +35,6 @@ import { userMenuSignUp } from "./actions/sign-up.js";
 import { userMenuThemeSwitch } from "./actions/theme-switch.js";
 import { userMenuAccountApply } from "./render/account.js";
 import { userMenuDomApply } from "./render/dom.js";
-import { userMenuViewsApply } from "./render/views.js";
 import { userMenuStateSet } from "./state.js";
 import { refreshAuth } from "../../utils/utility-auth.js";
 
@@ -41,7 +45,15 @@ export function userMenuApply(isSignedIn, accountNumber = null) {
     accountNumber: isSignedIn ? accountNumber : null,
   });
 
-  userMenuViewsApply(isSignedIn);
+  const authBar = document.querySelector(USER_MENU_AUTH_BAR_SELECTOR);
+  const themeBar = document.querySelector(USER_MENU_THEME_BAR_SELECTOR);
+  const signedOutView = document.querySelector(USER_MENU_SIGNED_OUT_VIEW_SELECTOR);
+  const signedInView = document.querySelector(USER_MENU_SIGNED_IN_VIEW_SELECTOR);
+
+  authBar?.classList.toggle(USER_MENU_HIDDEN_CLASS, isSignedIn);
+  themeBar?.classList.toggle(USER_MENU_HIDDEN_CLASS, !isSignedIn);
+  signedOutView?.classList.toggle(USER_MENU_HIDDEN_CLASS, isSignedIn);
+  signedInView?.classList.toggle(USER_MENU_HIDDEN_CLASS, !isSignedIn);
   userMenuAccountApply(isSignedIn ? accountNumber : null);
 }
 

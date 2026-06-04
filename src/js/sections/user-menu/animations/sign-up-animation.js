@@ -13,7 +13,6 @@ import { userMenuAuthTrackApply } from "../render/auth.js";
 import { userMenuSignInInputClear } from "../render/auth.js";
 import { userMenuThemeButtonsApply } from "../render/theme.js";
 import { userMenuThemeTrackApply } from "../render/theme.js";
-import { userMenuViewsApply } from "../render/views.js";
 import { USER_MENU_AUTH_BAR_SELECTOR } from "../constants.js";
 import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../constants.js";
 import { USER_MENU_CONTENT_SELECTOR } from "../constants.js";
@@ -47,7 +46,9 @@ import { USER_MENU_VAR_SIGN_UP_SHRINK_ORIGIN_MS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_SHRINK_PADDING_MS } from "../constants.js";
 import { USER_MENU_SIGN_UP_STATUS_LOADING_IN_CLASS } from "../constants.js";
 import { USER_MENU_SIGN_UP_STATUS_LOADING_OUT_CLASS } from "../constants.js";
+import { USER_MENU_SIGNED_IN_VIEW_SELECTOR } from "../constants.js";
 import { USER_MENU_SIGNED_OUT_VIEW_SELECTOR } from "../constants.js";
+import { USER_MENU_THEME_BAR_SELECTOR } from "../constants.js";
 import { USER_MENU_STATUS_ERROR_SELECTOR } from "../constants.js";
 import { USER_MENU_STATUS_ICON_CIRCLE_SELECTOR } from "../constants.js";
 import { USER_MENU_STATUS_ICON_MARK_SELECTOR } from "../constants.js";
@@ -408,7 +409,13 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
       userMenuSignInInputClear();
     }
 
-    userMenuViewsApply(isSignedInAfter);
+    const themeBar = document.querySelector(USER_MENU_THEME_BAR_SELECTOR);
+    const signedInView = document.querySelector(USER_MENU_SIGNED_IN_VIEW_SELECTOR);
+
+    authBar.classList.toggle(USER_MENU_HIDDEN_CLASS, isSignedInAfter);
+    themeBar?.classList.toggle(USER_MENU_HIDDEN_CLASS, !isSignedInAfter);
+    signedOutView.classList.toggle(USER_MENU_HIDDEN_CLASS, isSignedInAfter);
+    signedInView?.classList.toggle(USER_MENU_HIDDEN_CLASS, !isSignedInAfter);
 
     if (!isSignedInAfter) {
       const authView = userMenuStateGet().authView || USER_MENU_AUTH_VIEW_SIGN_UP;
