@@ -10,20 +10,32 @@ export { USER_MENU_ACCOUNT_NUMBER_LENGTH } from "./constants.js";
 
 import { USER_MENU_ACCOUNT_COPY_BTN_SELECTOR } from "./constants.js";
 import { USER_MENU_ACCOUNT_DOWNLOAD_BTN_SELECTOR } from "./constants.js";
+import { USER_MENU_ACCOUNT_INPUT_SELECTOR } from "./constants.js";
+import { USER_MENU_ACTIVE_CLASS } from "./constants.js";
 import { USER_MENU_AUTH_BAR_SELECTOR } from "./constants.js";
 import { USER_MENU_AUTH_BTN_SELECTOR } from "./constants.js";
+import { USER_MENU_AUTH_SIGN_IN_CLASS } from "./constants.js";
+import { USER_MENU_AUTH_SIGN_UP_CLASS } from "./constants.js";
+import { USER_MENU_AUTH_TRACK_SELECTOR } from "./constants.js";
+import { USER_MENU_AUTH_VIEW_SIGN_IN } from "./constants.js";
+import { USER_MENU_AUTH_VIEW_SIGN_UP } from "./constants.js";
 import { USER_MENU_BACKDROP_SELECTOR } from "./constants.js";
 import { USER_MENU_CLOSE_BTN_SELECTOR } from "./constants.js";
 import { USER_MENU_HIDDEN_CLASS } from "./constants.js";
 import { USER_MENU_LOGOUT_BTN_SELECTOR } from "./constants.js";
 import { USER_MENU_OPEN_BTN_SELECTOR } from "./constants.js";
-import { USER_MENU_SIGNED_IN_VIEW_SELECTOR } from "./constants.js";
-import { USER_MENU_SIGNED_OUT_VIEW_SELECTOR } from "./constants.js";
 import { USER_MENU_SIGN_IN_FORM_SELECTOR } from "./constants.js";
 import { USER_MENU_SIGN_IN_INPUT_SELECTOR } from "./constants.js";
+import { USER_MENU_SIGN_IN_VIEW_SELECTOR } from "./constants.js";
 import { USER_MENU_SIGN_UP_BTN_SELECTOR } from "./constants.js";
+import { USER_MENU_SIGN_UP_VIEW_SELECTOR } from "./constants.js";
+import { USER_MENU_SIGNED_IN_VIEW_SELECTOR } from "./constants.js";
+import { USER_MENU_SIGNED_OUT_VIEW_SELECTOR } from "./constants.js";
 import { USER_MENU_THEME_BAR_SELECTOR } from "./constants.js";
 import { USER_MENU_THEME_BTN_SELECTOR } from "./constants.js";
+import { USER_MENU_THEME_DARK_CLASS } from "./constants.js";
+import { USER_MENU_THEME_LIGHT_CLASS } from "./constants.js";
+import { USER_MENU_THEME_TRACK_SELECTOR } from "./constants.js";
 import { userMenuAccountCopy } from "./actions/copy.js";
 import { userMenuAccountDownload } from "./actions/download.js";
 import { userMenuAuthSwitch } from "./actions/auth-switch.js";
@@ -33,10 +45,11 @@ import { userMenuSignIn } from "./actions/sign-in.js";
 import { userMenuSignOut } from "./actions/sign-out.js";
 import { userMenuSignUp } from "./actions/sign-up.js";
 import { userMenuThemeSwitch } from "./actions/theme-switch.js";
-import { userMenuAccountApply } from "./render/account.js";
-import { userMenuDomApply } from "./render/dom.js";
+import { userMenuStateGet } from "./state.js";
 import { userMenuStateSet } from "./state.js";
 import { refreshAuth } from "../../utils/utility-auth.js";
+import { themeRead } from "../../utils/utility-theme.js";
+import { THEME_DARK } from "../../utils/utility-theme.js";
 
 /** Applies user-menu auth state in memory and updates signed-in/out DOM. */
 export function userMenuApply(isSignedIn, accountNumber = null) {
@@ -54,7 +67,12 @@ export function userMenuApply(isSignedIn, accountNumber = null) {
   themeBar?.classList.toggle(USER_MENU_HIDDEN_CLASS, !isSignedIn);
   signedOutView?.classList.toggle(USER_MENU_HIDDEN_CLASS, isSignedIn);
   signedInView?.classList.toggle(USER_MENU_HIDDEN_CLASS, !isSignedIn);
-  userMenuAccountApply(isSignedIn ? accountNumber : null);
+
+  const accountInput = document.querySelector(USER_MENU_ACCOUNT_INPUT_SELECTOR);
+
+  if (accountInput) {
+    accountInput.value = (isSignedIn ? accountNumber : null) ?? "";
+  }
 }
 
 /** Registers user-menu listeners and syncs from storage. */
@@ -117,6 +135,55 @@ export function userMenuInit() {
     });
 
   void refreshAuth().then(() => {
-    userMenuDomApply();
+    const state = userMenuStateGet();
+    const theme = themeRead();
+
+    userMenuStateSet({ theme });
+
+    const authBar = document.querySelector(USER_MENU_AUTH_BAR_SELECTOR);
+    const themeBar = document.querySelector(USER_MENU_THEME_BAR_SELECTOR);
+    const signedOutView = document.querySelector(USER_MENU_SIGNED_OUT_VIEW_SELECTOR);
+    const signedInView = document.querySelector(USER_MENU_SIGNED_IN_VIEW_SELECTOR);
+
+    authBar?.classList.toggle(USER_MENU_HIDDEN_CLASS, state.isSignedIn);
+    themeBar?.classList.toggle(USER_MENU_HIDDEN_CLASS, !state.isSignedIn);
+    signedOutView?.classList.toggle(USER_MENU_HIDDEN_CLASS, state.isSignedIn);
+    signedInView?.classList.toggle(USER_MENU_HIDDEN_CLASS, !state.isSignedIn);
+
+    const accountInput = document.querySelector(USER_MENU_ACCOUNT_INPUT_SELECTOR);
+
+    if (accountInput) {
+      accountInput.value = state.accountNumber ?? "";
+    }
+
+    const authView = state.authView || USER_MENU_AUTH_VIEW_SIGN_IN;
+    const signInView = document.querySelector(USER_MENU_SIGN_IN_VIEW_SELECTOR);
+    const signUpView = document.querySelector(USER_MENU_SIGN_UP_VIEW_SELECTOR);
+    const isSignUp = authView === USER_MENU_AUTH_VIEW_SIGN_UP;
+
+    signInView?.classList.toggle(USER_MENU_HIDDEN_CLASS, isSignUp);
+    signUpView?.classList.toggle(USER_MENU_HIDDEN_CLASS, !isSignUp);
+
+    document.querySelectorAll(USER_MENU_AUTH_BTN_SELECTOR).forEach((button) => {
+      button.classList.toggle(
+        USER_MENU_ACTIVE_CLASS,
+        button.dataset.view === authView,
+      );
+    });
+
+    const authTrack = document.querySelector(USER_MENU_AUTH_TRACK_SELECTOR);
+
+    authTrack?.classList.toggle(USER_MENU_AUTH_SIGN_IN_CLASS, !isSignUp);
+    authTrack?.classList.toggle(USER_MENU_AUTH_SIGN_UP_CLASS, isSignUp);
+
+    document.querySelectorAll(USER_MENU_THEME_BTN_SELECTOR).forEach((button) => {
+      button.classList.toggle(USER_MENU_ACTIVE_CLASS, button.dataset.theme === theme);
+    });
+
+    const themeTrack = document.querySelector(USER_MENU_THEME_TRACK_SELECTOR);
+    const isDark = theme === THEME_DARK;
+
+    themeTrack?.classList.toggle(USER_MENU_THEME_LIGHT_CLASS, !isDark);
+    themeTrack?.classList.toggle(USER_MENU_THEME_DARK_CLASS, isDark);
   });
 }

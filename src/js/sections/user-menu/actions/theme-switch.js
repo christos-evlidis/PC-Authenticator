@@ -1,7 +1,8 @@
 import { themePersist } from "../../../utils/utility-theme.js";
 import { THEME_DARK } from "../../../utils/utility-theme.js";
 import { THEME_LIGHT } from "../../../utils/utility-theme.js";
-import { userMenuThemeButtonsApply } from "../render/theme.js";
+import { USER_MENU_ACTIVE_CLASS } from "../constants.js";
+import { USER_MENU_THEME_BTN_SELECTOR } from "../constants.js";
 import { userMenuStateGet } from "../state.js";
 import { userMenuStateSet } from "../state.js";
 import { userMenuThemeSwitchAnimation } from "../animations/theme-switch-animation.js";
@@ -16,6 +17,10 @@ export async function userMenuThemeSwitch(theme) {
 
   await themePersist(nextTheme);
   userMenuStateSet({ theme: nextTheme });
-  userMenuThemeButtonsApply(nextTheme);
+
+  document.querySelectorAll(USER_MENU_THEME_BTN_SELECTOR).forEach((button) => {
+    button.classList.toggle(USER_MENU_ACTIVE_CLASS, button.dataset.theme === nextTheme);
+  });
+
   void userMenuThemeSwitchAnimation(nextTheme);
 }
