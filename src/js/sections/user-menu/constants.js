@@ -20,13 +20,16 @@ export const USER_MENU_THEME_THUMB_SELECTOR = ".app-user-menu__theme-switch-thum
 export const USER_MENU_THEME_BTN_SELECTOR = ".app-user-menu__theme-switch-btn";
 
 export const USER_MENU_SIGN_IN_VIEW_SELECTOR = ".app-user-menu__auth-view--sign-in";
-export const USER_MENU_SIGN_UP_VIEW_SELECTOR = ".app-user-menu__auth-view--sign-up";
 export const USER_MENU_SIGN_IN_FORM_SELECTOR = ".app-user-menu__form--sign-in";
 export const USER_MENU_SIGN_IN_INPUT_SELECTOR = ".app-user-menu__sign-in-input";
+
+export const USER_MENU_SIGN_UP_VIEW_SELECTOR = ".app-user-menu__auth-view--sign-up";
 export const USER_MENU_SIGN_UP_BTN_SELECTOR = ".app-user-menu__sign-up-submit";
+
 export const USER_MENU_ACCOUNT_INPUT_SELECTOR = ".app-user-menu__account-input";
 export const USER_MENU_ACCOUNT_COPY_BTN_SELECTOR = ".app-user-menu__account-copy-btn";
 export const USER_MENU_ACCOUNT_DOWNLOAD_BTN_SELECTOR = ".app-user-menu__account-download-btn";
+
 export const USER_MENU_LOGOUT_BTN_SELECTOR = ".app-user-menu__logout-btn";
 
 export const USER_MENU_STATUS_LOADING_SELECTOR = ".app-user-menu__status .login-status--loading";
@@ -35,16 +38,13 @@ export const USER_MENU_STATUS_ERROR_SELECTOR = ".app-user-menu__status .login-st
 export const USER_MENU_STATUS_ICON_CIRCLE_SELECTOR = ".login-status__icon-circle";
 export const USER_MENU_STATUS_ICON_MARK_SELECTOR = ".login-status__icon-mark";
 
-export const USER_MENU_ACCOUNT_NUMBER_KEY = "accountNumber";
-export const USER_MENU_ACCOUNT_NUMBER_LENGTH = 24;
-
 export const USER_MENU_AUTH_VIEW_SIGN_IN = "sign-in";
 export const USER_MENU_AUTH_VIEW_SIGN_UP = "sign-up";
 
 export const USER_MENU_HIDDEN_CLASS = "is-hidden";
 export const USER_MENU_ACTIVE_CLASS = "is-active";
-export const USER_MENU_OPEN_CLASS = "is-open";
-export const USER_MENU_OPEN_BTN_ACTIVE_CLASS = "is-menu-open";
+export const USER_MENU_PANEL_DISPLAYED_CLASS = "is-panel-displayed";
+export const USER_MENU_HEADER_BTN_OPEN_CLASS = "is-user-menu-btn-open";
 export const USER_MENU_PANEL_OPENING_CLASS = "is-panel-opening";
 export const USER_MENU_PANEL_OPEN_CLASS = "is-panel-open";
 export const USER_MENU_PANEL_CLOSING_CLASS = "is-panel-closing";
@@ -290,6 +290,9 @@ export const USER_MENU_VAR_AUTH_THUMB_MS = "--user-menu-auth-thumb-ms";
 export const USER_MENU_VAR_THEME_THUMB_MS = "--user-menu-theme-thumb-ms";
 
 export const USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS = 32;
+
+export const USER_MENU_ACCOUNT_NUMBER_KEY = "accountNumber";
+export const USER_MENU_ACCOUNT_NUMBER_LENGTH = 24;
 
 export const USER_MENU_PANEL_ANIMATION_RUN_ID = { value: 0 };
 export const USER_MENU_SIGN_IN_ANIMATION_RUN_ID = { value: 0 };

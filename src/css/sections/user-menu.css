@@ -78,7 +78,7 @@
     pointer-events: auto;
 }
 
-.app-user-menu.is-open .app-user-menu__panel {
+.app-user-menu.is-panel-displayed .app-user-menu__panel {
     display: flex;
 }
 
@@ -561,7 +561,7 @@
     overflow: hidden;
 }
 
-.app-header__user-menu-btn.is-menu-open {
+.app-header__user-menu-btn.is-user-menu-btn-open {
     background: var(--header-accent-hover);
     color: var(--header-icon-hover);
 }
