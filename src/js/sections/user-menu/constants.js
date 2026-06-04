@@ -1,4 +1,4 @@
-//R
+
 export const USER_MENU_ROOT_SELECTOR = ".app-user-menu";
 export const USER_MENU_BACKDROP_SELECTOR = ".app-user-menu__backdrop";
 export const USER_MENU_PANEL_SELECTOR = ".app-user-menu__panel";
@@ -8,6 +8,7 @@ export const USER_MENU_CLOSE_BTN_SELECTOR = ".app-user-menu__close-btn";
 export const USER_MENU_OPEN_BTN_SELECTOR = ".app-header__user-menu-btn";
 
 export const USER_MENU_HEADER_BTN_ACTIVE_CLASS = "is-user-menu-btn-active";
+export const USER_MENU_HEADER_BTN_DISABLED_CLASS = "is-user-menu-btn-disabled";
 
 export const USER_MENU_SIGNED_OUT_VIEW_SELECTOR = ".app-user-menu__view--signed-out";
 export const USER_MENU_SIGNED_IN_VIEW_SELECTOR = ".app-user-menu__view--signed-in";

@@ -566,6 +566,17 @@
     color: var(--header-icon-hover);
 }
 
+.app-header__user-menu-btn.is-user-menu-btn-disabled {
+    pointer-events: none;
+    opacity: var(--header-actions-disabled-opacity);
+    cursor: default;
+}
+
+.app-header__user-menu-btn.is-user-menu-btn-disabled:hover {
+    background: transparent;
+    color: var(--header-icon);
+}
+
 .app-user-menu__status {
     position: absolute;
     inset: 0;
