@@ -75,37 +75,6 @@ import { USER_MENU_VAR_SIGN_UP_RESTORE_TOP } from "../user-menu-constants.js";
 import { USER_MENU_VAR_SIGN_UP_RESTORE_WIDTH } from "../user-menu-constants.js";
 import { USER_MENU_SIGN_UP_ANIMATION_RUN_ID } from "../user-menu-constants.js";
 
-// Clears transient sign-up animation state from panel and content elements.
-export function userMenuSignUpAnimationReset(panel, content) {
-  if (!panel) {
-    return;
-  }
-
-  panel.classList.remove(
-    USER_MENU_SIGN_UP_FADING_CHROME_CLASS,
-    USER_MENU_SIGN_UP_CHROME_HIDDEN_CLASS,
-    USER_MENU_SIGN_UP_CHROME_PREPARING_CLASS,
-    USER_MENU_SIGN_UP_CHROME_VISIBLE_CLASS,
-  );
-
-  panel.querySelectorAll(USER_MENU_SIGN_UP_CHROME_SELECTORS).forEach((element) => {
-    element.style.removeProperty("opacity");
-    element.style.removeProperty("visibility");
-    element.style.removeProperty("pointer-events");
-  });
-
-  if (content) {
-    cssPhaseReset(content, ...USER_MENU_SIGN_UP_CONTENT_PHASE_CLASSES);
-
-    USER_MENU_SIGN_UP_LAYOUT_VARS.forEach((layoutVar) => {
-      content.style.removeProperty(layoutVar);
-    });
-  }
-
-  panel?.classList.remove(USER_MENU_SIGN_UP_RUNNING_CLASS);
-  panel?.style.removeProperty("position");
-}
-
 export async function userMenuSignUpAnimation(resultIsSuccess) {
   const isSignedInAfter = resultIsSuccess;
   const runId = USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value + 1;
@@ -138,7 +107,31 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
     return resultIsSuccess;
   }
 
-  userMenuSignUpAnimationReset(panel, content);
+  if (panel) {
+    panel.classList.remove(
+      USER_MENU_SIGN_UP_FADING_CHROME_CLASS,
+      USER_MENU_SIGN_UP_CHROME_HIDDEN_CLASS,
+      USER_MENU_SIGN_UP_CHROME_PREPARING_CLASS,
+      USER_MENU_SIGN_UP_CHROME_VISIBLE_CLASS,
+    );
+
+    panel.querySelectorAll(USER_MENU_SIGN_UP_CHROME_SELECTORS).forEach((element) => {
+      element.style.removeProperty("opacity");
+      element.style.removeProperty("visibility");
+      element.style.removeProperty("pointer-events");
+    });
+
+    if (content) {
+      cssPhaseReset(content, ...USER_MENU_SIGN_UP_CONTENT_PHASE_CLASSES);
+
+      USER_MENU_SIGN_UP_LAYOUT_VARS.forEach((layoutVar) => {
+        content.style.removeProperty(layoutVar);
+      });
+    }
+
+    panel.classList.remove(USER_MENU_SIGN_UP_RUNNING_CLASS);
+    panel.style.removeProperty("position");
+  }
   userMenuStateSet({ isSignInRunning: true });
   document
     .querySelector(USER_MENU_ROOT_SELECTOR)
@@ -377,7 +370,31 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
       return false;
     }
 
-    userMenuSignUpAnimationReset(panel, content);
+    if (panel) {
+    panel.classList.remove(
+      USER_MENU_SIGN_UP_FADING_CHROME_CLASS,
+      USER_MENU_SIGN_UP_CHROME_HIDDEN_CLASS,
+      USER_MENU_SIGN_UP_CHROME_PREPARING_CLASS,
+      USER_MENU_SIGN_UP_CHROME_VISIBLE_CLASS,
+    );
+
+    panel.querySelectorAll(USER_MENU_SIGN_UP_CHROME_SELECTORS).forEach((element) => {
+      element.style.removeProperty("opacity");
+      element.style.removeProperty("visibility");
+      element.style.removeProperty("pointer-events");
+    });
+
+    if (content) {
+      cssPhaseReset(content, ...USER_MENU_SIGN_UP_CONTENT_PHASE_CLASSES);
+
+      USER_MENU_SIGN_UP_LAYOUT_VARS.forEach((layoutVar) => {
+        content.style.removeProperty(layoutVar);
+      });
+    }
+
+    panel.classList.remove(USER_MENU_SIGN_UP_RUNNING_CLASS);
+    panel.style.removeProperty("position");
+  }
 
     if (isSignedInAfter) {
       await refreshAuth();
@@ -416,7 +433,31 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
       USER_MENU_SIGN_UP_CHROME_PREPARING_CLASS,
       USER_MENU_SIGN_UP_CHROME_VISIBLE_CLASS,
     );
-    userMenuSignUpAnimationReset(panel, content);
+    if (panel) {
+    panel.classList.remove(
+      USER_MENU_SIGN_UP_FADING_CHROME_CLASS,
+      USER_MENU_SIGN_UP_CHROME_HIDDEN_CLASS,
+      USER_MENU_SIGN_UP_CHROME_PREPARING_CLASS,
+      USER_MENU_SIGN_UP_CHROME_VISIBLE_CLASS,
+    );
+
+    panel.querySelectorAll(USER_MENU_SIGN_UP_CHROME_SELECTORS).forEach((element) => {
+      element.style.removeProperty("opacity");
+      element.style.removeProperty("visibility");
+      element.style.removeProperty("pointer-events");
+    });
+
+    if (content) {
+      cssPhaseReset(content, ...USER_MENU_SIGN_UP_CONTENT_PHASE_CLASSES);
+
+      USER_MENU_SIGN_UP_LAYOUT_VARS.forEach((layoutVar) => {
+        content.style.removeProperty(layoutVar);
+      });
+    }
+
+    panel.classList.remove(USER_MENU_SIGN_UP_RUNNING_CLASS);
+    panel.style.removeProperty("position");
+  }
 
     return resultIsSuccess;
   } finally {

@@ -75,37 +75,6 @@ import { USER_MENU_VAR_SIGN_OUT_RESTORE_TOP } from "../user-menu-constants.js";
 import { USER_MENU_VAR_SIGN_OUT_RESTORE_WIDTH } from "../user-menu-constants.js";
 import { USER_MENU_SIGN_OUT_ANIMATION_RUN_ID } from "../user-menu-constants.js";
 
-// Clears transient sign-out animation state from panel and content elements.
-export function userMenuSignOutAnimationReset(panel, content) {
-  if (!panel) {
-    return;
-  }
-
-  panel.classList.remove(
-    USER_MENU_SIGN_OUT_FADING_CHROME_CLASS,
-    USER_MENU_SIGN_OUT_CHROME_HIDDEN_CLASS,
-    USER_MENU_SIGN_OUT_CHROME_PREPARING_CLASS,
-    USER_MENU_SIGN_OUT_CHROME_VISIBLE_CLASS,
-  );
-
-  panel.querySelectorAll(USER_MENU_SIGN_OUT_CHROME_SELECTORS).forEach((element) => {
-    element.style.removeProperty("opacity");
-    element.style.removeProperty("visibility");
-    element.style.removeProperty("pointer-events");
-  });
-
-  if (content) {
-    cssPhaseReset(content, ...USER_MENU_SIGN_OUT_CONTENT_PHASE_CLASSES);
-
-    USER_MENU_SIGN_OUT_LAYOUT_VARS.forEach((layoutVar) => {
-      content.style.removeProperty(layoutVar);
-    });
-  }
-
-  panel?.classList.remove(USER_MENU_SIGN_OUT_RUNNING_CLASS);
-  panel?.style.removeProperty("position");
-}
-
 export async function userMenuSignOutAnimation() {
   const resultIsSuccess = true;
   const isSignedInAfter = false;
@@ -139,7 +108,31 @@ export async function userMenuSignOutAnimation() {
     return resultIsSuccess;
   }
 
-  userMenuSignOutAnimationReset(panel, content);
+  if (panel) {
+    panel.classList.remove(
+      USER_MENU_SIGN_OUT_FADING_CHROME_CLASS,
+      USER_MENU_SIGN_OUT_CHROME_HIDDEN_CLASS,
+      USER_MENU_SIGN_OUT_CHROME_PREPARING_CLASS,
+      USER_MENU_SIGN_OUT_CHROME_VISIBLE_CLASS,
+    );
+
+    panel.querySelectorAll(USER_MENU_SIGN_OUT_CHROME_SELECTORS).forEach((element) => {
+      element.style.removeProperty("opacity");
+      element.style.removeProperty("visibility");
+      element.style.removeProperty("pointer-events");
+    });
+
+    if (content) {
+      cssPhaseReset(content, ...USER_MENU_SIGN_OUT_CONTENT_PHASE_CLASSES);
+
+      USER_MENU_SIGN_OUT_LAYOUT_VARS.forEach((layoutVar) => {
+        content.style.removeProperty(layoutVar);
+      });
+    }
+
+    panel.classList.remove(USER_MENU_SIGN_OUT_RUNNING_CLASS);
+    panel.style.removeProperty("position");
+  }
   userMenuStateSet({ isSignInRunning: true });
   document
     .querySelector(USER_MENU_ROOT_SELECTOR)
@@ -378,7 +371,31 @@ export async function userMenuSignOutAnimation() {
       return false;
     }
 
-    userMenuSignOutAnimationReset(panel, content);
+    if (panel) {
+    panel.classList.remove(
+      USER_MENU_SIGN_OUT_FADING_CHROME_CLASS,
+      USER_MENU_SIGN_OUT_CHROME_HIDDEN_CLASS,
+      USER_MENU_SIGN_OUT_CHROME_PREPARING_CLASS,
+      USER_MENU_SIGN_OUT_CHROME_VISIBLE_CLASS,
+    );
+
+    panel.querySelectorAll(USER_MENU_SIGN_OUT_CHROME_SELECTORS).forEach((element) => {
+      element.style.removeProperty("opacity");
+      element.style.removeProperty("visibility");
+      element.style.removeProperty("pointer-events");
+    });
+
+    if (content) {
+      cssPhaseReset(content, ...USER_MENU_SIGN_OUT_CONTENT_PHASE_CLASSES);
+
+      USER_MENU_SIGN_OUT_LAYOUT_VARS.forEach((layoutVar) => {
+        content.style.removeProperty(layoutVar);
+      });
+    }
+
+    panel.classList.remove(USER_MENU_SIGN_OUT_RUNNING_CLASS);
+    panel.style.removeProperty("position");
+  }
 
     if (isSignedInAfter) {
       await refreshAuth();
@@ -417,7 +434,31 @@ export async function userMenuSignOutAnimation() {
       USER_MENU_SIGN_OUT_CHROME_PREPARING_CLASS,
       USER_MENU_SIGN_OUT_CHROME_VISIBLE_CLASS,
     );
-    userMenuSignOutAnimationReset(panel, content);
+    if (panel) {
+    panel.classList.remove(
+      USER_MENU_SIGN_OUT_FADING_CHROME_CLASS,
+      USER_MENU_SIGN_OUT_CHROME_HIDDEN_CLASS,
+      USER_MENU_SIGN_OUT_CHROME_PREPARING_CLASS,
+      USER_MENU_SIGN_OUT_CHROME_VISIBLE_CLASS,
+    );
+
+    panel.querySelectorAll(USER_MENU_SIGN_OUT_CHROME_SELECTORS).forEach((element) => {
+      element.style.removeProperty("opacity");
+      element.style.removeProperty("visibility");
+      element.style.removeProperty("pointer-events");
+    });
+
+    if (content) {
+      cssPhaseReset(content, ...USER_MENU_SIGN_OUT_CONTENT_PHASE_CLASSES);
+
+      USER_MENU_SIGN_OUT_LAYOUT_VARS.forEach((layoutVar) => {
+        content.style.removeProperty(layoutVar);
+      });
+    }
+
+    panel.classList.remove(USER_MENU_SIGN_OUT_RUNNING_CLASS);
+    panel.style.removeProperty("position");
+  }
 
     return resultIsSuccess;
   } finally {
