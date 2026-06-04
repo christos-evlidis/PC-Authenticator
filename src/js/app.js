@@ -2,9 +2,9 @@
  * Extension popup entry — theme, auth, and section bootstrap.
  */
 import { bodyAnimationPlay } from "./sections/body/body-index.js";
-import { BODY_PHASE_SIGNED_IN_CONTENT } from "./sections/body/body-constants.js";
+import { BODY_PHASE_SIGNED_IN } from "./sections/body/body-constants.js";
 import { BODY_PHASE_FINISH } from "./sections/body/body-constants.js";
-import { BODY_PHASE_CONTENT } from "./sections/body/body-constants.js";
+import { BODY_PHASE_SIGNED_OUT } from "./sections/body/body-constants.js";
 import { BODY_PHASE_EXTENSION_FRAME } from "./sections/body/body-constants.js";
 import { BODY_PHASE_HEADER } from "./sections/body/body-constants.js";
 import { BODY_PHASE_LOGO } from "./sections/body/body-constants.js";
@@ -62,13 +62,13 @@ async function bootstrapExtension() {
   await headerAnimationPlay(HEADER_PHASE_CONTENT);
 
   if (!isLoggedIn) {
-    await bodyAnimationPlay(BODY_PHASE_CONTENT);
+    await bodyAnimationPlay(BODY_PHASE_SIGNED_OUT);
   } else if (signedInEmpty) {
     const empty = document.querySelector(SELECTORS.empty);
     const list = document.querySelector(SELECTORS.list);
 
     setEmptyVisible(empty, list, true);
-    await bodyAnimationPlay(BODY_PHASE_SIGNED_IN_CONTENT);
+    await bodyAnimationPlay(BODY_PHASE_SIGNED_IN);
   }
 
   headerAnimationPlay(HEADER_PHASE_FINISH);

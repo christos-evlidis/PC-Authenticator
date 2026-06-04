@@ -1,5 +1,4 @@
 import { bodyAnimateForSignedInContent } from "../body/body-animations/body-animate-for-signed-in-content.js";
-import { bodyAnimateForSignedInStatic } from "../body/body-animations/body-animate-for-signed-in-content.js";
 import { SELECTORS } from "./codes-state.js";
 
 export function setEmptyVisible(empty, list, isEmpty) {
@@ -15,7 +14,7 @@ export function prepareCodesEmptyIntro() {
 }
 
 export function revealCodesEmptyStatic() {
-  bodyAnimateForSignedInStatic();
+  void bodyAnimateForSignedInContent({ static: true });
 }
 
 export async function playCodesEmptyIntro() {

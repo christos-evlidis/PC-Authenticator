@@ -9,9 +9,6 @@ import { BODY_MESSAGE_DISPLAY_SELECTOR } from "../body-constants.js";
 import { BODY_MESSAGE_SPACER_SELECTOR } from "../body-constants.js";
 import { BODY_MESSAGE_STACK_SELECTOR } from "../body-constants.js";
 import { BODY_PENDING_CLASS } from "../body-constants.js";
-import { BODY_PHASE_CONTENT } from "../body-constants.js";
-import { BODY_PHASE_SIGNED_OUT_CONTENT_RESET } from "../body-constants.js";
-import { BODY_PHASE_STATIC } from "../body-constants.js";
 import { BODY_POPPING_CLASS } from "../body-constants.js";
 import { BODY_ROOT_SELECTOR } from "../body-constants.js";
 import { BODY_RUNNING_CLASS } from "../body-constants.js";
@@ -21,9 +18,8 @@ import { BODY_VAR_ICON_POP_MS } from "../body-constants.js";
 import { BODY_VAR_MESSAGE_TYPE_MS } from "../body-constants.js";
 
 /** Handles signed-out body content reset, intro animation, and static reveal. */
-export async function bodyAnimateForSignedOutContent(
-  phase = BODY_PHASE_CONTENT,
-) {
+export async function bodyAnimateForSignedOutContent(options = {}) {
+  const { reset = false, static: isStatic = false } = options;
   const content = document.querySelector(BODY_CONTENT_SELECTOR);
   const root = document.querySelector(BODY_ROOT_SELECTOR);
   const icon = content?.querySelector(BODY_ICON_SELECTOR);
@@ -43,7 +39,7 @@ export async function bodyAnimateForSignedOutContent(
       ? fullText.trim()
       : `${lines[0]}<br>${lines.slice(1).join("<br>")}`;
 
-  if (phase === BODY_PHASE_SIGNED_OUT_CONTENT_RESET) {
+  if (reset) {
     if (!stack || !spacer || !display) {
       return;
     }
@@ -65,7 +61,7 @@ export async function bodyAnimateForSignedOutContent(
     return;
   }
 
-  if (phase === BODY_PHASE_STATIC) {
+  if (isStatic) {
     root?.classList.remove(BODY_PENDING_CLASS);
     root?.classList.add(BODY_ACTIVE_CLASS);
 

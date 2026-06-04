@@ -34,10 +34,8 @@ export const BODY_PHASE_START = "animateforstart";
 export const BODY_PHASE_LOGO = "animateforlogo";
 export const BODY_PHASE_EXTENSION_FRAME = "animateforextensionframe";
 export const BODY_PHASE_HEADER = "animateforheader";
-export const BODY_PHASE_CONTENT = "animateforcontent";
-export const BODY_PHASE_SIGNED_IN_CONTENT = "animateforsignedincontent";
-export const BODY_PHASE_SIGNED_OUT_CONTENT_RESET = "animateforsignedoutcontentreset";
-export const BODY_PHASE_STATIC = "animateforstatic";
+export const BODY_PHASE_SIGNED_OUT = "animateforsignedout";
+export const BODY_PHASE_SIGNED_IN = "animateforsignedin";
 export const BODY_PHASE_FINISH = "animateforfinish";
 
 export const BODY_VAR_ICON_POP_MS = "--body-icon-pop-ms";
