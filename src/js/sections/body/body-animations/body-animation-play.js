@@ -1,6 +1,5 @@
 import { bodyAnimateForSignedInContent } from "./body-animate-for-signed-in-content.js";
 import { bodyAnimateForSignedOutContent } from "./body-animate-for-signed-out-content.js";
-import { bodyAnimateForSignedOutStatic } from "./body-animate-for-signed-out-content.js";
 import { bodyAnimateForExtensionFrame } from "./body-animate-for-extension-frame.js";
 import { bodyAnimateForFinish } from "./body-animate-for-finish.js";
 import { bodyAnimateForHeader } from "./body-animate-for-header.js";
@@ -48,7 +47,7 @@ export async function bodyAnimationPlay(phase) {
   }
 
   if (phase === BODY_PHASE_STATIC) {
-    bodyAnimateForSignedOutStatic();
+    await bodyAnimateForSignedOutContent(BODY_PHASE_STATIC);
     return;
   }
 

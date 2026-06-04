@@ -9,6 +9,9 @@ import { BODY_MESSAGE_DISPLAY_SELECTOR } from "../body-constants.js";
 import { BODY_MESSAGE_SPACER_SELECTOR } from "../body-constants.js";
 import { BODY_MESSAGE_STACK_SELECTOR } from "../body-constants.js";
 import { BODY_PENDING_CLASS } from "../body-constants.js";
+import { BODY_PHASE_CONTENT } from "../body-constants.js";
+import { BODY_PHASE_SIGNED_OUT_CONTENT_RESET } from "../body-constants.js";
+import { BODY_PHASE_STATIC } from "../body-constants.js";
 import { BODY_POPPING_CLASS } from "../body-constants.js";
 import { BODY_ROOT_SELECTOR } from "../body-constants.js";
 import { BODY_RUNNING_CLASS } from "../body-constants.js";
@@ -17,74 +20,77 @@ import { BODY_TYPING_CLASS } from "../body-constants.js";
 import { BODY_VAR_ICON_POP_MS } from "../body-constants.js";
 import { BODY_VAR_MESSAGE_TYPE_MS } from "../body-constants.js";
 
-function getSignedOutContent() {
-  return document.querySelector(BODY_CONTENT_SELECTOR);
-}
-
-function getFullText(stack, fallbackMessage) {
-  const stored = stack?.dataset?.fullText;
-
-  if (stored) {
-    return stored.replace(/\\n/g, "\n");
-  }
-
-  return fallbackMessage;
-}
-
-function formatMessageHtml(fullText) {
-  const lines = fullText
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean);
-
-  if (lines.length <= 1) {
-    return fullText.trim();
-  }
-
-  return `${lines[0]}<br>${lines.slice(1).join("<br>")}`;
-}
-
-function applyMessageHtml(message, fullText) {
-  const messageHtml = formatMessageHtml(fullText);
-
-  if (typeof messageHtml === "string" && messageHtml.includes("<br>")) {
-    message.innerHTML = messageHtml;
-  } else {
-    message.textContent = messageHtml;
-  }
-}
-
-/** Resets signed-out body content to the pre-intro hidden state. */
-export function bodyAnimateForSignedOutStart() {
-  const content = getSignedOutContent();
+/** Handles signed-out body content reset, intro animation, and static reveal. */
+export async function bodyAnimateForSignedOutContent(
+  phase = BODY_PHASE_CONTENT,
+) {
+  const content = document.querySelector(BODY_CONTENT_SELECTOR);
+  const root = document.querySelector(BODY_ROOT_SELECTOR);
   const icon = content?.querySelector(BODY_ICON_SELECTOR);
   const stack = content?.querySelector(BODY_MESSAGE_STACK_SELECTOR);
   const spacer = stack?.querySelector(BODY_MESSAGE_SPACER_SELECTOR);
   const display = stack?.querySelector(BODY_MESSAGE_DISPLAY_SELECTOR);
+  const stored = stack?.dataset?.fullText;
+  const fullText = stored
+    ? stored.replace(/\\n/g, "\n")
+    : BODY_SIGNED_OUT_MESSAGE_TEXT;
+  const lines = fullText
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const messageHtml =
+    lines.length <= 1
+      ? fullText.trim()
+      : `${lines[0]}<br>${lines.slice(1).join("<br>")}`;
 
-  if (!stack || !spacer || !display) {
+  if (phase === BODY_PHASE_SIGNED_OUT_CONTENT_RESET) {
+    if (!stack || !spacer || !display) {
+      return;
+    }
+
+    stack.dataset.fullText = fullText;
+
+    if (typeof messageHtml === "string" && messageHtml.includes("<br>")) {
+      spacer.innerHTML = messageHtml;
+    } else {
+      spacer.textContent = messageHtml;
+    }
+
+    display.textContent = "";
+    display.classList.remove(BODY_RUNNING_CLASS, BODY_TYPING_CLASS);
+    display.removeAttribute("data-full-text");
+
+    icon?.classList.remove(BODY_RUNNING_CLASS, BODY_ACTIVE_CLASS, BODY_POPPING_CLASS);
+    icon?.classList.add(BODY_PENDING_CLASS);
     return;
   }
 
-  const fullText = getFullText(stack, BODY_SIGNED_OUT_MESSAGE_TEXT);
+  if (phase === BODY_PHASE_STATIC) {
+    root?.classList.remove(BODY_PENDING_CLASS);
+    root?.classList.add(BODY_ACTIVE_CLASS);
 
-  stack.dataset.fullText = fullText;
-  applyMessageHtml(spacer, fullText);
-  display.textContent = "";
-  display.classList.remove(BODY_RUNNING_CLASS, BODY_TYPING_CLASS);
-  display.removeAttribute("data-full-text");
+    if (!stack || !spacer || !display) {
+      return;
+    }
 
-  icon?.classList.remove(BODY_RUNNING_CLASS, BODY_ACTIVE_CLASS, BODY_POPPING_CLASS);
-  icon?.classList.add(BODY_PENDING_CLASS);
-}
+    stack.dataset.fullText = fullText;
 
-/** Plays signed-out icon pop and message typing animation. */
-export async function bodyAnimateForSignedOutContent() {
-  const content = getSignedOutContent();
-  const root = document.querySelector(BODY_ROOT_SELECTOR);
-  const icon = content?.querySelector(BODY_ICON_SELECTOR);
-  const stack = content?.querySelector(BODY_MESSAGE_STACK_SELECTOR);
-  const display = stack?.querySelector(BODY_MESSAGE_DISPLAY_SELECTOR);
+    if (typeof messageHtml === "string" && messageHtml.includes("<br>")) {
+      spacer.innerHTML = messageHtml;
+      display.innerHTML = messageHtml;
+    } else {
+      spacer.textContent = messageHtml;
+      display.textContent = messageHtml;
+    }
+
+    display.classList.remove(BODY_RUNNING_CLASS, BODY_TYPING_CLASS);
+    display.removeAttribute("data-full-text");
+
+    icon?.classList.remove(BODY_PENDING_CLASS, BODY_RUNNING_CLASS, BODY_POPPING_CLASS);
+    icon?.classList.add(BODY_ACTIVE_CLASS);
+    return;
+  }
+
   const iconPopMs = cssMs(root, BODY_VAR_ICON_POP_MS);
   const messageTypeMs = cssMs(root, BODY_VAR_MESSAGE_TYPE_MS);
 
@@ -101,8 +107,6 @@ export async function bodyAnimateForSignedOutContent() {
   }
 
   if (stack && display) {
-    const fullText = getFullText(stack, BODY_SIGNED_OUT_MESSAGE_TEXT);
-
     display.textContent = "";
     display.classList.add(BODY_TYPING_CLASS, BODY_RUNNING_CLASS);
 
@@ -118,37 +122,14 @@ export async function bodyAnimateForSignedOutContent() {
     }
 
     display.classList.remove(BODY_TYPING_CLASS, BODY_RUNNING_CLASS);
-    applyMessageHtml(display, fullText);
+
+    if (typeof messageHtml === "string" && messageHtml.includes("<br>")) {
+      display.innerHTML = messageHtml;
+    } else {
+      display.textContent = messageHtml;
+    }
   }
 
   root?.classList.remove(BODY_PENDING_CLASS);
   root?.classList.add(BODY_ACTIVE_CLASS);
-}
-
-/** Shows signed-out icon and message immediately without animation. */
-export function bodyAnimateForSignedOutStatic() {
-  const content = getSignedOutContent();
-  const root = document.querySelector(BODY_ROOT_SELECTOR);
-  const icon = content?.querySelector(BODY_ICON_SELECTOR);
-  const stack = content?.querySelector(BODY_MESSAGE_STACK_SELECTOR);
-  const spacer = stack?.querySelector(BODY_MESSAGE_SPACER_SELECTOR);
-  const display = stack?.querySelector(BODY_MESSAGE_DISPLAY_SELECTOR);
-
-  root?.classList.remove(BODY_PENDING_CLASS);
-  root?.classList.add(BODY_ACTIVE_CLASS);
-
-  if (!stack || !spacer || !display) {
-    return;
-  }
-
-  const fullText = getFullText(stack, BODY_SIGNED_OUT_MESSAGE_TEXT);
-
-  stack.dataset.fullText = fullText;
-  applyMessageHtml(spacer, fullText);
-  applyMessageHtml(display, fullText);
-  display.classList.remove(BODY_RUNNING_CLASS, BODY_TYPING_CLASS);
-  display.removeAttribute("data-full-text");
-
-  icon?.classList.remove(BODY_PENDING_CLASS, BODY_RUNNING_CLASS, BODY_POPPING_CLASS);
-  icon?.classList.add(BODY_ACTIVE_CLASS);
 }

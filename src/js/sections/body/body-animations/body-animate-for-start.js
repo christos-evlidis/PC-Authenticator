@@ -1,10 +1,11 @@
 import { themeApplySplashLogo } from "../../../utils/utility-theme.js";
 import { themeRead } from "../../../utils/utility-theme.js";
 import { bodyAnimateForSignedInStart } from "./body-animate-for-signed-in-content.js";
-import { bodyAnimateForSignedOutStart } from "./body-animate-for-signed-out-content.js";
+import { bodyAnimateForSignedOutContent } from "./body-animate-for-signed-out-content.js";
 import { BODY_ACTIVE_CLASS } from "../body-constants.js";
 import { BODY_INTRO_FULLBLEED_CLASS } from "../body-constants.js";
 import { BODY_PENDING_CLASS } from "../body-constants.js";
+import { BODY_PHASE_SIGNED_OUT_CONTENT_RESET } from "../body-constants.js";
 import { BODY_ROOT_SELECTOR } from "../body-constants.js";
 import { EXTENSION_FRAME_SELECTOR } from "../body-constants.js";
 import { FRAME_INTRO_CLASS } from "../body-constants.js";
@@ -22,6 +23,6 @@ export function bodyAnimateForStart() {
   root?.classList.remove(BODY_ACTIVE_CLASS);
   root?.classList.add(BODY_PENDING_CLASS);
 
-  bodyAnimateForSignedOutStart();
+  void bodyAnimateForSignedOutContent(BODY_PHASE_SIGNED_OUT_CONTENT_RESET);
   bodyAnimateForSignedInStart();
 }
