@@ -378,47 +378,77 @@
         visibility var(--user-menu-sign-in-fade-ms, 250ms) ease;
 }
 
-.app-user-menu__panel.is-sign-in-fading-chrome .app-user-menu__header,
-.app-user-menu__panel.is-sign-in-fading-chrome .app-user-menu__auth-bar,
-.app-user-menu__panel.is-sign-in-fading-chrome .app-user-menu__theme-bar,
-.app-user-menu__panel.is-sign-in-fading-chrome .app-user-menu__view--signed-out,
-.app-user-menu__panel.is-sign-in-fading-chrome .app-user-menu__view--signed-in {
+.app-user-menu__panel:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade) .app-user-menu__header,
+.app-user-menu__panel:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade) .app-user-menu__auth-bar,
+.app-user-menu__panel:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade) .app-user-menu__theme-bar,
+.app-user-menu__panel:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade) .app-user-menu__view--signed-out,
+.app-user-menu__panel:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade) .app-user-menu__view--signed-in {
     opacity: 0 !important;
     pointer-events: none !important;
     transition: opacity var(--user-menu-sign-in-fade-ms, 250ms) ease !important;
 }
 
-.app-user-menu__panel.is-sign-in-chrome-hidden .app-user-menu__header,
-.app-user-menu__panel.is-sign-in-chrome-hidden .app-user-menu__auth-bar:not(.is-hidden),
-.app-user-menu__panel.is-sign-in-chrome-hidden .app-user-menu__theme-bar:not(.is-hidden),
-.app-user-menu__panel.is-sign-in-chrome-hidden .app-user-menu__view--signed-out:not(.is-hidden),
-.app-user-menu__panel.is-sign-in-chrome-hidden .app-user-menu__view--signed-in:not(.is-hidden) {
+.app-user-menu__panel.is-sign-up-fade .app-user-menu__header,
+.app-user-menu__panel.is-sign-up-fade .app-user-menu__auth-bar,
+.app-user-menu__panel.is-sign-up-fade .app-user-menu__theme-bar,
+.app-user-menu__panel.is-sign-up-fade .app-user-menu__view--signed-out,
+.app-user-menu__panel.is-sign-up-fade .app-user-menu__view--signed-in {
+    transition: opacity var(--user-menu-sign-up-fade-ms, 250ms) ease !important;
+}
+
+.app-user-menu__panel.is-sign-out-fade .app-user-menu__header,
+.app-user-menu__panel.is-sign-out-fade .app-user-menu__auth-bar,
+.app-user-menu__panel.is-sign-out-fade .app-user-menu__theme-bar,
+.app-user-menu__panel.is-sign-out-fade .app-user-menu__view--signed-out,
+.app-user-menu__panel.is-sign-out-fade .app-user-menu__view--signed-in {
+    transition: opacity var(--user-menu-sign-out-fade-ms, 250ms) ease !important;
+}
+
+.app-user-menu__panel.is-sign-in-running:not(:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade, .is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade)) .app-user-menu__header,
+.app-user-menu__panel.is-sign-in-running:not(:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade, .is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade)) .app-user-menu__auth-bar:not(.is-hidden),
+.app-user-menu__panel.is-sign-in-running:not(:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade, .is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade)) .app-user-menu__theme-bar:not(.is-hidden),
+.app-user-menu__panel.is-sign-in-running:not(:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade, .is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade)) .app-user-menu__view--signed-out:not(.is-hidden),
+.app-user-menu__panel.is-sign-in-running:not(:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade, .is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade)) .app-user-menu__view--signed-in:not(.is-hidden) {
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
 }
 
-.app-user-menu__panel.is-sign-in-chrome-preparing .app-user-menu__header,
-.app-user-menu__panel.is-sign-in-chrome-preparing .app-user-menu__auth-bar:not(.is-hidden),
-.app-user-menu__panel.is-sign-in-chrome-preparing .app-user-menu__theme-bar:not(.is-hidden),
-.app-user-menu__panel.is-sign-in-chrome-preparing .app-user-menu__view--signed-out:not(.is-hidden),
-.app-user-menu__panel.is-sign-in-chrome-preparing .app-user-menu__view--signed-in:not(.is-hidden) {
+.app-user-menu__panel:is(.is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade) .app-user-menu__header,
+.app-user-menu__panel:is(.is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade) .app-user-menu__auth-bar:not(.is-hidden),
+.app-user-menu__panel:is(.is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade) .app-user-menu__theme-bar:not(.is-hidden),
+.app-user-menu__panel:is(.is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade) .app-user-menu__view--signed-out:not(.is-hidden),
+.app-user-menu__panel:is(.is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade) .app-user-menu__view--signed-in:not(.is-hidden) {
     visibility: visible;
-    opacity: 0;
     pointer-events: none;
-    transition:
-        opacity var(--user-menu-sign-in-restore-fade-ms, 250ms) ease,
-        visibility var(--user-menu-sign-in-restore-fade-ms, 250ms) ease;
+    animation: userMenuRestoreFade var(--user-menu-sign-in-restore-fade-ms, 250ms) ease forwards;
 }
 
-.app-user-menu__panel.is-sign-in-chrome-visible .app-user-menu__header,
-.app-user-menu__panel.is-sign-in-chrome-visible .app-user-menu__auth-bar:not(.is-hidden),
-.app-user-menu__panel.is-sign-in-chrome-visible .app-user-menu__theme-bar:not(.is-hidden),
-.app-user-menu__panel.is-sign-in-chrome-visible .app-user-menu__view--signed-out:not(.is-hidden),
-.app-user-menu__panel.is-sign-in-chrome-visible .app-user-menu__view--signed-in:not(.is-hidden) {
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto;
+.app-user-menu__panel.is-sign-up-restore-fade .app-user-menu__header,
+.app-user-menu__panel.is-sign-up-restore-fade .app-user-menu__auth-bar:not(.is-hidden),
+.app-user-menu__panel.is-sign-up-restore-fade .app-user-menu__theme-bar:not(.is-hidden),
+.app-user-menu__panel.is-sign-up-restore-fade .app-user-menu__view--signed-out:not(.is-hidden),
+.app-user-menu__panel.is-sign-up-restore-fade .app-user-menu__view--signed-in:not(.is-hidden) {
+    animation-duration: var(--user-menu-sign-up-restore-fade-ms, 250ms);
+}
+
+.app-user-menu__panel.is-sign-out-restore-fade .app-user-menu__header,
+.app-user-menu__panel.is-sign-out-restore-fade .app-user-menu__auth-bar:not(.is-hidden),
+.app-user-menu__panel.is-sign-out-restore-fade .app-user-menu__theme-bar:not(.is-hidden),
+.app-user-menu__panel.is-sign-out-restore-fade .app-user-menu__view--signed-out:not(.is-hidden),
+.app-user-menu__panel.is-sign-out-restore-fade .app-user-menu__view--signed-in:not(.is-hidden) {
+    animation-duration: var(--user-menu-sign-out-restore-fade-ms, 250ms);
+}
+
+@keyframes userMenuRestoreFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+        pointer-events: auto;
+    }
 }
 
 .app-user-menu.is-panel-opening .app-user-menu__backdrop {
@@ -468,20 +498,52 @@
     margin: 0;
 }
 
-.app-user-menu__content.is-sign-in-phase-expand-up {
+.app-user-menu__content.is-sign-in-expand-up {
     animation: signInExpandUp var(--user-menu-sign-in-expand-up-ms, 250ms) ease forwards;
 }
 
-.app-user-menu__content.is-sign-in-phase-expand-full {
+.app-user-menu__content.is-sign-in-expand-full {
     animation: signInExpandFull var(--user-menu-sign-in-expand-full-ms, 150ms) ease forwards;
 }
 
-.app-user-menu__content.is-sign-in-phase-shrink-padding {
+.app-user-menu__content.is-sign-in-shrink-padding {
     animation: signInShrinkPadding var(--user-menu-sign-in-shrink-padding-ms, 150ms) ease forwards;
 }
 
-.app-user-menu__content.is-sign-in-phase-shrink-origin {
+.app-user-menu__content.is-sign-in-shrink-origin {
     animation: signInShrinkOrigin var(--user-menu-sign-in-shrink-origin-ms, 250ms) ease forwards;
+}
+
+.app-user-menu__content.is-sign-up-expand-up {
+    animation: signInExpandUp var(--user-menu-sign-up-expand-up-ms, 250ms) ease forwards;
+}
+
+.app-user-menu__content.is-sign-up-expand-full {
+    animation: signInExpandFull var(--user-menu-sign-up-expand-full-ms, 150ms) ease forwards;
+}
+
+.app-user-menu__content.is-sign-up-shrink-padding {
+    animation: signInShrinkPadding var(--user-menu-sign-up-shrink-padding-ms, 150ms) ease forwards;
+}
+
+.app-user-menu__content.is-sign-up-shrink-origin {
+    animation: signInShrinkOrigin var(--user-menu-sign-up-shrink-origin-ms, 250ms) ease forwards;
+}
+
+.app-user-menu__content.is-sign-out-expand-up {
+    animation: signInExpandUp var(--user-menu-sign-out-expand-up-ms, 250ms) ease forwards;
+}
+
+.app-user-menu__content.is-sign-out-expand-full {
+    animation: signInExpandFull var(--user-menu-sign-out-expand-full-ms, 150ms) ease forwards;
+}
+
+.app-user-menu__content.is-sign-out-shrink-padding {
+    animation: signInShrinkPadding var(--user-menu-sign-out-shrink-padding-ms, 150ms) ease forwards;
+}
+
+.app-user-menu__content.is-sign-out-shrink-origin {
+    animation: signInShrinkOrigin var(--user-menu-sign-out-shrink-origin-ms, 250ms) ease forwards;
 }
 
 @keyframes signInExpandUp {
@@ -604,22 +666,51 @@
     }
 }
 
-.app-user-menu__status .login-status.is-sign-in-status-loading-in {
+.app-user-menu__status .login-status:is(.is-sign-in-dots-fade-in, .is-sign-up-dots-fade-in, .is-sign-out-dots-fade-in) {
     visibility: visible;
     animation: loginStatusFadeIn var(--user-menu-sign-in-dots-fade-in-ms) ease forwards;
 }
 
-.app-user-menu__status .login-status.is-sign-in-status-loading-out {
+.app-user-menu__status .login-status.is-sign-up-dots-fade-in {
+    animation-duration: var(--user-menu-sign-up-dots-fade-in-ms);
+}
+
+.app-user-menu__status .login-status.is-sign-out-dots-fade-in {
+    animation-duration: var(--user-menu-sign-out-dots-fade-in-ms);
+}
+
+.app-user-menu__status .login-status:is(.is-sign-in-dots-fade-out, .is-sign-up-dots-fade-out, .is-sign-out-dots-fade-out) {
     visibility: visible;
     opacity: 1;
     animation: loginStatusFadeOut var(--user-menu-sign-in-dots-fade-out-ms) ease forwards;
 }
 
-.app-user-menu__status .login-status.is-sign-in-result-draw {
+.app-user-menu__status .login-status.is-sign-up-dots-fade-out {
+    animation-duration: var(--user-menu-sign-up-dots-fade-out-ms);
+}
+
+.app-user-menu__status .login-status.is-sign-out-dots-fade-out {
+    animation-duration: var(--user-menu-sign-out-dots-fade-out-ms);
+}
+
+.app-user-menu__status .login-status:is(.is-sign-in-dots-run, .is-sign-up-dots-run, .is-sign-out-dots-run) {
     visibility: visible;
     opacity: 1;
 }
 
-.app-user-menu__status .login-status.is-sign-in-result-hide {
+.app-user-menu__status .login-status:is(.is-sign-in-result-draw, .is-sign-up-result-draw, .is-sign-out-result-draw) {
+    visibility: visible;
+    opacity: 1;
+}
+
+.app-user-menu__status .login-status:is(.is-sign-in-result-fade-out, .is-sign-up-result-fade-out, .is-sign-out-result-fade-out) {
     animation: loginStatusFadeOut var(--user-menu-sign-in-result-fade-out-ms) ease forwards;
+}
+
+.app-user-menu__status .login-status.is-sign-up-result-fade-out {
+    animation-duration: var(--user-menu-sign-up-result-fade-out-ms);
+}
+
+.app-user-menu__status .login-status.is-sign-out-result-fade-out {
+    animation-duration: var(--user-menu-sign-out-result-fade-out-ms);
 }

@@ -3,7 +3,6 @@ import { cssMs } from "../../../utils/utility-animation.js";
 import { delay } from "../../../utils/utility-animation.js";
 import { waitForAnimationEnd } from "../../../utils/utility-animation.js";
 import { waitForNextFrame } from "../../../utils/utility-animation.js";
-import { waitForTransitionEnd } from "../../../utils/utility-animation.js";
 import { refreshAuth } from "../../../utils/utility-auth.js";
 import { themeRead } from "../../../utils/utility-theme.js";
 import { THEME_DARK } from "../../../utils/utility-theme.js";
@@ -22,31 +21,30 @@ import { USER_MENU_HIDDEN_CLASS } from "../constants.js";
 import { USER_MENU_PANEL_SELECTOR } from "../constants.js";
 import { USER_MENU_ROOT_SELECTOR } from "../constants.js";
 import { USER_MENU_SIGN_UP_ABSOLUTE_CLASS } from "../constants.js";
-import { USER_MENU_SIGN_UP_CHROME_HIDDEN_CLASS } from "../constants.js";
-import { USER_MENU_SIGN_UP_CHROME_PREPARING_CLASS } from "../constants.js";
-import { USER_MENU_SIGN_UP_CHROME_VISIBLE_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_UP_DOTS_FADE_IN_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_UP_DOTS_FADE_OUT_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_UP_DOTS_RUN_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_UP_FADE_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_UP_LOCKED_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_UP_RESTORE_FADE_CLASS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_DOTS_FADE_IN_MS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_DOTS_FADE_OUT_MS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_DOTS_RUN_MS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_EXPAND_FULL_MS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_EXPAND_UP_MS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_FADE_MS } from "../constants.js";
-import { USER_MENU_SIGN_UP_FADING_CHROME_CLASS } from "../constants.js";
-import { USER_MENU_SIGN_UP_LOCKED_CLASS } from "../constants.js";
-import { USER_MENU_SIGN_UP_PHASE_EXPAND_FULL_CLASS } from "../constants.js";
-import { USER_MENU_SIGN_UP_PHASE_EXPAND_UP_CLASS } from "../constants.js";
-import { USER_MENU_SIGN_UP_PHASE_SHRINK_ORIGIN_CLASS } from "../constants.js";
-import { USER_MENU_SIGN_UP_PHASE_SHRINK_PADDING_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_UP_EXPAND_FULL_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_UP_EXPAND_UP_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_UP_SHRINK_ORIGIN_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_UP_SHRINK_PADDING_CLASS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_RESTORE_FADE_MS } from "../constants.js";
 import { USER_MENU_SIGN_UP_RESULT_DRAW_CLASS } from "../constants.js";
-import { USER_MENU_SIGN_UP_RESULT_HIDE_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_UP_RESULT_FADE_OUT_CLASS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_RESULT_DRAW_MS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_RESULT_FADE_OUT_MS } from "../constants.js";
 import { USER_MENU_SIGN_UP_RUNNING_CLASS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_SHRINK_ORIGIN_MS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_SHRINK_PADDING_MS } from "../constants.js";
-import { USER_MENU_SIGN_UP_STATUS_LOADING_IN_CLASS } from "../constants.js";
-import { USER_MENU_SIGN_UP_STATUS_LOADING_OUT_CLASS } from "../constants.js";
 import { USER_MENU_SIGNED_IN_VIEW_SELECTOR } from "../constants.js";
 import { USER_MENU_SIGNED_OUT_VIEW_SELECTOR } from "../constants.js";
 import { USER_MENU_SIGN_IN_INPUT_SELECTOR } from "../constants.js";
@@ -63,7 +61,7 @@ import { USER_MENU_STATUS_ICON_MARK_SELECTOR } from "../constants.js";
 import { USER_MENU_STATUS_LOADING_SELECTOR } from "../constants.js";
 import { USER_MENU_STATUS_SUCCESS_SELECTOR } from "../constants.js";
 import { USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
-import { USER_MENU_SIGN_UP_CHROME_SELECTORS } from "../constants.js";
+import { USER_MENU_SIGN_UP_FADE_SELECTORS } from "../constants.js";
 import { USER_MENU_SIGN_UP_CONTENT_PHASE_CLASSES } from "../constants.js";
 import { USER_MENU_SIGN_UP_LAYOUT_VARS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_UP_EXPAND_HEIGHT } from "../constants.js";
@@ -123,13 +121,11 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
 
   if (panel) {
     panel.classList.remove(
-      USER_MENU_SIGN_UP_FADING_CHROME_CLASS,
-      USER_MENU_SIGN_UP_CHROME_HIDDEN_CLASS,
-      USER_MENU_SIGN_UP_CHROME_PREPARING_CLASS,
-      USER_MENU_SIGN_UP_CHROME_VISIBLE_CLASS,
+      USER_MENU_SIGN_UP_FADE_CLASS,
+      USER_MENU_SIGN_UP_RESTORE_FADE_CLASS,
     );
 
-    panel.querySelectorAll(USER_MENU_SIGN_UP_CHROME_SELECTORS).forEach((element) => {
+    panel.querySelectorAll(USER_MENU_SIGN_UP_FADE_SELECTORS).forEach((element) => {
       element.style.removeProperty("opacity");
       element.style.removeProperty("visibility");
       element.style.removeProperty("pointer-events");
@@ -193,20 +189,19 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
 
     status.classList.add(USER_MENU_HIDDEN_CLASS);
     status.classList.remove(
-      USER_MENU_SIGN_UP_STATUS_LOADING_IN_CLASS,
-      USER_MENU_SIGN_UP_STATUS_LOADING_OUT_CLASS,
-      "is-shown",
+      USER_MENU_SIGN_UP_DOTS_FADE_IN_CLASS,
+      USER_MENU_SIGN_UP_DOTS_FADE_OUT_CLASS,
+      USER_MENU_SIGN_UP_DOTS_RUN_CLASS,
       USER_MENU_SIGN_UP_RESULT_DRAW_CLASS,
-      USER_MENU_SIGN_UP_RESULT_HIDE_CLASS,
+      USER_MENU_SIGN_UP_RESULT_FADE_OUT_CLASS,
       "is-animating",
       "is-drawn",
     );
   });
 
-    panel.classList.add(USER_MENU_SIGN_UP_FADING_CHROME_CLASS);
+    panel.classList.add(USER_MENU_SIGN_UP_FADE_CLASS);
   await delay(signUpFadeMs);
-  panel.classList.remove(USER_MENU_SIGN_UP_FADING_CHROME_CLASS);
-  panel.classList.add(USER_MENU_SIGN_UP_CHROME_HIDDEN_CLASS);
+  panel.classList.remove(USER_MENU_SIGN_UP_FADE_CLASS);
 
     if (runId !== USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value) {
       return false;
@@ -232,7 +227,7 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
 
     await waitForNextFrame();
 
-    content.classList.add(USER_MENU_SIGN_UP_PHASE_EXPAND_UP_CLASS);
+    content.classList.add(USER_MENU_SIGN_UP_EXPAND_UP_CLASS);
     await waitForAnimationEnd(
       content,
       "signInExpandUp",
@@ -242,7 +237,7 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_LEFT, `${layout.expandUpLeft}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_WIDTH, `${layout.expandUpWidth}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_HEIGHT, `${layout.expandUpHeight}px`);
-    content.classList.remove(USER_MENU_SIGN_UP_PHASE_EXPAND_UP_CLASS);
+    content.classList.remove(USER_MENU_SIGN_UP_EXPAND_UP_CLASS);
 
     if (runId !== USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value) {
       return false;
@@ -250,7 +245,7 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
 
     await waitForNextFrame();
 
-    content.classList.add(USER_MENU_SIGN_UP_PHASE_EXPAND_FULL_CLASS);
+    content.classList.add(USER_MENU_SIGN_UP_EXPAND_FULL_CLASS);
     await waitForAnimationEnd(
       content,
       "signInExpandFull",
@@ -260,21 +255,21 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_LEFT, `${layout.fullLeft}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_WIDTH, `${layout.fullWidth}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_HEIGHT, `${layout.fullHeight}px`);
-    content.classList.remove(USER_MENU_SIGN_UP_PHASE_EXPAND_FULL_CLASS);
+    content.classList.remove(USER_MENU_SIGN_UP_EXPAND_FULL_CLASS);
 
     if (runId !== USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value) {
       return false;
     }
 
     loadingStatus.classList.remove(USER_MENU_HIDDEN_CLASS);
-    loadingStatus.classList.add(USER_MENU_SIGN_UP_STATUS_LOADING_IN_CLASS);
+    loadingStatus.classList.add(USER_MENU_SIGN_UP_DOTS_FADE_IN_CLASS);
     await waitForAnimationEnd(
       loadingStatus,
       "loginStatusFadeIn",
       dotsFadeInMs + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
     );
-    loadingStatus.classList.remove(USER_MENU_SIGN_UP_STATUS_LOADING_IN_CLASS);
-    loadingStatus.classList.add("is-shown");
+    loadingStatus.classList.remove(USER_MENU_SIGN_UP_DOTS_FADE_IN_CLASS);
+    loadingStatus.classList.add(USER_MENU_SIGN_UP_DOTS_RUN_CLASS);
 
     if (runId !== USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value) {
       return false;
@@ -286,14 +281,14 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
       return false;
     }
 
-    loadingStatus.classList.remove("is-shown");
-    loadingStatus.classList.add(USER_MENU_SIGN_UP_STATUS_LOADING_OUT_CLASS);
+    loadingStatus.classList.remove(USER_MENU_SIGN_UP_DOTS_RUN_CLASS);
+    loadingStatus.classList.add(USER_MENU_SIGN_UP_DOTS_FADE_OUT_CLASS);
     await waitForAnimationEnd(
       loadingStatus,
       "loginStatusFadeOut",
       dotsFadeOutMs + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
     );
-    loadingStatus.classList.remove(USER_MENU_SIGN_UP_STATUS_LOADING_OUT_CLASS);
+    loadingStatus.classList.remove(USER_MENU_SIGN_UP_DOTS_FADE_OUT_CLASS);
     loadingStatus.classList.add(USER_MENU_HIDDEN_CLASS);
 
     if (runId !== USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value) {
@@ -334,7 +329,7 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
     resultStatus.classList.remove("is-animating");
     resultStatus.classList.add("is-drawn");
 
-    resultStatus.classList.add(USER_MENU_SIGN_UP_RESULT_HIDE_CLASS);
+    resultStatus.classList.add(USER_MENU_SIGN_UP_RESULT_FADE_OUT_CLASS);
     await waitForAnimationEnd(
       resultStatus,
       "loginStatusFadeOut",
@@ -342,7 +337,7 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
     );
     resultStatus.classList.remove(
       USER_MENU_SIGN_UP_RESULT_DRAW_CLASS,
-      USER_MENU_SIGN_UP_RESULT_HIDE_CLASS,
+      USER_MENU_SIGN_UP_RESULT_FADE_OUT_CLASS,
       "is-drawn",
     );
     resultStatus.classList.add(USER_MENU_HIDDEN_CLASS);
@@ -350,7 +345,7 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
       return false;
     }
 
-    content.classList.add(USER_MENU_SIGN_UP_PHASE_SHRINK_PADDING_CLASS);
+    content.classList.add(USER_MENU_SIGN_UP_SHRINK_PADDING_CLASS);
     await waitForAnimationEnd(
       content,
       "signInShrinkPadding",
@@ -360,7 +355,7 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_LEFT, `${layout.expandUpLeft}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_WIDTH, `${layout.expandUpWidth}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_HEIGHT, `${layout.expandUpHeight}px`);
-    content.classList.remove(USER_MENU_SIGN_UP_PHASE_SHRINK_PADDING_CLASS);
+    content.classList.remove(USER_MENU_SIGN_UP_SHRINK_PADDING_CLASS);
 
     if (runId !== USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value) {
       return false;
@@ -368,7 +363,7 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
 
     await waitForNextFrame();
 
-    content.classList.add(USER_MENU_SIGN_UP_PHASE_SHRINK_ORIGIN_CLASS);
+    content.classList.add(USER_MENU_SIGN_UP_SHRINK_ORIGIN_CLASS);
     await waitForAnimationEnd(
       content,
       "signInShrinkOrigin",
@@ -378,7 +373,7 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_LEFT, `${layout.originLeft}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_WIDTH, `${layout.originWidth}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_HEIGHT, `${layout.originHeight}px`);
-    content.classList.remove(USER_MENU_SIGN_UP_PHASE_SHRINK_ORIGIN_CLASS);
+    content.classList.remove(USER_MENU_SIGN_UP_SHRINK_ORIGIN_CLASS);
 
     if (runId !== USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value) {
       return false;
@@ -386,13 +381,11 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
 
     if (panel) {
     panel.classList.remove(
-      USER_MENU_SIGN_UP_FADING_CHROME_CLASS,
-      USER_MENU_SIGN_UP_CHROME_HIDDEN_CLASS,
-      USER_MENU_SIGN_UP_CHROME_PREPARING_CLASS,
-      USER_MENU_SIGN_UP_CHROME_VISIBLE_CLASS,
+      USER_MENU_SIGN_UP_FADE_CLASS,
+      USER_MENU_SIGN_UP_RESTORE_FADE_CLASS,
     );
 
-    panel.querySelectorAll(USER_MENU_SIGN_UP_CHROME_SELECTORS).forEach((element) => {
+    panel.querySelectorAll(USER_MENU_SIGN_UP_FADE_SELECTORS).forEach((element) => {
       element.style.removeProperty("opacity");
       element.style.removeProperty("visibility");
       element.style.removeProperty("pointer-events");
@@ -471,30 +464,22 @@ export async function userMenuSignUpAnimation(resultIsSuccess) {
     }
 
     await waitForNextFrame();
-    panel.classList.add(USER_MENU_SIGN_UP_CHROME_PREPARING_CLASS);
-    panel.classList.remove(USER_MENU_SIGN_UP_CHROME_HIDDEN_CLASS);
-    void panel.offsetWidth;
-    panel.classList.add(USER_MENU_SIGN_UP_CHROME_VISIBLE_CLASS);
+    panel.classList.add(USER_MENU_SIGN_UP_RESTORE_FADE_CLASS);
 
-    await waitForTransitionEnd(
+    await waitForAnimationEnd(
       header,
-      "opacity",
+      "userMenuRestoreFade",
       restoreFadeMs + USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS,
     );
 
-    panel.classList.remove(
-      USER_MENU_SIGN_UP_CHROME_PREPARING_CLASS,
-      USER_MENU_SIGN_UP_CHROME_VISIBLE_CLASS,
-    );
+    panel.classList.remove(USER_MENU_SIGN_UP_RESTORE_FADE_CLASS);
     if (panel) {
     panel.classList.remove(
-      USER_MENU_SIGN_UP_FADING_CHROME_CLASS,
-      USER_MENU_SIGN_UP_CHROME_HIDDEN_CLASS,
-      USER_MENU_SIGN_UP_CHROME_PREPARING_CLASS,
-      USER_MENU_SIGN_UP_CHROME_VISIBLE_CLASS,
+      USER_MENU_SIGN_UP_FADE_CLASS,
+      USER_MENU_SIGN_UP_RESTORE_FADE_CLASS,
     );
 
-    panel.querySelectorAll(USER_MENU_SIGN_UP_CHROME_SELECTORS).forEach((element) => {
+    panel.querySelectorAll(USER_MENU_SIGN_UP_FADE_SELECTORS).forEach((element) => {
       element.style.removeProperty("opacity");
       element.style.removeProperty("visibility");
       element.style.removeProperty("pointer-events");
