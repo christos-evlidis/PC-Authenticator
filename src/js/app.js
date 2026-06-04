@@ -2,6 +2,7 @@
  * Extension popup entry — theme, auth, and section bootstrap.
  */
 import { bodyAnimationPlay } from "./sections/body/body-index.js";
+import { BODY_PHASE_SIGNED_IN_CONTENT } from "./sections/body/body-constants.js";
 import { BODY_PHASE_FINISH } from "./sections/body/body-constants.js";
 import { BODY_PHASE_CONTENT } from "./sections/body/body-constants.js";
 import { BODY_PHASE_EXTENSION_FRAME } from "./sections/body/body-constants.js";
@@ -19,6 +20,11 @@ import { registerSections } from "./sections/section-index.js";
 import { themeInit } from "./utils/utility-theme.js";
 import { checkAuth } from "./utils/utility-auth.js";
 import { refreshAuth } from "./utils/utility-auth.js";
+import { accountSync } from "./accounts/account-index.js";
+import { hasPendingPostLoginReveal } from "./sections/codes/codes-reveal.js";
+import { setEmptyVisible } from "./sections/codes/codes-empty.js";
+import { SELECTORS } from "./sections/codes/codes-state.js";
+import { loadTimerInvertedPreference } from "./sections/codes/codes-timer.js";
 
 themeInit();
 
@@ -40,11 +46,29 @@ async function bootstrapExtension() {
   const isLoggedIn = await checkAuth();
   await refreshAuth();
 
+  let signedInEmpty = false;
+
+  if (isLoggedIn && !hasPendingPostLoginReveal()) {
+    const { accountNumber } = await chrome.storage.local.get(["accountNumber"]);
+
+    if (accountNumber) {
+      await loadTimerInvertedPreference();
+      const accounts = await accountSync(accountNumber);
+      signedInEmpty = accounts.filter((account) => account?.secret).length === 0;
+    }
+  }
+
   await initFrameIntro();
   await headerAnimationPlay(HEADER_PHASE_CONTENT);
 
   if (!isLoggedIn) {
     await bodyAnimationPlay(BODY_PHASE_CONTENT);
+  } else if (signedInEmpty) {
+    const empty = document.querySelector(SELECTORS.empty);
+    const list = document.querySelector(SELECTORS.list);
+
+    setEmptyVisible(empty, list, true);
+    await bodyAnimationPlay(BODY_PHASE_SIGNED_IN_CONTENT);
   }
 
   headerAnimationPlay(HEADER_PHASE_FINISH);

@@ -6,7 +6,7 @@ export const TIMER_INVERTED_KEY = "timerInverted";
 
 export const SELECTORS = {
   section: ".codes-section",
-  empty: ".codes-section__empty",
+  empty: ".app-body__content--empty-codes",
   list: ".codes-section__list",
   template: ".code-card-template",
 };
@@ -19,9 +19,6 @@ export const CODE_INTRO_SLIDE_MS = 250;
 export const CODE_INTRO_STAGGER_MS = 225;
 export const EMPTY_ICON_POP_MS = 250;
 export const EMPTY_TYPE_MS = 1000;
-export const EMPTY_SIGNED_IN_ICON_CLASS = "fa-key";
-export const EMPTY_SIGNED_IN_MESSAGE =
-  "Add your first code.\nUse + or scan a QR code to get started.";
 export const LIST_WHEEL_COOLDOWN_MS = 380;
 
 export let shouldPlayCodesIntro = true;

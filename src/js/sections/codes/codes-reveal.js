@@ -3,7 +3,8 @@ import { getElements } from "./codes-state.js";
 import { getPendingPostLoginReveal } from "./codes-state.js";
 import { setPendingPostLoginReveal } from "./codes-state.js";
 import { renderAccounts } from "./codes-cards.js";
-import { revealCodesEmptyStatic } from "./codes-empty.js";
+import { setEmptyVisible } from "./codes-empty.js";
+import { playCodesEmptyIntro } from "./codes-empty.js";
 import { revealCodesSearchStatic } from "./codes-search.js";
 
 export function stagePostLoginReveal(accounts) {
@@ -52,9 +53,9 @@ export async function playPostLoginReveal() {
 
   if (!renderableAccounts.length) {
     const { empty, list } = getElements();
-    list?.classList.add("hidden");
-    empty?.classList.remove("hidden");
-    revealCodesEmptyStatic();
+
+    setEmptyVisible(empty, list, true);
+    await playCodesEmptyIntro();
   } else {
     renderAccounts(accounts);
   }

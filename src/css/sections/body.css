@@ -104,6 +104,19 @@
     padding: 0;
 }
 
+.app-body__view--signed-in .app-body__content--empty-codes {
+    flex: 1;
+    min-height: 0;
+}
+
+.app-body__view--signed-in .app-body__content--empty-codes.hidden {
+    display: none;
+}
+
+.app-body__view--signed-in .codes-section.hidden {
+    display: none;
+}
+
 .app-body__view.is-hidden {
     display: none;
 }

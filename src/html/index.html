@@ -78,20 +78,21 @@
 
                 <!-- Signed-in View -->
                 <section class="app-body__view app-body__view--signed-in is-hidden">
-                    <section class="codes-section" aria-label="Authentication codes">
-                        <div class="codes-section__empty hidden">
-                            <span class="codes-section__empty-icon" aria-hidden="true">
-                                <i class="fas fa-key"></i>
-                            </span>
-                            <div
-                                class="codes-section__message-stack"
-                                data-full-text="Add your first code.&#10;Use + or scan a QR code to get started."
-                            >
-                                <p class="codes-section__message codes-section__message--spacer" aria-hidden="true"></p>
-                                <p class="codes-section__message codes-section__message--display"></p>
-                            </div>
+                    <div class="app-body__content app-body__content--empty-codes hidden">
+                        <div class="app-body__icon is-pending" aria-hidden="true">
+                            <i class="fas fa-key"></i>
                         </div>
 
+                        <div
+                            class="app-body__message-stack"
+                            data-full-text="Add your first code.&#10;Use + or scan a QR code to get started."
+                        >
+                            <p class="app-body__message app-body__message--spacer" aria-hidden="true"></p>
+                            <p class="app-body__message app-body__message--display"></p>
+                        </div>
+                    </div>
+
+                    <section class="codes-section" aria-label="Authentication codes">
                         <ul class="codes-section__list hidden" role="list"></ul>
 
                         <template class="code-card-template">
