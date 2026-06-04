@@ -9,8 +9,8 @@ import { BODY_PHASE_EXTENSION_FRAME } from "../body-constants.js";
 import { BODY_PHASE_FINISH } from "../body-constants.js";
 import { BODY_PHASE_HEADER } from "../body-constants.js";
 import { BODY_PHASE_LOGO } from "../body-constants.js";
-import { BODY_PHASE_SIGNED_IN } from "../body-constants.js";
-import { BODY_PHASE_SIGNED_OUT } from "../body-constants.js";
+import { BODY_PHASE_SIGNED_IN_CONTENT } from "../body-constants.js";
+import { BODY_PHASE_SIGNED_OUT_CONTENT } from "../body-constants.js";
 import { BODY_PHASE_START } from "../body-constants.js";
 
 /** Runs body animation phases for intro, content, or cleanup. */
@@ -35,12 +35,12 @@ export async function bodyAnimationPlay(phase, options = {}) {
     return;
   }
 
-  if (phase === BODY_PHASE_SIGNED_OUT) {
+  if (phase === BODY_PHASE_SIGNED_OUT_CONTENT) {
     await bodyAnimateForSignedOutContent(options);
     return;
   }
 
-  if (phase === BODY_PHASE_SIGNED_IN) {
+  if (phase === BODY_PHASE_SIGNED_IN_CONTENT) {
     await bodyAnimateForSignedInContent(options);
     return;
   }
