@@ -1,11 +1,11 @@
 import { bodyAnimateForSignedInContent } from "./body-animate-for-signed-in-content.js";
-import { bodyAnimateForContent } from "./body-animate-for-content.js";
+import { bodyAnimateForSignedOutContent } from "./body-animate-for-signed-out-content.js";
+import { bodyAnimateForSignedOutStatic } from "./body-animate-for-signed-out-content.js";
 import { bodyAnimateForExtensionFrame } from "./body-animate-for-extension-frame.js";
 import { bodyAnimateForFinish } from "./body-animate-for-finish.js";
 import { bodyAnimateForHeader } from "./body-animate-for-header.js";
 import { bodyAnimateForLogo } from "./body-animate-for-logo.js";
 import { bodyAnimateForStart } from "./body-animate-for-start.js";
-import { bodyAnimateForStatic } from "./body-animate-for-static.js";
 import { BODY_PHASE_SIGNED_IN_CONTENT } from "../body-constants.js";
 import { BODY_PHASE_CONTENT } from "../body-constants.js";
 import { BODY_PHASE_EXTENSION_FRAME } from "../body-constants.js";
@@ -38,7 +38,7 @@ export async function bodyAnimationPlay(phase) {
   }
 
   if (phase === BODY_PHASE_CONTENT) {
-    await bodyAnimateForContent();
+    await bodyAnimateForSignedOutContent();
     return;
   }
 
@@ -48,7 +48,7 @@ export async function bodyAnimationPlay(phase) {
   }
 
   if (phase === BODY_PHASE_STATIC) {
-    bodyAnimateForStatic();
+    bodyAnimateForSignedOutStatic();
     return;
   }
 

@@ -28,8 +28,7 @@ export const BODY_INTRO_SLOT_CLASS = "is-intro-header-slot";
 export const BODY_SPLASH_HIDDEN_CLASS = "is-splash-hidden";
 
 export const BODY_SIGNED_OUT_MESSAGE_TEXT = "To use the authenticator\nsign in or sign up.";
-export const BODY_SIGNED_IN_EMPTY_MESSAGE_TEXT =
-  "Add your first code.\nUse + or scan a QR code to get started.";
+export const BODY_SIGNED_IN_EMPTY_MESSAGE_TEXT ="Add your first code.\nUse + or scan a QR code to get started.";
 
 export const BODY_PHASE_START = "animateforstart";
 export const BODY_PHASE_LOGO = "animateforlogo";
