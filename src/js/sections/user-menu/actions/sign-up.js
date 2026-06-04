@@ -1,9 +1,9 @@
 import { accountCreate } from "../../../accounts/account-index.js";
-import { USER_MENU_ACCOUNT_NUMBER_LENGTH } from "../user-menu-constants.js";
-import { userMenuAccountSet } from "../user-menu-storage.js";
-import { userMenuStateGet } from "../user-menu-state.js";
-import { userMenuAccountSanitize } from "../user-menu-sanitize.js";
-import { userMenuSignUpAnimation } from "../user-menu-animations/user-menu-sign-up-animation.js";
+import { USER_MENU_ACCOUNT_NUMBER_LENGTH } from "../constants.js";
+import { userMenuAccountSet } from "../storage.js";
+import { userMenuStateGet } from "../state.js";
+import { userMenuAccountSanitize } from "../sanitize.js";
+import { userMenuSignUpAnimation } from "../animations/sign-up-animation.js";
 
 // Creates a new account, stores it locally, and runs the shared auth result animation.
 export async function userMenuSignUp() {

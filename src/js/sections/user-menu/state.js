@@ -1,4 +1,4 @@
-import { USER_MENU_AUTH_VIEW_SIGN_IN } from "./user-menu-constants.js";
+import { USER_MENU_AUTH_VIEW_SIGN_IN } from "./constants.js";
 import { themeRead } from "../../utils/utility-theme.js";
 import { THEME_LIGHT } from "../../utils/utility-theme.js";
 

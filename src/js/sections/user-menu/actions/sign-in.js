@@ -1,9 +1,9 @@
 import { accountVerify } from "../../../accounts/account-index.js";
-import { USER_MENU_ACCOUNT_NUMBER_LENGTH } from "../user-menu-constants.js";
-import { userMenuAccountSet } from "../user-menu-storage.js";
-import { userMenuStateGet } from "../user-menu-state.js";
-import { userMenuAccountSanitize } from "../user-menu-sanitize.js";
-import { userMenuSignInAnimation } from "../user-menu-animations/user-menu-sign-in-animation.js";
+import { USER_MENU_ACCOUNT_NUMBER_LENGTH } from "../constants.js";
+import { userMenuAccountSet } from "../storage.js";
+import { userMenuStateGet } from "../state.js";
+import { userMenuAccountSanitize } from "../sanitize.js";
+import { userMenuSignInAnimation } from "../animations/sign-in-animation.js";
 
 // Verifies credentials once at submit time, stores the account, and animates the result.
 export async function userMenuSignIn(accountNumber) {

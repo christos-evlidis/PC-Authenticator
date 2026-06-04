@@ -1,4 +1,4 @@
-import { USER_MENU_ACCOUNT_NUMBER_KEY } from "./user-menu-constants.js";
+import { USER_MENU_ACCOUNT_NUMBER_KEY } from "./constants.js";
 
 /** Persists the signed-in account number after login or account creation. */
 export async function userMenuAccountSet(accountNumber) {

@@ -1,4 +1,4 @@
-import { USER_MENU_ACCOUNT_INPUT_SELECTOR } from "../user-menu-constants.js";
+import { USER_MENU_ACCOUNT_INPUT_SELECTOR } from "../constants.js";
 
 /** Updates the read-only account number field in the DOM. */
 export function userMenuAccountApply(accountNumber) {

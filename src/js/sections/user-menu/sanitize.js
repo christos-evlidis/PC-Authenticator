@@ -1,4 +1,4 @@
-import { USER_MENU_ACCOUNT_NUMBER_LENGTH } from "./user-menu-constants.js";
+import { USER_MENU_ACCOUNT_NUMBER_LENGTH } from "./constants.js";
 
 // Sanitizes account-number input so auth flows only work with valid digits.
 export function userMenuAccountSanitize(value) {

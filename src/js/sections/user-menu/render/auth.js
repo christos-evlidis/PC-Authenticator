@@ -1,13 +1,13 @@
-import { USER_MENU_ACTIVE_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_AUTH_BTN_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_AUTH_SIGN_IN_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_AUTH_SIGN_UP_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_AUTH_TRACK_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../user-menu-constants.js";
-import { USER_MENU_HIDDEN_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_SIGN_IN_INPUT_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_SIGN_IN_VIEW_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_SIGN_UP_VIEW_SELECTOR } from "../user-menu-constants.js";
+import { USER_MENU_ACTIVE_CLASS } from "../constants.js";
+import { USER_MENU_AUTH_BTN_SELECTOR } from "../constants.js";
+import { USER_MENU_AUTH_SIGN_IN_CLASS } from "../constants.js";
+import { USER_MENU_AUTH_SIGN_UP_CLASS } from "../constants.js";
+import { USER_MENU_AUTH_TRACK_SELECTOR } from "../constants.js";
+import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../constants.js";
+import { USER_MENU_HIDDEN_CLASS } from "../constants.js";
+import { USER_MENU_SIGN_IN_INPUT_SELECTOR } from "../constants.js";
+import { USER_MENU_SIGN_IN_VIEW_SELECTOR } from "../constants.js";
+import { USER_MENU_SIGN_UP_VIEW_SELECTOR } from "../constants.js";
 
 /** Updates sign-in vs sign-up auth panels and auth switch labels in the DOM. */
 export function userMenuAuthViewApply(authView) {

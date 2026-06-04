@@ -1,21 +1,21 @@
 import { cssMs } from "../../../utils/utility-animation.js";
 import { waitForNextFrame } from "../../../utils/utility-animation.js";
 import { waitForTransitionEnd } from "../../../utils/utility-animation.js";
-import { USER_MENU_ACTIVE_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_BACKDROP_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS } from "../user-menu-constants.js";
-import { USER_MENU_VAR_BLUR_MS } from "../user-menu-constants.js";
-import { USER_MENU_OPEN_BTN_ACTIVE_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_OPEN_BTN_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_OPEN_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_PANEL_ANIMATION_RUN_ID } from "../user-menu-constants.js";
-import { USER_MENU_PANEL_BACKDROP_CLOSING_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_PANEL_CLOSING_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_PANEL_OPENING_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_PANEL_OPEN_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_PANEL_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_ROOT_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_VAR_SLIDE_MS } from "../user-menu-constants.js";
+import { USER_MENU_ACTIVE_CLASS } from "../constants.js";
+import { USER_MENU_BACKDROP_SELECTOR } from "../constants.js";
+import { USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
+import { USER_MENU_VAR_BLUR_MS } from "../constants.js";
+import { USER_MENU_OPEN_BTN_ACTIVE_CLASS } from "../constants.js";
+import { USER_MENU_OPEN_BTN_SELECTOR } from "../constants.js";
+import { USER_MENU_OPEN_CLASS } from "../constants.js";
+import { USER_MENU_PANEL_ANIMATION_RUN_ID } from "../constants.js";
+import { USER_MENU_PANEL_BACKDROP_CLOSING_CLASS } from "../constants.js";
+import { USER_MENU_PANEL_CLOSING_CLASS } from "../constants.js";
+import { USER_MENU_PANEL_OPENING_CLASS } from "../constants.js";
+import { USER_MENU_PANEL_OPEN_CLASS } from "../constants.js";
+import { USER_MENU_PANEL_SELECTOR } from "../constants.js";
+import { USER_MENU_ROOT_SELECTOR } from "../constants.js";
+import { USER_MENU_VAR_SLIDE_MS } from "../constants.js";
 
 // Runs the slide-then-unblur close sequence for the user menu overlay.
 export async function userMenuPanelCloseAnimation() {

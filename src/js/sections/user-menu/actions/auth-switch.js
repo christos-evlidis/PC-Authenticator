@@ -1,9 +1,9 @@
-import { USER_MENU_AUTH_VIEW_SIGN_IN } from "../user-menu-constants.js";
-import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../user-menu-constants.js";
-import { userMenuAuthViewApply } from "../user-menu-render/user-menu-auth.js";
-import { userMenuStateGet } from "../user-menu-state.js";
-import { userMenuStateSet } from "../user-menu-state.js";
-import { userMenuAuthSwitchAnimation } from "../user-menu-animations/user-menu-auth-switch-animation.js";
+import { USER_MENU_AUTH_VIEW_SIGN_IN } from "../constants.js";
+import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../constants.js";
+import { userMenuAuthViewApply } from "../render/auth.js";
+import { userMenuStateGet } from "../state.js";
+import { userMenuStateSet } from "../state.js";
+import { userMenuAuthSwitchAnimation } from "../animations/auth-switch-animation.js";
 
 // Switches the signed-out user menu between sign-in and sign-up panels.
 export function userMenuAuthSwitch(authView) {

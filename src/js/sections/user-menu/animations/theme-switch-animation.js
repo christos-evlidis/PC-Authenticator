@@ -1,12 +1,12 @@
 import { cssMs } from "../../../utils/utility-animation.js";
 import { waitForTransitionEnd } from "../../../utils/utility-animation.js";
 import { THEME_DARK } from "../../../utils/utility-theme.js";
-import { USER_MENU_THEME_DARK_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_THEME_LIGHT_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS } from "../user-menu-constants.js";
-import { USER_MENU_VAR_THEME_THUMB_MS } from "../user-menu-constants.js";
-import { USER_MENU_THEME_THUMB_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_THEME_TRACK_SELECTOR } from "../user-menu-constants.js";
+import { USER_MENU_THEME_DARK_CLASS } from "../constants.js";
+import { USER_MENU_THEME_LIGHT_CLASS } from "../constants.js";
+import { USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
+import { USER_MENU_VAR_THEME_THUMB_MS } from "../constants.js";
+import { USER_MENU_THEME_THUMB_SELECTOR } from "../constants.js";
+import { USER_MENU_THEME_TRACK_SELECTOR } from "../constants.js";
 
 // Runs the theme switch thumb between light and dark positions.
 export async function userMenuThemeSwitchAnimation(theme) {

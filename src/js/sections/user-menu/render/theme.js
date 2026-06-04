@@ -1,9 +1,9 @@
 import { THEME_DARK } from "../../../utils/utility-theme.js";
-import { USER_MENU_ACTIVE_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_THEME_BTN_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_THEME_DARK_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_THEME_LIGHT_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_THEME_TRACK_SELECTOR } from "../user-menu-constants.js";
+import { USER_MENU_ACTIVE_CLASS } from "../constants.js";
+import { USER_MENU_THEME_BTN_SELECTOR } from "../constants.js";
+import { USER_MENU_THEME_DARK_CLASS } from "../constants.js";
+import { USER_MENU_THEME_LIGHT_CLASS } from "../constants.js";
+import { USER_MENU_THEME_TRACK_SELECTOR } from "../constants.js";
 
 /** Updates light vs dark theme switch labels in the DOM. */
 export function userMenuThemeButtonsApply(theme) {

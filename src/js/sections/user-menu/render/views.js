@@ -1,8 +1,8 @@
-import { USER_MENU_AUTH_BAR_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_HIDDEN_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_SIGNED_IN_VIEW_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_SIGNED_OUT_VIEW_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_THEME_BAR_SELECTOR } from "../user-menu-constants.js";
+import { USER_MENU_AUTH_BAR_SELECTOR } from "../constants.js";
+import { USER_MENU_HIDDEN_CLASS } from "../constants.js";
+import { USER_MENU_SIGNED_IN_VIEW_SELECTOR } from "../constants.js";
+import { USER_MENU_SIGNED_OUT_VIEW_SELECTOR } from "../constants.js";
+import { USER_MENU_THEME_BAR_SELECTOR } from "../constants.js";
 
 /** Updates signed-in vs signed-out view visibility in the DOM. */
 export function userMenuViewsApply(isSignedIn) {

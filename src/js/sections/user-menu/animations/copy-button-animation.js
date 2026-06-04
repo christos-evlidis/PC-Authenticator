@@ -1,9 +1,9 @@
 import { cssMs } from "../../../utils/utility-animation.js";
 import { delay } from "../../../utils/utility-animation.js";
-import { USER_MENU_VAR_ACCOUNT_ACTION_CONFIRM_MS } from "../user-menu-constants.js";
-import { USER_MENU_ACCOUNT_CONFIRMED_CLASS } from "../user-menu-constants.js";
-import { USER_MENU_ACCOUNT_COPY_BTN_SELECTOR } from "../user-menu-constants.js";
-import { USER_MENU_COPY_BUTTON_ANIMATION_RUN_ID } from "../user-menu-constants.js";
+import { USER_MENU_VAR_ACCOUNT_ACTION_CONFIRM_MS } from "../constants.js";
+import { USER_MENU_ACCOUNT_CONFIRMED_CLASS } from "../constants.js";
+import { USER_MENU_ACCOUNT_COPY_BTN_SELECTOR } from "../constants.js";
+import { USER_MENU_COPY_BUTTON_ANIMATION_RUN_ID } from "../constants.js";
 
 // Swaps the account copy button icon to a checkmark briefly after copying.
 export async function userMenuCopyButtonAnimation() {

@@ -1,6 +1,6 @@
-import { userMenuStateGet } from "../user-menu-state.js";
-import { userMenuStateSet } from "../user-menu-state.js";
-import { userMenuPanelOpenAnimation } from "../user-menu-animations/user-menu-panel-open-animation.js";
+import { userMenuStateGet } from "../state.js";
+import { userMenuStateSet } from "../state.js";
+import { userMenuPanelOpenAnimation } from "../animations/panel-open-animation.js";
 
 // Opens the user menu and plays the panel entrance sequence.
 export async function userMenuPanelOpen() {

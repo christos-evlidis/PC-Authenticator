@@ -1,5 +1,5 @@
-import { userMenuStateGet } from "../user-menu-state.js";
-import { userMenuCopyButtonAnimation } from "../user-menu-animations/user-menu-copy-button-animation.js";
+import { userMenuStateGet } from "../state.js";
+import { userMenuCopyButtonAnimation } from "../animations/copy-button-animation.js";
 
 // Copies the signed-in account number and confirms the action in the field button.
 export async function userMenuAccountCopy() {
