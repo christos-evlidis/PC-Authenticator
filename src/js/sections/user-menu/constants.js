@@ -1,4 +1,4 @@
-
+// Overlay shell and panel structure.
 export const USER_MENU_ROOT_SELECTOR = ".app-user-menu";
 export const USER_MENU_BACKDROP_SELECTOR = ".app-user-menu__backdrop";
 export const USER_MENU_PANEL_SELECTOR = ".app-user-menu__panel";
@@ -7,48 +7,60 @@ export const USER_MENU_CONTENT_SELECTOR = ".app-user-menu__content";
 export const USER_MENU_CLOSE_BTN_SELECTOR = ".app-user-menu__close-btn";
 export const USER_MENU_OPEN_BTN_SELECTOR = ".app-header__user-menu-btn";
 
+// Header trigger button states (lives outside the overlay).
 export const USER_MENU_HEADER_BTN_ACTIVE_CLASS = "is-user-menu-btn-active";
 export const USER_MENU_HEADER_BTN_DISABLED_CLASS = "is-user-menu-btn-disabled";
 
+// Signed-in vs signed-out body views.
 export const USER_MENU_SIGNED_OUT_VIEW_SELECTOR = ".app-user-menu__view--signed-out";
 export const USER_MENU_SIGNED_IN_VIEW_SELECTOR = ".app-user-menu__view--signed-in";
 
+// Auth view switch (sign-in / sign-up tabs).
 export const USER_MENU_AUTH_BAR_SELECTOR = ".app-user-menu__auth-bar";
 export const USER_MENU_AUTH_TRACK_SELECTOR = ".app-user-menu__auth-switch-track";
 export const USER_MENU_AUTH_THUMB_SELECTOR = ".app-user-menu__auth-switch-thumb";
 export const USER_MENU_AUTH_BTN_SELECTOR = ".app-user-menu__auth-switch-btn";
 
+// Theme switch (light / dark).
 export const USER_MENU_THEME_BAR_SELECTOR = ".app-user-menu__theme-bar";
 export const USER_MENU_THEME_TRACK_SELECTOR = ".app-user-menu__theme-switch-track";
 export const USER_MENU_THEME_THUMB_SELECTOR = ".app-user-menu__theme-switch-thumb";
 export const USER_MENU_THEME_BTN_SELECTOR = ".app-user-menu__theme-switch-btn";
 
+// Sign-in form.
 export const USER_MENU_SIGN_IN_VIEW_SELECTOR = ".app-user-menu__auth-view--sign-in";
 export const USER_MENU_SIGN_IN_FORM_SELECTOR = ".app-user-menu__form--sign-in";
 export const USER_MENU_SIGN_IN_INPUT_SELECTOR = ".app-user-menu__sign-in-input";
 
+// Sign-up panel.
 export const USER_MENU_SIGN_UP_VIEW_SELECTOR = ".app-user-menu__auth-view--sign-up";
 export const USER_MENU_SIGN_UP_BTN_SELECTOR = ".app-user-menu__sign-up-submit";
 
+// Signed-in account field and actions.
 export const USER_MENU_ACCOUNT_INPUT_SELECTOR = ".app-user-menu__account-input";
 export const USER_MENU_ACCOUNT_COPY_BTN_SELECTOR = ".app-user-menu__account-copy-btn";
 export const USER_MENU_ACCOUNT_DOWNLOAD_BTN_SELECTOR = ".app-user-menu__account-download-btn";
 
+// Log out.
 export const USER_MENU_LOGOUT_BTN_SELECTOR = ".app-user-menu__logout-btn";
 
+// Auth result status overlays and SVG draw targets.
 export const USER_MENU_STATUS_LOADING_SELECTOR = ".app-user-menu__status .login-status--loading";
 export const USER_MENU_STATUS_SUCCESS_SELECTOR = ".app-user-menu__status .login-status--success";
 export const USER_MENU_STATUS_ERROR_SELECTOR = ".app-user-menu__status .login-status--error";
 export const USER_MENU_STATUS_ICON_CIRCLE_SELECTOR = ".login-status__icon-circle";
 export const USER_MENU_STATUS_ICON_MARK_SELECTOR = ".login-status__icon-mark";
 
+// Auth tab identity strings (state, data-view, BEM modifiers).
 export const USER_MENU_AUTH_VIEW_SIGN_IN = "sign-in";
 export const USER_MENU_AUTH_VIEW_SIGN_UP = "sign-up";
 
+// Shared overlay state classes.
 export const USER_MENU_HIDDEN_CLASS = "is-hidden";
 export const USER_MENU_ACTIVE_CLASS = "is-active";
 export const USER_MENU_OPEN_CLASS = "is-open";
 
+// Panel open/close animation phases.
 export const USER_MENU_PANEL_OPENING_CLASS = "is-panel-opening";
 export const USER_MENU_PANEL_OPEN_CLASS = "is-panel-open";
 export const USER_MENU_PANEL_CLOSING_CLASS = "is-panel-closing";
