@@ -6,7 +6,7 @@ import { USER_MENU_ACCOUNT_COPY_BTN_SELECTOR } from "../user-menu-constants.js";
 import { USER_MENU_COPY_BUTTON_ANIMATION_RUN_ID } from "../user-menu-constants.js";
 
 // Swaps the account copy button icon to a checkmark briefly after copying.
-export async function userMenuAccountCopyAnimation() {
+export async function userMenuCopyButtonAnimation() {
   const button = document.querySelector(USER_MENU_ACCOUNT_COPY_BTN_SELECTOR);
   const icon = button?.querySelector("i");
 

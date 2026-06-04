@@ -1,5 +1,5 @@
 import { userMenuStateGet } from "../user-menu-state.js";
-import { userMenuAccountDownloadAnimation } from "../user-menu-animations/user-menu-download-button-animation.js";
+import { userMenuDownloadButtonAnimation } from "../user-menu-animations/user-menu-download-button-animation.js";
 
 // Downloads the signed-in account number as a local backup text file.
 export async function userMenuAccountDownload() {
@@ -17,5 +17,5 @@ export async function userMenuAccountDownload() {
   link.download = "pc-authenticator-account-number.txt";
   link.click();
   URL.revokeObjectURL(url);
-  await userMenuAccountDownloadAnimation();
+  await userMenuDownloadButtonAnimation();
 }

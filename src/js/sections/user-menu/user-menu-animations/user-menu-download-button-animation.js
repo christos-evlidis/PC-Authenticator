@@ -6,7 +6,7 @@ import { USER_MENU_ACCOUNT_DOWNLOAD_BTN_SELECTOR } from "../user-menu-constants.
 import { USER_MENU_DOWNLOAD_BUTTON_ANIMATION_RUN_ID } from "../user-menu-constants.js";
 
 // Swaps the account download button icon to a checkmark after downloading.
-export async function userMenuAccountDownloadAnimation() {
+export async function userMenuDownloadButtonAnimation() {
   const button = document.querySelector(USER_MENU_ACCOUNT_DOWNLOAD_BTN_SELECTOR);
   const icon = button?.querySelector("i");
 
