@@ -11,34 +11,10 @@ import { BODY_PENDING_CLASS } from "../body-constants.js";
 import { BODY_POPPING_CLASS } from "../body-constants.js";
 import { BODY_ROOT_SELECTOR } from "../body-constants.js";
 import { BODY_RUNNING_CLASS } from "../body-constants.js";
+import { BODY_SIGNED_OUT_MESSAGE_TEXT } from "../body-constants.js";
 import { BODY_TYPING_CLASS } from "../body-constants.js";
 import { BODY_VAR_ICON_POP_MS } from "../body-constants.js";
 import { BODY_VAR_MESSAGE_TYPE_MS } from "../body-constants.js";
-import { bodyMessageDisplayApply } from "../body-render/body-message.js";
-import { bodyMessageFullText } from "../body-render/body-message.js";
-
-/** Types message text character by character over the given duration. */
-async function bodyMessageTypeAnimation(display, fullText, totalMs) {
-  if (!display || !fullText) {
-    return;
-  }
-
-  display.textContent = "";
-  display.classList.add(BODY_TYPING_CLASS, BODY_RUNNING_CLASS);
-
-  const charCount = fullText.length;
-  const stepMs = charCount > 0 ? totalMs / charCount : 0;
-
-  for (let index = 1; index <= charCount; index += 1) {
-    display.textContent = fullText.slice(0, index);
-
-    if (index < charCount) {
-      await delay(stepMs);
-    }
-  }
-
-  display.classList.remove(BODY_TYPING_CLASS);
-}
 
 /** Plays signed-out icon pop and message typing animation. */
 export async function bodyAnimateForContent() {
@@ -63,12 +39,36 @@ export async function bodyAnimateForContent() {
   }
 
   if (stack && display) {
-    const fullText = bodyMessageFullText(stack);
+    const stored = stack.dataset?.fullText;
+    const fullText = stored
+      ? stored.replace(/\\n/g, "\n")
+      : BODY_SIGNED_OUT_MESSAGE_TEXT;
+    const lines = fullText
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
 
-    await bodyMessageTypeAnimation(display, fullText, messageTypeMs);
+    display.textContent = "";
+    display.classList.add(BODY_TYPING_CLASS, BODY_RUNNING_CLASS);
 
-    display.classList.remove(BODY_RUNNING_CLASS);
-    bodyMessageDisplayApply(display, fullText);
+    const charCount = fullText.length;
+    const stepMs = charCount > 0 ? messageTypeMs / charCount : 0;
+
+    for (let index = 1; index <= charCount; index += 1) {
+      display.textContent = fullText.slice(0, index);
+
+      if (index < charCount) {
+        await delay(stepMs);
+      }
+    }
+
+    display.classList.remove(BODY_TYPING_CLASS, BODY_RUNNING_CLASS);
+
+    if (lines.length > 1) {
+      display.innerHTML = `${lines[0]}<br>${lines.slice(1).join("<br>")}`;
+    } else {
+      display.textContent = fullText.trim();
+    }
   }
 
   root?.classList.remove(BODY_PENDING_CLASS);

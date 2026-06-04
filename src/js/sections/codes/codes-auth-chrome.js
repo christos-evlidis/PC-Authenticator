@@ -1,4 +1,7 @@
 import { cross } from "../section-cross.js";
+import { bodyApply } from "../body/body-index.js";
+import { bodyAnimationPlay } from "../body/body-index.js";
+import { BODY_PHASE_STATIC } from "../body/body-constants.js";
 import { headerApply } from "../header/header-index.js";
 import { headerIconsDisable } from "../header/header-index.js";
 import { headerIconsEnable } from "../header/header-index.js";
@@ -12,11 +15,11 @@ export function setAuthState(isLoggedIn, options = {}) {
   } = options;
 
   headerApply(isLoggedIn);
-  cross.body.apply(isLoggedIn, accountNumber);
+  bodyApply(isLoggedIn);
   cross.userMenu?.apply(isLoggedIn, accountNumber);
 
   if (!isLoggedIn && (bodyStaticReveal || !skipSignedOutReveal)) {
-    cross.body.animationStatic();
+    bodyAnimationPlay(BODY_PHASE_STATIC);
   }
 
   cross.codes.setSearchAuthVisible(isLoggedIn);

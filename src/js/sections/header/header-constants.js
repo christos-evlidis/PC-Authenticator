@@ -21,7 +21,7 @@ export const HEADER_INTRO_FADE_IN_CLASS = "is-intro-fade-in";
 export const HEADER_TITLE_TEXT = "PC Authenticator";
 
 export const HEADER_PHASE_START = "animateforstart";
-export const HEADER_PHASE_INTRO = "animateforintro";
+export const HEADER_PHASE_FADE_IN = "animateforfadein";
 export const HEADER_PHASE_CONTENT = "animateforcontent";
 export const HEADER_PHASE_FINISH = "animateforfinish";
 

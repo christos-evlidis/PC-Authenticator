@@ -1,5 +1,5 @@
 import { cross } from "./section-cross.js";
-import { bodySection } from "./body/body-index.js";
+import { bodyApply } from "./body/body-index.js";
 import { codesSection } from "./codes/codes-section.js";
 import { initCodes } from "./codes/codes-section.js";
 import { initOnLoad } from "./codes/codes-section.js";
@@ -17,7 +17,7 @@ import { reviewPromptSection } from "./review-prompt/review-prompt-section.js";
 export function registerSections() {
   cross.codes = codesSection;
   cross.header = { apply: headerApply };
-  cross.body = bodySection;
+  cross.body = { apply: bodyApply };
   cross.userMenu = { apply: userMenuApply };
   cross.manualSetup = manualSetupSection;
   cross.qrCodeSetup = qrCodeSetupSection;

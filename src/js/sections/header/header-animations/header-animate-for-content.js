@@ -20,29 +20,6 @@ import { HEADER_VAR_BTN_POP_MS } from "../header-constants.js";
 import { HEADER_VAR_BTN_POP_STAGGER_MS } from "../header-constants.js";
 import { HEADER_VAR_TITLE_TYPE_MS } from "../header-constants.js";
 
-/** Types title text character by character over the given duration. */
-async function headerTitleTypeAnimation(title, fullText, totalMs) {
-  if (!title || !fullText) {
-    return;
-  }
-
-  title.textContent = "";
-  title.classList.add(HEADER_TYPING_CLASS, HEADER_RUNNING_CLASS);
-
-  const charCount = fullText.length;
-  const stepMs = charCount > 0 ? totalMs / charCount : 0;
-
-  for (let index = 1; index <= charCount; index += 1) {
-    title.textContent = fullText.slice(0, index);
-
-    if (index < charCount) {
-      await delay(stepMs);
-    }
-  }
-
-  title.classList.remove(HEADER_TYPING_CLASS, HEADER_RUNNING_CLASS);
-}
-
 /** Plays title typing and button pop animations. */
 export async function headerAnimateForContent() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
@@ -63,7 +40,21 @@ export async function headerAnimateForContent() {
 
   if (title) {
     title.dataset.fullTitle = HEADER_TITLE_TEXT;
-    await headerTitleTypeAnimation(title, HEADER_TITLE_TEXT, titleTypeMs);
+    title.textContent = "";
+    title.classList.add(HEADER_TYPING_CLASS, HEADER_RUNNING_CLASS);
+
+    const charCount = HEADER_TITLE_TEXT.length;
+    const stepMs = charCount > 0 ? titleTypeMs / charCount : 0;
+
+    for (let index = 1; index <= charCount; index += 1) {
+      title.textContent = HEADER_TITLE_TEXT.slice(0, index);
+
+      if (index < charCount) {
+        await delay(stepMs);
+      }
+    }
+
+    title.classList.remove(HEADER_TYPING_CLASS, HEADER_RUNNING_CLASS);
     title.textContent = HEADER_TITLE_TEXT;
   }
 

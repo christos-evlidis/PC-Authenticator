@@ -1,10 +1,10 @@
 import { headerAnimateForContent } from "./header-animate-for-content.js";
+import { headerAnimateForFadeIn } from "./header-animate-for-fade-in.js";
 import { headerAnimateForFinish } from "./header-animate-for-finish.js";
-import { headerAnimateForIntro } from "./header-animate-for-intro.js";
 import { headerAnimateForStart } from "./header-animate-for-start.js";
 import { HEADER_PHASE_CONTENT } from "../header-constants.js";
+import { HEADER_PHASE_FADE_IN } from "../header-constants.js";
 import { HEADER_PHASE_FINISH } from "../header-constants.js";
-import { HEADER_PHASE_INTRO } from "../header-constants.js";
 import { HEADER_PHASE_START } from "../header-constants.js";
 
 /** Runs header animation phases for intro, content, or cleanup. */
@@ -14,8 +14,8 @@ export async function headerAnimationPlay(phase) {
     return;
   }
 
-  if (phase === HEADER_PHASE_INTRO) {
-    await headerAnimateForIntro();
+  if (phase === HEADER_PHASE_FADE_IN) {
+    await headerAnimateForFadeIn();
     return;
   }
 

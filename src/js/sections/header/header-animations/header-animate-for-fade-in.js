@@ -8,7 +8,7 @@ import { HEADER_ROOT_SELECTOR } from "../header-constants.js";
 import { HEADER_VAR_INTRO_FADE_MS } from "../header-constants.js";
 
 /** Fades header shell in during frame intro. */
-export async function headerAnimateForIntro() {
+export async function headerAnimateForFadeIn() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
   const introFadeMs = cssMs(header, HEADER_VAR_INTRO_FADE_MS);
 

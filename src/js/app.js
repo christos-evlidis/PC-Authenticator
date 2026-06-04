@@ -11,7 +11,7 @@ import { BODY_PHASE_START } from "./sections/body/body-constants.js";
 import { headerAnimationPlay } from "./sections/header/header-index.js";
 import { HEADER_PHASE_CONTENT } from "./sections/header/header-constants.js";
 import { HEADER_PHASE_FINISH } from "./sections/header/header-constants.js";
-import { HEADER_PHASE_INTRO } from "./sections/header/header-constants.js";
+import { HEADER_PHASE_FADE_IN } from "./sections/header/header-constants.js";
 import { HEADER_PHASE_START } from "./sections/header/header-constants.js";
 import { initSectionModules } from "./sections/section-index.js";
 import { loadSections } from "./sections/section-index.js";
@@ -29,7 +29,7 @@ async function initFrameIntro() {
   await bodyAnimationPlay(BODY_PHASE_LOGO);
   await bodyAnimationPlay(BODY_PHASE_EXTENSION_FRAME);
   await bodyAnimationPlay(BODY_PHASE_HEADER);
-  await headerAnimationPlay(HEADER_PHASE_INTRO);
+  await headerAnimationPlay(HEADER_PHASE_FADE_IN);
 }
 
 /** Registers sections, applies auth, plays intros, and loads section modules. */
