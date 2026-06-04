@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PC Authenticator</title>
+        
+        <!-- Styles -->
+        <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css" />
+        <link rel="stylesheet" href="../css/base.css" />
+        <link rel="stylesheet" href="../css/section-handling/section_header.css" />
+        <link rel="stylesheet" href="../css/section-handling/section_body.css" />
+        <link rel="stylesheet" href="../css/section-handling/section_user-menu.css" />
+        <link rel="stylesheet" href="../css/section-handling/section_manual-setup.css" />
+    </head>
+    <body>
+        <!-- Extension Frame -->
+        <div class="extension-frame">
+            <!-- Header Section -->
+            <header class="app-header">
+                <h1 class="app-header__title">PC Authenticator</h1>
+                <!-- Signed-out View -->
+                <section class="signed-out-view">
+                    <div class="app-header__actions">
+                        <button type="button" class="app-header__btn user-menu-btn">
+                            <i class="fas fa-user"></i>
+                        </button>
+                    </div>
+                </section>
+                <!-- Signed-in View -->
+                <section class="signed-in-view hidden">
+                    <div class="app-header__actions">
+                        <button type="button" class="app-header__btn manual-setup-btn">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button type="button" class="app-header__btn scan-qr-btn">
+                            <i class="fas fa-qrcode"></i>
+                        </button>
+                        <button type="button" class="app-header__btn cloud-backup-btn">
+                            <i class="fas fa-cloud"></i>
+                        </button>
+                        <button type="button" class="app-header__btn user-menu-btn">
+                            <i class="fas fa-user"></i>
+                        </button>
+                    </div>
+                </section>
+            </header>
+        
+            <!-- Body Section -->
+            <section class="app-body">
+                <!-- Signed-out View -->
+                <section class="signed-out-view">
+                    <div class="signed-out-view__content">
+                        <i class="fas fa-lock"></i>
+                        <p>To use the authenticator<br>sign in or sign up.</p>
+                    </div>
+                </section>
+
+                <!-- Signed-in View -->
+                <section class="signed-in-view hidden">
+                    <!-- Codes section -->
+                    <section class="codes-section"></section>
+                </section>
+            </section>
+
+            <!-- User Menu Section -->
+            <section class="user-menu-section">
+                <div class="user-menu-backdrop"></div>
+                <div class="user-menu-panel">
+                    <header class="user-menu-header">
+                        <h2 class="user-menu-header__title">User Menu</h2>
+                        <button type="button" class="user-menu-header__btn user-menu-close-btn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </header>
+
+                    <div class="user-menu-panel__content">
+                        <div class="thumb-selector thumb-selector--auth">
+                            <div class="thumb-selector__track thumb-selector__track--auth is-sign-in">
+                                <span class="thumb-selector__thumb"></span>
+                                <button type="button" class="thumb-selector__btn is-active" data-view="sign-in">Sign In</button>
+                                <button type="button" class="thumb-selector__btn" data-view="sign-up">Sign Up</button>
+                            </div>
+                        </div>
+
+                        <div class="thumb-selector thumb-selector--theme hidden">
+                            <div class="thumb-selector__track thumb-selector__track--theme is-light">
+                                <span class="thumb-selector__thumb"></span>
+                                <button type="button" class="thumb-selector__btn is-active" data-theme="light">Light</button>
+                                <button type="button" class="thumb-selector__btn" data-theme="dark">Dark</button>
+                            </div>
+                        </div>
+
+                        <section class="user-menu-body">
+                            <div class="user-menu-body__views">
+                                <section class="user-menu-auth-view is-active">
+                                    <div class="user-menu-auth-view__tabs">
+                                        <section class="sign-in-view is-active">
+                                            <div class="sign-in-view__content">
+                                                <form class="sign-in-form">
+                                                    <label class="sign-in-form__label">
+                                                        <span class="sign-in-form__label-text">Account Number</span>
+                                                        <input
+                                                            type="text"
+                                                            class="sign-in-form__input"
+                                                            inputmode="numeric"
+                                                            autocomplete="off"
+                                                            maxlength="24"
+                                                            placeholder="24-digit Account Number"
+                                                        />
+                                                    </label>
+                                                    <button type="submit" class="sign-in-form__submit">Sign In</button>
+                                                </form>
+                                            </div>
+                                        </section>
+                                        <section class="sign-up-view">
+                                            <div class="sign-up-view__content">
+                                                <div class="sign-up-form">
+                                                    <p class="sign-up-form__text">
+                                                        Create a new account to receive your unique 24-digit account number. Save it somewhere safe, you will need it to sign in.
+                                                    </p>
+                                                    <button type="button" class="sign-up-form__submit">Sign Up</button>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </section>
+                                <section class="user-menu-account-view">
+                                    <div class="user-menu-account-view__content">
+                                        <div class="account-form">
+                                            <div class="account-form__label">
+                                                <span class="account-form__label-text">Account Number</span>
+                                                <div class="account-form__field">
+                                                    <input
+                                                        type="text"
+                                                        class="account-form__input"
+                                                        inputmode="numeric"
+                                                        autocomplete="off"
+                                                        maxlength="24"
+                                                        readonly
+                                                        placeholder="24-digit Account Number"
+                                                    />
+                                                    <div class="account-form__actions">
+                                                        <button
+                                                            type="button"
+                                                            class="account-form__action-btn account-form__copy-btn"
+                                                            aria-label="Copy account number"
+                                                        >
+                                                            <i class="fas fa-copy" aria-hidden="true"></i>
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            class="account-form__action-btn account-form__download-btn"
+                                                            aria-label="Download account number"
+                                                        >
+                                                            <i class="fas fa-download" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="account-form__logout">Log Out</button>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="user-menu-body__status">
+                                <div class="login-status login-status--loading hidden">
+                                    <span class="login-status__dot"></span>
+                                    <span class="login-status__dot"></span>
+                                    <span class="login-status__dot"></span>
+                                </div>
+                                <div class="login-status login-status--success hidden">
+                                    <svg class="login-status__icon" viewBox="0 0 52 52" aria-hidden="true">
+                                        <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
+                                        <path class="login-status__icon-mark login-status__icon-mark--check" fill="none" d="M14 27l7 7 16-16" />
+                                    </svg>
+                                </div>
+                                <div class="login-status login-status--error hidden">
+                                    <svg class="login-status__icon" viewBox="0 0 52 52" aria-hidden="true">
+                                        <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
+                                        <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M18 18 L34 34" />
+                                        <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M34 18 L18 34" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manual Setup Section -->
+            <section class="manual-setup-section">
+                <div class="manual-setup-backdrop"></div>
+                <div class="manual-setup-panel">
+                    <header class="manual-setup-header">
+                        <h2 class="manual-setup-header__title">Manual Setup</h2>
+                        <button type="button" class="manual-setup-header__btn manual-setup-close-btn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </header>
+                    <section class="manual-setup-body">
+                        <div class="manual-setup-body__status" aria-hidden="true">
+                            <div class="login-status login-status--loading manual-setup-status--loading hidden">
+                                <span class="login-status__dot"></span>
+                                <span class="login-status__dot"></span>
+                                <span class="login-status__dot"></span>
+                            </div>
+                            <div class="login-status login-status--success manual-setup-status--success hidden">
+                                <svg class="login-status__icon" viewBox="0 0 52 52" aria-hidden="true">
+                                    <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
+                                    <path class="login-status__icon-mark login-status__icon-mark--check" fill="none" d="M14 27l7 7 16-16" />
+                                </svg>
+                            </div>
+                            <div class="login-status login-status--error manual-setup-status--error hidden">
+                                <svg class="login-status__icon" viewBox="0 0 52 52" aria-hidden="true">
+                                    <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
+                                    <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M18 18 L34 34" />
+                                    <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M34 18 L18 34" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="manual-setup-body__content">
+                            <form class="manual-setup-form">
+                                <label class="manual-setup-form__label">
+                                    <span class="manual-setup-form__label-text">Account name *</span>
+                                    <input
+                                        type="text"
+                                        class="manual-setup-form__input"
+                                        name="name"
+                                        maxlength="64"
+                                        autocomplete="off"
+                                        required
+                                    />
+                                </label>
+                                <label class="manual-setup-form__label">
+                                    <span class="manual-setup-form__label-text">Secret key *</span>
+                                    <input
+                                        type="text"
+                                        class="manual-setup-form__input manual-setup-form__input--secret"
+                                        name="secret"
+                                        maxlength="64"
+                                        autocomplete="off"
+                                        spellcheck="false"
+                                        required
+                                    />
+                                </label>
+                                <label class="manual-setup-form__label">
+                                    <span class="manual-setup-form__label-text">Email</span>
+                                    <input
+                                        type="email"
+                                        class="manual-setup-form__input"
+                                        name="email"
+                                        maxlength="128"
+                                        autocomplete="email"
+                                    />
+                                </label>
+                                
+                                <button type="submit" class="manual-setup-form__submit">Add Account</button>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </div>
+
+        <!-- Scripts -->
+        <script src="../libs/crypto-js.min.js"></script>
+        <script src="../js/account-handling/accounts-crypto.js"></script>
+        <script src="../js/account-handling/api.js"></script>
+        <script src="../js/account-handling/accounts-storage.js"></script>
+        <script src="../js/section-handling/section_codes.js"></script>
+        <script src="../js/section-handling/section_header.js"></script>
+        <script src="../js/section-handling/section_user-menu.js"></script>
+        <script src="../js/section-handling/section_manual-setup.js"></script>
+    </body>
+</html>
