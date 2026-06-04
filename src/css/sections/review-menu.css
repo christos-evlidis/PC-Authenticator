@@ -1,0 +1,339 @@
+:root {
+    --review-prompt-slide-duration: 320ms;
+    --review-mark-draw-duration: 520ms;
+    --review-star-slot-height: 58px;
+}
+
+.review-prompt {
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.review-prompt.is-active {
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.review-prompt__panel {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+    padding: 28px 24px 32px;
+    box-sizing: border-box;
+    background: #ffffff;
+    color: #1a1a1a;
+}
+
+.review-prompt.is-open .review-prompt__panel {
+    transform: none;
+}
+
+.review-prompt__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 310px;
+    margin: 0 auto;
+    text-align: center;
+    gap: 0;
+}
+
+/* Opacity-only hide — layout slots always keep their size */
+.review-prompt__star.is-seq-hidden,
+.review-prompt__title-live.is-seq-hidden,
+.review-prompt__message-live.is-seq-hidden,
+.review-prompt__rate.is-seq-hidden,
+.review-prompt__dismiss.is-seq-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.review-prompt__star-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: var(--review-star-slot-height);
+    margin: 0 0 18px;
+    flex-shrink: 0;
+}
+
+.review-prompt__stars {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #fbbc04;
+    font-size: 32px;
+    line-height: 1;
+}
+
+.review-prompt__star.is-pop-pending {
+    opacity: 0;
+    transform: scale(0.35);
+}
+
+.review-prompt__star.is-pop-active {
+    
+}
+}
+
+.review-prompt__title-slot {
+    position: relative;
+    width: 100%;
+    margin: 0 0 12px;
+    flex-shrink: 0;
+}
+
+.review-prompt__title-reserve {
+    display: block;
+    visibility: hidden;
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+
+.review-prompt__title-live {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: #1a1a1a;
+}
+
+.review-prompt__title-live.is-seq-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.review-prompt__title-live.is-intro-typing::after {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-left: 1px;
+    vertical-align: -0.08em;
+    background: currentColor;
+    
+}
+
+}
+
+.review-prompt__message-slot {
+    position: relative;
+    width: 75%;
+    margin: 0 0 28px;
+    flex-shrink: 0;
+}
+
+.review-prompt__message-reserve {
+    visibility: hidden;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: #5f6368;
+}
+
+.review-prompt__mark-reserve {
+    display: inline;
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+.review-prompt__message-live {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: #5f6368;
+}
+
+.review-prompt__message-live.is-seq-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.review-prompt__message-live.is-intro-typing .review-prompt__message-part.is-intro-typing::after {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-left: 1px;
+    vertical-align: -0.12em;
+    background: #5f6368;
+    
+}
+
+.review-prompt__mark {
+    position: relative;
+    display: inline;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+.review-prompt__mark-text {
+    position: relative;
+    z-index: 1;
+    font-weight: 700;
+    color: inherit;
+}
+
+.review-prompt__mark-strokes {
+    position: absolute;
+    z-index: 0;
+    left: -0.06em;
+    right: -0.05em;
+    top: -0.22em;
+    bottom: -0.18em;
+    overflow: hidden;
+    pointer-events: none;
+    clip-path: inset(0 100% 0 0);
+}
+
+.review-prompt__mark.is-marker-drawing .review-prompt__mark-strokes {
+    
+}
+
+.review-prompt__mark.is-marker-drawn .review-prompt__mark-strokes {
+    clip-path: inset(0 0 0 0);
+}
+}
+
+.review-prompt__mark-strokes::before,
+.review-prompt__mark-strokes::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+}
+
+.review-prompt__mark-strokes::before {
+    left: -0.04em;
+    right: -0.02em;
+    top: -0.06em;
+    bottom: -0.1em;
+    background: #3d8ee8;
+    transform: rotate(3.5deg) skewX(-7deg) scaleY(1.12);
+    clip-path: polygon(
+        0% 28%,
+        8% 4%,
+        22% 0%,
+        78% 3%,
+        96% 8%,
+        100% 38%,
+        98% 72%,
+        88% 94%,
+        62% 100%,
+        28% 98%,
+        6% 82%,
+        0% 52%
+    );
+    opacity: 0.95;
+    box-shadow:
+        4px 3px 0 rgba(61, 142, 232, 0.35),
+        -3px 5px 0 rgba(126, 184, 247, 0.28);
+}
+
+.review-prompt__mark-strokes::after {
+    left: 0.06em;
+    right: -0.14em;
+    top: 0.02em;
+    bottom: -0.2em;
+    background: #6eb0f6;
+    transform: rotate(-4deg) skewX(6deg) scaleY(1.08);
+    clip-path: polygon(
+        2% 35%,
+        18% 12%,
+        92% 6%,
+        100% 42%,
+        94% 78%,
+        76% 96%,
+        14% 90%,
+        0% 58%
+    );
+    opacity: 0.82;
+}
+
+.review-prompt__rate {
+    width: 90%;
+    margin: 0 0 12px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #176cca;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
+}
+
+.review-prompt__rate.is-pop-pending {
+    opacity: 0;
+    transform: scale(0.4);
+    pointer-events: none;
+}
+
+.review-prompt__rate.is-pop-active {
+    
+    pointer-events: auto;
+}
+}
+
+.review-prompt__rate:hover {
+    background: #125aa8;
+}
+
+.review-prompt__rate.is-pop-active:active {
+    transform: scale(0.98);
+}
+
+.review-prompt__dismiss {
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    color: #5f6368;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: color 0.15s ease, opacity 0.45s ease;
+}
+
+.review-prompt__dismiss.is-fade-in {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.review-prompt__dismiss:hover {
+    color: #1a1a1a;
+}

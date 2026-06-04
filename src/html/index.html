@@ -5,266 +5,188 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>PC Authenticator</title>
 
-        <script src="../js/base.js"></script>
-
         <!-- Styles -->
-        <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css" />
-        <link rel="stylesheet" href="../css/base.css" />
-        <link rel="stylesheet" href="../css/section-handling/section_header.css" />
-        <link rel="stylesheet" href="../css/section-handling/section_body.css" />
-        <link rel="stylesheet" href="../css/section-handling/section_user-menu.css" />
-        <link rel="stylesheet" href="../css/section-handling/section_manual-setup.css" /> 
-        <link rel="stylesheet" href="../css/section-handling/section_codes.css" />
-        <link rel="stylesheet" href="../css/section-handling/section_qr-code-setup.css" />
-        <link rel="stylesheet" href="../css/section-handling/section_review-prompt.css" />
+        <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css"/>
+        <link rel="stylesheet" href="../css/base.css"/>
+        <link rel="stylesheet" href="../css/theme.css"/>
+        <link rel="stylesheet" href="../css/sections/header.css"/>
+        <link rel="stylesheet" href="../css/sections/user-menu.css"/>
+        <link rel="stylesheet" href="../css/sections/search.css"/>
+        <link rel="stylesheet" href="../css/sections/body.css"/>
+        <link rel="stylesheet" href="../css/sections/manual-setup.css"/>
+        <link rel="stylesheet" href="../css/sections/codes.css"/>
+        <link rel="stylesheet" href="../css/sections/scan-setup.css"/>
+        <link rel="stylesheet" href="../css/sections/review-menu.css"/>
     </head>
     <body>
         <!-- Extension Frame -->
-        <div class="extension-frame is-app-intro-pending">
+        <div class="extension-frame is-frame-intro">
             <!-- Header Section -->
-            <header class="app-header">
+            <header class="app-header is-pending is-intro-hidden">
+                <div class="app-header__shell">
                 <h1 class="app-header__title" data-full-title="PC Authenticator"></h1>
                 <!-- Signed-out View -->
-                <section class="signed-out-view">
+                <section class="app-header__view app-header__view--signed-out">
                     <div class="app-header__actions">
-                        <button type="button" class="app-header__btn user-menu-btn">
+                        <button type="button" class="app-header__btn app-header__user-menu-btn">
                             <i class="fas fa-user"></i>
                         </button>
                     </div>
                 </section>
                 <!-- Signed-in View -->
-                <section class="signed-in-view hidden">
+                <section class="app-header__view app-header__view--signed-in is-hidden">
                     <div class="app-header__actions">
-                        <button type="button" class="app-header__btn manual-setup-btn">
+                        <button type="button" class="app-header__btn app-header__manual-setup-btn">
                             <i class="fas fa-plus"></i>
                         </button>
-                        <button type="button" class="app-header__btn scan-qr-btn">
+                        <button type="button" class="app-header__btn app-header__scan-qr-btn">
                             <i class="fas fa-qrcode"></i>
                         </button>
-                        <button type="button" class="app-header__btn user-menu-btn">
+                        <button type="button" class="app-header__btn app-header__user-menu-btn">
                             <i class="fas fa-user"></i>
                         </button>
                     </div>
                 </section>
+                </div>
             </header>
-        
+
+            <section class="codes-search hidden" aria-label="Search accounts">
+                <label class="codes-search__field">
+                    <i class="fas fa-magnifying-glass codes-search__icon" aria-hidden="true"></i>
+                    <input type="search" class="codes-search__input" placeholder="Search accounts" autocomplete="off" spellcheck="false"/>
+                </label>
+            </section>
+
             <!-- Body Section -->
-            <section class="app-body">
+            <section class="app-body is-pending is-intro-fullbleed">
+                <div class="app-body__splash" aria-hidden="true">
+                    <img class="app-body__splash-logo" src="../icons/light-icon128.png" width="96" height="96" alt=""/>
+                </div>
                 <!-- Signed-out View -->
-                <section class="signed-out-view">
-                    <div class="signed-out-view__content">
-                        <span class="signed-out-view__icon" aria-hidden="true">
+                <section class="app-body__view app-body__view--signed-out">
+                    <div class="app-body__content">
+                        <div class="app-body__icon is-pending" aria-hidden="true">
                             <i class="fas fa-lock"></i>
-                        </span>
-                        <div
-                            class="signed-out-view__message-stack"
-                            data-full-text="To use the authenticator&#10;sign in or sign up."
-                        >
-                            <p class="signed-out-view__message signed-out-view__message--spacer" aria-hidden="true"></p>
-                            <p class="signed-out-view__message signed-out-view__message--display"></p>
+                        </div>
+
+                        <div class="app-body__message-stack" data-full-text="To use the authenticator&#10;sign in or sign up.">
+                            <p class="app-body__message app-body__message--spacer" aria-hidden="true"></p>
+                            <p class="app-body__message app-body__message--display" data-full-text="To use the authenticator&#10;sign in or sign up."></p>
                         </div>
                     </div>
                 </section>
 
                 <!-- Signed-in View -->
-                <section class="signed-in-view hidden">
-                    <!-- Codes section -->
-                    <section class="codes-section" aria-label="Authentication codes">
-                        <div class="codes-section__empty hidden">
-                            <span class="codes-section__empty-icon" aria-hidden="true">
-                                <i class="fas fa-shield-halved"></i>
-                            </span>
-                            <div
-                                class="codes-section__message-stack"
-                                data-full-text="No accounts yet,&#10;use + or scan a QR code to add one."
-                            >
-                                <p class="codes-section__message codes-section__message--spacer" aria-hidden="true"></p>
-                                <p class="codes-section__message codes-section__message--display"></p>
-                            </div>
-                        </div>
-
-                        <ul class="codes-section__list hidden" role="list"></ul>
-
-                        <template class="code-card-template">
-                            <li class="account-block" role="listitem">
-                                <header class="account-block__header">
-                                    <div class="account-block__identity">
-                                        <div class="account-name"></div>
-                                        <div class="account-email hidden"></div>
-                                    </div>
-                                    <div class="account-block__actions">
-                                        <button
-                                            type="button"
-                                            class="edit-button"
-                                            title="Edit account"
-                                            aria-label="Edit account"
-                                        >
-                                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="delete-button"
-                                            title="Delete account"
-                                            aria-label="Delete account"
-                                        >&times;</button>
-                                    </div>
-                                </header>
-                                <div class="account-block__body">
-                                    <div class="otp-code" aria-live="polite">000000</div>
-                                    <div
-                                        class="account-hotp-counter hidden"
-                                        aria-label="HOTP counter"
-                                    ></div>
-                                    <div class="timer-wrapper">
-                                        <svg
-                                            width="35"
-                                            height="35"
-                                            class="pie-timer-svg"
-                                            viewBox="0 0 32 32"
-                                            style="overflow: visible;"
-                                            aria-hidden="true"
-                                        >
-                                            <circle class="pie-bg" cx="16" cy="16" r="14.5" />
-                                            <path class="pie-fg" d="" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="account-block__copy-feedback" aria-hidden="true">
-                                    <span class="account-block__copy-fill"></span>
-                                    <div class="account-block__copy-check">
-                                        <svg class="copy-check__icon" viewBox="0 0 52 52" aria-hidden="true">
-                                            <circle class="copy-check__circle" cx="26" cy="26" r="24" fill="none" />
-                                            <path class="copy-check__mark" fill="none" d="M14 27l7 7 16-16" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </li>
-                        </template>
-                    </section>
+                <section class="app-body__view app-body__view--signed-in is-hidden">
                 </section>
             </section>
 
             <!-- User Menu Section -->
-            <section class="user-menu-section">
-                <div class="user-menu-backdrop"></div>
-                <div class="user-menu-panel">
-                    <header class="user-menu-header">
-                        <h2 class="user-menu-header__title">User Menu</h2>
-                        <button type="button" class="user-menu-header__btn user-menu-close-btn">
-                            <i class="fas fa-times"></i>
-                        </button>
+            <section class="app-user-menu">
+                <div class="app-user-menu__backdrop"></div>
+                <div class="app-user-menu__panel">
+                    <header class="app-user-menu__header">
+                        <h2 class="app-user-menu__title">User Menu</h2>
+                        <div class="app-user-menu__actions">
+                            <button type="button" class="app-user-menu__btn app-user-menu__close-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </header>
 
-                    <div class="user-menu-panel__content">
-                        <div class="thumb-selector thumb-selector--auth">
-                            <div class="thumb-selector__track thumb-selector__track--auth is-sign-in">
-                                <span class="thumb-selector__thumb"></span>
-                                <button type="button" class="thumb-selector__btn is-active" data-view="sign-in">Sign In</button>
-                                <button type="button" class="thumb-selector__btn" data-view="sign-up">Sign Up</button>
+                    <div class="app-user-menu__auth-bar">
+                        <div class="app-user-menu__auth-switch">
+                            <div class="app-user-menu__auth-switch-track is-sign-in">
+                                <span class="app-user-menu__auth-switch-thumb"></span>
+                                <button type="button" class="app-user-menu__auth-switch-btn is-active" data-view="sign-in">Sign In</button>
+                                <button type="button" class="app-user-menu__auth-switch-btn" data-view="sign-up">Sign Up</button>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="thumb-selector thumb-selector--theme hidden">
-                            <div class="thumb-selector__track thumb-selector__track--theme is-light">
-                                <span class="thumb-selector__thumb"></span>
-                                <button type="button" class="thumb-selector__btn is-active" data-theme="light">Light</button>
-                                <button type="button" class="thumb-selector__btn" data-theme="dark">Dark</button>
+                    <div class="app-user-menu__theme-bar is-hidden">
+                        <div class="app-user-menu__theme-switch">
+                            <div class="app-user-menu__theme-switch-track is-light">
+                                <span class="app-user-menu__theme-switch-thumb"></span>
+                                <button type="button" class="app-user-menu__theme-switch-btn is-active" data-theme="light">Light</button>
+                                <button type="button" class="app-user-menu__theme-switch-btn" data-theme="dark">Dark</button>
                             </div>
                         </div>
+                    </div>
 
-                        <section class="user-menu-body">
-                            <div class="user-menu-body__views">
-                                <section class="user-menu-auth-view is-active">
-                                    <div class="user-menu-auth-view__tabs">
-                                        <section class="sign-in-view is-active">
-                                            <div class="sign-in-view__content">
-                                                <form class="sign-in-form">
-                                                    <label class="sign-in-form__label">
-                                                        <span class="sign-in-form__label-text">Account Number</span>
-                                                        <input
-                                                            type="text"
-                                                            class="sign-in-form__input"
-                                                            inputmode="numeric"
-                                                            autocomplete="off"
-                                                            maxlength="24"
-                                                            placeholder="24-digit Account Number"
-                                                        />
-                                                    </label>
-                                                    <button type="submit" class="sign-in-form__submit">Sign In</button>
-                                                </form>
-                                            </div>
-                                        </section>
-                                        <section class="sign-up-view">
-                                            <div class="sign-up-view__content">
-                                                <div class="sign-up-form">
-                                                    <p class="sign-up-form__text">
-                                                        Create a new account to receive your unique 24-digit account number. Save it somewhere safe, you will need it to sign in.
-                                                    </p>
-                                                    <button type="button" class="sign-up-form__submit">Sign Up</button>
-                                                </div>
-                                            </div>
-                                        </section>
-                                    </div>
-                                </section>
-                                <section class="user-menu-account-view">
-                                    <div class="user-menu-account-view__content">
-                                        <div class="account-form">
-                                            <div class="account-form__label">
-                                                <span class="account-form__label-text">Account Number</span>
-                                                <div class="account-form__field">
-                                                    <input
-                                                        type="text"
-                                                        class="account-form__input"
-                                                        inputmode="numeric"
-                                                        autocomplete="off"
-                                                        maxlength="24"
-                                                        readonly
-                                                        placeholder="24-digit Account Number"
-                                                    />
-                                                    <div class="account-form__actions">
-                                                        <button
-                                                            type="button"
-                                                            class="account-form__action-btn account-form__copy-btn"
-                                                            aria-label="Copy account number"
-                                                        >
-                                                            <i class="fas fa-copy" aria-hidden="true"></i>
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            class="account-form__action-btn account-form__download-btn"
-                                                            aria-label="Download account number"
-                                                        >
-                                                            <i class="fas fa-download" aria-hidden="true"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button type="button" class="account-form__logout">Log Out</button>
+                    <div class="app-user-menu__content">
+                        <div class="app-user-menu__body">
+                            <!-- Signed-out View -->
+                            <section class="app-user-menu__view app-user-menu__view--signed-out">
+                                <div class="app-user-menu__tabs">
+                                    <section class="app-user-menu__auth-view app-user-menu__auth-view--sign-in">
+                                        <div class="app-user-menu__tab-content">
+                                            <form class="app-user-menu__form app-user-menu__form--sign-in">
+                                                <label class="app-user-menu__label">
+                                                    <span class="app-user-menu__label-text">Account Number</span>
+                                                    <input type="text" class="app-user-menu__input app-user-menu__sign-in-input" inputmode="numeric" autocomplete="off" maxlength="24" placeholder="24-digit Account Number"/>
+                                                </label>
+                                                <button type="submit" class="app-user-menu__submit app-user-menu__sign-in-submit">Sign In</button>
+                                            </form>
                                         </div>
+                                    </section>
+                                    <section class="app-user-menu__auth-view app-user-menu__auth-view--sign-up is-hidden">
+                                        <div class="app-user-menu__tab-content">
+                                            <div class="app-user-menu__form app-user-menu__form--sign-up">
+                                                <p class="app-user-menu__text">
+                                                    Create a new account to receive your unique 24-digit account number. Save it somewhere safe, you will need it to sign in.
+                                                </p>
+                                                <button type="button" class="app-user-menu__submit app-user-menu__sign-up-submit">Sign Up</button>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </section>
+
+                            <!-- Signed-in View -->
+                            <section class="app-user-menu__view app-user-menu__view--signed-in is-hidden">
+                                <div class="app-user-menu__account">
+                                    <div class="app-user-menu__form app-user-menu__form--account">
+                                        <div class="app-user-menu__label">
+                                            <span class="app-user-menu__label-text">Account Number</span>
+                                            <div class="app-user-menu__field">
+                                                <input type="text" class="app-user-menu__input app-user-menu__account-input" inputmode="numeric" autocomplete="off" maxlength="24" readonly placeholder="24-digit Account Number"/>
+                                                <div class="app-user-menu__field-actions">
+                                                    <button type="button" class="app-user-menu__account-action-btn app-user-menu__account-copy-btn" aria-label="Copy account number">
+                                                        <i class="fas fa-copy" aria-hidden="true"></i>
+                                                    </button>
+                                                    <button type="button" class="app-user-menu__account-action-btn app-user-menu__account-download-btn" aria-label="Download account number">
+                                                        <i class="fas fa-download" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="app-user-menu__submit app-user-menu__logout-btn">Log Out</button>
                                     </div>
-                                </section>
-                            </div>
-                            <div class="user-menu-body__status">
-                                <div class="login-status login-status--loading hidden">
+                                </div>
+                            </section>
+
+                            <div class="app-user-menu__status">
+                                <div class="login-status login-status--loading is-hidden">
                                     <span class="login-status__dot"></span>
                                     <span class="login-status__dot"></span>
                                     <span class="login-status__dot"></span>
                                 </div>
-                                <div class="login-status login-status--success hidden">
-                                    <svg class="login-status__icon" viewBox="0 0 52 52" aria-hidden="true">
-                                        <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
-                                        <path class="login-status__icon-mark login-status__icon-mark--check" fill="none" d="M14 27l7 7 16-16" />
+                                <div class="login-status login-status--success is-hidden">
+                                    <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
+                                        <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none"/>
+                                        <path class="login-status__icon-mark login-status__icon-mark--check" fill="none" d="M14 27l7 7 16-16"/>
                                     </svg>
                                 </div>
-                                <div class="login-status login-status--error hidden">
-                                    <svg class="login-status__icon" viewBox="0 0 52 52" aria-hidden="true">
-                                        <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
-                                        <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M18 18 L34 34" />
-                                        <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M34 18 L18 34" />
+                                <div class="login-status login-status--error is-hidden">
+                                    <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
+                                        <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none"/>
+                                        <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M18 18 L34 34"/>
+                                        <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M34 18 L18 34"/>
                                     </svg>
                                 </div>
                             </div>
-                        </section>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -287,16 +209,16 @@
                                 <span class="login-status__dot"></span>
                             </div>
                             <div class="login-status login-status--success manual-setup-status--success hidden">
-                                <svg class="login-status__icon" viewBox="0 0 52 52" aria-hidden="true">
-                                    <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
-                                    <path class="login-status__icon-mark login-status__icon-mark--check" fill="none" d="M14 27l7 7 16-16" />
+                                <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
+                                    <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none"/>
+                                    <path class="login-status__icon-mark login-status__icon-mark--check" fill="none" d="M14 27l7 7 16-16"/>
                                 </svg>
                             </div>
                             <div class="login-status login-status--error manual-setup-status--error hidden">
-                                <svg class="login-status__icon" viewBox="0 0 52 52" aria-hidden="true">
-                                    <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
-                                    <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M18 18 L34 34" />
-                                    <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M34 18 L18 34" />
+                                <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
+                                    <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none"/>
+                                    <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M18 18 L34 34"/>
+                                    <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M34 18 L18 34"/>
                                 </svg>
                             </div>
                         </div>
@@ -304,54 +226,25 @@
                             <form class="manual-setup-form">
                                 <label class="manual-setup-form__label">
                                     <span class="manual-setup-form__label-text">Account Name *</span>
-                                    <input
-                                        type="text"
-                                        class="manual-setup-form__input"
-                                        name="name"
-                                        maxlength="64"
-                                        autocomplete="off"
-                                        required
-                                    />
+                                    <input type="text" class="manual-setup-form__input" name="name" maxlength="64" autocomplete="off" required/>
                                 </label>
                                 <label class="manual-setup-form__label">
                                     <span class="manual-setup-form__label-text">Secret Key *</span>
-                                    <input
-                                        type="text"
-                                        class="manual-setup-form__input manual-setup-form__input--secret"
-                                        name="secret"
-                                        maxlength="64"
-                                        autocomplete="off"
-                                        spellcheck="false"
-                                        required
-                                    />
+                                    <input type="text" class="manual-setup-form__input manual-setup-form__input--secret" name="secret" maxlength="64" autocomplete="off" spellcheck="false" required/>
                                 </label>
                                 <label class="manual-setup-form__label">
                                     <span class="manual-setup-form__label-text">Email</span>
-                                    <input
-                                        type="email"
-                                        class="manual-setup-form__input"
-                                        name="email"
-                                        maxlength="128"
-                                        autocomplete="email"
-                                    />
+                                    <input type="email" class="manual-setup-form__input" name="email" maxlength="128" autocomplete="email"/>
                                 </label>
 
                                 <div class="manual-setup-type-selector">
                                     <div class="manual-setup-type-selector__track">
                                         <span class="manual-setup-type-selector__thumb"></span>
-                                        <button
-                                            type="button"
-                                            class="manual-setup-type-selector__btn is-active"
-                                            data-otp-type="totp"
-                                        >TOTP</button>
-                                        <button
-                                            type="button"
-                                            class="manual-setup-type-selector__btn"
-                                            data-otp-type="hotp"
-                                        >HOTP</button>
+                                        <button type="button" class="manual-setup-type-selector__btn is-active" data-otp-type="totp">TOTP</button>
+                                        <button type="button" class="manual-setup-type-selector__btn" data-otp-type="hotp">HOTP</button>
                                     </div>
                                 </div>
-                                <input type="hidden" name="type" value="totp" />
+                                <input type="hidden" name="type" value="totp"/>
 
                                 <button type="submit" class="manual-setup-form__submit">Add Account</button>
                             </form>
@@ -371,32 +264,32 @@
                         </button>
                     </header>
                     <section class="qr-setup-body">
+                        <div class="qr-setup-body__status" aria-hidden="true">
+                            <div class="login-status login-status--loading qr-setup-status--loading hidden">
+                                <span class="login-status__dot"></span>
+                                <span class="login-status__dot"></span>
+                                <span class="login-status__dot"></span>
+                            </div>
+                            <div class="login-status login-status--success qr-setup-status--success hidden">
+                                <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
+                                    <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none"/>
+                                    <path class="login-status__icon-mark login-status__icon-mark--check" fill="none" d="M14 27l7 7 16-16"/>
+                                </svg>
+                            </div>
+                            <div class="login-status login-status--error qr-setup-status--error hidden">
+                                <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
+                                    <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none"/>
+                                    <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M18 18 L34 34"/>
+                                    <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M34 18 L18 34"/>
+                                </svg>
+                            </div>
+                        </div>
                         <div class="qr-setup-body__content">
                             <div class="qr-setup-guide">
                                 <div class="qr-setup-guide__media" aria-hidden="true">
                                     <span class="qr-setup-guide__icon">
                                         <i class="fas fa-qrcode"></i>
                                     </span>
-                                    <div class="qr-setup-guide__status">
-                                        <div class="login-status login-status--loading qr-setup-status--loading hidden">
-                                            <span class="login-status__dot"></span>
-                                            <span class="login-status__dot"></span>
-                                            <span class="login-status__dot"></span>
-                                        </div>
-                                        <div class="login-status login-status--success qr-setup-status--success hidden">
-                                            <svg class="login-status__icon" viewBox="0 0 52 52" aria-hidden="true">
-                                                <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
-                                                <path class="login-status__icon-mark login-status__icon-mark--check" fill="none" d="M14 27l7 7 16-16" />
-                                            </svg>
-                                        </div>
-                                        <div class="login-status login-status--error qr-setup-status--error hidden">
-                                            <svg class="login-status__icon" viewBox="0 0 52 52" aria-hidden="true">
-                                                <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
-                                                <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M18 18 L34 34" />
-                                                <path class="login-status__icon-mark login-status__icon-mark--x" fill="none" d="M34 18 L18 34" />
-                                            </svg>
-                                        </div>
-                                    </div>
                                 </div>
                                 <p class="qr-setup-guide__text">
                                     Drag your mouse over the QR code to select and scan it.
@@ -408,11 +301,7 @@
             </section>
 
             <!-- Review prompt (full-screen slide-up) -->
-            <section
-                class="review-prompt"
-                aria-hidden="true"
-                aria-label="Rate PC Authenticator"
-            >
+            <section class="review-prompt" aria-hidden="true" aria-label="Rate PC Authenticator">
                 <div class="review-prompt__panel">
                     <div class="review-prompt__content is-layout-reserved">
                         <div class="review-prompt__star-slot">
@@ -426,10 +315,7 @@
                         </div>
                         <div class="review-prompt__title-slot">
                             <span class="review-prompt__title-reserve" aria-hidden="true">Enjoying PC Authenticator?</span>
-                            <h2
-                                class="review-prompt__title-live is-seq-hidden"
-                                data-full-text="Enjoying PC Authenticator?"
-                            ></h2>
+                            <h2 class="review-prompt__title-live is-seq-hidden" data-full-text="Enjoying PC Authenticator?"></h2>
                         </div>
                         <div class="review-prompt__message-slot">
                             <p class="review-prompt__message-reserve" aria-hidden="true">
@@ -438,13 +324,12 @@
                                 forever by leaving a review!
                             </p>
                             <p class="review-prompt__message-live is-seq-hidden">
-                                <span
-                                    class="review-prompt__message-part"
-                                    data-full-text="You get "
-                                ></span><span class="review-prompt__mark"><span class="review-prompt__mark-text" data-full-text="10% off your subscription"></span><span class="review-prompt__mark-strokes" aria-hidden="true"></span></span><span
-                                    class="review-prompt__message-part"
-                                    data-full-text=" forever by leaving a review!"
-                                ></span>
+                                <span class="review-prompt__message-part" data-full-text="You get "></span>
+                                <span class="review-prompt__mark">
+                                    <span class="review-prompt__mark-text" data-full-text="10% off your subscription"></span>
+                                    <span class="review-prompt__mark-strokes" aria-hidden="true"></span>
+                                </span>
+                                <span class="review-prompt__message-part" data-full-text=" forever by leaving a review!"></span>
                             </p>
                         </div>
                         <button type="button" class="review-prompt__rate is-seq-hidden">Leave a Review</button>
@@ -456,16 +341,6 @@
 
         <!-- Scripts -->
         <script src="../libs/crypto-js.min.js"></script>
-        <script src="../js/account-handling/accounts-crypto.js"></script>
-        <script src="../js/account-handling/api.js"></script>
-        <script src="../js/account-handling/accounts-otpauth.js"></script>
-        <script src="../js/account-handling/accounts-storage.js"></script>
-        <script src="../js/section-handling/section_codes.js"></script>
-        <script src="../js/section-handling/section_header.js"></script>
-        <script src="../js/section-handling/section_body.js"></script>
-        <script src="../js/section-handling/section_user-menu.js"></script>
-        <script src="../js/section-handling/section_manual-setup.js"></script>
-        <script src="../js/section-handling/section_qr-code-setup.js"></script>
-        <script src="../js/section-handling/section_review-prompt.js"></script>
+        <script type="module" src="../js/app.js"></script>
     </body>
 </html>

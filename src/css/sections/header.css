@@ -1,0 +1,260 @@
+.app-header {
+    --header-border-radius: 12px;
+    --header-surface: #ffffff;
+    --header-icon: #176cca;
+    --header-icon-hover: #125aa8;
+    --header-accent-hover: rgba(23, 108, 202, 0.1);
+    --header-gap: 12px;
+    --header-padding-block: 12px;
+    --header-padding-inline: 14px;
+    --header-actions-gap: 8px;
+    --header-btn-size: 32px;
+    --header-btn-radius: 8px;
+    --header-title-size: 16px;
+    --header-btn-icon-size: 18px;
+    --header-actions-disabled-opacity: 0.45;
+    --header-title-type-ms: 1000ms;
+    --header-btn-pop-ms: 250ms;
+    --header-btn-accent-ms: 250ms;
+    --header-btn-pop-stagger-ms: 200ms;
+    --header-blur-duration: 250ms;
+    --header-intro-fade-ms: 250ms;
+}
+
+.app-header {
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: var(--header-border-radius);
+    background: var(--header-surface);
+}
+
+.app-header__shell {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--header-gap);
+    width: 100%;
+    min-height: var(--header-intro-slot-height);
+    padding: var(--header-padding-block) var(--header-padding-inline);
+}
+
+.extension-frame {
+    --header-padding-block: 12px;
+    --header-padding-inline: 14px;
+    --header-btn-size: 32px;
+    --header-intro-frame-gap: 12px;
+    --header-intro-slot-height: calc(var(--header-padding-block) * 2 + var(--header-btn-size));
+}
+
+.extension-frame.is-frame-intro {
+    gap: 0;
+    --frame-intro-body-top: calc(
+        var(--frame-padding-top)
+        + var(--header-intro-slot-height)
+        + var(--header-intro-frame-gap)
+    );
+}
+
+.extension-frame.is-frame-intro > .app-header.is-intro-hidden,
+.extension-frame.is-frame-intro > .app-header.is-intro-fade-in {
+    position: absolute;
+    top: var(--frame-padding-top);
+    right: var(--frame-padding-right);
+    left: var(--frame-padding-left);
+}
+
+.extension-frame.is-frame-intro > .app-header.is-intro-hidden {
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.extension-frame.is-frame-intro > .app-header.is-intro-fade-in {
+    z-index: 3;
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 0;
+    animation: headerIntroFadeIn var(--header-intro-fade-ms) ease forwards;
+}
+
+@keyframes headerIntroFadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.app-header__title.is-typing {
+    white-space: nowrap;
+}
+
+.app-header__title.is-typing.is-running {
+    border-right: 2px solid var(--color-text);
+    padding-right: 1px;
+}
+
+.app-header__btn.is-popping {
+    visibility: visible;
+    opacity: 0;
+    animation: headerBtnPopFade var(--header-btn-pop-ms) ease both;
+}
+
+.app-header__actions .app-header__btn.is-popping:nth-child(1) {
+    animation-delay: 0ms;
+}
+
+.app-header__actions .app-header__btn.is-popping:nth-child(2) {
+    animation-delay: var(--header-btn-pop-stagger-ms);
+}
+
+.app-header__actions .app-header__btn.is-popping:nth-child(3) {
+    animation-delay: calc(var(--header-btn-pop-stagger-ms) * 2);
+}
+
+.app-header__actions .app-header__btn.is-popping:nth-child(4) {
+    animation-delay: calc(var(--header-btn-pop-stagger-ms) * 3);
+}
+
+.app-header__btn.is-popping i {
+    display: block;
+    transform: scale(0.4);
+    transform-origin: center center;
+    animation: headerBtnPopScale var(--header-btn-pop-ms) ease both;
+}
+
+.app-header__actions .app-header__btn.is-popping:nth-child(1) i {
+    animation-delay: 0ms;
+}
+
+.app-header__actions .app-header__btn.is-popping:nth-child(2) i {
+    animation-delay: var(--header-btn-pop-stagger-ms);
+}
+
+.app-header__actions .app-header__btn.is-popping:nth-child(3) i {
+    animation-delay: calc(var(--header-btn-pop-stagger-ms) * 2);
+}
+
+.app-header__actions .app-header__btn.is-popping:nth-child(4) i {
+    animation-delay: calc(var(--header-btn-pop-stagger-ms) * 3);
+}
+
+@keyframes headerBtnPopFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes headerBtnPopScale {
+    from {
+        transform: scale(0.4);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+.app-header__view {
+    display: flex;
+    align-items: center;
+    gap: var(--header-actions-gap);
+    flex-shrink: 0;
+    margin-left: auto;
+    min-width: max-content;
+}
+
+.app-header__view.is-hidden {
+    display: none;
+}
+
+.app-header.is-pending .app-header__title {
+    transition: none;
+}
+
+.app-header.is-pending .app-header__title:empty {
+    opacity: 0;
+}
+
+.app-header.is-pending .app-header__title.is-running {
+    opacity: 1;
+}
+
+.app-header__btn.is-pending {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.app-header.is-disabled .app-header__btn {
+    pointer-events: none;
+    opacity: var(--header-actions-disabled-opacity);
+    cursor: default;
+}
+
+.app-header.is-disabled .app-header__btn:hover {
+    background: transparent;
+    color: var(--header-icon);
+}
+
+.app-header__title {
+    margin: 0;
+    min-width: 0;
+    display: inline-block;
+    font-size: var(--header-title-size);
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    color: var(--color-text);
+}
+
+.app-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--header-actions-gap);
+}
+
+.app-header__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--header-btn-size);
+    height: var(--header-btn-size);
+    padding: 0;
+    border: none;
+    border-radius: var(--header-btn-radius);
+    background: transparent;
+    color: var(--header-icon);
+    cursor: pointer;
+    transition:
+        background-color var(--header-btn-accent-ms) ease,
+        color var(--header-btn-accent-ms) ease;
+}
+
+.app-header__btn:hover {
+    background: var(--header-accent-hover);
+    color: var(--header-icon-hover);
+}
+
+.app-header__btn i {
+    font-size: var(--header-btn-icon-size);
+    line-height: 1;
+}
+
+.app-header__btn.is-active {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.app-header__btn.is-active i {
+    transform: scale(1);
+}
+
+body.is-frame-blurred .app-header {
+    filter: blur(5px);
+    transition: filter var(--header-blur-duration) ease;
+}
