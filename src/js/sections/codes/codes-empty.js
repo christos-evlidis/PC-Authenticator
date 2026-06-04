@@ -1,4 +1,8 @@
-import { SELECTORS } from "./codes-state.js";
+import {
+  EMPTY_SIGNED_IN_ICON_CLASS,
+  EMPTY_SIGNED_IN_MESSAGE,
+  SELECTORS,
+} from "./codes-state.js";
 
 export function setEmptyVisible(empty, list, isEmpty) {
   empty?.classList.toggle("hidden", !isEmpty);
@@ -28,7 +32,11 @@ function getEmptyFullText(stackEl) {
     return stored.replace(/\\n/g, "\n");
   }
 
-  return "No accounts yet.\nUse + or scan a QR code to add one.";
+  return EMPTY_SIGNED_IN_MESSAGE;
+}
+
+function formatEmptyMessageLine(line) {
+  return line.replace(/\+/g, "<strong>+</strong>");
 }
 
 function setEmptyMessageHtml(message, fullText) {
@@ -38,10 +46,20 @@ function setEmptyMessageHtml(message, fullText) {
     .filter(Boolean);
 
   if (lines.length > 1) {
-    message.innerHTML = `${lines[0]}<br>Use <strong>+</strong> or scan a QR code to add one.`;
+    message.innerHTML = `${lines[0]}<br>${formatEmptyMessageLine(lines[1])}`;
   } else {
     message.textContent = fullText.trim();
   }
+}
+
+function applySignedInEmptyIcon(icon) {
+  const iconElement = icon?.querySelector("i");
+
+  if (!iconElement) {
+    return;
+  }
+
+  iconElement.className = `fas ${EMPTY_SIGNED_IN_ICON_CLASS}`;
 }
 
 export function prepareCodesEmptyIntro() {
@@ -59,6 +77,8 @@ export function revealCodesEmptyStatic() {
 
   const { stack, spacer, display } = messages;
   const fullText = getEmptyFullText(stack);
+
+  applySignedInEmptyIcon(icon);
   setEmptyMessageHtml(spacer, fullText);
   setEmptyMessageHtml(display, fullText);
   icon?.classList.remove("is-pop-pending", "is-pop-active");

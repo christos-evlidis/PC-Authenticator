@@ -78,6 +78,78 @@
 
                 <!-- Signed-in View -->
                 <section class="app-body__view app-body__view--signed-in is-hidden">
+                    <section class="codes-section" aria-label="Authentication codes">
+                        <div class="codes-section__empty hidden">
+                            <span class="codes-section__empty-icon" aria-hidden="true">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            <div
+                                class="codes-section__message-stack"
+                                data-full-text="Add your first code.&#10;Use + or scan a QR code to get started."
+                            >
+                                <p class="codes-section__message codes-section__message--spacer" aria-hidden="true"></p>
+                                <p class="codes-section__message codes-section__message--display"></p>
+                            </div>
+                        </div>
+
+                        <ul class="codes-section__list hidden" role="list"></ul>
+
+                        <template class="code-card-template">
+                            <li class="account-block" role="listitem">
+                                <header class="account-block__header">
+                                    <div class="account-block__identity">
+                                        <div class="account-name"></div>
+                                        <div class="account-email hidden"></div>
+                                    </div>
+                                    <div class="account-block__actions">
+                                        <button
+                                            type="button"
+                                            class="edit-button"
+                                            title="Edit account"
+                                            aria-label="Edit account"
+                                        >
+                                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="delete-button"
+                                            title="Delete account"
+                                            aria-label="Delete account"
+                                        >&times;</button>
+                                    </div>
+                                </header>
+                                <div class="account-block__body">
+                                    <div class="otp-code" aria-live="polite">000000</div>
+                                    <div
+                                        class="account-hotp-counter hidden"
+                                        aria-label="HOTP counter"
+                                    ></div>
+                                    <div class="timer-wrapper">
+                                        <svg
+                                            width="35"
+                                            height="35"
+                                            class="pie-timer-svg"
+                                            viewBox="0 0 32 32"
+                                            style="overflow: visible;"
+                                            aria-hidden="true"
+                                        >
+                                            <circle class="pie-bg" cx="16" cy="16" r="14.5" />
+                                            <path class="pie-fg" d="" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="account-block__copy-feedback" aria-hidden="true">
+                                    <span class="account-block__copy-fill"></span>
+                                    <div class="account-block__copy-check">
+                                        <svg class="copy-check__icon" viewBox="0 0 52 52" aria-hidden="true">
+                                            <circle class="copy-check__circle" cx="26" cy="26" r="24" fill="none" />
+                                            <path class="copy-check__mark" fill="none" d="M14 27l7 7 16-16" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </li>
+                        </template>
+                    </section>
                 </section>
             </section>
 
