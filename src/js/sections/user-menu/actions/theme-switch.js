@@ -5,7 +5,7 @@ import { USER_MENU_ACTIVE_CLASS } from "../constants.js";
 import { USER_MENU_THEME_BTN_SELECTOR } from "../constants.js";
 import { userMenuStateGet } from "../state.js";
 import { userMenuStateSet } from "../state.js";
-import { userMenuThemeSwitchAnimation } from "../animations/theme-switch-animation.js";
+import { userMenuThemeSwitchAnimation } from "../animations/theme-switch.js";
 
 // Switches the user menu between light and dark theme.
 export async function userMenuThemeSwitch(theme) {

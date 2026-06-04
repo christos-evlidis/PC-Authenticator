@@ -3,7 +3,7 @@ import { USER_MENU_ACCOUNT_NUMBER_LENGTH } from "../constants.js";
 import { userMenuAccountSet } from "../storage.js";
 import { userMenuStateGet } from "../state.js";
 import { userMenuAccountSanitize } from "../sanitize.js";
-import { userMenuSignUpAnimation } from "../animations/sign-up-animation.js";
+import { userMenuSignUpAnimation } from "../animations/sign-up.js";
 
 // Creates a new account, stores it locally, and runs the shared auth result animation.
 export async function userMenuSignUp() {

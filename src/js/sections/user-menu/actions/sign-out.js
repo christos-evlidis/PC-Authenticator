@@ -1,7 +1,7 @@
 import { accountsClear } from "../../../accounts/account-index.js";
 import { userMenuAccountClear } from "../storage.js";
 import { userMenuStateGet } from "../state.js";
-import { userMenuSignOutAnimation } from "../animations/sign-out-animation.js";
+import { userMenuSignOutAnimation } from "../animations/sign-out.js";
 
 /** Clears stored credentials and runs the logout auth sequence animation. */
 export async function userMenuSignOut() {

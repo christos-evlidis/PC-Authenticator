@@ -3,7 +3,7 @@ import { USER_MENU_ACCOUNT_NUMBER_LENGTH } from "../constants.js";
 import { userMenuAccountSet } from "../storage.js";
 import { userMenuStateGet } from "../state.js";
 import { userMenuAccountSanitize } from "../sanitize.js";
-import { userMenuSignInAnimation } from "../animations/sign-in-animation.js";
+import { userMenuSignInAnimation } from "../animations/sign-in.js";
 
 // Verifies credentials once at submit time, stores the account, and animates the result.
 export async function userMenuSignIn(accountNumber) {
