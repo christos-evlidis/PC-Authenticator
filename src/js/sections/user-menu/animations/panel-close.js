@@ -5,7 +5,7 @@ import { USER_MENU_ACTIVE_CLASS } from "../constants.js";
 import { USER_MENU_BACKDROP_SELECTOR } from "../constants.js";
 import { USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
 import { USER_MENU_VAR_BLUR_MS } from "../constants.js";
-import { USER_MENU_HEADER_BTN_OPEN_CLASS } from "../constants.js";
+import { USER_MENU_HEADER_BTN_ACTIVE_CLASS } from "../constants.js";
 import { USER_MENU_OPEN_BTN_SELECTOR } from "../constants.js";
 import { USER_MENU_OPEN_CLASS } from "../constants.js";
 import { USER_MENU_PANEL_ANIMATION_RUN_ID } from "../constants.js";
@@ -33,7 +33,7 @@ export async function userMenuPanelCloseAnimation() {
   try {
     document
       .querySelector(USER_MENU_OPEN_BTN_SELECTOR)
-      ?.classList.toggle(USER_MENU_HEADER_BTN_OPEN_CLASS, false);
+      ?.classList.toggle(USER_MENU_HEADER_BTN_ACTIVE_CLASS, false);
 
     root.classList.add(USER_MENU_PANEL_CLOSING_CLASS);
 

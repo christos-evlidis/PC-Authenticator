@@ -1,3 +1,4 @@
+//R
 export const USER_MENU_ROOT_SELECTOR = ".app-user-menu";
 export const USER_MENU_BACKDROP_SELECTOR = ".app-user-menu__backdrop";
 export const USER_MENU_PANEL_SELECTOR = ".app-user-menu__panel";
@@ -5,6 +6,8 @@ export const USER_MENU_HEADER_SELECTOR = ".app-user-menu__header";
 export const USER_MENU_CONTENT_SELECTOR = ".app-user-menu__content";
 export const USER_MENU_CLOSE_BTN_SELECTOR = ".app-user-menu__close-btn";
 export const USER_MENU_OPEN_BTN_SELECTOR = ".app-header__user-menu-btn";
+
+export const USER_MENU_HEADER_BTN_ACTIVE_CLASS = "is-user-menu-btn-active";
 
 export const USER_MENU_SIGNED_OUT_VIEW_SELECTOR = ".app-user-menu__view--signed-out";
 export const USER_MENU_SIGNED_IN_VIEW_SELECTOR = ".app-user-menu__view--signed-in";
@@ -44,7 +47,7 @@ export const USER_MENU_AUTH_VIEW_SIGN_UP = "sign-up";
 export const USER_MENU_HIDDEN_CLASS = "is-hidden";
 export const USER_MENU_ACTIVE_CLASS = "is-active";
 export const USER_MENU_OPEN_CLASS = "is-open";
-export const USER_MENU_HEADER_BTN_OPEN_CLASS = "is-user-menu-btn-open";
+
 export const USER_MENU_PANEL_OPENING_CLASS = "is-panel-opening";
 export const USER_MENU_PANEL_OPEN_CLASS = "is-panel-open";
 export const USER_MENU_PANEL_CLOSING_CLASS = "is-panel-closing";

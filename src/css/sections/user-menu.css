@@ -561,7 +561,7 @@
     overflow: hidden;
 }
 
-.app-header__user-menu-btn.is-user-menu-btn-open {
+.app-header__user-menu-btn.is-user-menu-btn-active {
     background: var(--header-accent-hover);
     color: var(--header-icon-hover);
 }
