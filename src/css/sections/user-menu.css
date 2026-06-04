@@ -78,7 +78,7 @@
     pointer-events: auto;
 }
 
-.app-user-menu.is-panel-displayed .app-user-menu__panel {
+.app-user-menu.is-open .app-user-menu__panel {
     display: flex;
 }
 

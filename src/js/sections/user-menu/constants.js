@@ -43,7 +43,7 @@ export const USER_MENU_AUTH_VIEW_SIGN_UP = "sign-up";
 
 export const USER_MENU_HIDDEN_CLASS = "is-hidden";
 export const USER_MENU_ACTIVE_CLASS = "is-active";
-export const USER_MENU_PANEL_DISPLAYED_CLASS = "is-panel-displayed";
+export const USER_MENU_OPEN_CLASS = "is-open";
 export const USER_MENU_HEADER_BTN_OPEN_CLASS = "is-user-menu-btn-open";
 export const USER_MENU_PANEL_OPENING_CLASS = "is-panel-opening";
 export const USER_MENU_PANEL_OPEN_CLASS = "is-panel-open";

@@ -6,7 +6,7 @@ import { USER_MENU_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
 import { USER_MENU_VAR_BLUR_MS } from "../constants.js";
 import { USER_MENU_HEADER_BTN_OPEN_CLASS } from "../constants.js";
 import { USER_MENU_OPEN_BTN_SELECTOR } from "../constants.js";
-import { USER_MENU_PANEL_DISPLAYED_CLASS } from "../constants.js";
+import { USER_MENU_OPEN_CLASS } from "../constants.js";
 import { USER_MENU_PANEL_ANIMATION_RUN_ID } from "../constants.js";
 import { USER_MENU_PANEL_BACKDROP_CLOSING_CLASS } from "../constants.js";
 import { USER_MENU_PANEL_CLOSING_CLASS } from "../constants.js";
@@ -45,7 +45,7 @@ export async function userMenuPanelOpenAnimation() {
       .querySelector(USER_MENU_OPEN_BTN_SELECTOR)
       ?.classList.toggle(USER_MENU_HEADER_BTN_OPEN_CLASS, true);
     root.classList.add(USER_MENU_ACTIVE_CLASS);
-    root.classList.add(USER_MENU_PANEL_DISPLAYED_CLASS);
+    root.classList.add(USER_MENU_OPEN_CLASS);
     root.classList.add(USER_MENU_PANEL_OPENING_CLASS);
 
     await waitForNextFrame();
