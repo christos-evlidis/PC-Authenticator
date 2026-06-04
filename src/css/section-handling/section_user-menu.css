@@ -85,9 +85,9 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    height: 285px;
-    min-height: 285px;
-    max-height: 285px;
+    height: 287px;
+    min-height: 287px;
+    max-height: 287px;
     flex-shrink: 0;
     padding: var(--user-menu-panel-padding);
     background: var(--color-frame);
@@ -127,7 +127,7 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     background: var(--color-surface);
     flex-shrink: 0;
     transition:
-        background 0.2s ease,
+        background-color var(--theme-transition-ms) ease,
         opacity var(--login-ui-fade-duration) ease,
         visibility var(--login-ui-fade-duration) ease;
 }
@@ -139,6 +139,7 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     line-height: 1.2;
     color: var(--color-text);
     white-space: nowrap;
+    transition: color var(--theme-transition-ms) ease;
 }
 
 .user-menu-close-btn {
@@ -225,7 +226,7 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     padding: 4px;
     border-radius: var(--header-radius);
     background: var(--color-surface);
-    transition: background 0.2s ease;
+    transition: background-color var(--theme-transition-ms) ease;
 }
 
 .thumb-selector__thumb {
@@ -273,7 +274,9 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     margin-top: 0;
     background: var(--color-surface);
     border-radius: var(--header-radius);
-    transition: margin-top var(--login-body-expand-duration) ease, background 0.2s ease;
+    transition:
+        margin-top var(--login-body-expand-duration) ease,
+        background-color var(--theme-transition-ms) ease;
 }
 
 .user-menu-body.is-expanded {
@@ -301,11 +304,14 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     display: flex;
     flex-direction: column;
     border-radius: var(--header-radius);
-    background: var(--color-surface);
+    background-color: var(--color-surface);
     overflow: hidden;
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--user-menu-tab-half-duration) ease, background 0.2s ease;
+    transition:
+        opacity var(--user-menu-tab-half-duration) ease,
+        background-color var(--theme-transition-ms) ease,
+        color var(--theme-transition-ms) ease;
 }
 
 .user-menu-body__views > .user-menu-auth-view.is-active,
@@ -314,7 +320,9 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     pointer-events: auto;
     z-index: 1;
     transition:
-        opacity var(--user-menu-tab-half-duration) ease var(--user-menu-tab-half-duration);
+        opacity var(--user-menu-tab-half-duration) ease var(--user-menu-tab-half-duration),
+        background-color var(--theme-transition-ms) ease,
+        color var(--theme-transition-ms) ease;
 }
 
 .user-menu-body.is-main-view-instant .user-menu-body__views > .user-menu-auth-view,
@@ -335,11 +343,14 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     flex-direction: column;
     padding: 12px 14px;
     border-radius: var(--header-radius);
-    background: var(--color-surface);
+    background-color: var(--color-surface);
     overflow: hidden;
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--user-menu-tab-half-duration) ease, background 0.2s ease;
+    transition:
+        opacity var(--user-menu-tab-half-duration) ease,
+        background-color var(--theme-transition-ms) ease,
+        color var(--theme-transition-ms) ease;
 }
 
 .user-menu-auth-view__tabs > .sign-in-view.is-active,
@@ -348,7 +359,9 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     pointer-events: auto;
     z-index: 1;
     transition:
-        opacity var(--user-menu-tab-half-duration) ease var(--user-menu-tab-half-duration);
+        opacity var(--user-menu-tab-half-duration) ease var(--user-menu-tab-half-duration),
+        background-color var(--theme-transition-ms) ease,
+        color var(--theme-transition-ms) ease;
 }
 
 .user-menu-body.is-tab-instant .user-menu-auth-view__tabs > .sign-in-view,
@@ -366,7 +379,7 @@ body.is-user-menu-blurred .extension-frame > .app-body {
 }
 
 .user-menu-account-view__content {
-    padding: 12px 14px;
+    padding: 14px;
 }
 
 .sign-in-form {
@@ -387,6 +400,7 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     font-size: 13px;
     font-weight: 600;
     color: var(--color-text);
+    transition: color var(--theme-transition-ms) ease;
 }
 
 .sign-in-form__input {
@@ -398,9 +412,13 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     font-size: 14px;
     line-height: 1.2;
     color: var(--color-text);
-    background: var(--color-surface);
+    background-color: var(--color-surface);
     outline: none;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    transition:
+        background-color var(--theme-transition-ms) ease,
+        color var(--theme-transition-ms) ease,
+        border-color var(--theme-transition-ms) ease,
+        box-shadow 0.15s ease;
 }
 
 .sign-in-form__input:focus {
@@ -451,6 +469,7 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     font-size: 14px;
     line-height: 1.5;
     color: var(--color-text-secondary);
+    transition: color var(--theme-transition-ms) ease;
 }
 
 .sign-up-form__submit {
@@ -496,6 +515,7 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     font-size: 13px;
     font-weight: 600;
     color: var(--color-text);
+    transition: color var(--theme-transition-ms) ease;
 }
 
 .account-form__field {
@@ -511,9 +531,13 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     font-size: 14px;
     line-height: 1.2;
     color: var(--color-text);
-    background: var(--color-input-readonly);
+    background-color: var(--color-input-readonly);
     outline: none;
     cursor: default;
+    transition:
+        background-color var(--theme-transition-ms) ease,
+        color var(--theme-transition-ms) ease,
+        border-color var(--theme-transition-ms) ease;
 }
 
 .account-form__actions {
@@ -607,6 +631,7 @@ body.is-user-menu-blurred .extension-frame > .app-body {
     visibility: hidden;
     pointer-events: none;
     will-change: opacity;
+    transition: opacity 200ms ease, visibility 200ms ease;
 }
 
 .login-status.hidden {
@@ -622,6 +647,37 @@ body.is-user-menu-blurred .extension-frame > .app-body {
 
 .login-status--loading {
     gap: 10px;
+}
+
+/* During logout reveal, lock body to sign-in before chrome fades in (prevents account-view flash). */
+.user-menu-panel.is-signed-out-reveal .user-menu-body__views > .user-menu-account-view {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: none !important;
+}
+
+.user-menu-panel.is-signed-out-reveal .user-menu-body__views > .user-menu-auth-view {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    z-index: 1;
+    transition: none !important;
+}
+
+.user-menu-panel.is-signed-out-reveal .user-menu-auth-view__tabs > .sign-in-view {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    z-index: 1;
+    transition: none !important;
+}
+
+.user-menu-panel.is-signed-out-reveal .user-menu-auth-view__tabs > .sign-up-view {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: none !important;
 }
 
 .user-menu-panel.is-chrome-preparing .user-menu-header,
@@ -698,7 +754,7 @@ body.is-user-menu-blurred .extension-frame > .app-body {
 
 .login-status--error .login-status__icon-circle,
 .login-status--error .login-status__icon-mark {
-    stroke: #d93025;
+    stroke: var(--icon-color);
 }
 
 .login-status--success.is-animating .login-status__icon-circle,

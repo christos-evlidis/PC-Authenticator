@@ -7,6 +7,8 @@
     const MANUAL_SETUP_PANEL_SELECTOR = '.manual-setup-panel';
     const MANUAL_SETUP_BODY_SELECTOR = '.manual-setup-body';
     const MANUAL_SETUP_FORM_SELECTOR = '.manual-setup-form';
+    const OTP_TYPE_TRACK_SELECTOR = '.manual-setup-type-selector__track';
+    const OTP_TYPE_BTN_SELECTOR = '.manual-setup-type-selector__btn';
     const MANUAL_SETUP_LOADING_SELECTOR = '.manual-setup-status--loading';
     const MANUAL_SETUP_SUCCESS_SELECTOR = '.manual-setup-status--success';
     const MANUAL_SETUP_ERROR_SELECTOR = '.manual-setup-status--error';
@@ -206,53 +208,27 @@
         const icon = document.querySelector(selector);
         if (!icon) return;
 
-        cancelStatusAnimations(icon);
         icon.classList.add('hidden');
         icon.classList.remove('is-shown', 'is-hiding', 'is-animating', 'is-drawn');
-        icon.style.opacity = '0';
-        icon.style.visibility = 'hidden';
-    }
-
-    async function animateStatusOpacity(element, fromOpacity, toOpacity, durationMs) {
-        element.classList.remove('hidden');
-        element.style.visibility = 'visible';
-        cancelStatusAnimations(element);
-
-        const animation = element.animate(
-            [{ opacity: fromOpacity }, { opacity: toOpacity }],
-            {
-                duration: durationMs,
-                easing: 'ease',
-                fill: 'forwards'
-            }
-        );
-
-        try {
-            await animation.finished;
-        } catch {
-            // Animation was cancelled.
-        }
     }
 
     async function fadeInStatus(element) {
         const durationMs = getStatusFadeInMs(element);
 
-        element.classList.remove('is-hiding');
-        element.style.opacity = '0';
-        await animateStatusOpacity(element, 0, 1, durationMs);
+        element.classList.remove('hidden', 'is-hiding');
+        void element.offsetWidth;
         element.classList.add('is-shown');
-        element.style.opacity = '1';
+        await waitForTransitionEnd(element, 'opacity', durationMs + 32);
     }
 
     async function fadeOutStatus(element) {
         const durationMs = getStatusFadeOutMs(element);
 
         element.classList.add('is-hiding');
-        await animateStatusOpacity(element, 1, 0, durationMs);
-        element.classList.remove('is-shown', 'is-hiding', 'is-animating', 'is-drawn');
+        element.classList.remove('is-shown');
+        await waitForTransitionEnd(element, 'opacity', durationMs + 32);
+        element.classList.remove('is-hiding', 'is-animating', 'is-drawn');
         element.classList.add('hidden');
-        element.style.opacity = '0';
-        element.style.visibility = 'hidden';
     }
 
     function waitForIconDraw(icon) {
@@ -376,24 +352,38 @@
         setSubmitDisabled(false);
     }
 
-    function sanitizeName(name) {
-        return name.trim().replace(/[^\w\s@.-]/g, '').slice(0, 64);
+    function getFormOtpType(form) {
+        const typeInput = form.querySelector('[name="type"]');
+        const value = String(typeInput?.value ?? '').toLowerCase();
+
+        return value === 'hotp' ? 'hotp' : 'totp';
     }
 
-    function sanitizeSecret(secret) {
-        return secret.trim().replace(/\s+/g, '').replace(/[^A-Z2-7]/gi, '').toUpperCase().slice(0, 64);
-    }
+    function setFormOtpType(form, type) {
+        const isHotp = type === 'hotp';
+        const track = form.querySelector(OTP_TYPE_TRACK_SELECTOR);
+        const typeInput = form.querySelector('[name="type"]');
 
-    function isValidEmail(email) {
-        return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email);
+        if (typeInput) {
+            typeInput.value = isHotp ? 'hotp' : 'totp';
+        }
+
+        track?.classList.toggle('is-hotp', isHotp);
+
+        form.querySelectorAll(OTP_TYPE_BTN_SELECTOR).forEach((button) => {
+            const buttonType = button.dataset.otpType === 'hotp' ? 'hotp' : 'totp';
+            button.classList.toggle('is-active', buttonType === (isHotp ? 'hotp' : 'totp'));
+        });
     }
 
     function getFormSnapshot(form) {
         const data = new FormData(form);
+
         return {
             name: String(data.get('name') ?? ''),
             email: String(data.get('email') ?? ''),
-            secret: String(data.get('secret') ?? '')
+            secret: String(data.get('secret') ?? ''),
+            type: getFormOtpType(form)
         };
     }
 
@@ -405,17 +395,46 @@
         if (nameInput) nameInput.value = snapshot.name;
         if (emailInput) emailInput.value = snapshot.email;
         if (secretInput) secretInput.value = snapshot.secret;
+        setFormOtpType(form, snapshot.type === 'hotp' ? 'hotp' : 'totp');
     }
 
     function clearForm(form) {
         form.reset();
+        setFormOtpType(form, 'totp');
+    }
+
+    function prepareManualSetupChromeForReveal(form, formSnapshot = null) {
+        if (formSnapshot) {
+            restoreFormSnapshot(form, formSnapshot);
+        } else {
+            clearForm(form);
+        }
+
+        isAddAccountSequenceRunning = false;
+        setAuthFlowLock(false);
+        setSubmitDisabled(false);
     }
 
     function setSubmitDisabled(isDisabled) {
-        const submit = getManualSetupForm()?.querySelector('.manual-setup-form__submit');
+        const form = getManualSetupForm();
+
+        if (!form) {
+            return;
+        }
+
+        const submit = form.querySelector('.manual-setup-form__submit');
+
         if (submit) {
             submit.disabled = isDisabled;
         }
+
+        form.querySelectorAll(OTP_TYPE_BTN_SELECTOR).forEach((button) => {
+            button.disabled = isDisabled;
+        });
+    }
+
+    function createAddAccountPromise(formData) {
+        return saveManualAccountToLocal(formData);
     }
 
     async function saveManualAccountToLocal(formData) {
@@ -425,30 +444,8 @@
             throw new Error('Sign in to add accounts.');
         }
 
-        const name = sanitizeName(formData.name);
-        if (!name) {
-            throw new Error('Enter a valid account name.');
-        }
-
-        const secret = sanitizeSecret(formData.secret);
-        if (!secret) {
-            throw new Error('Enter a valid secret key.');
-        }
-
-        const emailRaw = formData.email.trim();
-        if (emailRaw && !isValidEmail(emailRaw)) {
-            throw new Error('Enter a valid email address.');
-        }
-
-        const account = {
-            id: String(Date.now()),
-            name,
-            secret
-        };
-
-        if (emailRaw) {
-            account.email = emailRaw;
-        }
+        const parsed = window.AccountsOtpauth.parseManualAccountInput(formData);
+        const account = window.AccountsStorage.buildAccountRecord(parsed);
 
         await window.AccountsStorage.appendAccountUnencrypted(account);
 
@@ -492,11 +489,16 @@
             const apiResult = await runLoaderPhase(loader, setupBody, apiPromise);
 
             if (apiResult.success) {
+                const addedAccount = apiResult.value;
+
                 await playResultIcon(MANUAL_SETUP_SUCCESS_SELECTOR);
+
                 await exitPanelImmersive(panel);
                 await shrinkSetupBody(panel, setupBody);
+                prepareManualSetupChromeForReveal(form);
                 await revealSetupChrome();
-                clearForm(form);
+
+                await window.Codes?.animateManualAccountAdd?.(addedAccount);
                 succeeded = true;
 
                 const { accountNumber } = await chrome.storage.local.get(['accountNumber']);
@@ -505,6 +507,7 @@
                     await window.AccountsStorage.handleSync(accountNumber);
                 } catch (error) {
                     console.error('Cloud backup failed after manual account add:', error);
+                    await window.Codes?.render?.();
                 }
 
                 return apiResult;
@@ -513,8 +516,8 @@
             await playResultIcon(MANUAL_SETUP_ERROR_SELECTOR);
             await exitPanelImmersive(panel);
             await shrinkSetupBody(panel, setupBody);
+            prepareManualSetupChromeForReveal(form, formSnapshot);
             await revealSetupChrome();
-            restoreFormSnapshot(form, formSnapshot);
             return apiResult;
         } finally {
             isAddAccountSequenceRunning = false;
@@ -536,6 +539,10 @@
     async function closeOtherOverlays() {
         if (window.UserMenu?.isActive?.()) {
             await window.UserMenu.close();
+        }
+
+        if (window.QrCodeSetup?.isActive?.()) {
+            await window.QrCodeSetup.close();
         }
     }
 
@@ -613,7 +620,7 @@
 
         const form = event.currentTarget;
         const snapshot = getFormSnapshot(form);
-        const apiPromise = saveManualAccountToLocal(snapshot);
+        const apiPromise = createAddAccountPromise(snapshot);
 
         try {
             await playAddAccountSequence(apiPromise, snapshot);
@@ -644,6 +651,22 @@
         });
 
         form?.addEventListener('submit', handleManualSetupSubmit);
+
+        if (form) {
+            setFormOtpType(form, 'totp');
+
+            form.querySelectorAll(OTP_TYPE_BTN_SELECTOR).forEach((button) => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
+
+                    if (isAuthFlowLocked() || isAddAccountSequenceRunning) {
+                        return;
+                    }
+
+                    setFormOtpType(form, button.dataset.otpType === 'hotp' ? 'hotp' : 'totp');
+                });
+            });
+        }
     }
 
     document.addEventListener('DOMContentLoaded', initManualSetup);

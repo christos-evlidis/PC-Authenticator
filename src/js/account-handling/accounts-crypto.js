@@ -12,8 +12,8 @@ window.AccountsCrypto = {
             throw new Error('CryptoJS library not available');
         }
 
-        if (!Array.isArray(accounts) || accounts.length === 0) {
-            throw new Error('Cannot encrypt empty accounts array');
+        if (!Array.isArray(accounts)) {
+            throw new Error('Cannot encrypt invalid accounts data');
         }
 
         const accountsJson = JSON.stringify(accounts);

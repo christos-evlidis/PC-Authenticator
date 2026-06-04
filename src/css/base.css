@@ -1,5 +1,6 @@
 /* Extension viewport */
 :root {
+    --login-fade-ms: 350ms;
     --extension-width: 350px;
     --extension-height: 600px;
     --frame-padding-top: 12px;
@@ -22,9 +23,21 @@
     --color-accent-soft: rgba(23, 108, 202, 0.12);
     --color-accent-hover: rgba(23, 108, 202, 0.1);
     --color-on-accent: #ffffff;
+    --theme-transition-ms: 220ms;
+    --color-code-card: #f8f9fa;
+    --color-code-card-hover: #f1f3f4;
+    --color-otp: #4285f4;
+    --color-codes-text: #202124;
+    --color-pie-track: #e0e0e0;
+    --color-delete-surface: #ffffff;
+    --color-delete-shadow: rgba(0, 0, 0, 0.1);
+    --color-delete-muted: #5f6368;
+    --color-delete-cancel-hover: #f1f3f4;
+    --color-delete-confirm: #d32f2f;
+    --color-delete-confirm-hover: #ffebee;
 }
 
-body.theme-dark {
+html.theme-dark {
     color-scheme: dark;
     --icon-color: #176cca;
     --icon-color-hover: #125aa8;
@@ -40,6 +53,59 @@ body.theme-dark {
     --color-accent-soft: rgba(138, 180, 248, 0.16);
     --color-accent-hover: rgba(138, 180, 248, 0.12);
     --color-on-accent: #202124;
+    --color-code-card: rgb(17, 17, 17);
+    --color-code-card-hover: rgb(22, 22, 22);
+    --color-codes-text: #e8eaed;
+    --color-pie-track: #3c4043;
+    --color-delete-surface: rgb(17, 17, 17);
+    --color-delete-shadow: rgba(0, 0, 0, 0.4);
+    --color-delete-muted: #9aa0a6;
+    --color-delete-cancel-hover: #3c4043;
+    --color-delete-confirm: #f28b82;
+    --color-delete-confirm-hover: #3c4043;
+}
+
+html.theme-transition-active,
+html.theme-transition-active body,
+html.theme-transition-active .extension-frame,
+html.theme-transition-active .app-header,
+html.theme-transition-active .app-body > .signed-out-view,
+html.theme-transition-active .app-body > .signed-in-view,
+html.theme-transition-active .codes-section,
+html.theme-transition-active .codes-section__list .account-block,
+html.theme-transition-active .codes-section__list .account-block__exit-layer,
+html.theme-transition-active .codes-section__list .account-block__copy-fill,
+html.theme-transition-active .codes-section__list .account-name,
+html.theme-transition-active .codes-section__list .account-email,
+html.theme-transition-active .codes-section__list .otp-code,
+html.theme-transition-active .user-menu-panel,
+html.theme-transition-active .user-menu-header,
+html.theme-transition-active .user-menu-body,
+html.theme-transition-active .user-menu-body__views > .user-menu-auth-view,
+html.theme-transition-active .user-menu-body__views > .user-menu-account-view,
+html.theme-transition-active .user-menu-account-view__content,
+html.theme-transition-active .user-menu-auth-view__tabs > .sign-in-view,
+html.theme-transition-active .user-menu-auth-view__tabs > .sign-up-view,
+html.theme-transition-active .sign-in-view__content,
+html.theme-transition-active .sign-up-view__content,
+html.theme-transition-active .sign-in-form__label-text,
+html.theme-transition-active .sign-in-form__input,
+html.theme-transition-active .sign-up-form__text,
+html.theme-transition-active .account-form,
+html.theme-transition-active .account-form__label-text,
+html.theme-transition-active .account-form__input,
+html.theme-transition-active .user-menu-header__title,
+html.theme-transition-active .thumb-selector__track,
+html.theme-transition-active .thumb-selector__btn,
+html.theme-transition-active .manual-setup-panel,
+html.theme-transition-active .manual-setup-header,
+html.theme-transition-active .manual-setup-body,
+html.theme-transition-active .delete-confirmation,
+html.theme-transition-active .delete-confirmation-text,
+html.theme-transition-active .delete-confirmation-button {
+    transition-property: background-color, background, color, border-color, fill, stroke, box-shadow !important;
+    transition-duration: var(--theme-transition-ms) !important;
+    transition-timing-function: ease !important;
 }
 
 *,
@@ -60,6 +126,11 @@ html {
     height: var(--extension-height);
     overflow: hidden;
     font-family: var(--font-family);
+    background-color: var(--color-frame);
+    color: var(--color-text);
+    transition:
+        background-color var(--theme-transition-ms) ease,
+        color var(--theme-transition-ms) ease;
 }
 
 body {
@@ -70,7 +141,9 @@ body {
     overflow: hidden;
     background: var(--color-frame);
     color: var(--color-text);
-    transition: background 0.2s ease, color 0.2s ease;
+    transition:
+        background-color var(--theme-transition-ms) ease,
+        color var(--theme-transition-ms) ease;
     font-family: var(--font-family);
 }
 
@@ -83,6 +156,17 @@ body {
     height: var(--extension-height);
     padding: var(--frame-padding-top) var(--frame-padding-right) var(--frame-padding-bottom) var(--frame-padding-left);
     overflow: hidden;
+}
+
+.is-login-fade-out {
+    transition:
+        opacity var(--login-fade-ms) ease,
+        visibility var(--login-fade-ms) ease;
+}
+
+.is-login-fade-out.is-login-fade-out--active {
+    opacity: 0;
+    visibility: hidden;
 }
 
 

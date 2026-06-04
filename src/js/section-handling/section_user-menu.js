@@ -33,9 +33,6 @@ const VIEW_SIGN_IN = 'sign-in';
 const VIEW_SIGN_UP = 'sign-up';
 const MAIN_VIEW_AUTH = 'auth';
 const MAIN_VIEW_ACCOUNT = 'account';
-const THEME_LIGHT = 'light';
-const THEME_DARK = 'dark';
-
 let userMenuAnimationToken = 0;
 let isUserMenuTabAnimating = false;
 let isLoginSequenceRunning = false;
@@ -277,6 +274,14 @@ async function closeUserMenu() {
 
     section.classList.remove('is-active');
     getUserMenuButtons().forEach((btn) => btn.classList.remove('is-active'));
+
+    const { accountNumber } = await chrome.storage.local.get(['accountNumber']);
+
+    if (accountNumber && window.Codes?.hasPendingPostLoginReveal?.()) {
+        await window.Codes.playPostLoginReveal();
+    } else if (window.Codes?.hasPostLogoutBlank?.()) {
+        await window.Codes.playPostLogoutReveal();
+    }
 }
 
 function toggleUserMenu() {
@@ -420,6 +425,18 @@ function setUserMenuMainView(view, options = {}) {
     }
 }
 
+function prepareSignedOutMenuViews() {
+    const signInInput = document.querySelector('.sign-in-form__input');
+
+    if (signInInput) {
+        signInInput.value = '';
+    }
+
+    setAccountInputValue('');
+    setUserMenuMainView(MAIN_VIEW_AUTH, { instant: true });
+    setUserMenuTab(VIEW_SIGN_IN, { instant: true });
+}
+
 function applyAuthenticatedState(accountNumber) {
     if (!accountNumber) return;
 
@@ -430,21 +447,15 @@ function applyAuthenticatedState(accountNumber) {
 
 async function applySignedOutState() {
     const panel = getUserMenuPanel();
-    const authThumb = document.querySelector('.thumb-selector--auth');
-    const themeThumb = document.querySelector('.thumb-selector--theme');
 
-    setAccountInputValue('');
+    window.Codes?.clear?.();
     await window.AccountsStorage?.clearAllAccounts();
     panel?.classList.remove('is-authenticated');
-    authThumb?.classList.remove('hidden');
-    themeThumb?.classList.add('hidden');
-    themeThumb?.classList.remove('is-visible');
-    setUserMenuMainView(MAIN_VIEW_AUTH, { instant: true });
-    setUserMenuTab(VIEW_SIGN_IN, { instant: true });
+    prepareSignedOutMenuViews();
 }
 
 async function playAuthFlowSequence(apiPromise, options = {}) {
-    const { revealAuthenticated = true, onAuthSuccess = null } = options;
+    const { revealAuthenticated = true, onAuthSuccess = null, fadeAppOnSuccess = false } = options;
 
     if (isLoginSequenceRunning) {
         absorbPromise(apiPromise);
@@ -470,6 +481,12 @@ async function playAuthFlowSequence(apiPromise, options = {}) {
         panel.classList.remove('is-fading-auth-ui');
         void menuBody.offsetWidth;
         panel.classList.add('is-login-flow', 'is-chrome-hidden');
+
+        if (!revealAuthenticated) {
+            prepareSignedOutMenuViews();
+            panel.classList.add('is-signed-out-reveal');
+        }
+
         menuBody.classList.add('is-expanded');
         await waitForTransitionEnd(menuBody, 'margin-top', getLoginBodyExpandMs() + 16);
 
@@ -482,7 +499,7 @@ async function playAuthFlowSequence(apiPromise, options = {}) {
                 await onAuthSuccess(apiResult);
             }
 
-            await playLoginResultIcon(LOGIN_SUCCESS_SELECTOR);
+            await playLoginResultIcon(LOGIN_SUCCESS_SELECTOR, { fadeAppChrome: fadeAppOnSuccess });
             await exitPanelImmersive(panel);
             await shrinkLoginBody(panel, menuBody);
             await revealAuthChrome(revealAuthenticated);
@@ -501,13 +518,15 @@ async function playAuthFlowSequence(apiPromise, options = {}) {
 }
 
 async function playLogoutSequence() {
-    return playAuthFlowSequence(Promise.resolve(), {
+    await playAuthFlowSequence(Promise.resolve(), {
         revealAuthenticated: false,
+        fadeAppOnSuccess: true,
         onAuthSuccess: async () => {
             await chrome.storage.local.remove(['accountNumber']);
-            await applySignedOutState();
         }
     });
+
+    await applySignedOutState();
 }
 
 async function handleLogout() {
@@ -535,19 +554,24 @@ async function setUserMenuTab(view, options = {}) {
 
     if (!incoming || !outgoing) return;
     if (incoming.classList.contains('is-active') && !instant) return;
-    if (isUserMenuTabAnimating || isLoginSequenceRunning) return;
-
-    updateAuthThumbSelector(view);
-
-    const menuBody = document.querySelector(USER_MENU_BODY_SELECTOR);
 
     if (instant) {
+        updateAuthThumbSelector(view);
+
+        const menuBody = document.querySelector(USER_MENU_BODY_SELECTOR);
+
         menuBody?.classList.add('is-tab-instant');
         incoming.classList.add('is-active');
         outgoing.classList.remove('is-active');
         menuBody?.classList.remove('is-tab-instant');
         return;
     }
+
+    if (isUserMenuTabAnimating || isLoginSequenceRunning) return;
+
+    updateAuthThumbSelector(view);
+
+    const menuBody = document.querySelector(USER_MENU_BODY_SELECTOR);
 
     isUserMenuTabAnimating = true;
 
@@ -563,7 +587,7 @@ async function setUserMenuTab(view, options = {}) {
 function updateThemeThumbSelector(theme) {
     const track = document.querySelector(THEME_THUMB_TRACK_SELECTOR);
     const buttons = document.querySelectorAll(THEME_THUMB_BTN_SELECTOR);
-    const isLight = theme === THEME_LIGHT;
+    const isLight = theme === window.Theme?.LIGHT;
 
     if (track) {
         track.classList.toggle('is-light', isLight);
@@ -577,12 +601,29 @@ function updateThemeThumbSelector(theme) {
 
 async function setUserMenuTheme(theme, options = {}) {
     const { instant = false } = options;
-    if (theme !== THEME_LIGHT && theme !== THEME_DARK) return;
-    if (isUserMenuTabAnimating || isLoginSequenceRunning) return;
+    const resolved = window.Theme?.resolve?.(theme);
 
-    updateThemeThumbSelector(theme);
-    document.body.classList.toggle('theme-dark', theme === THEME_DARK);
-    await chrome.storage.local.set({ theme });
+    if (!resolved || !window.Theme) {
+        return;
+    }
+
+    if (isUserMenuTabAnimating || isLoginSequenceRunning) {
+        return;
+    }
+
+    if (instant) {
+        window.Theme.apply(resolved, { instant: true });
+
+        try {
+            await chrome.storage.local.set({ theme: resolved });
+        } catch {
+            // chrome.storage unavailable
+        }
+    } else {
+        await window.Theme.persist(resolved);
+    }
+
+    updateThemeThumbSelector(resolved);
 }
 
 function prepareAuthenticatedThumbSelector() {
@@ -611,11 +652,8 @@ function hideLoginStatusIcon(selector) {
     const icon = document.querySelector(selector);
     if (!icon) return;
 
-    cancelLoginStatusAnimations(icon);
     icon.classList.add('hidden');
     icon.classList.remove('is-shown', 'is-hiding', 'is-animating', 'is-drawn');
-    icon.style.opacity = '0';
-    icon.style.visibility = 'hidden';
 }
 
 function getLoginStatusFadeInMs(element) {
@@ -638,47 +676,23 @@ function cancelLoginStatusAnimations(element) {
     element.getAnimations().forEach((animation) => animation.cancel());
 }
 
-async function animateLoginStatusOpacity(element, fromOpacity, toOpacity, durationMs) {
-    element.classList.remove('hidden');
-    element.style.visibility = 'visible';
-
-    cancelLoginStatusAnimations(element);
-
-    const animation = element.animate(
-        [{ opacity: fromOpacity }, { opacity: toOpacity }],
-        {
-            duration: durationMs,
-            easing: 'ease',
-            fill: 'forwards'
-        }
-    );
-
-    try {
-        await animation.finished;
-    } catch {
-        // Animation was cancelled.
-    }
-}
-
 async function fadeInLoginStatus(element) {
     const durationMs = getLoginStatusFadeInMs(element);
 
-    element.classList.remove('is-hiding');
-    element.style.opacity = '0';
-    await animateLoginStatusOpacity(element, 0, 1, durationMs);
+    element.classList.remove('hidden', 'is-hiding');
+    void element.offsetWidth;
     element.classList.add('is-shown');
-    element.style.opacity = '1';
+    await waitForTransitionEnd(element, 'opacity', durationMs + 32);
 }
 
 async function fadeOutLoginStatus(element) {
     const durationMs = getLoginStatusFadeOutMs(element);
 
     element.classList.add('is-hiding');
-    await animateLoginStatusOpacity(element, 1, 0, durationMs);
-    element.classList.remove('is-shown', 'is-hiding', 'is-animating', 'is-drawn');
+    element.classList.remove('is-shown');
+    await waitForTransitionEnd(element, 'opacity', durationMs + 32);
+    element.classList.remove('is-hiding', 'is-animating', 'is-drawn');
     element.classList.add('hidden');
-    element.style.opacity = '0';
-    element.style.visibility = 'hidden';
 }
 
 async function runLoginLoaderPhase(loader, menuBody, apiPromise) {
@@ -710,7 +724,8 @@ async function resetLoginSequence() {
         'is-chrome-hidden',
         'is-chrome-preparing',
         'is-chrome-visible',
-        'is-panel-immersive'
+        'is-panel-immersive',
+        'is-signed-out-reveal'
     );
     menuBody?.classList.remove('is-expanded');
     loader?.classList.add('hidden');
@@ -724,7 +739,8 @@ async function resetLoginSequence() {
     setAuthFlowLock(false);
 }
 
-async function playLoginResultIcon(selector) {
+async function playLoginResultIcon(selector, options = {}) {
+    const { fadeAppChrome = false } = options;
     const icon = document.querySelector(selector);
     if (!icon) return;
 
@@ -734,6 +750,11 @@ async function playLoginResultIcon(selector) {
     hideLoginStatusIcon(otherSelector);
 
     icon.classList.remove('is-animating', 'is-hiding', 'is-drawn');
+
+    if (fadeAppChrome) {
+        await window.Codes?.enterPostLogoutBlankState?.();
+    }
+
     await fadeInLoginStatus(icon);
 
     icon.classList.add('is-animating');
@@ -755,14 +776,16 @@ async function revealAuthChrome(isSuccess) {
     if (isSuccess) {
         prepareAuthenticatedThumbSelector();
     } else {
+        prepareSignedOutMenuViews();
         panel?.classList.remove('is-authenticated');
+        panel?.classList.add('is-signed-out-reveal');
         authThumb?.classList.remove('hidden');
         themeThumb?.classList.add('hidden');
         themeThumb?.classList.remove('is-visible');
     }
 
-    panel?.classList.remove('is-chrome-hidden');
     panel?.classList.add('is-chrome-preparing');
+    panel?.classList.remove('is-chrome-hidden');
     void panel?.offsetWidth;
     panel?.classList.add('is-chrome-visible');
 
@@ -770,13 +793,16 @@ async function revealAuthChrome(isSuccess) {
     const fadeWaitMs = getLoginUiFadeMs() + 16;
     await Promise.all([
         waitForTransitionEnd(menuHeader, 'opacity', fadeWaitMs),
-        waitForTransitionEnd(fadeTarget || views, 'opacity', fadeWaitMs)
+        waitForTransitionEnd(fadeTarget || views, 'opacity', fadeWaitMs),
+        waitForTransitionEnd(views, 'opacity', fadeWaitMs)
     ]);
 
     panel?.classList.remove('is-chrome-preparing', 'is-chrome-visible');
 
     if (isSuccess) {
         themeThumb?.classList.add('is-visible');
+    } else {
+        panel?.classList.remove('is-signed-out-reveal');
     }
 }
 
@@ -800,12 +826,12 @@ async function playLoginSuccessSequence(apiPromise, options = {}) {
                 setAccountInputValue(accountNumber);
                 await chrome.storage.local.set({ accountNumber });
                 setUserMenuMainView(MAIN_VIEW_ACCOUNT, { instant: true });
-                await window.AccountsStorage?.setAccountsAll(accountNumber);
+                const accounts = await window.AccountsStorage?.setAccountsAll(accountNumber);
+                window.Codes?.stagePostLoginReveal?.(accounts);
+                await window.Codes?.enterPostLoginBlankState?.();
             }
         }
     });
-
-    window.Header?.refresh();
 
     return apiResult;
 }
@@ -831,7 +857,7 @@ function initThemeTabs() {
     buttons.forEach((btn) => {
         btn.addEventListener('click', () => {
             const theme = btn.dataset.theme;
-            if (theme === THEME_LIGHT || theme === THEME_DARK) {
+            if (theme === window.Theme?.LIGHT || theme === window.Theme?.DARK) {
                 setUserMenuTheme(theme);
             }
         });
@@ -839,11 +865,10 @@ function initThemeTabs() {
 }
 
 async function initAuthenticatedMenuState() {
-    const { accountNumber, theme } = await chrome.storage.local.get(['accountNumber', 'theme']);
-    const resolvedTheme = theme === THEME_DARK ? THEME_DARK : THEME_LIGHT;
+    const { accountNumber } = await chrome.storage.local.get(['accountNumber']);
+    const resolvedTheme = await window.Theme?.syncFromChromeStorage?.() ?? window.Theme?.readLocal?.();
 
     updateThemeThumbSelector(resolvedTheme);
-    document.body.classList.toggle('theme-dark', resolvedTheme === THEME_DARK);
 
     if (accountNumber) {
         applyAuthenticatedState(accountNumber);

@@ -4,20 +4,39 @@ window.AccountsStorage = {
     ACCOUNTS_UNENCRYPTED_KEY: 'accountsUnencrypted',
     ACCOUNTS_MERGED_KEY: 'accountsMerged',
 
-    mergeAccountsById(...lists) {
-        const map = new Map();
+    /**
+     * Merge incoming accounts into base while keeping base order.
+     * New accounts are prepended (newest first), matching the codes list UI.
+     * Existing ids are updated in place.
+     */
+    mergeAccountsPreserveOrder(baseList, incomingList) {
+        const base = Array.isArray(baseList) ? [...baseList] : [];
+        const incoming = Array.isArray(incomingList) ? incomingList : [];
+        const indexById = new Map();
 
-        for (const list of lists) {
-            if (!Array.isArray(list)) continue;
+        base.forEach((account, index) => {
+            if (account?.id != null) {
+                indexById.set(String(account.id), index);
+            }
+        });
 
-            for (const account of list) {
-                if (account?.id != null) {
-                    map.set(String(account.id), account);
-                }
+        const toPrepend = [];
+
+        for (const account of incoming) {
+            if (account?.id == null) {
+                continue;
+            }
+
+            const id = String(account.id);
+
+            if (indexById.has(id)) {
+                base[indexById.get(id)] = account;
+            } else {
+                toPrepend.push(account);
             }
         }
 
-        return [...map.values()];
+        return [...toPrepend.reverse(), ...base];
     },
 
     async restoreAccounts(accountNumber) {
@@ -56,10 +75,17 @@ window.AccountsStorage = {
         const pending = Array.isArray(stored[this.ACCOUNTS_UNENCRYPTED_KEY])
             ? stored[this.ACCOUNTS_UNENCRYPTED_KEY]
             : [];
-        const merged = this.mergeAccountsById(restoredPlain, pending);
+        let base = restoredPlain;
+
+        if (!base.length) {
+            base = await this.getAccountsAll();
+        }
+
+        const merged = this.mergeAccountsPreserveOrder(base, pending);
 
         await chrome.storage.local.set({
-            [this.ACCOUNTS_MERGED_KEY]: merged
+            [this.ACCOUNTS_MERGED_KEY]: merged,
+            [this.ACCOUNTS_ALL_KEY]: merged
         });
 
         return merged;
@@ -114,28 +140,28 @@ window.AccountsStorage = {
             return [];
         }
 
+        let plainAccounts = [];
+
         if (typeof result.accounts === 'string' && window.AccountsCrypto?.isEncryptedData(result.accounts)) {
-            const accounts = await this.decryptAccounts(accountNumber);
-            await chrome.storage.local.set({ [this.ACCOUNTS_ALL_KEY]: accounts });
-            await this.clearEncryptedAccounts();
-            await this.clearDecryptedAccounts();
-            await this.clearMergedAccounts();
-            return accounts;
+            plainAccounts = await this.decryptAccounts(accountNumber);
+        } else if (Array.isArray(result.accounts)) {
+            plainAccounts = result.accounts;
         }
 
-        if (Array.isArray(result.accounts)) {
-            await chrome.storage.local.set({ [this.ACCOUNTS_ALL_KEY]: result.accounts });
-            await this.clearEncryptedAccounts();
-            await this.clearDecryptedAccounts();
-            await this.clearMergedAccounts();
-            return result.accounts;
+        const pendingStored = await chrome.storage.local.get([this.ACCOUNTS_UNENCRYPTED_KEY]);
+        const pending = Array.isArray(pendingStored[this.ACCOUNTS_UNENCRYPTED_KEY])
+            ? pendingStored[this.ACCOUNTS_UNENCRYPTED_KEY]
+            : [];
+
+        if (pending.length) {
+            plainAccounts = this.mergeAccountsPreserveOrder(plainAccounts, pending);
         }
 
-        await chrome.storage.local.set({ [this.ACCOUNTS_ALL_KEY]: [] });
+        await chrome.storage.local.set({ [this.ACCOUNTS_ALL_KEY]: plainAccounts });
         await this.clearEncryptedAccounts();
         await this.clearDecryptedAccounts();
         await this.clearMergedAccounts();
-        return [];
+        return plainAccounts;
     },
 
     async getAccountsAll() {
@@ -155,10 +181,183 @@ window.AccountsStorage = {
         });
     },
 
-    async handleLoad(accountNumber) {
-        if (!accountNumber) {
-            throw new Error('Sign in to load accounts.');
+    buildAccountRecord({ name, secret, email, algorithm, digits, period, type, counter }) {
+        const otpType = type ?? window.AccountsOtpauth.TOTP_TYPE;
+        const account = {
+            id: String(Date.now()),
+            name,
+            secret,
+            type: otpType,
+            algorithm: algorithm ?? window.AccountsOtpauth.DEFAULT_ALGORITHM,
+            digits: digits ?? window.AccountsOtpauth.TOTP_DIGITS
+        };
+
+        if (otpType === window.AccountsOtpauth.HOTP_TYPE) {
+            account.counter = Number.isInteger(counter)
+                ? counter
+                : window.AccountsOtpauth.HOTP_DEFAULT_COUNTER;
+        } else {
+            account.period = period ?? window.AccountsOtpauth.TOTP_PERIOD;
         }
+
+        if (email) {
+            account.email = email;
+        }
+
+        return account;
+    },
+
+    async incrementHotpCounter(accountNumber, accountId) {
+        if (!accountNumber) {
+            throw new Error('Sign in to update accounts.');
+        }
+
+        if (accountId == null) {
+            throw new Error('Account id is required.');
+        }
+
+        const updateId = String(accountId);
+
+        await this.restoreAccounts(accountNumber);
+
+        let decrypted = await this.decryptAccounts(accountNumber);
+
+        if (!decrypted.length) {
+            decrypted = await this.getAccountsAll();
+        }
+
+        const index = decrypted.findIndex((account) => String(account?.id) === updateId);
+
+        if (index === -1) {
+            throw new Error('Account not found.');
+        }
+
+        const account = decrypted[index];
+
+        if ((account.type ?? window.AccountsOtpauth.TOTP_TYPE) !== window.AccountsOtpauth.HOTP_TYPE) {
+            throw new Error('Not a HOTP account.');
+        }
+
+        account.counter = (Number.isInteger(account.counter) ? account.counter : 0) + 1;
+
+        const encryptedPayload = window.AccountsCrypto.encryptAccounts(decrypted, accountNumber);
+        await window.PcAuthApi.backupAccounts(accountNumber, encryptedPayload);
+
+        await this.clearEncryptedAccounts();
+        await this.clearDecryptedAccounts();
+        await this.clearMergedAccounts();
+
+        await this.setAccountsAll(accountNumber);
+
+        return account.counter;
+    },
+
+    async handleQrAdd(accountNumber, otpauthUri) {
+        if (!accountNumber) {
+            throw new Error('Sign in to add accounts.');
+        }
+
+        const parsed = window.AccountsOtpauth.parseQRCodeAccountInput(otpauthUri);
+        const account = this.buildAccountRecord(parsed);
+
+        await this.appendAccountUnencrypted(account);
+
+        return account;
+    },
+
+    async handleDelete(accountNumber, accountId) {
+        if (!accountNumber) {
+            throw new Error('Sign in to delete accounts.');
+        }
+
+        if (accountId == null) {
+            throw new Error('Account id is required.');
+        }
+
+        const deleteId = String(accountId);
+
+        await this.restoreAccounts(accountNumber);
+
+        let decrypted = await this.decryptAccounts(accountNumber);
+
+        if (!decrypted.length) {
+            decrypted = await this.getAccountsAll();
+        }
+
+        const filtered = decrypted.filter((account) => String(account?.id) !== deleteId);
+
+        if (filtered.length === decrypted.length) {
+            throw new Error('Account not found.');
+        }
+
+        const encryptedPayload = window.AccountsCrypto.encryptAccounts(filtered, accountNumber);
+        await window.PcAuthApi.backupAccounts(accountNumber, encryptedPayload);
+
+        await this.clearEncryptedAccounts();
+        await this.clearDecryptedAccounts();
+        await this.clearMergedAccounts();
+
+        return this.setAccountsAll(accountNumber);
+    },
+
+    async handleUpdate(accountNumber, accountId, patch) {
+        if (!accountNumber) {
+            throw new Error('Sign in to update accounts.');
+        }
+
+        if (accountId == null) {
+            throw new Error('Account id is required.');
+        }
+
+        const updateId = String(accountId);
+
+        await this.restoreAccounts(accountNumber);
+
+        let decrypted = await this.decryptAccounts(accountNumber);
+
+        if (!decrypted.length) {
+            decrypted = await this.getAccountsAll();
+        }
+
+        const index = decrypted.findIndex((account) => String(account?.id) === updateId);
+
+        if (index === -1) {
+            throw new Error('Account not found.');
+        }
+
+        const account = decrypted[index];
+
+        if (patch.name != null) {
+            account.name = patch.name;
+        }
+
+        if (patch.email !== undefined) {
+            account.email = patch.email;
+        }
+
+        if (patch.username !== undefined) {
+            account.username = patch.username;
+        }
+
+        if (patch.counter != null) {
+            const counter = Number.parseInt(patch.counter, 10);
+
+            if (
+                !Number.isInteger(counter)
+                || counter < window.AccountsOtpauth.MIN_COUNTER
+            ) {
+                throw new Error('Invalid HOTP counter.');
+            }
+
+            account.counter = counter;
+        }
+
+        const encryptedPayload = window.AccountsCrypto.encryptAccounts(decrypted, accountNumber);
+        await window.PcAuthApi.backupAccounts(accountNumber, encryptedPayload);
+
+        await this.clearEncryptedAccounts();
+        await this.clearDecryptedAccounts();
+        await this.clearMergedAccounts();
 
         return this.setAccountsAll(accountNumber);
     },
