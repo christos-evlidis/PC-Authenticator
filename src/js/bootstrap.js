@@ -1,14 +1,14 @@
 import { authNumberGet } from "./accounts/accounts-index.js";
 import { authVerify } from "./accounts/accounts-index.js";
 import { dataSync } from "./accounts/accounts-index.js";
-import { refreshAuth } from "./utils/utility-auth.js";
+import { authChromeApply } from "./utils/utility-auth.js";
 
 /** Verifies stored auth, syncs data from API, and applies chrome. */
 async function bootstrap() {
   const authNumber = await authNumberGet();
 
   if (!authNumber) {
-    await refreshAuth({ authNumber: null, isSignedIn: false });
+    await authChromeApply({ authNumber: null, isSignedIn: false });
     return { isSignedIn: false };
   } else {
     const verifyResult = await authVerify(authNumber);
@@ -16,7 +16,7 @@ async function bootstrap() {
       throw new Error("Account verification failed");
     }
     await dataSync(authNumber);
-    await refreshAuth({ authNumber, isSignedIn: true });
+    await authChromeApply({ authNumber, isSignedIn: true });
     return { isSignedIn: true };
   }
 }

@@ -7,7 +7,7 @@ import { headerAnimationRun } from "../../header/index.js";
 import { searchAnimationFinish } from "../../search/index.js";
 import { searchAnimationPrepare } from "../../search/index.js";
 import { searchAnimationRun } from "../../search/index.js";
-import { frameMetrics } from "../../../utils/utility-animation.js";
+import { animFrameMetricsGet } from "../../../utils/utility-animation.js";
 import { signInAnimationFinish } from "./animations/finish.js";
 import { signInAnimationShrinkBody } from "./animations/shrink-body.js";
 import { signInAnimationShrinkSearch } from "./animations/shrink-search.js";
@@ -38,7 +38,7 @@ async function signInAnimationPrepare() {
   const search = document.querySelector(INTRO_SEARCH_SELECTOR);
 
   if (overlay && frame) {
-    const { padLeft, padTop, bottomAnchor, insetWidth } = frameMetrics(frame);
+    const { padLeft, padTop, bottomAnchor, insetWidth } = animFrameMetricsGet(frame);
     const frameRect = frame.getBoundingClientRect();
     const searchRect = search?.getBoundingClientRect();
     const top = searchRect?.height > 0 ? searchRect.top - frameRect.top : padTop;

@@ -1,8 +1,8 @@
-import { cssMs } from "../../../../utils/utility-animation.js";
-import { cssPhaseReset } from "../../../../utils/utility-animation.js";
-import { frameMetrics } from "../../../../utils/utility-animation.js";
-import { waitForAnimationEnd } from "../../../../utils/utility-animation.js";
-import { waitForNextFrame } from "../../../../utils/utility-animation.js";
+import { animCssMsGet } from "../../../../utils/utility-animation.js";
+import { animPhaseReset } from "../../../../utils/utility-animation.js";
+import { animFrameMetricsGet } from "../../../../utils/utility-animation.js";
+import { animAnimationEndWait } from "../../../../utils/utility-animation.js";
+import { animFrameWait } from "../../../../utils/utility-animation.js";
 
 import { INTRO_LOGO_FADE_CLASS } from "../../constants.js";
 import { INTRO_FRAME_SELECTOR } from "../../constants.js";
@@ -35,7 +35,7 @@ async function introAnimationShrinkFrame() {
     return;
   }
 
-  const { padTop, padLeft, padBottom, insetWidth } = frameMetrics(frame);
+  const { padTop, padLeft, padBottom, insetWidth } = animFrameMetricsGet(frame);
   const frameWidth = frame.offsetWidth;
   const frameHeight = frame.offsetHeight;
   const fromLayout = {
@@ -50,8 +50,8 @@ async function introAnimationShrinkFrame() {
     width: insetWidth,
     height: frameHeight - padTop - padBottom,
   };
-  const shrinkMs = cssMs(intro, INTRO_VAR_SHRINK_FRAME_MS);
-  const timeoutBufferMs = cssMs(intro, INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS);
+  const shrinkMs = animCssMsGet(intro, INTRO_VAR_SHRINK_FRAME_MS);
+  const timeoutBufferMs = animCssMsGet(intro, INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS);
 
   overlay.style.setProperty(INTRO_VAR_FROM_TOP, `${fromLayout.top}px`);
   overlay.style.setProperty(INTRO_VAR_FROM_LEFT, `${fromLayout.left}px`);
@@ -68,10 +68,10 @@ async function introAnimationShrinkFrame() {
 
   intro.classList.add(INTRO_LOGO_FADE_CLASS);
   overlay.classList.add(INTRO_SHRINK_FRAME_CLASS);
-  await waitForNextFrame();
-  await waitForAnimationEnd(overlay, "introShrinkFrame", shrinkMs + timeoutBufferMs);
+  await animFrameWait();
+  await animAnimationEndWait(overlay, "introShrinkFrame", shrinkMs + timeoutBufferMs);
 
-  cssPhaseReset(overlay, INTRO_SHRINK_FRAME_CLASS);
+  animPhaseReset(overlay, INTRO_SHRINK_FRAME_CLASS);
   overlay.classList.add(INTRO_ROUNDED_CLASS);
   overlay.style.setProperty(INTRO_VAR_TOP, `${toLayout.top}px`);
   overlay.style.setProperty(INTRO_VAR_LEFT, `${toLayout.left}px`);

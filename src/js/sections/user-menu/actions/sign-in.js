@@ -1,14 +1,14 @@
 import { authNumberSet } from "../../../accounts/accounts-index.js";
 import { authSanitize } from "../../../accounts/accounts-index.js";
 import { authVerify } from "../../../accounts/accounts-index.js";
-import { AUTH_NUMBER_LENGTH } from "../../../accounts/accounts-index.js";
 import { userMenuStateGet } from "../state.js";
-import { userMenuAuthAnimationCanRun } from "./auth-result.js";
 import { userMenuAuthSignInResultApply } from "./auth-result.js";
 import { userMenuSignInAnimation } from "../animations/sign-in.js";
 
+import { AUTH_NUMBER_LENGTH } from "../../../accounts/accounts-index.js";
+
 /** Verifies credentials, stores the auth number, and animates the result. */
-export async function userMenuSignIn(input) {
+async function userMenuSignIn(input) {
   if (userMenuStateGet().isSignInRunning) {
     return false;
   }
@@ -32,15 +32,7 @@ export async function userMenuSignIn(input) {
     isSuccess = false;
   }
 
-  const applyResult = userMenuAuthSignInResultApply;
-
-  if (!userMenuAuthAnimationCanRun()) {
-    if (isSuccess) {
-      await applyResult(true);
-    }
-
-    return isSuccess;
-  }
-
-  return userMenuSignInAnimation(isSuccess, applyResult);
+  return userMenuSignInAnimation(isSuccess, userMenuAuthSignInResultApply);
 }
+
+export { userMenuSignIn };

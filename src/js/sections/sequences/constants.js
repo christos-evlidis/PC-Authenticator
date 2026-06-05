@@ -19,7 +19,7 @@ export const INTRO_SHRINK_HEADER_CLASS = "is-intro-shrink-header";
 export const INTRO_SHRINK_SEARCH_CLASS = "is-intro-shrink-search";
 export const INTRO_SHRINK_BODY_CLASS = "is-intro-shrink-body";
 
-// Shared timing vars (defined on .app-intro; read via cssMs).
+// Shared timing vars (defined on .app-intro; read via animCssMsGet).
 export const INTRO_VAR_LOGO_HOLD_MS = "--intro-logo-hold-ms";
 export const INTRO_VAR_SHRINK_FRAME_MS = "--intro-shrink-frame-ms";
 export const INTRO_VAR_SHRINK_HEADER_MS = "--intro-shrink-header-ms";

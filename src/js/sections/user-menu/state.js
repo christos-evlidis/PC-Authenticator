@@ -1,19 +1,19 @@
+import { themeGet } from "../../utils/utility-theme.js";
+
 import { USER_MENU_AUTH_VIEW_SIGN_IN } from "./constants.js";
-import { themeRead } from "../../utils/utility-theme.js";
 import { THEME_LIGHT } from "../../utils/utility-theme.js";
 
-// Stores the in-memory user-menu snapshot that drives section rendering.
 let userMenuState = {
   isOpen: false,
   isSignedIn: false,
   isSignInRunning: false,
   authNumber: null,
   authView: USER_MENU_AUTH_VIEW_SIGN_IN,
-  theme: themeRead() || THEME_LIGHT,
+  theme: themeGet() || THEME_LIGHT,
 };
 
 /** Returns a snapshot so callers cannot mutate the shared state directly. */
-export function userMenuStateGet() {
+function userMenuStateGet() {
   return {
     isOpen: userMenuState.isOpen,
     isSignedIn: userMenuState.isSignedIn,
@@ -25,7 +25,7 @@ export function userMenuStateGet() {
 }
 
 /** Updates only the state fields supplied by the caller and preserves the rest. */
-export function userMenuStateSet(next) {
+function userMenuStateSet(next) {
   const isSignedIn =
     typeof next.isSignedIn === "boolean"
       ? next.isSignedIn
@@ -57,3 +57,6 @@ export function userMenuStateSet(next) {
     theme: typeof next.theme === "string" ? next.theme : userMenuState.theme,
   };
 }
+
+export { userMenuStateGet };
+export { userMenuStateSet };

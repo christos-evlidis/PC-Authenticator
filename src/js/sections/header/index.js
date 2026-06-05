@@ -1,14 +1,11 @@
-export { headerIconsDisable } from "./actions/icons.js";
-export { headerIconsEnable } from "./actions/icons.js";
-export { headerAnimationFinish } from "./animations/finish.js";
-
-import { cssMs } from "../../utils/utility-animation.js";
-import { delay } from "../../utils/utility-animation.js";
+import { animCssMsGet } from "../../utils/utility-animation.js";
+import { animDelay } from "../../utils/utility-animation.js";
 import { headerAnimationFadeIn } from "./animations/fade-in.js";
 import { headerAnimationFadeOutContents } from "./animations/fade-out.js";
 import { headerAnimationFinish } from "./animations/finish.js";
 import { headerAnimationIconPop } from "./animations/icon-pop.js";
 import { headerAnimationTitleType } from "./animations/title-type.js";
+
 import { HEADER_ANIMATION_PENDING_CLASS } from "./constants.js";
 import { HEADER_CONTENT_PENDING_CLASS } from "./constants.js";
 import { HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "./constants.js";
@@ -24,7 +21,7 @@ import { HEADER_TITLE_SELECTOR } from "./constants.js";
 import { HEADER_VIEW_SELECTOR } from "./constants.js";
 
 /** Toggles signed-in/out header views for the current auth state. */
-export function headerApply(isSignedIn) {
+function headerApply(isSignedIn) {
   const signedOutView = document.querySelector(HEADER_SIGNED_OUT_VIEW_SELECTOR);
   const signedInView = document.querySelector(HEADER_SIGNED_IN_VIEW_SELECTOR);
 
@@ -33,7 +30,7 @@ export function headerApply(isSignedIn) {
 }
 
 /** Hides header title and icons before an intro reveal sequence. */
-export async function headerAnimationPrepare(mode) {
+async function headerAnimationPrepare(mode) {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
   const title = document.querySelector(HEADER_TITLE_SELECTOR);
   const display = document.querySelector(HEADER_TITLE_DISPLAY_SELECTOR);
@@ -71,7 +68,7 @@ export async function headerAnimationPrepare(mode) {
 }
 
 /** Runs the header reveal sequence after an intro shrink phase. */
-export async function headerAnimationRun(mode) {
+async function headerAnimationRun(mode) {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
 
   if (!header) {
@@ -84,7 +81,7 @@ export async function headerAnimationRun(mode) {
     }
 
     try {
-      await delay(cssMs(header, HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS));
+      await animDelay(animCssMsGet(header, HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS));
       header.classList.remove(HEADER_CONTENT_PENDING_CLASS);
       await headerAnimationTitleType();
       await headerAnimationIconPop();
@@ -101,7 +98,7 @@ export async function headerAnimationRun(mode) {
   }
 
   try {
-    await delay(cssMs(header, HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS));
+    await animDelay(animCssMsGet(header, HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS));
     await headerAnimationFadeIn();
     await headerAnimationTitleType();
     await headerAnimationIconPop();
@@ -110,3 +107,10 @@ export async function headerAnimationRun(mode) {
     headerAnimationFinish();
   }
 }
+
+export { headerIconsDisable } from "./actions/icons.js";
+export { headerIconsEnable } from "./actions/icons.js";
+export { headerAnimationFinish } from "./animations/finish.js";
+export { headerApply };
+export { headerAnimationPrepare };
+export { headerAnimationRun };

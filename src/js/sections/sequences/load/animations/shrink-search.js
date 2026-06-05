@@ -1,8 +1,8 @@
-import { cssMs } from "../../../../utils/utility-animation.js";
-import { cssPhaseReset } from "../../../../utils/utility-animation.js";
-import { frameMetrics } from "../../../../utils/utility-animation.js";
-import { waitForAnimationEnd } from "../../../../utils/utility-animation.js";
-import { waitForNextFrame } from "../../../../utils/utility-animation.js";
+import { animCssMsGet } from "../../../../utils/utility-animation.js";
+import { animPhaseReset } from "../../../../utils/utility-animation.js";
+import { animFrameMetricsGet } from "../../../../utils/utility-animation.js";
+import { animAnimationEndWait } from "../../../../utils/utility-animation.js";
+import { animFrameWait } from "../../../../utils/utility-animation.js";
 
 import { INTRO_FRAME_SELECTOR } from "../../constants.js";
 import { INTRO_OVERLAY_SELECTOR } from "../../constants.js";
@@ -35,7 +35,7 @@ async function introAnimationShrinkSearch() {
     return;
   }
 
-  const { padTop, padLeft, gap, bottomAnchor, insetWidth } = frameMetrics(frame);
+  const { padTop, padLeft, gap, bottomAnchor, insetWidth } = animFrameMetricsGet(frame);
   const frameRect = frame.getBoundingClientRect();
   const searchRect = search.getBoundingClientRect();
   const searchBottom = searchRect.bottom - frameRect.top;
@@ -54,8 +54,8 @@ async function introAnimationShrinkSearch() {
     width: insetWidth,
     height: bottomAnchor - toTop,
   };
-  const shrinkMs = cssMs(intro, INTRO_VAR_SHRINK_SEARCH_MS);
-  const timeoutBufferMs = cssMs(intro, INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS);
+  const shrinkMs = animCssMsGet(intro, INTRO_VAR_SHRINK_SEARCH_MS);
+  const timeoutBufferMs = animCssMsGet(intro, INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS);
 
   overlay.style.setProperty(INTRO_VAR_FROM_TOP, `${fromLayout.top}px`);
   overlay.style.setProperty(INTRO_VAR_FROM_LEFT, `${fromLayout.left}px`);
@@ -71,10 +71,10 @@ async function introAnimationShrinkSearch() {
   overlay.style.setProperty(INTRO_VAR_HEIGHT, `${fromLayout.height}px`);
 
   overlay.classList.add(INTRO_SHRINK_SEARCH_CLASS);
-  await waitForNextFrame();
-  await waitForAnimationEnd(overlay, "introShrinkSearch", shrinkMs + timeoutBufferMs);
+  await animFrameWait();
+  await animAnimationEndWait(overlay, "introShrinkSearch", shrinkMs + timeoutBufferMs);
 
-  cssPhaseReset(overlay, INTRO_SHRINK_SEARCH_CLASS);
+  animPhaseReset(overlay, INTRO_SHRINK_SEARCH_CLASS);
   overlay.style.setProperty(INTRO_VAR_TOP, `${toLayout.top}px`);
   overlay.style.setProperty(INTRO_VAR_LEFT, `${toLayout.left}px`);
   overlay.style.setProperty(INTRO_VAR_WIDTH, `${toLayout.width}px`);

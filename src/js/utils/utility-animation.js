@@ -1,12 +1,12 @@
 /** Resolves after the given number of milliseconds. */
-export function delay(ms) {
+function animDelay(ms) {
   return new Promise((resolve) => {
     window.setTimeout(resolve, ms);
   });
 }
 
 /** Waits until the next paint so layout changes can apply before continuing. */
-export function waitForNextFrame() {
+function animFrameWait() {
   return new Promise((resolve) => {
     requestAnimationFrame(() => {
       requestAnimationFrame(resolve);
@@ -15,7 +15,7 @@ export function waitForNextFrame() {
 }
 
 /** Reads a duration custom property on an element as milliseconds. */
-export function cssMs(element, varName) {
+function animCssMsGet(element, varName) {
   if (!element) {
     return 0;
   }
@@ -24,7 +24,7 @@ export function cssMs(element, varName) {
 }
 
 /** Reads a length custom property on an element as pixels. */
-export function cssPx(element, varName) {
+function animCssPxGet(element, varName) {
   if (!element) {
     return 0;
   }
@@ -33,13 +33,13 @@ export function cssPx(element, varName) {
 }
 
 /** Reads extension frame padding and gap from root CSS custom properties. */
-export function frameMetrics(frame) {
+function animFrameMetricsGet(frame) {
   const root = document.documentElement;
-  const padTop = cssPx(root, "--frame-padding-top");
-  const padRight = cssPx(root, "--frame-padding-right");
-  const padBottom = cssPx(root, "--frame-padding-bottom");
-  const padLeft = cssPx(root, "--frame-padding-left");
-  const gap = cssPx(root, "--frame-gap");
+  const padTop = animCssPxGet(root, "--frame-padding-top");
+  const padRight = animCssPxGet(root, "--frame-padding-right");
+  const padBottom = animCssPxGet(root, "--frame-padding-bottom");
+  const padLeft = animCssPxGet(root, "--frame-padding-left");
+  const gap = animCssPxGet(root, "--frame-gap");
 
   return {
     padTop,
@@ -53,7 +53,7 @@ export function frameMetrics(frame) {
 }
 
 /** Resolves when an element finishes transitioning a property, or after a timeout. */
-export function waitForTransitionEnd(element, propertyName, timeoutMs) {
+function animTransitionEndWait(element, propertyName, timeoutMs) {
   if (!element) {
     return Promise.resolve();
   }
@@ -79,7 +79,7 @@ export function waitForTransitionEnd(element, propertyName, timeoutMs) {
 }
 
 /** Resolves when an element finishes a CSS animation, or after a timeout. */
-export function waitForAnimationEnd(element, animationName, timeoutMs) {
+function animAnimationEndWait(element, animationName, timeoutMs) {
   if (!element) {
     return Promise.resolve();
   }
@@ -109,7 +109,7 @@ export function waitForAnimationEnd(element, animationName, timeoutMs) {
 }
 
 /** Removes one-shot phase classes from an element. */
-export function cssPhaseReset(element, ...phaseClasses) {
+function animPhaseReset(element, ...phaseClasses) {
   if (!element) {
     return;
   }
@@ -118,7 +118,7 @@ export function cssPhaseReset(element, ...phaseClasses) {
 }
 
 /** Adds a one-shot phase class, waits for CSS motion, then removes the class. */
-export async function cssPhasePlay(
+async function animPhasePlay(
   element,
   activeClass,
   timeoutMs,
@@ -130,13 +130,22 @@ export async function cssPhasePlay(
   }
 
   element.classList.add(activeClass);
-  await waitForNextFrame();
+  await animFrameWait();
 
   if (mode === "transition") {
-    await waitForTransitionEnd(element, animationName, timeoutMs);
+    await animTransitionEndWait(element, animationName, timeoutMs);
   } else {
-    await waitForAnimationEnd(element, animationName, timeoutMs);
+    await animAnimationEndWait(element, animationName, timeoutMs);
   }
 
   element.classList.remove(activeClass);
 }
+
+export { animDelay };
+export { animFrameWait };
+export { animCssMsGet };
+export { animFrameMetricsGet };
+export { animTransitionEndWait };
+export { animAnimationEndWait };
+export { animPhaseReset };
+export { animPhasePlay };

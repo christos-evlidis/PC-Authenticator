@@ -1,8 +1,8 @@
 import { userMenuStateGet } from "../state.js";
 import { userMenuCopyButtonAnimation } from "../animations/copy-button.js";
 
-// Copies the signed-in account number and confirms the action in the field button.
-export async function userMenuAccountCopy() {
+/** Copies the signed-in account number and confirms the action in the field button. */
+async function userMenuAccountCopy() {
   const { authNumber } = userMenuStateGet();
 
   if (!authNumber) {
@@ -12,3 +12,5 @@ export async function userMenuAccountCopy() {
   await navigator.clipboard?.writeText(authNumber);
   await userMenuCopyButtonAnimation();
 }
+
+export { userMenuAccountCopy };

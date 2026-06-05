@@ -1,13 +1,10 @@
-export { searchAnimationFinish } from "./animations/finish.js";
-export { searchFilterApply } from "./actions/filter.js";
-export { searchReset } from "./actions/reset.js";
-
-import { cssMs } from "../../utils/utility-animation.js";
-import { delay } from "../../utils/utility-animation.js";
+import { animCssMsGet } from "../../utils/utility-animation.js";
+import { animDelay } from "../../utils/utility-animation.js";
 import { searchFilterApply } from "./actions/filter.js";
 import { searchReset } from "./actions/reset.js";
 import { searchAnimationFadeIn } from "./animations/fade-in.js";
 import { searchAnimationFinish } from "./animations/finish.js";
+
 import { SEARCH_ANIMATION_PENDING_CLASS } from "./constants.js";
 import { SEARCH_HIDDEN_CLASS } from "./constants.js";
 import { SEARCH_INPUT_SELECTOR } from "./constants.js";
@@ -15,14 +12,14 @@ import { SEARCH_ROOT_SELECTOR } from "./constants.js";
 import { SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "./constants.js";
 
 /** Wires search input filtering. */
-export function searchInit() {
+function searchInit() {
   document.querySelector(SEARCH_INPUT_SELECTOR)?.addEventListener("input", () => {
     searchFilterApply();
   });
 }
 
 /** Shows or hides the search bar based on auth state. */
-export function searchApply(isAuthVisible) {
+function searchApply(isAuthVisible) {
   const search = document.querySelector(SEARCH_ROOT_SELECTOR);
   const intro = document.querySelector(".app-intro");
 
@@ -41,7 +38,7 @@ export function searchApply(isAuthVisible) {
 }
 
 /** Hides the search bar before an intro reveal sequence. */
-export function searchAnimationPrepare(mode) {
+function searchAnimationPrepare(mode) {
   const search = document.querySelector(SEARCH_ROOT_SELECTOR);
 
   if (!search) {
@@ -53,7 +50,7 @@ export function searchAnimationPrepare(mode) {
 }
 
 /** Runs the search reveal sequence after an intro shrink phase. */
-export async function searchAnimationRun(mode) {
+async function searchAnimationRun(mode) {
   const search = document.querySelector(SEARCH_ROOT_SELECTOR);
 
   if (!search) {
@@ -66,10 +63,18 @@ export async function searchAnimationRun(mode) {
   }
 
   try {
-    await delay(cssMs(search, SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS));
+    await animDelay(animCssMsGet(search, SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS));
     await searchAnimationFadeIn();
     searchAnimationFinish();
   } catch {
     searchAnimationFinish();
   }
 }
+
+export { searchAnimationFinish } from "./animations/finish.js";
+export { searchFilterApply } from "./actions/filter.js";
+export { searchReset } from "./actions/reset.js";
+export { searchInit };
+export { searchApply };
+export { searchAnimationPrepare };
+export { searchAnimationRun };

@@ -15,7 +15,7 @@ import { BODY_SIGNED_IN_VIEW_SELECTOR } from "../constants.js";
 import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "../constants.js";
 
 /** Clears one-shot body animation classes and commits the final message markup. */
-export function bodyAnimationFinish() {
+function bodyAnimationFinish() {
   const body = document.querySelector(BODY_ROOT_SELECTOR);
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
   const signedInView = document.querySelector(BODY_SIGNED_IN_VIEW_SELECTOR);
@@ -72,3 +72,5 @@ export function bodyAnimationFinish() {
   body.classList.add(BODY_ACTIVE_CLASS);
   icon?.classList.add(BODY_ACTIVE_CLASS);
 }
+
+export { bodyAnimationFinish };

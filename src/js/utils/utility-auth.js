@@ -3,12 +3,12 @@ import { authNumberGet } from "../accounts/accounts-index.js";
 import { cross } from "../sections/section-cross.js";
 
 /** Returns whether a stored auth number exists in local storage. */
-async function checkAuth() {
+async function authSignedInIs() {
   return Boolean(await authNumberGet());
 }
 
 /** Applies signed-in/out chrome from storage or explicit bootstrap values. */
-async function refreshAuth(options = {}) {
+async function authChromeApply(options = {}) {
   const authNumber =
     options.authNumber === undefined ? await authNumberGet() : options.authNumber;
   const isSignedIn =
@@ -26,5 +26,5 @@ async function refreshAuth(options = {}) {
   cross.search?.apply(isSignedIn);
 }
 
-export { checkAuth };
-export { refreshAuth };
+export { authSignedInIs };
+export { authChromeApply };

@@ -1,9 +1,15 @@
-export { userMenuSignIn } from "./actions/sign-in.js";
-export { userMenuSignUp } from "./actions/sign-up.js";
-export { userMenuSignOut } from "./actions/sign-out.js";
-export { userMenuPanelOpen } from "./actions/open.js";
-export { userMenuPanelClose } from "./actions/close.js";
-export { userMenuThemeSwitch } from "./actions/theme-switch.js";
+import { userMenuAccountCopy } from "./actions/copy.js";
+import { userMenuAccountDownload } from "./actions/download.js";
+import { userMenuAuthSwitch } from "./actions/auth-switch.js";
+import { userMenuPanelClose } from "./actions/close.js";
+import { userMenuPanelOpen } from "./actions/open.js";
+import { userMenuSignIn } from "./actions/sign-in.js";
+import { userMenuSignOut } from "./actions/sign-out.js";
+import { userMenuSignUp } from "./actions/sign-up.js";
+import { userMenuThemeSwitch } from "./actions/theme-switch.js";
+import { userMenuStateGet } from "./state.js";
+import { userMenuStateSet } from "./state.js";
+import { themeGet } from "../../utils/utility-theme.js";
 
 import { USER_MENU_ACCOUNT_COPY_BTN_SELECTOR } from "./constants.js";
 import { USER_MENU_ACCOUNT_DOWNLOAD_BTN_SELECTOR } from "./constants.js";
@@ -33,22 +39,10 @@ import { USER_MENU_THEME_BTN_SELECTOR } from "./constants.js";
 import { USER_MENU_THEME_DARK_CLASS } from "./constants.js";
 import { USER_MENU_THEME_LIGHT_CLASS } from "./constants.js";
 import { USER_MENU_THEME_TRACK_SELECTOR } from "./constants.js";
-import { userMenuAccountCopy } from "./actions/copy.js";
-import { userMenuAccountDownload } from "./actions/download.js";
-import { userMenuAuthSwitch } from "./actions/auth-switch.js";
-import { userMenuPanelClose } from "./actions/close.js";
-import { userMenuPanelOpen } from "./actions/open.js";
-import { userMenuSignIn } from "./actions/sign-in.js";
-import { userMenuSignOut } from "./actions/sign-out.js";
-import { userMenuSignUp } from "./actions/sign-up.js";
-import { userMenuThemeSwitch } from "./actions/theme-switch.js";
-import { userMenuStateGet } from "./state.js";
-import { userMenuStateSet } from "./state.js";
-import { themeRead } from "../../utils/utility-theme.js";
 import { THEME_DARK } from "../../utils/utility-theme.js";
 
 /** Applies user-menu auth state in memory and updates signed-in/out DOM. */
-export function userMenuApply(isSignedIn, authNumber) {
+function userMenuApply(isSignedIn, authNumber) {
   userMenuStateSet({
     isSignedIn,
     authNumber: isSignedIn ? authNumber : null,
@@ -72,7 +66,7 @@ export function userMenuApply(isSignedIn, authNumber) {
 }
 
 /** Registers user-menu listeners and syncs from storage. */
-export function userMenuInit() {
+function userMenuInit() {
   document.querySelectorAll(USER_MENU_OPEN_BTN_SELECTOR).forEach((button) => {
     button.addEventListener("click", userMenuPanelOpen);
   });
@@ -130,7 +124,7 @@ export function userMenuInit() {
       void userMenuAccountDownload();
     });
 
-  const theme = themeRead();
+  const theme = themeGet();
 
   userMenuStateSet({ theme });
 
@@ -144,3 +138,12 @@ export function userMenuInit() {
   themeTrack?.classList.toggle(USER_MENU_THEME_LIGHT_CLASS, !isDark);
   themeTrack?.classList.toggle(USER_MENU_THEME_DARK_CLASS, isDark);
 }
+
+export { userMenuSignIn } from "./actions/sign-in.js";
+export { userMenuSignUp } from "./actions/sign-up.js";
+export { userMenuSignOut } from "./actions/sign-out.js";
+export { userMenuPanelOpen } from "./actions/open.js";
+export { userMenuPanelClose } from "./actions/close.js";
+export { userMenuThemeSwitch } from "./actions/theme-switch.js";
+export { userMenuApply };
+export { userMenuInit };

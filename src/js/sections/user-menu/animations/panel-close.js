@@ -1,6 +1,7 @@
-import { cssMs } from "../../../utils/utility-animation.js";
-import { waitForNextFrame } from "../../../utils/utility-animation.js";
-import { waitForTransitionEnd } from "../../../utils/utility-animation.js";
+import { animCssMsGet } from "../../../utils/utility-animation.js";
+import { animFrameWait } from "../../../utils/utility-animation.js";
+import { animTransitionEndWait } from "../../../utils/utility-animation.js";
+
 import { USER_MENU_ACTIVE_CLASS } from "../constants.js";
 import { USER_MENU_BACKDROP_SELECTOR } from "../constants.js";
 import { USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
@@ -17,8 +18,8 @@ import { USER_MENU_PANEL_SELECTOR } from "../constants.js";
 import { USER_MENU_ROOT_SELECTOR } from "../constants.js";
 import { USER_MENU_VAR_SLIDE_MS } from "../constants.js";
 
-// Runs the slide-then-unblur close sequence for the user menu overlay.
-export async function userMenuPanelCloseAnimation() {
+/** Runs the slide-then-unblur close sequence for the user menu overlay. */
+async function userMenuPanelCloseAnimation() {
   const runId = USER_MENU_PANEL_ANIMATION_RUN_ID.value + 1;
   USER_MENU_PANEL_ANIMATION_RUN_ID.value = runId;
 
@@ -37,10 +38,10 @@ export async function userMenuPanelCloseAnimation() {
 
     root.classList.add(USER_MENU_PANEL_CLOSING_CLASS);
 
-    await waitForTransitionEnd(
+    await animTransitionEndWait(
       panel,
       "transform",
-      cssMs(root, USER_MENU_VAR_SLIDE_MS) + cssMs(root, USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
+      animCssMsGet(root, USER_MENU_VAR_SLIDE_MS) + animCssMsGet(root, USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
     );
 
     if (runId !== USER_MENU_PANEL_ANIMATION_RUN_ID.value) {
@@ -50,17 +51,17 @@ export async function userMenuPanelCloseAnimation() {
     root.classList.remove(USER_MENU_PANEL_OPEN_CLASS);
     root.classList.add(USER_MENU_PANEL_BACKDROP_CLOSING_CLASS);
 
-    await waitForNextFrame();
+    await animFrameWait();
 
     if (runId !== USER_MENU_PANEL_ANIMATION_RUN_ID.value) {
       return;
     }
 
     if (backdrop) {
-      await waitForTransitionEnd(
+      await animTransitionEndWait(
         backdrop,
         "opacity",
-        cssMs(root, USER_MENU_VAR_BLUR_MS) + cssMs(root, USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
+        animCssMsGet(root, USER_MENU_VAR_BLUR_MS) + animCssMsGet(root, USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
       );
     }
 
@@ -86,3 +87,5 @@ export async function userMenuPanelCloseAnimation() {
     }
   }
 }
+
+export { userMenuPanelCloseAnimation };

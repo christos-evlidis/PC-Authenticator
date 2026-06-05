@@ -1,8 +1,8 @@
-import { cssMs } from "../../../../utils/utility-animation.js";
-import { cssPhaseReset } from "../../../../utils/utility-animation.js";
-import { frameMetrics } from "../../../../utils/utility-animation.js";
-import { waitForAnimationEnd } from "../../../../utils/utility-animation.js";
-import { waitForNextFrame } from "../../../../utils/utility-animation.js";
+import { animCssMsGet } from "../../../../utils/utility-animation.js";
+import { animPhaseReset } from "../../../../utils/utility-animation.js";
+import { animFrameMetricsGet } from "../../../../utils/utility-animation.js";
+import { animAnimationEndWait } from "../../../../utils/utility-animation.js";
+import { animFrameWait } from "../../../../utils/utility-animation.js";
 
 import { INTRO_BODY_SELECTOR } from "../../constants.js";
 import { INTRO_FRAME_SELECTOR } from "../../constants.js";
@@ -35,7 +35,7 @@ async function introAnimationShrinkBody() {
     return;
   }
 
-  const { padTop, padLeft, bottomAnchor, insetWidth } = frameMetrics(frame);
+  const { padTop, padLeft, bottomAnchor, insetWidth } = animFrameMetricsGet(frame);
   const frameRect = frame.getBoundingClientRect();
   const bodyRect = body.getBoundingClientRect();
   const bodyTop = bodyRect.top - frameRect.top;
@@ -53,8 +53,8 @@ async function introAnimationShrinkBody() {
     width: insetWidth,
     height: bottomAnchor - bodyTop,
   };
-  const shrinkMs = cssMs(intro, INTRO_VAR_SHRINK_BODY_MS);
-  const timeoutBufferMs = cssMs(intro, INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS);
+  const shrinkMs = animCssMsGet(intro, INTRO_VAR_SHRINK_BODY_MS);
+  const timeoutBufferMs = animCssMsGet(intro, INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS);
 
   overlay.style.setProperty(INTRO_VAR_FROM_TOP, `${fromLayout.top}px`);
   overlay.style.setProperty(INTRO_VAR_FROM_LEFT, `${fromLayout.left}px`);
@@ -70,10 +70,10 @@ async function introAnimationShrinkBody() {
   overlay.style.setProperty(INTRO_VAR_HEIGHT, `${fromLayout.height}px`);
 
   overlay.classList.add(INTRO_SHRINK_BODY_CLASS);
-  await waitForNextFrame();
-  await waitForAnimationEnd(overlay, "introShrinkBody", shrinkMs + timeoutBufferMs);
+  await animFrameWait();
+  await animAnimationEndWait(overlay, "introShrinkBody", shrinkMs + timeoutBufferMs);
 
-  cssPhaseReset(overlay, INTRO_SHRINK_BODY_CLASS);
+  animPhaseReset(overlay, INTRO_SHRINK_BODY_CLASS);
   overlay.style.setProperty(INTRO_VAR_TOP, `${toLayout.top}px`);
   overlay.style.setProperty(INTRO_VAR_LEFT, `${toLayout.left}px`);
   overlay.style.setProperty(INTRO_VAR_WIDTH, `${toLayout.width}px`);

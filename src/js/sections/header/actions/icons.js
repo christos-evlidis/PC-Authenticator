@@ -3,7 +3,7 @@ import { HEADER_DISABLED_CLASS } from "../constants.js";
 import { HEADER_ROOT_SELECTOR } from "../constants.js";
 
 /** Enables header icon buttons during edit/delete flows. */
-export function headerIconsEnable() {
+function headerIconsEnable() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
 
   if (header) {
@@ -17,7 +17,7 @@ export function headerIconsEnable() {
 }
 
 /** Disables header icon buttons during edit/delete flows. */
-export function headerIconsDisable() {
+function headerIconsDisable() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
 
   if (header) {
@@ -29,3 +29,6 @@ export function headerIconsDisable() {
     button.setAttribute("aria-disabled", "true");
   });
 }
+
+export { headerIconsEnable };
+export { headerIconsDisable };

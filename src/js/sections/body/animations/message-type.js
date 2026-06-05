@@ -1,5 +1,6 @@
-import { cssMs } from "../../../utils/utility-animation.js";
-import { delay } from "../../../utils/utility-animation.js";
+import { animCssMsGet } from "../../../utils/utility-animation.js";
+import { animDelay } from "../../../utils/utility-animation.js";
+
 import { BODY_MESSAGE_DISPLAY_SELECTOR } from "../constants.js";
 import { BODY_MESSAGE_SPACER_SELECTOR } from "../constants.js";
 import { BODY_MESSAGE_STACK_SELECTOR } from "../constants.js";
@@ -12,7 +13,7 @@ import { BODY_VAR_MESSAGE_TYPE_MS } from "../constants.js";
 import { BODY_HIDDEN_CLASS } from "../constants.js";
 
 /** Types the body empty-state message over the configured duration. */
-export async function bodyAnimationMessageType(content) {
+async function bodyAnimationMessageType(content) {
   const body = document.querySelector(BODY_ROOT_SELECTOR);
   const stack = content?.querySelector(BODY_MESSAGE_STACK_SELECTOR);
   const spacer = content?.querySelector(BODY_MESSAGE_SPACER_SELECTOR);
@@ -33,7 +34,7 @@ export async function bodyAnimationMessageType(content) {
 
   spacer.textContent = fullText;
 
-  const typeMs = cssMs(body, BODY_VAR_MESSAGE_TYPE_MS);
+  const typeMs = animCssMsGet(body, BODY_VAR_MESSAGE_TYPE_MS);
   const charCount = fullText.length;
   const stepMs = charCount > 0 ? typeMs / charCount : typeMs;
 
@@ -42,8 +43,10 @@ export async function bodyAnimationMessageType(content) {
 
   for (let index = 0; index < charCount; index += 1) {
     display.textContent = fullText.slice(0, index + 1);
-    await delay(stepMs);
+    await animDelay(stepMs);
   }
 
   display.classList.remove(BODY_MESSAGE_TYPING_CLASS);
 }
+
+export { bodyAnimationMessageType };

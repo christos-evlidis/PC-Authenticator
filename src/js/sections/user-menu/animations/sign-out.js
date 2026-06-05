@@ -1,9 +1,10 @@
-import { cssPhaseReset } from "../../../utils/utility-animation.js";
-import { cssMs } from "../../../utils/utility-animation.js";
-import { delay } from "../../../utils/utility-animation.js";
-import { waitForAnimationEnd } from "../../../utils/utility-animation.js";
-import { waitForNextFrame } from "../../../utils/utility-animation.js";
+import { animPhaseReset } from "../../../utils/utility-animation.js";
+import { animCssMsGet } from "../../../utils/utility-animation.js";
+import { animDelay } from "../../../utils/utility-animation.js";
+import { animAnimationEndWait } from "../../../utils/utility-animation.js";
+import { animFrameWait } from "../../../utils/utility-animation.js";
 import { userMenuStateSet } from "../state.js";
+
 import { USER_MENU_AUTH_BAR_SELECTOR } from "../constants.js";
 import { USER_MENU_CONTENT_SELECTOR } from "../constants.js";
 import { USER_MENU_HEADER_SELECTOR } from "../constants.js";
@@ -63,7 +64,8 @@ import { USER_MENU_VAR_SIGN_OUT_RESTORE_TOP } from "../constants.js";
 import { USER_MENU_VAR_SIGN_OUT_RESTORE_WIDTH } from "../constants.js";
 import { USER_MENU_SIGN_OUT_ANIMATION_RUN_ID } from "../constants.js";
 
-export async function userMenuSignOutAnimation(onPreRestore) {
+/** Runs the sign-out auth sequence inside the user menu panel. */
+async function userMenuSignOutAnimation(onPreRestore) {
   const resultIsSuccess = true;
   const runId = USER_MENU_SIGN_OUT_ANIMATION_RUN_ID.value + 1;
   USER_MENU_SIGN_OUT_ANIMATION_RUN_ID.value = runId;
@@ -103,7 +105,7 @@ export async function userMenuSignOutAnimation(onPreRestore) {
     });
 
     if (content) {
-      cssPhaseReset(content, ...USER_MENU_SIGN_OUT_CONTENT_PHASE_CLASSES);
+      animPhaseReset(content, ...USER_MENU_SIGN_OUT_CONTENT_PHASE_CLASSES);
 
       USER_MENU_SIGN_OUT_LAYOUT_VARS.forEach((layoutVar) => {
         content.style.removeProperty(layoutVar);
@@ -137,18 +139,18 @@ export async function userMenuSignOutAnimation(onPreRestore) {
       fullWidth: panel.offsetWidth,
       fullHeight: panel.offsetHeight,
     };
-    const signOutFadeMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_FADE_MS);
-    const expandUpMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_EXPAND_UP_MS);
-    const expandFullMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_EXPAND_FULL_MS);
-    const dotsFadeInMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_DOTS_FADE_IN_MS);
-    const dotsRunMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_DOTS_RUN_MS);
-    const dotsFadeOutMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_DOTS_FADE_OUT_MS);
-    const resultDrawMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_RESULT_DRAW_MS);
-    const resultFadeOutMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_RESULT_FADE_OUT_MS);
-    const shrinkFullMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_SHRINK_FULL_MS);
-    const shrinkDownMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_SHRINK_DOWN_MS);
-    const restoreFadeMs = cssMs(panel,USER_MENU_VAR_SIGN_OUT_RESTORE_FADE_MS);
-    const timeoutBufferMs = cssMs(panel, USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS);
+    const signOutFadeMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_OUT_FADE_MS);
+    const expandUpMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_OUT_EXPAND_UP_MS);
+    const expandFullMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_OUT_EXPAND_FULL_MS);
+    const dotsFadeInMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_OUT_DOTS_FADE_IN_MS);
+    const dotsRunMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_OUT_DOTS_RUN_MS);
+    const dotsFadeOutMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_OUT_DOTS_FADE_OUT_MS);
+    const resultDrawMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_OUT_RESULT_DRAW_MS);
+    const resultFadeOutMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_OUT_RESULT_FADE_OUT_MS);
+    const shrinkFullMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_OUT_SHRINK_FULL_MS);
+    const shrinkDownMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_OUT_SHRINK_DOWN_MS);
+    const restoreFadeMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_OUT_RESTORE_FADE_MS);
+    const timeoutBufferMs = animCssMsGet(panel, USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS);
     const circleDuration = Math.round(resultDrawMs * 0.45);
     const markDuration = resultDrawMs - circleDuration;
 
@@ -172,7 +174,7 @@ export async function userMenuSignOutAnimation(onPreRestore) {
   });
 
     panel.classList.add(USER_MENU_SIGN_OUT_FADE_CLASS);
-  await delay(signOutFadeMs);
+  await animDelay(signOutFadeMs);
   panel.classList.remove(USER_MENU_SIGN_OUT_FADE_CLASS);
 
     if (runId !== USER_MENU_SIGN_OUT_ANIMATION_RUN_ID.value) {
@@ -197,10 +199,10 @@ export async function userMenuSignOutAnimation(onPreRestore) {
   content.style.setProperty(USER_MENU_VAR_SIGN_OUT_RESTORE_HEIGHT, `${layout.originHeight}px`);
     content.classList.add(USER_MENU_SIGN_OUT_ABSOLUTE_CLASS);
 
-    await waitForNextFrame();
+    await animFrameWait();
 
     content.classList.add(USER_MENU_SIGN_OUT_EXPAND_UP_CLASS);
-    await waitForAnimationEnd(
+    await animAnimationEndWait(
       content,
       "signInExpandUp",
       expandUpMs + timeoutBufferMs,
@@ -215,10 +217,10 @@ export async function userMenuSignOutAnimation(onPreRestore) {
       return false;
     }
 
-    await waitForNextFrame();
+    await animFrameWait();
 
     content.classList.add(USER_MENU_SIGN_OUT_EXPAND_FULL_CLASS);
-    await waitForAnimationEnd(
+    await animAnimationEndWait(
       content,
       "signInExpandFull",
       expandFullMs + timeoutBufferMs,
@@ -235,7 +237,7 @@ export async function userMenuSignOutAnimation(onPreRestore) {
 
     loadingStatus.classList.remove(USER_MENU_HIDDEN_CLASS);
     loadingStatus.classList.add(USER_MENU_SIGN_OUT_DOTS_FADE_IN_CLASS);
-    await waitForAnimationEnd(
+    await animAnimationEndWait(
       loadingStatus,
       "loginStatusFadeIn",
       dotsFadeInMs + timeoutBufferMs,
@@ -247,7 +249,7 @@ export async function userMenuSignOutAnimation(onPreRestore) {
       return false;
     }
 
-    await delay(dotsRunMs);
+    await animDelay(dotsRunMs);
 
     if (runId !== USER_MENU_SIGN_OUT_ANIMATION_RUN_ID.value) {
       return false;
@@ -255,7 +257,7 @@ export async function userMenuSignOutAnimation(onPreRestore) {
 
     loadingStatus.classList.remove(USER_MENU_SIGN_OUT_DOTS_RUN_CLASS);
     loadingStatus.classList.add(USER_MENU_SIGN_OUT_DOTS_FADE_OUT_CLASS);
-    await waitForAnimationEnd(
+    await animAnimationEndWait(
       loadingStatus,
       "loginStatusFadeOut",
       dotsFadeOutMs + timeoutBufferMs,
@@ -277,7 +279,7 @@ export async function userMenuSignOutAnimation(onPreRestore) {
     resultStatus.classList.add(USER_MENU_SIGN_OUT_RESULT_DRAW_CLASS, "is-animating");
 
     if (circle) {
-      await waitForAnimationEnd(
+      await animAnimationEndWait(
         circle,
         "loginStatusCircleDraw",
         circleDuration + timeoutBufferMs,
@@ -290,7 +292,7 @@ export async function userMenuSignOutAnimation(onPreRestore) {
 
     await Promise.all(
       marks.map((mark) =>
-        waitForAnimationEnd(mark, "loginStatusMarkDraw", markDuration + timeoutBufferMs),
+        animAnimationEndWait(mark, "loginStatusMarkDraw", markDuration + timeoutBufferMs),
       ),
     );
 
@@ -302,7 +304,7 @@ export async function userMenuSignOutAnimation(onPreRestore) {
     resultStatus.classList.add("is-drawn");
 
     resultStatus.classList.add(USER_MENU_SIGN_OUT_RESULT_FADE_OUT_CLASS);
-    await waitForAnimationEnd(
+    await animAnimationEndWait(
       resultStatus,
       "loginStatusFadeOut",
       resultFadeOutMs + timeoutBufferMs,
@@ -318,7 +320,7 @@ export async function userMenuSignOutAnimation(onPreRestore) {
     }
 
     content.classList.add(USER_MENU_SIGN_OUT_SHRINK_FULL_CLASS);
-    await waitForAnimationEnd(
+    await animAnimationEndWait(
       content,
       "signInShrinkFull",
       shrinkFullMs + timeoutBufferMs,
@@ -333,10 +335,10 @@ export async function userMenuSignOutAnimation(onPreRestore) {
       return false;
     }
 
-    await waitForNextFrame();
+    await animFrameWait();
 
     content.classList.add(USER_MENU_SIGN_OUT_SHRINK_DOWN_CLASS);
-    await waitForAnimationEnd(
+    await animAnimationEndWait(
       content,
       "signInShrinkDown",
       shrinkDownMs + timeoutBufferMs,
@@ -352,7 +354,7 @@ export async function userMenuSignOutAnimation(onPreRestore) {
     }
 
     if (content) {
-      cssPhaseReset(content, ...USER_MENU_SIGN_OUT_CONTENT_PHASE_CLASSES);
+      animPhaseReset(content, ...USER_MENU_SIGN_OUT_CONTENT_PHASE_CLASSES);
 
       USER_MENU_SIGN_OUT_LAYOUT_VARS.forEach((layoutVar) => {
         content.style.removeProperty(layoutVar);
@@ -363,10 +365,10 @@ export async function userMenuSignOutAnimation(onPreRestore) {
       await onPreRestore();
     }
 
-    await waitForNextFrame();
+    await animFrameWait();
     panel.classList.add(USER_MENU_SIGN_OUT_RESTORE_FADE_CLASS);
 
-    await waitForAnimationEnd(
+    await animAnimationEndWait(
       header,
       "userMenuRestoreFade",
       restoreFadeMs + timeoutBufferMs,
@@ -397,3 +399,5 @@ export async function userMenuSignOutAnimation(onPreRestore) {
     }
   }
 }
+
+export { userMenuSignOutAnimation };

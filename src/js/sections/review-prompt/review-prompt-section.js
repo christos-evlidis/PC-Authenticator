@@ -1,4 +1,4 @@
-import { delay } from "../../utils/utility-animation.js";
+import { animDelay } from "../../utils/utility-animation.js";
 import { bumpSequenceGeneration } from "./review-prompt-sequence.js";
 import { resetIntroSequence } from "./review-prompt-sequence.js";
 import { runIntroSequence } from "./review-prompt-sequence.js";
@@ -100,7 +100,7 @@ async function maybeShowOnInit() {
     return;
   }
 
-  await delay(80);
+  await animDelay(80);
   await openReviewPrompt();
 }
 

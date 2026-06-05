@@ -1,11 +1,10 @@
-export { bodyAnimationFinish } from "./animations/finish.js";
-
-import { cssMs } from "../../utils/utility-animation.js";
-import { delay } from "../../utils/utility-animation.js";
+import { animCssMsGet } from "../../utils/utility-animation.js";
+import { animDelay } from "../../utils/utility-animation.js";
 import { bodyAnimationFadeOutContent } from "./animations/fade-out.js";
 import { bodyAnimationIconPop } from "./animations/icon-pop.js";
 import { bodyAnimationFinish } from "./animations/finish.js";
 import { bodyAnimationMessageType } from "./animations/message-type.js";
+
 import { BODY_ANIMATION_PENDING_CLASS } from "./constants.js";
 import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "./constants.js";
 import { BODY_CONTENT_SIGNED_OUT_SELECTOR } from "./constants.js";
@@ -25,7 +24,7 @@ import { BODY_ACTIVE_CLASS } from "./constants.js";
 import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "./constants.js";
 
 /** Toggles signed-in/out body views for the current auth state. */
-export function bodyApply(isSignedIn) {
+function bodyApply(isSignedIn) {
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
   const signedInView = document.querySelector(BODY_SIGNED_IN_VIEW_SELECTOR);
 
@@ -38,7 +37,7 @@ export function bodyApply(isSignedIn) {
 }
 
 /** Hides the body empty-state content before an intro reveal sequence. */
-export async function bodyAnimationPrepare(mode) {
+async function bodyAnimationPrepare(mode) {
   const body = document.querySelector(BODY_ROOT_SELECTOR);
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
   const signedInView = document.querySelector(BODY_SIGNED_IN_VIEW_SELECTOR);
@@ -95,7 +94,7 @@ export async function bodyAnimationPrepare(mode) {
 }
 
 /** Runs the body reveal sequence after an intro shrink phase. */
-export async function bodyAnimationRun(mode) {
+async function bodyAnimationRun(mode) {
   const body = document.querySelector(BODY_ROOT_SELECTOR);
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
   const signedInView = document.querySelector(BODY_SIGNED_IN_VIEW_SELECTOR);
@@ -117,7 +116,7 @@ export async function bodyAnimationRun(mode) {
   }
 
   try {
-    await delay(cssMs(body, BODY_VAR_ANIMATION_TIMEOUT_BUFFER_MS));
+    await animDelay(animCssMsGet(body, BODY_VAR_ANIMATION_TIMEOUT_BUFFER_MS));
     await bodyAnimationIconPop(content);
     await bodyAnimationMessageType(content);
     bodyAnimationFinish();
@@ -125,3 +124,8 @@ export async function bodyAnimationRun(mode) {
     bodyAnimationFinish();
   }
 }
+
+export { bodyAnimationFinish } from "./animations/finish.js";
+export { bodyApply };
+export { bodyAnimationPrepare };
+export { bodyAnimationRun };

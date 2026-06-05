@@ -1,13 +1,12 @@
-import { delay } from "./utility-animation.js";
+import { animDelay } from "./utility-animation.js";
 
-export const THEME_LIGHT = "light";
-export const THEME_DARK = "dark";
-export const THEME_STORAGE_KEY = "pca-theme";
-export const THEME_TRANSITION_MS = 220;
-
-export const THEME_ICON_SIZE_16 = 16;
-export const THEME_ICON_SIZE_48 = 48;
-export const THEME_ICON_SIZE_128 = 128;
+const THEME_LIGHT = "light";
+const THEME_DARK = "dark";
+const THEME_STORAGE_KEY = "pca-theme";
+const THEME_TRANSITION_MS = 220;
+const THEME_ICON_SIZE_16 = 16;
+const THEME_ICON_SIZE_48 = 48;
+const THEME_ICON_SIZE_128 = 128;
 
 const THEME_DARK_CLASS = "theme-dark";
 const THEME_TRANSITION_CLASS = "theme-transition-active";
@@ -25,44 +24,44 @@ const THEME_LAYER_SELECTORS = [
   ".app-user-menu",
 ];
 
-// Normalizes a stored or requested theme value to light or dark.
-function themeResolve(theme) {
+/** Coerces any stored or requested value to light or dark. */
+function themeNormalize(theme) {
   return theme === THEME_DARK ? THEME_DARK : THEME_LIGHT;
 }
 
-// Returns theme layer elements for synchronized class toggling.
-function themeLayerElements() {
+/** Returns DOM nodes that receive theme-dark in sync. */
+function themeLayersGet() {
   return THEME_LAYER_SELECTORS.map((selector) => document.querySelector(selector)).filter(
     Boolean,
   );
 }
 
-// Persists the resolved theme in localStorage when available.
-function themeWriteLocal(theme) {
+/** Writes the resolved theme to localStorage when available. */
+function themeLocalSet(theme) {
   try {
-    localStorage.setItem(THEME_STORAGE_KEY, themeResolve(theme));
+    localStorage.setItem(THEME_STORAGE_KEY, themeNormalize(theme));
   } catch {
     // localStorage unavailable
   }
 }
 
-// Returns whether the outermost theme layer is currently in dark mode.
-function themeIsDarkActive() {
+/** Returns whether dark mode is active on the body layer. */
+function themeDarkIsActive() {
   return document.body.classList.contains(THEME_DARK_CLASS);
 }
 
-// Returns the light or dark prefix used for extension icon filenames.
-function themeIconPrefix(theme) {
-  return themeResolve(theme) === THEME_DARK ? "dark" : "light";
+/** Returns the light or dark filename prefix for toolbar icons. */
+function themeIconPrefixGet(theme) {
+  return themeNormalize(theme) === THEME_DARK ? "dark" : "light";
 }
 
-// Returns an extension-root icon path for toolbar and manifest assets.
-export function themeExtensionIconPath(theme, size) {
-  return `icons/${themeIconPrefix(theme)}-icon${size}.png`;
+/** Returns an extension-root icon path for a theme and size. */
+function themeIconPathGet(theme, size) {
+  return `icons/${themeIconPrefixGet(theme)}-icon${size}.png`;
 }
 
-// Updates the Chrome toolbar icon set to match the active theme.
-function themeApplyExtensionIcon(theme) {
+/** Updates the Chrome toolbar icon set to match the theme. */
+function themeExtensionIconSet(theme) {
   if (typeof chrome === "undefined" || !chrome.action?.setIcon || !chrome.runtime?.getURL) {
     return;
   }
@@ -70,7 +69,7 @@ function themeApplyExtensionIcon(theme) {
   const iconPaths = Object.fromEntries(
     THEME_ICON_SIZES.map((size) => [
       size,
-      chrome.runtime.getURL(themeExtensionIconPath(theme, size)),
+      chrome.runtime.getURL(themeIconPathGet(theme, size)),
     ]),
   );
 
@@ -81,67 +80,62 @@ function themeApplyExtensionIcon(theme) {
   }
 }
 
-// Syncs extension toolbar icons with the active theme.
-function themeApplyIcons(theme) {
-  themeApplyExtensionIcon(theme);
-}
-
-// Toggles theme-dark on every layer at once for instant startup or sync.
-function themeSetAllLayers(isDark) {
+/** Toggles theme-dark on every layer and syncs toolbar icons. */
+function themeLayersSet(isDark) {
   const theme = isDark ? THEME_DARK : THEME_LIGHT;
 
-  themeLayerElements().forEach((element) => {
+  themeLayersGet().forEach((element) => {
     element.classList.toggle(THEME_DARK_CLASS, isDark);
   });
 
   document.documentElement.style.colorScheme = isDark ? "dark" : "light";
-  themeApplyIcons(theme);
+  themeExtensionIconSet(theme);
 }
 
-// Applies theme-dark on every layer at once while CSS transitions run.
-async function themeApplyLayersAnimated(isDark) {
+/** Applies a layer theme change with a synchronized CSS transition. */
+async function themeLayersAnimate(isDark) {
   document.body.classList.add(THEME_TRANSITION_CLASS);
   void document.body.offsetWidth;
 
-  themeSetAllLayers(isDark);
+  themeLayersSet(isDark);
 
-  await delay(THEME_TRANSITION_MS + 24);
+  await animDelay(THEME_TRANSITION_MS + 24);
   document.body.classList.remove(THEME_TRANSITION_CLASS);
 }
 
 /** Reads the saved theme from localStorage. */
-export function themeRead() {
+function themeGet() {
   try {
-    return themeResolve(localStorage.getItem(THEME_STORAGE_KEY));
+    return themeNormalize(localStorage.getItem(THEME_STORAGE_KEY));
   } catch {
     return THEME_LIGHT;
   }
 }
 
 /** Applies a theme instantly or with a synchronized layer transition. */
-export function themeApply(theme, options = {}) {
+function themeApply(theme, options = {}) {
   const { instant = false } = options;
-  const resolved = themeResolve(theme);
+  const resolved = themeNormalize(theme);
   const isDark = resolved === THEME_DARK;
 
-  if (themeIsDarkActive() === isDark && !instant) {
-    themeWriteLocal(resolved);
-    themeApplyIcons(resolved);
+  if (themeDarkIsActive() === isDark && !instant) {
+    themeLocalSet(resolved);
+    themeExtensionIconSet(resolved);
     return resolved;
   }
 
   if (instant) {
-    themeSetAllLayers(isDark);
+    themeLayersSet(isDark);
   } else {
-    void themeApplyLayersAnimated(isDark);
+    void themeLayersAnimate(isDark);
   }
 
-  themeWriteLocal(resolved);
+  themeLocalSet(resolved);
   return resolved;
 }
 
-/** Persists a theme to storage and applies it across all theme layers. */
-export async function themePersist(theme) {
+/** Persists a theme to chrome.storage and applies it across all layers. */
+async function themePersist(theme) {
   const resolved = themeApply(theme);
 
   if (typeof chrome !== "undefined" && chrome.storage?.local) {
@@ -155,10 +149,10 @@ export async function themePersist(theme) {
   return resolved;
 }
 
-/** Pulls the saved theme from chrome.storage when present and applies it. */
-export async function themeSyncFromChromeStorage() {
+/** Syncs theme from chrome.storage, falling back to localStorage. */
+async function themeChromeStorageSync() {
   if (typeof chrome === "undefined" || !chrome.storage?.local) {
-    return themeRead();
+    return themeGet();
   }
 
   try {
@@ -171,7 +165,7 @@ export async function themeSyncFromChromeStorage() {
     // chrome.storage unavailable
   }
 
-  const local = themeRead();
+  const local = themeGet();
 
   try {
     await chrome.storage.local.set({ theme: local });
@@ -183,6 +177,20 @@ export async function themeSyncFromChromeStorage() {
 }
 
 /** Applies the saved theme on popup load without transition. */
-export function themeInit() {
-  themeApply(themeRead(), { instant: true });
+function themeStartupApply() {
+  themeApply(themeGet(), { instant: true });
 }
+
+export { themeGet };
+export { themeApply };
+export { themePersist };
+export { themeChromeStorageSync };
+export { themeStartupApply };
+
+export { THEME_LIGHT };
+export { THEME_DARK };
+export { THEME_STORAGE_KEY };
+export { THEME_TRANSITION_MS };
+export { THEME_ICON_SIZE_16 };
+export { THEME_ICON_SIZE_48 };
+export { THEME_ICON_SIZE_128 };

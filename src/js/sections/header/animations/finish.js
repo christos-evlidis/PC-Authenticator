@@ -10,7 +10,7 @@ import { HEADER_TITLE_TEXT } from "../constants.js";
 import { HEADER_TITLE_TYPING_CLASS } from "../constants.js";
 
 /** Clears one-shot header animation classes after the intro sequence. */
-export function headerAnimationFinish() {
+function headerAnimationFinish() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
   const title = document.querySelector(HEADER_TITLE_SELECTOR);
   const display = document.querySelector(HEADER_TITLE_DISPLAY_SELECTOR);
@@ -35,3 +35,5 @@ export function headerAnimationFinish() {
     button.classList.add(HEADER_ICON_POP_REVEALED_CLASS);
   });
 }
+
+export { headerAnimationFinish };
