@@ -1,5 +1,5 @@
 import { cross } from "../section-cross.js";
-import { getVerifiedAuthNumber } from "../../utils/utility-auth.js";
+import { authNumberGet } from "../../accounts/accounts-index.js";
 import { createQrAddPromise } from "./qr-code-setup-scan.js";
 import { resumePageQrScan } from "./qr-code-setup-scan.js";
 import {
@@ -20,7 +20,7 @@ export async function playQrAddFromUri(otpauthUri, options = {}) {
     throw new Error("QR add is already running.");
   }
 
-  const authNumber = await getVerifiedAuthNumber();
+  const authNumber = await authNumberGet();
 
   if (!authNumber) {
     throw new Error("Sign in to add accounts.");

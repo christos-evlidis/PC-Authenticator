@@ -1,6 +1,6 @@
 import { dataUpdate } from "../../accounts/accounts-index.js";
 import { dataOtpIsHotp } from "../../accounts/accounts-index.js";
-import { getVerifiedAuthNumber } from "../../utils/utility-auth.js";
+import { authNumberGet } from "../../accounts/accounts-index.js";
 import { DEFAULT_CONTACT } from "./codes-state.js";
 import { EMAIL_PLACEHOLDER } from "./codes-state.js";
 import { findCardRoot } from "./codes-state.js";
@@ -173,10 +173,10 @@ async function saveAccountEdit(
   applyAccountEditLocally(targetAccount, els, patch, root);
   finishEditing(card, els, editBtn, deleteBtn, buttonContainer, onCardClick);
 
-  const authNumber = await getVerifiedAuthNumber();
+  const authNumber = await authNumberGet();
 
   if (!authNumber) {
-    throw new Error("No verified auth number in storage.");
+    throw new Error("No auth number in storage.");
   }
 
   await persistAccountEditInBackground(authNumber, account.id, patch);

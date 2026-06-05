@@ -2,7 +2,6 @@ import { authCreate } from "../../../accounts/accounts-index.js";
 import { authNumberSet } from "../../../accounts/accounts-index.js";
 import { authSanitize } from "../../../accounts/accounts-index.js";
 import { AUTH_NUMBER_LENGTH } from "../../../accounts/accounts-index.js";
-import { authNumberVerifyCacheClear } from "../../../utils/utility-auth.js";
 import { userMenuStateGet } from "../state.js";
 import { userMenuSignUpAnimation } from "../animations/sign-up.js";
 
@@ -20,7 +19,6 @@ export async function userMenuSignUp() {
 
     if (sanitized.length === AUTH_NUMBER_LENGTH) {
       await authNumberSet(sanitized);
-      authNumberVerifyCacheClear();
       isSuccess = true;
     }
   } catch {

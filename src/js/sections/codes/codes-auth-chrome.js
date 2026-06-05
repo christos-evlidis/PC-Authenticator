@@ -1,7 +1,5 @@
 import { cross } from "../section-cross.js";
-import {
-  getVerifiedAuthNumber,
-} from "../../utils/utility-auth.js";
+import { authNumberGet } from "../../accounts/accounts-index.js";
 import { bodyApply } from "../body/body-index.js";
 import { bodyAnimationPlay } from "../body/body-index.js";
 import { BODY_PHASE_SIGNED_OUT_CONTENT } from "../body/body-constants.js";
@@ -40,7 +38,7 @@ export function setAuthState(isLoggedIn, options = {}) {
 /** Syncs signed-in chrome from verified storage. */
 export async function refreshAuthState(options = {}) {
   const { skipSignedOutReveal = false, bodyStaticReveal = false } = options;
-  const authNumber = await getVerifiedAuthNumber();
+  const authNumber = await authNumberGet();
   const isLoggedIn = Boolean(authNumber);
 
   setAuthState(isLoggedIn, {

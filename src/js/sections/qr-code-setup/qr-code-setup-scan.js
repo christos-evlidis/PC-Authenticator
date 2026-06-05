@@ -1,5 +1,5 @@
 import { dataAddQr } from "../../accounts/accounts-index.js";
-import { getVerifiedAuthNumber } from "../../utils/utility-auth.js";
+import { authNumberGet } from "../../accounts/accounts-index.js";
 import {
   QR_SCAN_UNSUPPORTED_PAGE_ERROR,
   qrScanCancel,
@@ -85,7 +85,7 @@ export async function startQrScan(options = {}) {
     return;
   }
 
-  const authNumber = await getVerifiedAuthNumber();
+  const authNumber = await authNumberGet();
 
   if (!authNumber) {
     if (onScanError) {
