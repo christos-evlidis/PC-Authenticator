@@ -12,9 +12,9 @@ import { dataMerge } from "./data-merge.js";
 import { dataRestore } from "./data-restore.js";
 
 /** Restores from cloud, merges pending adds, writes the active list, and clears temp keys. */
-export async function dataSync(accountNumber) {
+export async function dataSync(authNumber) {
   try {
-    const result = await dataRestore(accountNumber);
+    const result = await dataRestore(authNumber);
     if (result.accounts == null) {
       const existing = dataSanitizeList(
         await dataStorageGetFinal(),
@@ -40,7 +40,7 @@ export async function dataSync(accountNumber) {
       if (dataCryptoIsEncrypted(encryptedBlob)) {
         try {
           plainAccounts = dataSanitizeList(
-            dataCryptoDecrypt(encryptedBlob, accountNumber),
+            dataCryptoDecrypt(encryptedBlob, authNumber),
           );
         } catch (error) {
           console.warn(
@@ -56,7 +56,7 @@ export async function dataSync(accountNumber) {
       await dataStorageGetPending(),
     );
     if (pending.length) {
-      plainAccounts = await dataMerge(accountNumber, {
+      plainAccounts = await dataMerge(authNumber, {
         baseList: plainAccounts,
       });
     } else {

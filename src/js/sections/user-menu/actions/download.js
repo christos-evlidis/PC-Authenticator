@@ -3,13 +3,13 @@ import { userMenuDownloadButtonAnimation } from "../animations/download-button.j
 
 // Downloads the signed-in account number as a local backup text file.
 export async function userMenuAccountDownload() {
-  const { accountNumber } = userMenuStateGet();
+  const { authNumber } = userMenuStateGet();
 
-  if (!accountNumber) {
+  if (!authNumber) {
     return;
   }
 
-  const blob = new Blob([`${accountNumber}\n`], { type: "text/plain" });
+  const blob = new Blob([`${authNumber}\n`], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
 

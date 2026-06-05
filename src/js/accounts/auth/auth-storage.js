@@ -19,10 +19,10 @@ export async function authNumberGet() {
 }
 
 /** Persists the signed-in account number after login or account creation. */
-export async function authNumberSet(accountNumber) {
+export async function authNumberSet(authNumber) {
   return authStorageWarn("authNumberSet", () =>
     chrome.storage.local.set({
-      [AUTH_NUMBER_KEY]: accountNumber,
+      [AUTH_NUMBER_KEY]: authNumber,
     }),
   );
 }

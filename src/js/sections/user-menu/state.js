@@ -7,41 +7,41 @@ let userMenuState = {
   isOpen: false,
   isSignedIn: false,
   isSignInRunning: false,
-  accountNumber: null,
+  authNumber: null,
   authView: USER_MENU_AUTH_VIEW_SIGN_IN,
   theme: themeRead() || THEME_LIGHT,
 };
 
-// Returns a snapshot so callers cannot mutate the shared state directly.
+/** Returns a snapshot so callers cannot mutate the shared state directly. */
 export function userMenuStateGet() {
   return {
     isOpen: userMenuState.isOpen,
     isSignedIn: userMenuState.isSignedIn,
     isSignInRunning: userMenuState.isSignInRunning,
-    accountNumber: userMenuState.accountNumber,
+    authNumber: userMenuState.authNumber,
     authView: userMenuState.authView,
     theme: userMenuState.theme,
   };
 }
 
-// Updates only the state fields supplied by the caller and preserves the rest.
+/** Updates only the state fields supplied by the caller and preserves the rest. */
 export function userMenuStateSet(next) {
   const isSignedIn =
     typeof next.isSignedIn === "boolean"
       ? next.isSignedIn
       : userMenuState.isSignedIn;
 
-  let accountNumber = userMenuState.accountNumber;
+  let authNumber = userMenuState.authNumber;
 
   if (typeof next.isSignedIn === "boolean") {
-    accountNumber =
-      next.isSignedIn && typeof next.accountNumber === "string"
-        ? next.accountNumber
+    authNumber =
+      next.isSignedIn && typeof next.authNumber === "string"
+        ? next.authNumber
         : null;
-  } else if (typeof next.accountNumber === "string") {
-    accountNumber = next.accountNumber;
-  } else if (next.accountNumber === null) {
-    accountNumber = null;
+  } else if (typeof next.authNumber === "string") {
+    authNumber = next.authNumber;
+  } else if (next.authNumber === null) {
+    authNumber = null;
   }
 
   userMenuState = {
@@ -51,7 +51,7 @@ export function userMenuStateSet(next) {
       typeof next.isSignInRunning === "boolean"
         ? next.isSignInRunning
         : userMenuState.isSignInRunning,
-    accountNumber,
+    authNumber,
     authView:
       typeof next.authView === "string" ? next.authView : userMenuState.authView,
     theme: typeof next.theme === "string" ? next.theme : userMenuState.theme,

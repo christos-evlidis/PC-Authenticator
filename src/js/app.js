@@ -1,6 +1,3 @@
-/**
- * Extension popup entry — theme, auth, and section bootstrap.
- */
 import { bodyAnimationPlay } from "./sections/body/body-index.js";
 import { BODY_PHASE_SIGNED_IN_CONTENT } from "./sections/body/body-constants.js";
 import { BODY_PHASE_FINISH } from "./sections/body/body-constants.js";
@@ -18,10 +15,11 @@ import { initSectionModules } from "./sections/section-index.js";
 import { loadSections } from "./sections/section-index.js";
 import { registerSections } from "./sections/section-index.js";
 import { themeInit } from "./utils/utility-theme.js";
-import { checkAuth } from "./utils/utility-auth.js";
-import { refreshAuth } from "./utils/utility-auth.js";
-import { dataSync } from "./accounts/account-index.js";
-import { authNumberGet } from "./accounts/account-index.js";
+import {
+  getVerifiedAuthNumber,
+  refreshAuth,
+} from "./utils/utility-auth.js";
+import { dataSync } from "./accounts/accounts-index.js";
 import { hasPendingPostLoginReveal } from "./sections/codes/codes-reveal.js";
 import { setEmptyVisible } from "./sections/codes/codes-empty.js";
 import { SELECTORS } from "./sections/codes/codes-state.js";
@@ -42,8 +40,9 @@ async function bootstrapExtension() {
   registerSections();
   initSectionModules();
 
-  const isLoggedIn = await checkAuth();
-  await refreshAuth();
+  const authNumber = await getVerifiedAuthNumber();
+  await refreshAuth(authNumber);
+  const isLoggedIn = Boolean(authNumber);
 
   headerAnimationPlay(HEADER_PHASE_START);
   bodyAnimationPlay(BODY_PHASE_START);
@@ -51,17 +50,13 @@ async function bootstrapExtension() {
   let signedInEmpty = false;
 
   if (isLoggedIn && !hasPendingPostLoginReveal()) {
-    const accountNumber = await authNumberGet();
-
-    if (accountNumber) {
-      try {
-        await loadTimerInvertedPreference();
-        const accounts = await dataSync(accountNumber);
-        signedInEmpty =
-          accounts.filter((account) => account?.secret).length === 0;
-      } catch {
-        return;
-      }
+    try {
+      await loadTimerInvertedPreference();
+      const accounts = await dataSync(authNumber);
+      signedInEmpty =
+        accounts.filter((account) => account?.secret).length === 0;
+    } catch {
+      return;
     }
   }
 

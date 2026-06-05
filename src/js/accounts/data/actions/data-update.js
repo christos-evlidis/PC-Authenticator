@@ -11,16 +11,16 @@ import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
 import { dataStorageClearPending } from "../storage/data-storage-pending.js";
 
 /** Patches account fields, re-encrypts the list, uploads backup, and syncs locally. */
-export async function dataUpdate(accountNumber, accountId, patch) {
+export async function dataUpdate(authNumber, accountId, patch) {
   try {
     const updateId = String(accountId);
-    await dataRestore(accountNumber);
+    await dataRestore(authNumber);
     let decrypted = [];
     const encryptedBlob = await dataStorageGetEncrypted();
     if (dataCryptoIsEncrypted(encryptedBlob)) {
       try {
         decrypted = dataSanitizeList(
-          dataCryptoDecrypt(encryptedBlob, accountNumber),
+          dataCryptoDecrypt(encryptedBlob, authNumber),
         );
       } catch (error) {
         console.warn(
@@ -48,12 +48,12 @@ export async function dataUpdate(accountNumber, accountId, patch) {
         account.counter = patch.counter;
       }
     }
-    const encryptedPayload = dataCryptoEncrypt(decrypted, accountNumber);
-    await dataApiBackup(accountNumber, encryptedPayload);
+    const encryptedPayload = dataCryptoEncrypt(decrypted, authNumber);
+    await dataApiBackup(authNumber, encryptedPayload);
     await dataStorageClearEncrypted();
     await dataStorageClearMerged();
     await dataStorageClearPending();
-    return dataSync(accountNumber);
+    return dataSync(authNumber);
   } catch (error) {
     console.warn("[data-actions] dataUpdate failed", error);
     throw error;

@@ -1,11 +1,12 @@
-import { authCreate } from "../../../accounts/account-index.js";
-import { authNumberSet } from "../../../accounts/account-index.js";
-import { authSanitize } from "../../../accounts/account-index.js";
-import { AUTH_NUMBER_LENGTH } from "../../../accounts/account-index.js";
+import { authCreate } from "../../../accounts/accounts-index.js";
+import { authNumberSet } from "../../../accounts/accounts-index.js";
+import { authSanitize } from "../../../accounts/accounts-index.js";
+import { AUTH_NUMBER_LENGTH } from "../../../accounts/accounts-index.js";
+import { authNumberVerifyCacheClear } from "../../../utils/utility-auth.js";
 import { userMenuStateGet } from "../state.js";
 import { userMenuSignUpAnimation } from "../animations/sign-up.js";
 
-// Creates a new account, stores it locally, and runs the shared auth result animation.
+/** Creates a new account, stores it locally, and runs the auth result animation. */
 export async function userMenuSignUp() {
   if (userMenuStateGet().isSignInRunning) {
     return false;
@@ -14,11 +15,12 @@ export async function userMenuSignUp() {
   let isSuccess = false;
 
   try {
-    const accountNumber = await authCreate();
-    const sanitized = authSanitize(accountNumber);
+    const authNumber = await authCreate();
+    const sanitized = authSanitize(authNumber);
 
     if (sanitized.length === AUTH_NUMBER_LENGTH) {
       await authNumberSet(sanitized);
+      authNumberVerifyCacheClear();
       isSuccess = true;
     }
   } catch {

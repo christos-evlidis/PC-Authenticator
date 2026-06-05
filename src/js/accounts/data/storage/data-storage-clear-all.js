@@ -4,6 +4,7 @@ import { dataStorageClearFinal } from "./data-storage-final.js";
 import { dataStorageClearMerged } from "./data-storage-merged.js";
 import { dataStorageClearPending } from "./data-storage-pending.js";
 
+/** Runs a storage operation and logs failures. */
 async function dataStorageLogWarn(operation, fn) {
   try {
     return await fn();

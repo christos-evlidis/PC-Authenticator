@@ -1,8 +1,8 @@
-import { dataUpdate } from "../../accounts/account-index.js";
-import { dataOtpIsHotp } from "../../accounts/account-index.js";
-import { authNumberGet } from "../../accounts/account-index.js";
-import { dataOtpGetOptions } from "../../accounts/account-index.js";
-import { DATA_OTP_DIGITS } from "../../accounts/account-index.js";
+import { dataUpdate } from "../../accounts/accounts-index.js";
+import { dataOtpIsHotp } from "../../accounts/accounts-index.js";
+import { getVerifiedAuthNumber } from "../../utils/utility-auth.js";
+import { dataOtpGetOptions } from "../../accounts/accounts-index.js";
+import { DATA_OTP_DIGITS } from "../../accounts/accounts-index.js";
 import { getCardRoots } from "./codes-state.js";
 import { formatHotpCounterDisplay } from "./codes-timer.js";
 import { getHotpCounterValue } from "./codes-timer.js";
@@ -18,13 +18,13 @@ function applyHotpAdvanceUI(root) {
 }
 
 async function persistHotpAdvance(root) {
-  const accountNumber = await authNumberGet();
+  const authNumber = await getVerifiedAuthNumber();
 
-  if (!accountNumber || !dataOtpIsHotp(root.account)) {
+  if (!authNumber || !dataOtpIsHotp(root.account)) {
     return;
   }
 
-  await dataUpdate(accountNumber, root.account.id, {
+  await dataUpdate(authNumber, root.account.id, {
     counter: getHotpCounterValue(root.account),
   });
   updateAccountCode(root);

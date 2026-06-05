@@ -1,5 +1,5 @@
 import { cross } from "../section-cross.js";
-import { authNumberGet } from "../../accounts/account-index.js";
+import { getVerifiedAuthNumber } from "../../utils/utility-auth.js";
 import { createQrAddPromise } from "./qr-code-setup-scan.js";
 import { resumePageQrScan } from "./qr-code-setup-scan.js";
 import {
@@ -20,9 +20,9 @@ export async function playQrAddFromUri(otpauthUri, options = {}) {
     throw new Error("QR add is already running.");
   }
 
-  const accountNumber = await authNumberGet();
+  const authNumber = await getVerifiedAuthNumber();
 
-  if (!accountNumber) {
+  if (!authNumber) {
     throw new Error("Sign in to add accounts.");
   }
 
@@ -36,7 +36,7 @@ export async function playQrAddFromUri(otpauthUri, options = {}) {
       await openQrSetup();
     }
 
-    const addedAccount = await createQrAddPromise(accountNumber, otpauthUri);
+    const addedAccount = await createQrAddPromise(authNumber, otpauthUri);
     await cross.codes.animateManualAccountAdd(addedAccount);
     resetQrSetupGuide();
     await resumePageQrScan();

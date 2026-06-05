@@ -1,4 +1,4 @@
-import { dataOtpIsHotp } from "../../accounts/account-index.js";
+import { dataOtpIsHotp } from "../../accounts/accounts-index.js";
 import { copyCode } from "./codes-copy.js";
 import { handleDeleteClick } from "./codes-delete.js";
 import { getAccountContactDisplay } from "./codes-edit.js";

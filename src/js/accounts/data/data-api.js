@@ -18,13 +18,13 @@ async function dataApiFetchWarn(label, request) {
 }
 
 /** Downloads the latest backup payload for an account. */
-export async function dataApiRestore(accountNumber) {
+export async function dataApiRestore(authNumber) {
   try {
     const response = await dataApiFetchWarn("dataApiRestore", () =>
       fetch(`${AUTH_API_BASE_URL}/restore-accounts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ account_number: accountNumber }),
+        body: JSON.stringify({ account_number: authNumber }),
       }),
     );
     const data = await response.json();
@@ -42,14 +42,14 @@ export async function dataApiRestore(accountNumber) {
 }
 
 /** Uploads an encrypted accounts blob, replacing any previous backup. */
-export async function dataApiBackup(accountNumber, encryptedAccounts) {
+export async function dataApiBackup(authNumber, encryptedAccounts) {
   try {
     const response = await dataApiFetchWarn("dataApiBackup", () =>
       fetch(`${AUTH_API_BASE_URL}/backup-accounts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          account_number: accountNumber,
+          account_number: authNumber,
           accounts: encryptedAccounts,
           encrypted: true,
         }),

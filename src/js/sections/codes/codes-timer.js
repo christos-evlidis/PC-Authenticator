@@ -6,7 +6,7 @@ import {
   dataOtpGetNumber,
   dataOtpGetOptions,
   dataOtpIsTotp,
-} from "../../accounts/account-index.js";
+} from "../../accounts/accounts-index.js";
 import {
   PIE_CENTER,
   PIE_ARC_RADIUS,

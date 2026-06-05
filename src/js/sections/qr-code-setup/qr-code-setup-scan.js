@@ -1,5 +1,5 @@
-import { dataAddQr } from "../../accounts/account-index.js";
-import { authNumberGet } from "../../accounts/account-index.js";
+import { dataAddQr } from "../../accounts/accounts-index.js";
+import { getVerifiedAuthNumber } from "../../utils/utility-auth.js";
 import {
   QR_SCAN_UNSUPPORTED_PAGE_ERROR,
   qrScanCancel,
@@ -31,8 +31,8 @@ function resetQrSetupAfterStartError(errorMessage) {
   setGuideCopyVisible(true);
 }
 
-export async function createQrAddPromise(accountNumber, otpauthUri) {
-  return dataAddQr(accountNumber, otpauthUri);
+export async function createQrAddPromise(authNumber, otpauthUri) {
+  return dataAddQr(authNumber, otpauthUri);
 }
 
 export async function cancelPageSelection() {
@@ -85,9 +85,9 @@ export async function startQrScan(options = {}) {
     return;
   }
 
-  const accountNumber = await authNumberGet();
+  const authNumber = await getVerifiedAuthNumber();
 
-  if (!accountNumber) {
+  if (!authNumber) {
     if (onScanError) {
       await onScanError();
     }

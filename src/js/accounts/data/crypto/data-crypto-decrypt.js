@@ -1,7 +1,7 @@
 /** Decrypts a backup blob and parses the account list inside. */
-export function dataCryptoDecrypt(encryptedData, accountNumber) {
+export function dataCryptoDecrypt(encryptedData, authNumber) {
   try {
-    const decrypted = CryptoJS.AES.decrypt(encryptedData, accountNumber);
+    const decrypted = CryptoJS.AES.decrypt(encryptedData, authNumber);
     const accountsJson = decrypted.toString(CryptoJS.enc.Utf8);
     if (!accountsJson) {
       console.warn("[data-crypto] dataCryptoDecrypt produced empty plaintext");

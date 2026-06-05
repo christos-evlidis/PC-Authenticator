@@ -1,6 +1,6 @@
-import { dataUpdate } from "../../accounts/account-index.js";
-import { dataOtpIsHotp } from "../../accounts/account-index.js";
-import { authNumberGet } from "../../accounts/account-index.js";
+import { dataUpdate } from "../../accounts/accounts-index.js";
+import { dataOtpIsHotp } from "../../accounts/accounts-index.js";
+import { getVerifiedAuthNumber } from "../../utils/utility-auth.js";
 import { DEFAULT_CONTACT } from "./codes-state.js";
 import { EMAIL_PLACEHOLDER } from "./codes-state.js";
 import { findCardRoot } from "./codes-state.js";
@@ -90,8 +90,8 @@ function applyAccountEditLocally(account, els, patch, root) {
   }
 }
 
-async function persistAccountEditInBackground(accountNumber, accountId, patch) {
-  await dataUpdate(accountNumber, accountId, patch);
+async function persistAccountEditInBackground(authNumber, accountId, patch) {
+  await dataUpdate(authNumber, accountId, patch);
 }
 
 async function saveAccountEdit(
@@ -173,13 +173,13 @@ async function saveAccountEdit(
   applyAccountEditLocally(targetAccount, els, patch, root);
   finishEditing(card, els, editBtn, deleteBtn, buttonContainer, onCardClick);
 
-  const accountNumber = await authNumberGet();
+  const authNumber = await getVerifiedAuthNumber();
 
-  if (!accountNumber) {
-    throw new Error("No account number in storage.");
+  if (!authNumber) {
+    throw new Error("No verified auth number in storage.");
   }
 
-  await persistAccountEditInBackground(accountNumber, account.id, patch);
+  await persistAccountEditInBackground(authNumber, account.id, patch);
 }
 
 export function startAccountEdit(card, account, els, onCardClick) {

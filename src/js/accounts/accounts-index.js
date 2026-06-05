@@ -1,3 +1,4 @@
+/** Public exports for auth session helpers and data-layer entry points. */
 export { authVerify } from "./auth/auth-api.js";
 export { authCreate } from "./auth/auth-api.js";
 export { authNumberClear } from "./auth/auth-storage.js";

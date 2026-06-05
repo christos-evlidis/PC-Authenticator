@@ -18,13 +18,13 @@ async function authFetchWarn(label, request) {
 }
 
 /** Confirms that an account number exists on the server. */
-export async function authVerify(accountNumber) {
+export async function authVerify(authNumber) {
   try {
     const response = await authFetchWarn("authVerify", () =>
       fetch(`${AUTH_API_BASE_URL}/verify-account`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ account_number: accountNumber }),
+        body: JSON.stringify({ account_number: authNumber }),
       }),
     );
 

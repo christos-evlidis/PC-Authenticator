@@ -1,5 +1,5 @@
-import { dataDelete } from "../../accounts/account-index.js";
-import { authNumberGet } from "../../accounts/account-index.js";
+import { dataDelete } from "../../accounts/accounts-index.js";
+import { getVerifiedAuthNumber } from "../../utils/utility-auth.js";
 import { revealCodesEmptyStatic } from "./codes-empty.js";
 import { setEmptyVisible } from "./codes-empty.js";
 import { refreshCodesListScroll } from "./codes-scroll.js";
@@ -67,9 +67,9 @@ function showDeleteConfirmation(account, card, deleteBtn) {
 }
 
 async function performDeleteAccount(account, card) {
-  const accountNumber = await authNumberGet();
+  const authNumber = await getVerifiedAuthNumber();
 
-  if (!accountNumber) {
+  if (!authNumber) {
     return;
   }
 
@@ -78,7 +78,7 @@ async function performDeleteAccount(account, card) {
     deleteBtn.disabled = true;
   }
 
-  const accounts = await dataDelete(accountNumber, account.id);
+  const accounts = await dataDelete(authNumber, account.id);
   const { empty, list } = getElements();
 
   card.classList.remove("account-block--delete-pending");

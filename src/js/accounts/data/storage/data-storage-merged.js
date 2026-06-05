@@ -1,5 +1,6 @@
 import { DATA_KEY_MERGED } from "../data-constants.js";
 
+/** Runs a storage operation and logs failures. */
 async function dataStorageLogWarn(operation, fn) {
   try {
     return await fn();

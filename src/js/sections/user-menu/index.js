@@ -49,10 +49,10 @@ import { themeRead } from "../../utils/utility-theme.js";
 import { THEME_DARK } from "../../utils/utility-theme.js";
 
 /** Applies user-menu auth state in memory and updates signed-in/out DOM. */
-export function userMenuApply(isSignedIn, accountNumber = null) {
+export function userMenuApply(isSignedIn, authNumber) {
   userMenuStateSet({
     isSignedIn,
-    accountNumber: isSignedIn ? accountNumber : null,
+    authNumber: isSignedIn ? authNumber : null,
   });
 
   const authBar = document.querySelector(USER_MENU_AUTH_BAR_SELECTOR);
@@ -68,7 +68,7 @@ export function userMenuApply(isSignedIn, accountNumber = null) {
   const accountInput = document.querySelector(USER_MENU_ACCOUNT_INPUT_SELECTOR);
 
   if (accountInput) {
-    accountInput.value = (isSignedIn ? accountNumber : null) ?? "";
+    accountInput.value = isSignedIn ? (authNumber ?? "") : "";
   }
 }
 
@@ -150,7 +150,7 @@ export function userMenuInit() {
     const accountInput = document.querySelector(USER_MENU_ACCOUNT_INPUT_SELECTOR);
 
     if (accountInput) {
-      accountInput.value = state.accountNumber ?? "";
+      accountInput.value = state.authNumber ?? "";
     }
 
     const authView = state.authView || USER_MENU_AUTH_VIEW_SIGN_IN;

@@ -11,16 +11,16 @@ import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
 import { dataStorageClearPending } from "../storage/data-storage-pending.js";
 
 /** Deletes an account from backup and refreshes the local active list. */
-export async function dataDelete(accountNumber, accountId) {
+export async function dataDelete(authNumber, accountId) {
   try {
     const deleteId = String(accountId);
-    await dataRestore(accountNumber);
+    await dataRestore(authNumber);
     let decrypted = [];
     const encryptedBlob = await dataStorageGetEncrypted();
     if (dataCryptoIsEncrypted(encryptedBlob)) {
       try {
         decrypted = dataSanitizeList(
-          dataCryptoDecrypt(encryptedBlob, accountNumber),
+          dataCryptoDecrypt(encryptedBlob, authNumber),
         );
       } catch (error) {
         console.warn(
@@ -32,12 +32,12 @@ export async function dataDelete(accountNumber, accountId) {
     const filtered = decrypted.filter(
       (account) => String(account.id) !== deleteId,
     );
-    const encryptedPayload = dataCryptoEncrypt(filtered, accountNumber);
-    await dataApiBackup(accountNumber, encryptedPayload);
+    const encryptedPayload = dataCryptoEncrypt(filtered, authNumber);
+    await dataApiBackup(authNumber, encryptedPayload);
     await dataStorageClearEncrypted();
     await dataStorageClearMerged();
     await dataStorageClearPending();
-    return dataSync(accountNumber);
+    return dataSync(authNumber);
   } catch (error) {
     console.warn("[data-actions] dataDelete failed", error);
     throw error;

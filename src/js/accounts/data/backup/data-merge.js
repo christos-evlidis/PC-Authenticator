@@ -7,7 +7,7 @@ import { dataStorageSetMerged } from "../storage/data-storage-merged.js";
 import { dataStorageGetPending } from "../storage/data-storage-pending.js";
 
 /** Merges pending accounts into a base list and persists merged + active lists. */
-export async function dataMerge(accountNumber, options = {}) {
+export async function dataMerge(authNumber, options = {}) {
   try {
     let rawBase = options.baseList;
     if (rawBase == null) {
@@ -16,7 +16,7 @@ export async function dataMerge(accountNumber, options = {}) {
       if (dataCryptoIsEncrypted(encryptedBlob)) {
         try {
           rawBase = dataSanitizeList(
-            dataCryptoDecrypt(encryptedBlob, accountNumber),
+            dataCryptoDecrypt(encryptedBlob, authNumber),
           );
         } catch (error) {
           console.warn(

@@ -11,18 +11,18 @@ import { dataStorageAppendPending } from "../storage/data-storage-pending.js";
 import { dataStorageClearPending } from "../storage/data-storage-pending.js";
 
 /** Adds an account from manual setup, merges with cloud backup, and syncs. */
-export async function dataAddManual(accountNumber, formData) {
+export async function dataAddManual(authNumber, formData) {
   try {
     const parsed = dataParserManual(formData);
     const account = dataBuildFinal(parsed);
     await dataStorageAppendPending(account);
-    await dataRestore(accountNumber);
-    await dataMerge(accountNumber);
+    await dataRestore(authNumber);
+    await dataMerge(authNumber);
     await dataStorageClearEncrypted();
     await dataStorageClearPending();
-    await dataBackup(accountNumber);
+    await dataBackup(authNumber);
     await dataStorageClearMerged();
-    await dataSync(accountNumber);
+    await dataSync(authNumber);
     return account;
   } catch (error) {
     console.warn("[data-actions] dataAddManual failed", error);
@@ -31,18 +31,18 @@ export async function dataAddManual(accountNumber, formData) {
 }
 
 /** Adds an account from a scanned otpauth URI, merges with cloud backup, and syncs. */
-export async function dataAddQr(accountNumber, otpauthUri) {
+export async function dataAddQr(authNumber, otpauthUri) {
   try {
     const parsed = dataParserQr(otpauthUri);
     const account = dataBuildFinal(parsed);
     await dataStorageAppendPending(account);
-    await dataRestore(accountNumber);
-    await dataMerge(accountNumber);
+    await dataRestore(authNumber);
+    await dataMerge(authNumber);
     await dataStorageClearEncrypted();
     await dataStorageClearPending();
-    await dataBackup(accountNumber);
+    await dataBackup(authNumber);
     await dataStorageClearMerged();
-    await dataSync(accountNumber);
+    await dataSync(authNumber);
     return account;
   } catch (error) {
     console.warn("[data-actions] dataAddQr failed", error);
