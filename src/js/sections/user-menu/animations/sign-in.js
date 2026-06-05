@@ -381,18 +381,6 @@ export async function userMenuSignInAnimation(resultIsSuccess) {
       return false;
     }
 
-    if (panel) {
-    panel.classList.remove(
-      USER_MENU_SIGN_IN_FADE_CLASS,
-      USER_MENU_SIGN_IN_RESTORE_FADE_CLASS,
-    );
-
-    panel.querySelectorAll(USER_MENU_SIGN_IN_FADE_SELECTORS).forEach((element) => {
-      element.style.removeProperty("opacity");
-      element.style.removeProperty("visibility");
-      element.style.removeProperty("pointer-events");
-    });
-
     if (content) {
       cssPhaseReset(content, ...USER_MENU_SIGN_IN_CONTENT_PHASE_CLASSES);
 
@@ -401,13 +389,7 @@ export async function userMenuSignInAnimation(resultIsSuccess) {
       });
     }
 
-    panel.classList.remove(USER_MENU_SIGN_IN_RUNNING_CLASS);
-    panel.style.removeProperty("position");
-  }
-
     if (isSignedInAfter) {
-      await refreshAuth();
-
       const input = document.querySelector(USER_MENU_SIGN_IN_INPUT_SELECTOR);
 
       if (input) {
@@ -426,8 +408,6 @@ export async function userMenuSignInAnimation(resultIsSuccess) {
       themeTrack?.classList.toggle(USER_MENU_THEME_LIGHT_CLASS, !isDark);
       themeTrack?.classList.toggle(USER_MENU_THEME_DARK_CLASS, isDark);
     } else if (resultIsSuccess) {
-      await refreshAuth();
-
       const input = document.querySelector(USER_MENU_SIGN_IN_INPUT_SELECTOR);
 
       if (input) {
@@ -474,30 +454,22 @@ export async function userMenuSignInAnimation(resultIsSuccess) {
       restoreFadeMs + timeoutBufferMs,
     );
 
-    panel.classList.remove(USER_MENU_SIGN_IN_RESTORE_FADE_CLASS);
     if (panel) {
-    panel.classList.remove(
-      USER_MENU_SIGN_IN_FADE_CLASS,
-      USER_MENU_SIGN_IN_RESTORE_FADE_CLASS,
-    );
+      panel.classList.remove(
+        USER_MENU_SIGN_IN_FADE_CLASS,
+        USER_MENU_SIGN_IN_RESTORE_FADE_CLASS,
+        USER_MENU_SIGN_IN_RUNNING_CLASS,
+      );
+      panel.style.removeProperty("position");
 
-    panel.querySelectorAll(USER_MENU_SIGN_IN_FADE_SELECTORS).forEach((element) => {
-      element.style.removeProperty("opacity");
-      element.style.removeProperty("visibility");
-      element.style.removeProperty("pointer-events");
-    });
-
-    if (content) {
-      cssPhaseReset(content, ...USER_MENU_SIGN_IN_CONTENT_PHASE_CLASSES);
-
-      USER_MENU_SIGN_IN_LAYOUT_VARS.forEach((layoutVar) => {
-        content.style.removeProperty(layoutVar);
+      panel.querySelectorAll(USER_MENU_SIGN_IN_FADE_SELECTORS).forEach((element) => {
+        element.style.removeProperty("opacity");
+        element.style.removeProperty("visibility");
+        element.style.removeProperty("pointer-events");
       });
     }
 
-    panel.classList.remove(USER_MENU_SIGN_IN_RUNNING_CLASS);
-    panel.style.removeProperty("position");
-  }
+    await refreshAuth();
 
     return resultIsSuccess;
   } finally {
