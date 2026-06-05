@@ -4,15 +4,11 @@ import { bodyAnimateForExtensionFrame } from "./body-animate-for-extension-frame
 import { bodyAnimateForFinish } from "./body-animate-for-finish.js";
 import { bodyAnimateForHeader } from "./body-animate-for-header.js";
 import { bodyAnimateForLogo } from "./body-animate-for-logo.js";
-import { bodyAnimateForLogoFade } from "./body-animate-for-logo.js";
-import { bodyAnimateForLogoHold } from "./body-animate-for-logo.js";
 import { bodyAnimateForStart } from "./body-animate-for-start.js";
 import { BODY_PHASE_EXTENSION_FRAME } from "../body-constants.js";
 import { BODY_PHASE_FINISH } from "../body-constants.js";
 import { BODY_PHASE_HEADER } from "../body-constants.js";
 import { BODY_PHASE_LOGO } from "../body-constants.js";
-import { BODY_PHASE_LOGO_FADE } from "../body-constants.js";
-import { BODY_PHASE_LOGO_HOLD } from "../body-constants.js";
 import { BODY_PHASE_SIGNED_IN_CONTENT } from "../body-constants.js";
 import { BODY_PHASE_SIGNED_OUT_CONTENT } from "../body-constants.js";
 import { BODY_PHASE_START } from "../body-constants.js";
@@ -21,16 +17,6 @@ import { BODY_PHASE_START } from "../body-constants.js";
 export async function bodyAnimationPlay(phase, options = {}) {
   if (phase === BODY_PHASE_START) {
     bodyAnimateForStart();
-    return;
-  }
-
-  if (phase === BODY_PHASE_LOGO_HOLD) {
-    await bodyAnimateForLogoHold();
-    return;
-  }
-
-  if (phase === BODY_PHASE_LOGO_FADE) {
-    await bodyAnimateForLogoFade();
     return;
   }
 

@@ -7,10 +7,8 @@ import { BODY_PHASE_FINISH } from "./sections/body/body-constants.js";
 import { BODY_PHASE_SIGNED_OUT_CONTENT } from "./sections/body/body-constants.js";
 import { BODY_PHASE_EXTENSION_FRAME } from "./sections/body/body-constants.js";
 import { BODY_PHASE_HEADER } from "./sections/body/body-constants.js";
-import { BODY_PHASE_LOGO_FADE } from "./sections/body/body-constants.js";
-import { BODY_PHASE_LOGO_HOLD } from "./sections/body/body-constants.js";
+import { BODY_PHASE_LOGO } from "./sections/body/body-constants.js";
 import { BODY_PHASE_START } from "./sections/body/body-constants.js";
-import { bodySplashRestoreErrorShow } from "./sections/body/body-splash-restore-error.js";
 import { headerAnimationPlay } from "./sections/header/header-index.js";
 import { HEADER_PHASE_CONTENT } from "./sections/header/header-constants.js";
 import { HEADER_PHASE_FINISH } from "./sections/header/header-constants.js";
@@ -24,7 +22,6 @@ import { checkAuth } from "./utils/utility-auth.js";
 import { refreshAuth } from "./utils/utility-auth.js";
 import { dataBackupSync } from "./accounts/account-index.js";
 import { accountNumberGet } from "./accounts/account-index.js";
-import { bootstrapRestoreMarkSucceeded } from "./bootstrap-restore-state.js";
 import { hasPendingPostLoginReveal } from "./sections/codes/codes-reveal.js";
 import { setEmptyVisible } from "./sections/codes/codes-empty.js";
 import { SELECTORS } from "./sections/codes/codes-state.js";
@@ -32,37 +29,12 @@ import { loadTimerInvertedPreference } from "./sections/codes/codes-timer.js";
 
 themeInit();
 
-/** Runs splash shrink and header slot sequence after startup restore succeeds. */
+/** Fades the splash logo and runs the frame/header intro sequence. */
 async function initFrameIntro() {
-  await bodyAnimationPlay(BODY_PHASE_LOGO_FADE);
+  await bodyAnimationPlay(BODY_PHASE_LOGO);
   await bodyAnimationPlay(BODY_PHASE_EXTENSION_FRAME);
   await bodyAnimationPlay(BODY_PHASE_HEADER);
   await headerAnimationPlay(HEADER_PHASE_FADE_IN);
-}
-
-/** Restores signed-in backup from cloud while the splash logo stays visible. */
-async function restoreSignedInBackupOnOpen() {
-  const accountNumber = await accountNumberGet();
-
-  if (!accountNumber) {
-    return { accounts: [], signedInEmpty: false, failed: false };
-  }
-
-  await loadTimerInvertedPreference();
-
-  try {
-    const accounts = await dataBackupSync(accountNumber);
-    bootstrapRestoreMarkSucceeded();
-    return {
-      accounts,
-      signedInEmpty: accounts.filter((account) => account?.secret).length === 0,
-      failed: false,
-    };
-  } catch (error) {
-    console.warn("[app] startup restore failed", error);
-    bodySplashRestoreErrorShow();
-    return { accounts: [], signedInEmpty: false, failed: true };
-  }
 }
 
 /** Registers sections, applies auth, plays intros, and loads section modules. */
@@ -75,18 +47,22 @@ async function bootstrapExtension() {
 
   headerAnimationPlay(HEADER_PHASE_START);
   bodyAnimationPlay(BODY_PHASE_START);
-  await bodyAnimationPlay(BODY_PHASE_LOGO_HOLD);
 
   let signedInEmpty = false;
 
   if (isLoggedIn && !hasPendingPostLoginReveal()) {
-    const restoreResult = await restoreSignedInBackupOnOpen();
+    const accountNumber = await accountNumberGet();
 
-    if (restoreResult.failed) {
-      return;
+    if (accountNumber) {
+      try {
+        await loadTimerInvertedPreference();
+        const accounts = await dataBackupSync(accountNumber);
+        signedInEmpty =
+          accounts.filter((account) => account?.secret).length === 0;
+      } catch {
+        return;
+      }
     }
-
-    signedInEmpty = restoreResult.signedInEmpty;
   }
 
   await initFrameIntro();

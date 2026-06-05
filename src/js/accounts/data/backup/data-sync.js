@@ -3,6 +3,7 @@ import { dataCryptoIsEncrypted } from "../crypto/data-crypto-type.js";
 import { dataSanitizeList } from "../records/data-sanitize.js";
 import { dataStorageClearEncrypted } from "../storage/data-storage-encrypted.js";
 import { dataStorageGetEncrypted } from "../storage/data-storage-encrypted.js";
+import { dataStorageGetFinal } from "../storage/data-storage-final.js";
 import { dataStorageSetFinal } from "../storage/data-storage-final.js";
 import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
 import { dataStorageClearPending } from "../storage/data-storage-pending.js";
@@ -15,9 +16,18 @@ export async function dataBackupSync(accountNumber) {
   try {
     const result = await dataBackupRestore(accountNumber);
     if (result.accounts == null) {
+      const existing = dataSanitizeList(
+        await dataStorageGetFinal(),
+      );
       await dataStorageClearEncrypted();
       await dataStorageClearMerged();
       await dataStorageClearPending();
+      if (existing.length) {
+        console.debug(
+          `[data-backup] dataBackupSync: empty restore; keeping ${existing.length} local account(s)`,
+        );
+        return existing;
+      }
       await dataStorageSetFinal([]);
       return [];
     }
