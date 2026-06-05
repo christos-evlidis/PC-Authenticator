@@ -389,6 +389,8 @@ export async function userMenuSignInAnimation(resultIsSuccess) {
       });
     }
 
+    await refreshAuth();
+
     if (isSignedInAfter) {
       const input = document.querySelector(USER_MENU_SIGN_IN_INPUT_SELECTOR);
 
@@ -407,23 +409,7 @@ export async function userMenuSignInAnimation(resultIsSuccess) {
 
       themeTrack?.classList.toggle(USER_MENU_THEME_LIGHT_CLASS, !isDark);
       themeTrack?.classList.toggle(USER_MENU_THEME_DARK_CLASS, isDark);
-    } else if (resultIsSuccess) {
-      const input = document.querySelector(USER_MENU_SIGN_IN_INPUT_SELECTOR);
-
-      if (input) {
-        input.value = "";
-      }
-    }
-
-    const themeBar = document.querySelector(USER_MENU_THEME_BAR_SELECTOR);
-    const signedInView = document.querySelector(USER_MENU_SIGNED_IN_VIEW_SELECTOR);
-
-    authBar?.classList.toggle(USER_MENU_HIDDEN_CLASS, isSignedInAfter);
-    themeBar?.classList.toggle(USER_MENU_HIDDEN_CLASS, !isSignedInAfter);
-    signedOutView?.classList.toggle(USER_MENU_HIDDEN_CLASS, isSignedInAfter);
-    signedInView?.classList.toggle(USER_MENU_HIDDEN_CLASS, !isSignedInAfter);
-
-    if (!isSignedInAfter) {
+    } else {
       const authView = userMenuStateGet().authView || USER_MENU_AUTH_VIEW_SIGN_IN;
       const signInView = document.querySelector(USER_MENU_SIGN_IN_VIEW_SELECTOR);
       const signUpView = document.querySelector(USER_MENU_SIGN_UP_VIEW_SELECTOR);
@@ -443,6 +429,14 @@ export async function userMenuSignInAnimation(resultIsSuccess) {
 
       authTrack?.classList.toggle(USER_MENU_AUTH_SIGN_IN_CLASS, !isSignUp);
       authTrack?.classList.toggle(USER_MENU_AUTH_SIGN_UP_CLASS, isSignUp);
+
+      if (resultIsSuccess) {
+        const input = document.querySelector(USER_MENU_SIGN_IN_INPUT_SELECTOR);
+
+        if (input) {
+          input.value = "";
+        }
+      }
     }
 
     await waitForNextFrame();
@@ -468,8 +462,6 @@ export async function userMenuSignInAnimation(resultIsSuccess) {
         element.style.removeProperty("pointer-events");
       });
     }
-
-    await refreshAuth();
 
     return resultIsSuccess;
   } finally {
