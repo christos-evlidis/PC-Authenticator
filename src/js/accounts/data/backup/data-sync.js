@@ -12,9 +12,26 @@ import { dataBackupMerge } from "./data-merge.js";
 import { dataBackupRestore } from "./data-restore.js";
 
 /** Restores from cloud, merges pending adds, writes the active list, and clears temp keys. */
-export async function dataBackupSync(accountNumber) {
+export async function dataBackupSync(accountNumber, options = {}) {
   try {
     const result = await dataBackupRestore(accountNumber);
+
+    if (!result.ok && !options.skipMigration) {
+      const { dataBackupMigrate } = await import("./data-migrate.js");
+      return dataBackupMigrate(accountNumber);
+    }
+
+    if (!result.ok) {
+      const existing = dataSanitizeList(await dataStorageGetFinal());
+      if (existing.length) {
+        console.debug(
+          `[data-backup] dataBackupSync: restore failed; keeping ${existing.length} local account(s)`,
+        );
+        return existing;
+      }
+      return [];
+    }
+
     if (result.accounts == null) {
       const existing = dataSanitizeList(
         await dataStorageGetFinal(),

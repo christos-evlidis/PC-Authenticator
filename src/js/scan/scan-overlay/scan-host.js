@@ -27,22 +27,27 @@ export function qrScanOverlayHostRemove() {
   document.querySelector(`.${OVERLAY_HOST_CLASS}`)?.remove();
 }
 
+/** Ensures host styles are loaded in the page (avoids inline style CSP violations). */
+function qrScanOverlayHostStylesEnsure() {
+  const styleId = "pc-auth-qr-scan-host-styles";
+
+  if (document.getElementById(styleId)) {
+    return;
+  }
+
+  const link = document.createElement("link");
+  link.id = styleId;
+  link.rel = "stylesheet";
+  link.href = chrome.runtime.getURL(OVERLAY_CSS_PATH);
+  document.head.append(link);
+}
+
 /** Creates the shadow-DOM overlay host and attaches stylesheet. */
 export function qrScanOverlayHostCreate() {
+  qrScanOverlayHostStylesEnsure();
+
   const host = document.createElement("div");
   host.className = OVERLAY_HOST_CLASS;
-  host.style.cssText = [
-    "position: fixed !important",
-    "inset: 0 !important",
-    "width: 100% !important",
-    "height: 100% !important",
-    "z-index: 2147483647 !important",
-    "pointer-events: none !important",
-    "margin: 0 !important",
-    "padding: 0 !important",
-    "border: none !important",
-    "background: transparent !important",
-  ].join(" ");
 
   const shadow = host.attachShadow({ mode: "closed" });
   const stylesheet = document.createElement("link");
