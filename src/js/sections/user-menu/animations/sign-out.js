@@ -3,20 +3,8 @@ import { cssMs } from "../../../utils/utility-animation.js";
 import { delay } from "../../../utils/utility-animation.js";
 import { waitForAnimationEnd } from "../../../utils/utility-animation.js";
 import { waitForNextFrame } from "../../../utils/utility-animation.js";
-import { introSignInAnimationCancel } from "../../intro/index.js";
-import { refreshAuth } from "../../../utils/utility-auth.js";
-import { themeRead } from "../../../utils/utility-theme.js";
-import { THEME_DARK } from "../../../utils/utility-theme.js";
-import { userMenuStateGet } from "../state.js";
 import { userMenuStateSet } from "../state.js";
-import { USER_MENU_ACTIVE_CLASS } from "../constants.js";
 import { USER_MENU_AUTH_BAR_SELECTOR } from "../constants.js";
-import { USER_MENU_AUTH_BTN_SELECTOR } from "../constants.js";
-import { USER_MENU_AUTH_SIGN_IN_CLASS } from "../constants.js";
-import { USER_MENU_AUTH_SIGN_UP_CLASS } from "../constants.js";
-import { USER_MENU_AUTH_TRACK_SELECTOR } from "../constants.js";
-import { USER_MENU_AUTH_VIEW_SIGN_IN } from "../constants.js";
-import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../constants.js";
 import { USER_MENU_CONTENT_SELECTOR } from "../constants.js";
 import { USER_MENU_HEADER_SELECTOR } from "../constants.js";
 import { USER_MENU_HIDDEN_CLASS } from "../constants.js";
@@ -47,16 +35,7 @@ import { USER_MENU_VAR_SIGN_OUT_RESULT_FADE_OUT_MS } from "../constants.js";
 import { USER_MENU_SIGN_OUT_RUNNING_CLASS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_OUT_SHRINK_DOWN_MS } from "../constants.js";
 import { USER_MENU_VAR_SIGN_OUT_SHRINK_FULL_MS } from "../constants.js";
-import { USER_MENU_SIGNED_IN_VIEW_SELECTOR } from "../constants.js";
 import { USER_MENU_SIGNED_OUT_VIEW_SELECTOR } from "../constants.js";
-import { USER_MENU_SIGN_IN_INPUT_SELECTOR } from "../constants.js";
-import { USER_MENU_SIGN_IN_VIEW_SELECTOR } from "../constants.js";
-import { USER_MENU_SIGN_UP_VIEW_SELECTOR } from "../constants.js";
-import { USER_MENU_THEME_BAR_SELECTOR } from "../constants.js";
-import { USER_MENU_THEME_BTN_SELECTOR } from "../constants.js";
-import { USER_MENU_THEME_DARK_CLASS } from "../constants.js";
-import { USER_MENU_THEME_LIGHT_CLASS } from "../constants.js";
-import { USER_MENU_THEME_TRACK_SELECTOR } from "../constants.js";
 import { USER_MENU_STATUS_ERROR_SELECTOR } from "../constants.js";
 import { USER_MENU_STATUS_ICON_CIRCLE_SELECTOR } from "../constants.js";
 import { USER_MENU_STATUS_ICON_MARK_SELECTOR } from "../constants.js";
@@ -84,9 +63,8 @@ import { USER_MENU_VAR_SIGN_OUT_RESTORE_TOP } from "../constants.js";
 import { USER_MENU_VAR_SIGN_OUT_RESTORE_WIDTH } from "../constants.js";
 import { USER_MENU_SIGN_OUT_ANIMATION_RUN_ID } from "../constants.js";
 
-export async function userMenuSignOutAnimation() {
+export async function userMenuSignOutAnimation(onPreRestore) {
   const resultIsSuccess = true;
-  const isSignedInAfter = false;
   const runId = USER_MENU_SIGN_OUT_ANIMATION_RUN_ID.value + 1;
   USER_MENU_SIGN_OUT_ANIMATION_RUN_ID.value = runId;
 
@@ -109,16 +87,6 @@ export async function userMenuSignOutAnimation() {
     !successStatus ||
     !errorStatus
   ) {
-    if (isSignedInAfter || resultIsSuccess) {
-      await refreshAuth();
-
-      const input = document.querySelector(USER_MENU_SIGN_IN_INPUT_SELECTOR);
-
-      if (input) {
-        input.value = "";
-      }
-    }
-
     return resultIsSuccess;
   }
 
@@ -391,58 +359,8 @@ export async function userMenuSignOutAnimation() {
       });
     }
 
-    await refreshAuth();
-
-    if (!isSignedInAfter) {
-      introSignInAnimationCancel();
-    }
-
-    if (isSignedInAfter) {
-      const input = document.querySelector(USER_MENU_SIGN_IN_INPUT_SELECTOR);
-
-      if (input) {
-        input.value = "";
-      }
-
-      const theme = themeRead();
-
-      document.querySelectorAll(USER_MENU_THEME_BTN_SELECTOR).forEach((button) => {
-        button.classList.toggle(USER_MENU_ACTIVE_CLASS, button.dataset.theme === theme);
-      });
-
-      const themeTrack = document.querySelector(USER_MENU_THEME_TRACK_SELECTOR);
-      const isDark = theme === THEME_DARK;
-
-      themeTrack?.classList.toggle(USER_MENU_THEME_LIGHT_CLASS, !isDark);
-      themeTrack?.classList.toggle(USER_MENU_THEME_DARK_CLASS, isDark);
-    } else {
-      const authView = userMenuStateGet().authView || USER_MENU_AUTH_VIEW_SIGN_IN;
-      const signInView = document.querySelector(USER_MENU_SIGN_IN_VIEW_SELECTOR);
-      const signUpView = document.querySelector(USER_MENU_SIGN_UP_VIEW_SELECTOR);
-      const isSignUp = authView === USER_MENU_AUTH_VIEW_SIGN_UP;
-
-      signInView?.classList.toggle(USER_MENU_HIDDEN_CLASS, isSignUp);
-      signUpView?.classList.toggle(USER_MENU_HIDDEN_CLASS, !isSignUp);
-
-      document.querySelectorAll(USER_MENU_AUTH_BTN_SELECTOR).forEach((button) => {
-        button.classList.toggle(
-          USER_MENU_ACTIVE_CLASS,
-          button.dataset.view === authView,
-        );
-      });
-
-      const authTrack = document.querySelector(USER_MENU_AUTH_TRACK_SELECTOR);
-
-      authTrack?.classList.toggle(USER_MENU_AUTH_SIGN_IN_CLASS, !isSignUp);
-      authTrack?.classList.toggle(USER_MENU_AUTH_SIGN_UP_CLASS, isSignUp);
-
-      if (resultIsSuccess) {
-        const input = document.querySelector(USER_MENU_SIGN_IN_INPUT_SELECTOR);
-
-        if (input) {
-          input.value = "";
-        }
-      }
+    if (onPreRestore) {
+      await onPreRestore();
     }
 
     await waitForNextFrame();

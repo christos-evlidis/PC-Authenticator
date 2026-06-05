@@ -1,7 +1,5 @@
 import { cross } from "./section-cross.js";
 import { bodyApply } from "./body/index.js";
-import { codesSection } from "./codes/codes-section.js";
-import { initCodes } from "./codes/codes-init.js";
 import { headerApply } from "./header/index.js";
 import { searchApply, searchInit, searchReset } from "./search/index.js";
 import { userMenuApply } from "./user-menu/index.js";
@@ -13,9 +11,8 @@ import { qrCodeSetupSection } from "./qr-code-setup/qr-code-setup-section.js";
 import { initReviewPrompt } from "./review-prompt/review-prompt-section.js";
 import { reviewPromptSection } from "./review-prompt/review-prompt-section.js";
 
-/** Wires cross-section APIs before auth or section load runs. */
+/** Wires cross-section APIs before bootstrap runs. */
 export function registerSections() {
-  cross.codes = codesSection;
   cross.header = { apply: headerApply };
   cross.body = { apply: bodyApply };
   cross.search = { apply: searchApply, init: searchInit, reset: searchReset };
@@ -31,5 +28,4 @@ export function initSectionModules() {
   searchInit();
   initManualSetup();
   initQrCodeSetup();
-  initCodes();
 }

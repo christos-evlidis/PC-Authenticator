@@ -1,31 +1,32 @@
-import { cssMs } from "../../../utils/utility-animation.js";
-import { cssPhaseReset } from "../../../utils/utility-animation.js";
-import { frameMetrics } from "../../../utils/utility-animation.js";
-import { waitForAnimationEnd } from "../../../utils/utility-animation.js";
-import { waitForNextFrame } from "../../../utils/utility-animation.js";
-import { INTRO_LOGO_FADE_CLASS } from "../constants.js";
-import { INTRO_FRAME_SELECTOR } from "../constants.js";
-import { INTRO_OVERLAY_SELECTOR } from "../constants.js";
-import { INTRO_ROOT_SELECTOR } from "../constants.js";
-import { INTRO_ROUNDED_CLASS } from "../constants.js";
-import { INTRO_SHRINK_FRAME_CLASS } from "../constants.js";
-import { INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
-import { INTRO_VAR_FROM_HEIGHT } from "../constants.js";
-import { INTRO_VAR_FROM_LEFT } from "../constants.js";
-import { INTRO_VAR_FROM_TOP } from "../constants.js";
-import { INTRO_VAR_FROM_WIDTH } from "../constants.js";
-import { INTRO_VAR_HEIGHT } from "../constants.js";
-import { INTRO_VAR_LEFT } from "../constants.js";
-import { INTRO_VAR_SHRINK_FRAME_MS } from "../constants.js";
-import { INTRO_VAR_TO_HEIGHT } from "../constants.js";
-import { INTRO_VAR_TO_LEFT } from "../constants.js";
-import { INTRO_VAR_TO_TOP } from "../constants.js";
-import { INTRO_VAR_TO_WIDTH } from "../constants.js";
-import { INTRO_VAR_TOP } from "../constants.js";
-import { INTRO_VAR_WIDTH } from "../constants.js";
+import { cssMs } from "../../../../utils/utility-animation.js";
+import { cssPhaseReset } from "../../../../utils/utility-animation.js";
+import { frameMetrics } from "../../../../utils/utility-animation.js";
+import { waitForAnimationEnd } from "../../../../utils/utility-animation.js";
+import { waitForNextFrame } from "../../../../utils/utility-animation.js";
+
+import { INTRO_LOGO_FADE_CLASS } from "../../constants.js";
+import { INTRO_FRAME_SELECTOR } from "../../constants.js";
+import { INTRO_OVERLAY_SELECTOR } from "../../constants.js";
+import { INTRO_ROOT_SELECTOR } from "../../constants.js";
+import { INTRO_ROUNDED_CLASS } from "../../constants.js";
+import { INTRO_SHRINK_FRAME_CLASS } from "../../constants.js";
+import { INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../constants.js";
+import { INTRO_VAR_FROM_HEIGHT } from "../../constants.js";
+import { INTRO_VAR_FROM_LEFT } from "../../constants.js";
+import { INTRO_VAR_FROM_TOP } from "../../constants.js";
+import { INTRO_VAR_FROM_WIDTH } from "../../constants.js";
+import { INTRO_VAR_HEIGHT } from "../../constants.js";
+import { INTRO_VAR_LEFT } from "../../constants.js";
+import { INTRO_VAR_SHRINK_FRAME_MS } from "../../constants.js";
+import { INTRO_VAR_TO_HEIGHT } from "../../constants.js";
+import { INTRO_VAR_TO_LEFT } from "../../constants.js";
+import { INTRO_VAR_TO_TOP } from "../../constants.js";
+import { INTRO_VAR_TO_WIDTH } from "../../constants.js";
+import { INTRO_VAR_TOP } from "../../constants.js";
+import { INTRO_VAR_WIDTH } from "../../constants.js";
 
 /** Shrinks the overlay from all sides until the extension frame padding is visible. */
-export async function introAnimationShrinkFrame() {
+async function introAnimationShrinkFrame() {
   const intro = document.querySelector(INTRO_ROOT_SELECTOR);
   const overlay = document.querySelector(INTRO_OVERLAY_SELECTOR);
   const frame = document.querySelector(INTRO_FRAME_SELECTOR);
@@ -85,3 +86,5 @@ export async function introAnimationShrinkFrame() {
   overlay.style.removeProperty(INTRO_VAR_TO_WIDTH);
   overlay.style.removeProperty(INTRO_VAR_TO_HEIGHT);
 }
+
+export { introAnimationShrinkFrame };

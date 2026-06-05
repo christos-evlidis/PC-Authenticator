@@ -1,4 +1,3 @@
-import { cross } from "../section-cross.js";
 import { authNumberGet } from "../../accounts/accounts-index.js";
 import { createQrAddPromise } from "./qr-code-setup-scan.js";
 import { resumePageQrScan } from "./qr-code-setup-scan.js";
@@ -36,8 +35,7 @@ export async function playQrAddFromUri(otpauthUri, options = {}) {
       await openQrSetup();
     }
 
-    const addedAccount = await createQrAddPromise(authNumber, otpauthUri);
-    await cross.codes.animateManualAccountAdd(addedAccount);
+    await createQrAddPromise(authNumber, otpauthUri);
     resetQrSetupGuide();
     await resumePageQrScan();
     return addedAccount;

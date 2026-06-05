@@ -5,10 +5,12 @@ export { headerAnimationFinish } from "./animations/finish.js";
 import { cssMs } from "../../utils/utility-animation.js";
 import { delay } from "../../utils/utility-animation.js";
 import { headerAnimationFadeIn } from "./animations/fade-in.js";
+import { headerAnimationFadeOutContents } from "./animations/fade-out.js";
 import { headerAnimationFinish } from "./animations/finish.js";
 import { headerAnimationIconPop } from "./animations/icon-pop.js";
 import { headerAnimationTitleType } from "./animations/title-type.js";
 import { HEADER_ANIMATION_PENDING_CLASS } from "./constants.js";
+import { HEADER_CONTENT_PENDING_CLASS } from "./constants.js";
 import { HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "./constants.js";
 import { HEADER_BUTTON_SELECTOR } from "./constants.js";
 import { HEADER_HIDDEN_CLASS } from "./constants.js";
@@ -19,7 +21,6 @@ import { HEADER_SIGNED_IN_VIEW_SELECTOR } from "./constants.js";
 import { HEADER_SIGNED_OUT_VIEW_SELECTOR } from "./constants.js";
 import { HEADER_TITLE_DISPLAY_SELECTOR } from "./constants.js";
 import { HEADER_TITLE_SELECTOR } from "./constants.js";
-import { HEADER_TITLE_TEXT } from "./constants.js";
 import { HEADER_VIEW_SELECTOR } from "./constants.js";
 
 /** Toggles signed-in/out header views for the current auth state. */
@@ -31,8 +32,8 @@ export function headerApply(isSignedIn) {
   signedInView?.classList.toggle(HEADER_HIDDEN_CLASS, !isSignedIn);
 }
 
-/** Hides header title and icons before the load intro reveals the header. */
-export function headerAnimationPrepare() {
+/** Hides header title and icons before an intro reveal sequence. */
+export async function headerAnimationPrepare(mode) {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
   const title = document.querySelector(HEADER_TITLE_SELECTOR);
   const display = document.querySelector(HEADER_TITLE_DISPLAY_SELECTOR);
@@ -41,12 +42,17 @@ export function headerAnimationPrepare() {
     return;
   }
 
-  header.classList.add(HEADER_ANIMATION_PENDING_CLASS);
+  if (mode === "sign-in-fade") {
+    header.classList.remove(HEADER_ANIMATION_PENDING_CLASS);
+    await headerAnimationFadeOutContents();
+    return;
+  }
 
-  if (display) {
-    display.textContent = "";
-  } else if (title) {
-    title.textContent = "";
+  if (mode === "sign-in") {
+    header.classList.remove(HEADER_ANIMATION_PENDING_CLASS);
+  } else {
+    header.classList.add(HEADER_ANIMATION_PENDING_CLASS);
+    header.classList.remove(HEADER_CONTENT_PENDING_CLASS);
   }
 
   [...document.querySelectorAll(HEADER_VIEW_SELECTOR)]
@@ -56,13 +62,41 @@ export function headerAnimationPrepare() {
       button.classList.add(HEADER_ICON_POP_PENDING_CLASS);
       button.classList.remove(HEADER_ICON_POP_REVEALED_CLASS);
     });
+
+  if (display) {
+    display.textContent = "";
+  } else if (title) {
+    title.textContent = "";
+  }
 }
 
-/** Runs the one-time header reveal sequence after the intro header shrink. */
-export async function headerAnimationRun() {
+/** Runs the header reveal sequence after an intro shrink phase. */
+export async function headerAnimationRun(mode) {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
 
-  if (!header || !header.classList.contains(HEADER_ANIMATION_PENDING_CLASS)) {
+  if (!header) {
+    return;
+  }
+
+  if (mode === "sign-in") {
+    if (!header.classList.contains(HEADER_CONTENT_PENDING_CLASS)) {
+      return;
+    }
+
+    try {
+      await delay(cssMs(header, HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS));
+      header.classList.remove(HEADER_CONTENT_PENDING_CLASS);
+      await headerAnimationTitleType();
+      await headerAnimationIconPop();
+      headerAnimationFinish();
+    } catch {
+      headerAnimationFinish();
+    }
+
+    return;
+  }
+
+  if (!header.classList.contains(HEADER_ANIMATION_PENDING_CLASS)) {
     return;
   }
 

@@ -1,5 +1,4 @@
 import { dataAddManual } from "../../accounts/accounts-index.js";
-import { cross } from "../section-cross.js";
 import { authNumberGet } from "../../accounts/accounts-index.js";
 import { clearForm } from "./manual-setup-form-utils.js";
 import { getFormSnapshot } from "./manual-setup-form-utils.js";
@@ -40,9 +39,8 @@ export async function submitManualAddAccount(form) {
   setSubmitDisabled(form, true);
 
   try {
-    const addedAccount = await createAddAccountPromise(snapshot);
+    await createAddAccountPromise(snapshot);
     clearForm(form);
-    await cross.codes.animateManualAccountAdd(addedAccount);
   } finally {
     setIsManualSubmitting(false);
     setAuthFlowLock(false);

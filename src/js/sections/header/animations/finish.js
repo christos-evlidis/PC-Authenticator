@@ -1,4 +1,5 @@
 import { HEADER_ANIMATION_PENDING_CLASS } from "../constants.js";
+import { HEADER_CONTENT_PENDING_CLASS } from "../constants.js";
 import { HEADER_FADE_IN_CLASS } from "../constants.js";
 import { HEADER_ICON_POP_PENDING_CLASS } from "../constants.js";
 import { HEADER_ICON_POP_REVEALED_CLASS } from "../constants.js";
@@ -18,7 +19,11 @@ export function headerAnimationFinish() {
     return;
   }
 
-  header.classList.remove(HEADER_ANIMATION_PENDING_CLASS, HEADER_FADE_IN_CLASS);
+  header.classList.remove(
+    HEADER_ANIMATION_PENDING_CLASS,
+    HEADER_CONTENT_PENDING_CLASS,
+    HEADER_FADE_IN_CLASS,
+  );
 
   if (display) {
     display.classList.remove(HEADER_TITLE_TYPING_CLASS);

@@ -40,8 +40,8 @@ export function searchApply(isAuthVisible) {
   }
 }
 
-/** Hides the search bar before the load intro reveals it. */
-export function searchAnimationPrepare() {
+/** Hides the search bar before an intro reveal sequence. */
+export function searchAnimationPrepare(mode) {
   const search = document.querySelector(SEARCH_ROOT_SELECTOR);
 
   if (!search) {
@@ -52,8 +52,8 @@ export function searchAnimationPrepare() {
   search.classList.add(SEARCH_ANIMATION_PENDING_CLASS);
 }
 
-/** Runs the one-time search reveal sequence after the intro search shrink. */
-export async function searchAnimationRun() {
+/** Runs the search reveal sequence after an intro shrink phase. */
+export async function searchAnimationRun(mode) {
   const search = document.querySelector(SEARCH_ROOT_SELECTOR);
 
   if (!search) {

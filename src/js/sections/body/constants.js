@@ -18,11 +18,13 @@ export const BODY_ACTIVE_CLASS = "is-active";
 
 // Animation support classes
 export const BODY_ANIMATION_PENDING_CLASS = "is-body-animation-pending";
+export const BODY_CONTENT_FADE_PENDING_CLASS = "is-body-content-fade-pending";
 export const BODY_ICON_POP_PENDING_CLASS = "is-body-pop-pending";
 export const BODY_ICON_POP_REVEALED_CLASS = "is-body-pop-revealed";
 export const BODY_MESSAGE_TYPING_CLASS = "is-body-message-typing";
 
 // Shared timing vars (defined on .app-body; read via cssMs).
+export const BODY_VAR_INTRO_FADE_MS = "--body-intro-fade-ms";
 export const BODY_VAR_ICON_POP_MS = "--body-icon-pop-ms";
 export const BODY_VAR_MESSAGE_TYPE_MS = "--body-message-type-ms";
 export const BODY_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--body-animation-timeout-buffer-ms";

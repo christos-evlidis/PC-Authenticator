@@ -67,13 +67,6 @@ body {
 body.theme-transition-active,
 body.theme-transition-active .codes-search,
 body.theme-transition-active .extension-frame,
-body.theme-transition-active .codes-section,
-body.theme-transition-active .codes-section__list .account-block,
-body.theme-transition-active .codes-section__list .account-block__exit-layer,
-body.theme-transition-active .codes-section__list .account-block__copy-fill,
-body.theme-transition-active .codes-section__list .account-name,
-body.theme-transition-active .codes-section__list .account-email,
-body.theme-transition-active .codes-section__list .otp-code,
 body.theme-transition-active .login-status__icon-circle,
 body.theme-transition-active .login-status__icon-mark,
 body.theme-transition-active .manual-setup-panel,
@@ -101,32 +94,6 @@ body.theme-transition-active .app-body__message {
     transition-property: background-color, background, color, border-color, fill, stroke, box-shadow !important;
     transition-duration: var(--theme-transition-ms) !important;
     transition-timing-function: ease !important;
-}
-
-.codes-section__list .account-block {
-    transition:
-        background-color var(--theme-transition-ms) ease,
-        transform 0.2s ease;
-}
-
-.codes-section__list .account-block__copy-fill {
-    transition: background-color var(--theme-transition-ms) ease;
-}
-
-.codes-section__list .account-name {
-    transition: color var(--theme-transition-ms) ease;
-}
-
-.codes-section__list .account-email {
-    transition: color var(--theme-transition-ms) ease;
-}
-
-.codes-section__list .account-hotp-counter {
-    transition: color var(--theme-transition-ms) ease;
-}
-
-.codes-section__list .otp-code {
-    transition: color var(--theme-transition-ms) ease;
 }
 
 .delete-confirmation {

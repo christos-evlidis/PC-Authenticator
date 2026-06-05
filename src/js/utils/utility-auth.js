@@ -6,10 +6,12 @@ export async function checkAuth() {
   return Boolean(await authNumberGet());
 }
 
-/** Reads storage and applies signed-in/out state to header, body, and user menu. */
-export async function refreshAuth() {
-  const authNumber = await authNumberGet();
-  const isSignedIn = Boolean(authNumber);
+/** Applies signed-in/out chrome from storage or explicit bootstrap values. */
+export async function refreshAuth(options = {}) {
+  const authNumber =
+    options.authNumber === undefined ? await authNumberGet() : options.authNumber;
+  const isSignedIn =
+    options.isSignedIn === undefined ? Boolean(authNumber) : options.isSignedIn;
 
   cross.header?.apply(isSignedIn);
   cross.body?.apply(isSignedIn);
@@ -21,5 +23,4 @@ export async function refreshAuth() {
   }
 
   cross.search?.apply(isSignedIn);
-  await cross.codes?.bootstrapOnce?.();
 }

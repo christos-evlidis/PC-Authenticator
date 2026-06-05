@@ -3,6 +3,8 @@ import { authNumberSet } from "../../../accounts/accounts-index.js";
 import { authSanitize } from "../../../accounts/accounts-index.js";
 import { AUTH_NUMBER_LENGTH } from "../../../accounts/accounts-index.js";
 import { userMenuStateGet } from "../state.js";
+import { userMenuAuthAnimationCanRun } from "./auth-result.js";
+import { userMenuAuthSignUpResultApply } from "./auth-result.js";
 import { userMenuSignUpAnimation } from "../animations/sign-up.js";
 
 /** Creates a new account, stores it locally, and runs the auth result animation. */
@@ -25,5 +27,15 @@ export async function userMenuSignUp() {
     isSuccess = false;
   }
 
-  return userMenuSignUpAnimation(isSuccess);
+  const applyResult = userMenuAuthSignUpResultApply;
+
+  if (!userMenuAuthAnimationCanRun()) {
+    if (isSuccess) {
+      await applyResult(true);
+    }
+
+    return isSuccess;
+  }
+
+  return userMenuSignUpAnimation(isSuccess, applyResult);
 }

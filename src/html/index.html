@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="../css/sections/search.css" />
     <link rel="stylesheet" href="../css/sections/body.css" />
     <link rel="stylesheet" href="../css/sections/manual-setup.css" />
-    <link rel="stylesheet" href="../css/sections/codes.css" />
     <link rel="stylesheet" href="../css/sections/scan-setup.css" />
     <link rel="stylesheet" href="../css/sections/review-menu.css" />
     <link rel="stylesheet" href="../css/sections/intro.css" />
@@ -104,48 +103,6 @@
                     </div>
                 </div>
 
-                <section class="codes-section" aria-label="Authentication codes">
-                    <ul class="codes-section__list hidden" role="list"></ul>
-
-                    <template class="code-card-template">
-                        <li class="account-block" role="listitem">
-                            <header class="account-block__header">
-                                <div class="account-block__identity">
-                                    <div class="account-name"></div>
-                                    <div class="account-email hidden"></div>
-                                </div>
-                                <div class="account-block__actions">
-                                    <button type="button" class="edit-button" title="Edit account"
-                                        aria-label="Edit account">
-                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="delete-button" title="Delete account"
-                                        aria-label="Delete account">&times;</button>
-                                </div>
-                            </header>
-                            <div class="account-block__body">
-                                <div class="otp-code" aria-live="polite">000000</div>
-                                <div class="account-hotp-counter hidden" aria-label="HOTP counter"></div>
-                                <div class="timer-wrapper">
-                                    <svg width="35" height="35" class="pie-timer-svg" viewBox="0 0 32 32"
-                                        style="overflow: visible;" aria-hidden="true">
-                                        <circle class="pie-bg" cx="16" cy="16" r="14.5" />
-                                        <path class="pie-fg" d="" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="account-block__copy-feedback" aria-hidden="true">
-                                <span class="account-block__copy-fill"></span>
-                                <div class="account-block__copy-check">
-                                    <svg class="copy-check__icon" viewBox="0 0 52 52" aria-hidden="true">
-                                        <circle class="copy-check__circle" cx="26" cy="26" r="24" fill="none" />
-                                        <path class="copy-check__mark" fill="none" d="M14 27l7 7 16-16" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </li>
-                    </template>
-                </section>
             </section>
         </section>
 

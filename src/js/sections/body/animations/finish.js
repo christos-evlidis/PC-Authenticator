@@ -1,5 +1,6 @@
 import { BODY_ACTIVE_CLASS } from "../constants.js";
 import { BODY_ANIMATION_PENDING_CLASS } from "../constants.js";
+import { BODY_CONTENT_FADE_PENDING_CLASS } from "../constants.js";
 import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "../constants.js";
 import { BODY_CONTENT_SIGNED_OUT_SELECTOR } from "../constants.js";
 import { BODY_HIDDEN_CLASS } from "../constants.js";
@@ -22,15 +23,8 @@ export function bodyAnimationFinish() {
 
   if (!signedOutView?.classList.contains(BODY_HIDDEN_CLASS)) {
     content = document.querySelector(BODY_CONTENT_SIGNED_OUT_SELECTOR);
-  } else {
-    const codesList = document.querySelector(".codes-section__list");
-
-    if (
-      !signedInView?.classList.contains(BODY_HIDDEN_CLASS) &&
-      (!codesList || codesList.classList.contains("hidden"))
-    ) {
-      content = document.querySelector(BODY_CONTENT_SIGNED_IN_SELECTOR);
-    }
+  } else if (!signedInView?.classList.contains(BODY_HIDDEN_CLASS)) {
+    content = document.querySelector(BODY_CONTENT_SIGNED_IN_SELECTOR);
   }
 
   if (!body) {
@@ -38,6 +32,7 @@ export function bodyAnimationFinish() {
   }
 
   body.classList.remove(BODY_ANIMATION_PENDING_CLASS);
+  content?.classList.remove(BODY_CONTENT_FADE_PENDING_CLASS);
 
   if (!content) {
     return;

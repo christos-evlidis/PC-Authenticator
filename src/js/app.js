@@ -1,17 +1,24 @@
-import { introLoadAnimationRun } from "./sections/intro/index.js";
+import { bootstrap } from "./bootstrap.js";
+import { loadAnimationRun } from "./sections/sequences/index.js";
 import { initSectionModules } from "./sections/section-index.js";
 import { registerSections } from "./sections/section-index.js";
-import { themeInit } from "./utils/utility-theme.js";
-import { refreshAuth } from "./utils/utility-auth.js";
+import { themeSyncFromChromeStorage } from "./utils/utility-theme.js";
 
-themeInit();
-bootstrapExtension();
+void startExtension();
 
-/** Registers sections, wires modules, applies auth chrome, and plays the load intro. */
-async function bootstrapExtension() {
+/** Applies theme, bootstraps auth/data restore, then plays the load intro. */
+async function startExtension() {
+  await themeSyncFromChromeStorage();
   registerSections();
   initSectionModules();
-  await refreshAuth();
-  await introLoadAnimationRun();
-}
 
+  let isSignedIn = false;
+
+  try {
+    ({ isSignedIn } = await bootstrap());
+  } catch {
+    return;
+  }
+
+  await loadAnimationRun(isSignedIn);
+}

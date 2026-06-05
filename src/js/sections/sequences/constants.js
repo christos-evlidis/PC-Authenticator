@@ -5,6 +5,7 @@ export const INTRO_STYLESHEET_HREF = "../css/sections/intro.css";
 
 // Shared state classes.
 export const INTRO_ACTIVE_CLASS = "is-active";
+export const INTRO_SIGN_IN_STAGED_CLASS = "is-sign-in-staged";
 
 // Logo fade phase.
 export const INTRO_LOGO_FADE_CLASS = "is-logo-fade";
@@ -48,4 +49,5 @@ export const EXTENSION_FRAME_SELECTOR = ".extension-frame";
 export const INTRO_HEADER_SELECTOR = ".app-header";
 export const INTRO_SEARCH_SELECTOR = ".codes-search";
 export const INTRO_BODY_SELECTOR = ".app-body";
+
 

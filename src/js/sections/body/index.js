@@ -2,6 +2,7 @@ export { bodyAnimationFinish } from "./animations/finish.js";
 
 import { cssMs } from "../../utils/utility-animation.js";
 import { delay } from "../../utils/utility-animation.js";
+import { bodyAnimationFadeOutContent } from "./animations/fade-out.js";
 import { bodyAnimationIconPop } from "./animations/icon-pop.js";
 import { bodyAnimationFinish } from "./animations/finish.js";
 import { bodyAnimationMessageType } from "./animations/message-type.js";
@@ -36,31 +37,36 @@ export function bodyApply(isSignedIn) {
   }
 }
 
-/** Hides the body empty-state content before the load intro finishes. */
-export function bodyAnimationPrepare() {
+/** Hides the body empty-state content before an intro reveal sequence. */
+export async function bodyAnimationPrepare(mode) {
   const body = document.querySelector(BODY_ROOT_SELECTOR);
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
   const signedInView = document.querySelector(BODY_SIGNED_IN_VIEW_SELECTOR);
   let content = null;
+  let signedIn = false;
 
   if (!signedOutView?.classList.contains(BODY_HIDDEN_CLASS)) {
     content = document.querySelector(BODY_CONTENT_SIGNED_OUT_SELECTOR);
-  } else {
-    const codesList = document.querySelector(".codes-section__list");
+  } else if (!signedInView?.classList.contains(BODY_HIDDEN_CLASS)) {
+    content = document.querySelector(BODY_CONTENT_SIGNED_IN_SELECTOR);
+    signedIn = true;
+  }
 
-    if (
-      !signedInView?.classList.contains(BODY_HIDDEN_CLASS) &&
-      (!codesList || codesList.classList.contains("hidden"))
-    ) {
-      content = document.querySelector(BODY_CONTENT_SIGNED_IN_SELECTOR);
+  if (mode === "sign-in-fade") {
+    const signedOutContent = document.querySelector(BODY_CONTENT_SIGNED_OUT_SELECTOR);
+
+    if (signedOutView?.classList.contains(BODY_HIDDEN_CLASS) || !signedOutContent) {
+      return;
     }
+
+    await bodyAnimationFadeOutContent(signedOutContent);
+    return;
   }
 
   if (!body || !content) {
     return;
   }
 
-  const signedIn = !signedInView?.classList.contains(BODY_HIDDEN_CLASS);
   const stack = content.querySelector(BODY_MESSAGE_STACK_SELECTOR);
   const spacer = content.querySelector(BODY_MESSAGE_SPACER_SELECTOR);
   const display = content.querySelector(BODY_MESSAGE_DISPLAY_SELECTOR);
@@ -88,8 +94,8 @@ export function bodyAnimationPrepare() {
   body.classList.remove(BODY_ACTIVE_CLASS);
 }
 
-/** Runs the one-time body reveal sequence after the load intro finishes. */
-export async function bodyAnimationRun() {
+/** Runs the body reveal sequence after an intro shrink phase. */
+export async function bodyAnimationRun(mode) {
   const body = document.querySelector(BODY_ROOT_SELECTOR);
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
   const signedInView = document.querySelector(BODY_SIGNED_IN_VIEW_SELECTOR);
@@ -97,15 +103,8 @@ export async function bodyAnimationRun() {
 
   if (!signedOutView?.classList.contains(BODY_HIDDEN_CLASS)) {
     content = document.querySelector(BODY_CONTENT_SIGNED_OUT_SELECTOR);
-  } else {
-    const codesList = document.querySelector(".codes-section__list");
-
-    if (
-      !signedInView?.classList.contains(BODY_HIDDEN_CLASS) &&
-      (!codesList || codesList.classList.contains("hidden"))
-    ) {
-      content = document.querySelector(BODY_CONTENT_SIGNED_IN_SELECTOR);
-    }
+  } else if (!signedInView?.classList.contains(BODY_HIDDEN_CLASS)) {
+    content = document.querySelector(BODY_CONTENT_SIGNED_IN_SELECTOR);
   }
 
   if (!body) {

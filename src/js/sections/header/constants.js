@@ -18,6 +18,7 @@ export const HEADER_DISABLED_CLASS = "is-disabled";
 
 // Animation support classes
 export const HEADER_ANIMATION_PENDING_CLASS = "is-header-animation-pending";
+export const HEADER_CONTENT_PENDING_CLASS = "is-header-content-pending";
 export const HEADER_FADE_IN_CLASS = "is-header-fade-in";
 export const HEADER_TITLE_TYPING_CLASS = "is-header-title-typing";
 export const HEADER_ICON_POP_PENDING_CLASS = "is-header-pop-pending";

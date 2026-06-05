@@ -5,7 +5,6 @@
 export const FRAME_BLUR_CLASS = "is-frame-blurred";
 
 export const cross = {
-  codes: null,
   header: null,
   body: null,
   search: null,
