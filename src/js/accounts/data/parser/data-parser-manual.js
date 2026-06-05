@@ -8,7 +8,7 @@ import { dataSanitizeIssuer } from "../records/data-sanitize.js";
 import { dataSanitizeSecret } from "../records/data-sanitize.js";
 
 /** Parses manual setup form fields into account fields. */
-export function dataParseManual({ name, secret, email, type }) {
+export function dataParserManual({ name, secret, email, type }) {
   try {
     const sanitizedName = dataSanitizeIssuer(name);
     const sanitizedSecret = dataSanitizeSecret(secret);
@@ -41,7 +41,7 @@ export function dataParseManual({ name, secret, email, type }) {
     }
     return account;
   } catch (error) {
-    console.warn("[data-parser-manual] dataParseManual failed", error);
+    console.warn("[data-parser-manual] dataParserManual failed", error);
     throw error;
   }
 }

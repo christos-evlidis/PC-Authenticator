@@ -7,7 +7,7 @@ import { dataBuildName } from "../records/data-build.js";
 import { dataSanitizeSecret } from "../records/data-sanitize.js";
 
 /** Parses a scanned QR otpauth URI into account fields. */
-export function dataParseQr(uri) {
+export function dataParserQr(uri) {
   try {
     let raw = String(uri).trim();
     if (raw.toLowerCase().startsWith("apple-otpauth://")) {
@@ -60,7 +60,7 @@ export function dataParseQr(uri) {
     }
     return account;
   } catch (error) {
-    console.warn("[data-parser-qr] dataParseQr failed", error);
+    console.warn("[data-parser-qr] dataParserQr failed", error);
     throw error;
   }
 }
