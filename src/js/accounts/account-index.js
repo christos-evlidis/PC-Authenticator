@@ -8,7 +8,7 @@ export { dataAddManual } from "./data/actions/data-add.js";
 export { dataAddQr } from "./data/actions/data-add.js";
 export { dataDelete } from "./data/actions/data-delete.js";
 export { dataUpdate } from "./data/actions/data-update.js";
-export { dataBackupSync } from "./data/backup/data-sync.js";
+export { dataSync } from "./data/backup/data-sync.js";
 export { dataStorageClearAll } from "./data/storage/data-storage-clear-all.js";
 export { dataStorageGetFinal } from "./data/storage/data-storage-final.js";
 export { dataOtpGetClock } from "./data/otp/data-clock.js";

@@ -8,13 +8,13 @@ import { dataStorageSetFinal } from "../storage/data-storage-final.js";
 import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
 import { dataStorageClearPending } from "../storage/data-storage-pending.js";
 import { dataStorageGetPending } from "../storage/data-storage-pending.js";
-import { dataBackupMerge } from "./data-merge.js";
-import { dataBackupRestore } from "./data-restore.js";
+import { dataMerge } from "./data-merge.js";
+import { dataRestore } from "./data-restore.js";
 
 /** Restores from cloud, merges pending adds, writes the active list, and clears temp keys. */
-export async function dataBackupSync(accountNumber) {
+export async function dataSync(accountNumber) {
   try {
-    const result = await dataBackupRestore(accountNumber);
+    const result = await dataRestore(accountNumber);
     if (result.accounts == null) {
       const existing = dataSanitizeList(
         await dataStorageGetFinal(),
@@ -24,7 +24,7 @@ export async function dataBackupSync(accountNumber) {
       await dataStorageClearPending();
       if (existing.length) {
         console.debug(
-          `[data-backup] dataBackupSync: empty restore; keeping ${existing.length} local account(s)`,
+          `[data-backup] dataSync: empty restore; keeping ${existing.length} local account(s)`,
         );
         return existing;
       }
@@ -56,7 +56,7 @@ export async function dataBackupSync(accountNumber) {
       await dataStorageGetPending(),
     );
     if (pending.length) {
-      plainAccounts = await dataBackupMerge(accountNumber, {
+      plainAccounts = await dataMerge(accountNumber, {
         baseList: plainAccounts,
       });
     } else {
@@ -68,14 +68,14 @@ export async function dataBackupSync(accountNumber) {
       await dataStorageClearPending();
     } catch (error) {
       console.warn(
-        "[data-backup] dataBackupSync clear temp keys failed",
+        "[data-backup] dataSync clear temp keys failed",
         error,
       );
       throw error;
     }
     return plainAccounts;
   } catch (error) {
-    console.warn("[data-backup] dataBackupSync failed", error);
+    console.warn("[data-backup] dataSync failed", error);
     throw error;
   }
 }

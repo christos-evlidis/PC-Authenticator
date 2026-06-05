@@ -1,6 +1,6 @@
 import { dataApiBackup } from "../data-api.js";
-import { dataBackupRestore } from "../backup/data-restore.js";
-import { dataBackupSync } from "../backup/data-sync.js";
+import { dataRestore } from "../backup/data-restore.js";
+import { dataSync } from "../backup/data-sync.js";
 import { dataCryptoDecrypt } from "../crypto/data-crypto-decrypt.js";
 import { dataCryptoIsEncrypted } from "../crypto/data-crypto-type.js";
 import { dataCryptoEncrypt } from "../crypto/data-crypto-encrypt.js";
@@ -14,7 +14,7 @@ import { dataStorageClearPending } from "../storage/data-storage-pending.js";
 export async function dataDelete(accountNumber, accountId) {
   try {
     const deleteId = String(accountId);
-    await dataBackupRestore(accountNumber);
+    await dataRestore(accountNumber);
     let decrypted = [];
     const encryptedBlob = await dataStorageGetEncrypted();
     if (dataCryptoIsEncrypted(encryptedBlob)) {
@@ -37,7 +37,7 @@ export async function dataDelete(accountNumber, accountId) {
     await dataStorageClearEncrypted();
     await dataStorageClearMerged();
     await dataStorageClearPending();
-    return dataBackupSync(accountNumber);
+    return dataSync(accountNumber);
   } catch (error) {
     console.warn("[data-actions] dataDelete failed", error);
     throw error;

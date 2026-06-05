@@ -5,12 +5,12 @@ import { dataStorageSetEncrypted } from "../storage/data-storage-encrypted.js";
 import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
 
 /** Fetches cloud backup and caches the encrypted blob locally when applicable. */
-export async function dataBackupRestore(accountNumber) {
+export async function dataRestore(accountNumber) {
   let result;
   try {
     result = await dataApiRestore(accountNumber);
   } catch (error) {
-    console.warn("[data-backup] dataBackupRestore fetch failed", error);
+    console.warn("[data-backup] dataRestore fetch failed", error);
     throw error;
   }
   try {
@@ -24,7 +24,7 @@ export async function dataBackupRestore(accountNumber) {
       await dataStorageClearMerged();
     }
   } catch (error) {
-    console.warn("[data-backup] dataBackupRestore cache update failed", error);
+    console.warn("[data-backup] dataRestore cache update failed", error);
     throw error;
   }
   return result;

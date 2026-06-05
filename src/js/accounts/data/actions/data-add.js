@@ -1,7 +1,7 @@
-import { dataBackupUpload } from "../backup/data-backup.js";
-import { dataBackupMerge } from "../backup/data-merge.js";
-import { dataBackupRestore } from "../backup/data-restore.js";
-import { dataBackupSync } from "../backup/data-sync.js";
+import { dataBackup } from "../backup/data-backup.js";
+import { dataMerge } from "../backup/data-merge.js";
+import { dataRestore } from "../backup/data-restore.js";
+import { dataSync } from "../backup/data-sync.js";
 import { dataParseManual } from "../parser/data-parser-manual.js";
 import { dataParseQr } from "../parser/data-parser-qr.js";
 import { dataBuildFinal } from "../records/data-build.js";
@@ -16,13 +16,13 @@ export async function dataAddManual(accountNumber, formData) {
     const parsed = dataParseManual(formData);
     const account = dataBuildFinal(parsed);
     await dataStorageAppendPending(account);
-    await dataBackupRestore(accountNumber);
-    await dataBackupMerge(accountNumber);
+    await dataRestore(accountNumber);
+    await dataMerge(accountNumber);
     await dataStorageClearEncrypted();
     await dataStorageClearPending();
-    await dataBackupUpload(accountNumber);
+    await dataBackup(accountNumber);
     await dataStorageClearMerged();
-    await dataBackupSync(accountNumber);
+    await dataSync(accountNumber);
     return account;
   } catch (error) {
     console.warn("[data-actions] dataAddManual failed", error);
@@ -36,13 +36,13 @@ export async function dataAddQr(accountNumber, otpauthUri) {
     const parsed = dataParseQr(otpauthUri);
     const account = dataBuildFinal(parsed);
     await dataStorageAppendPending(account);
-    await dataBackupRestore(accountNumber);
-    await dataBackupMerge(accountNumber);
+    await dataRestore(accountNumber);
+    await dataMerge(accountNumber);
     await dataStorageClearEncrypted();
     await dataStorageClearPending();
-    await dataBackupUpload(accountNumber);
+    await dataBackup(accountNumber);
     await dataStorageClearMerged();
-    await dataBackupSync(accountNumber);
+    await dataSync(accountNumber);
     return account;
   } catch (error) {
     console.warn("[data-actions] dataAddQr failed", error);

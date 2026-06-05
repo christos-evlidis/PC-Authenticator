@@ -4,7 +4,7 @@ import { dataSanitizeList } from "../records/data-sanitize.js";
 import { dataStorageGetMerged } from "../storage/data-storage-merged.js";
 
 /** Encrypts the merged list and uploads it as the cloud backup. */
-export async function dataBackupUpload(accountNumber) {
+export async function dataBackup(accountNumber) {
   try {
     const merged = dataSanitizeList(
       await dataStorageGetMerged(),
@@ -12,7 +12,7 @@ export async function dataBackupUpload(accountNumber) {
     const encryptedPayload = dataCryptoEncrypt(merged, accountNumber);
     await dataApiBackup(accountNumber, encryptedPayload);
   } catch (error) {
-    console.warn("[data-backup] dataBackupUpload failed", error);
+    console.warn("[data-backup] dataBackup failed", error);
     throw error;
   }
 }
