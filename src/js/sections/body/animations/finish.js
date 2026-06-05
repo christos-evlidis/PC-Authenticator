@@ -5,7 +5,7 @@ import { BODY_LOGO_SELECTOR } from "../constants.js";
 import { BODY_ROOT_SELECTOR } from "../constants.js";
 import { EXTENSION_FRAME_SELECTOR } from "../constants.js";
 
-/** Removes animate-for classes and logo after the finish phase. */
+/** Clears bootstrap animate-for classes and removes the logo overlay after the finish phase. */
 export function bodyAnimateForFinish() {
   const frame = document.querySelector(EXTENSION_FRAME_SELECTOR);
   const body = document.querySelector(BODY_ROOT_SELECTOR);

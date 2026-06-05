@@ -8,7 +8,7 @@ import { BODY_PENDING_CLASS } from "../constants.js";
 import { BODY_ROOT_SELECTOR } from "../constants.js";
 import { EXTENSION_FRAME_SELECTOR } from "../constants.js";
 
-/** Resets body chrome to the pre-start hidden state. */
+/** Prepares frame/body layout and resets both content views before bootstrap animations. */
 export function bodyAnimateForStart() {
   themeApplyBodyLogo(themeRead());
 
@@ -17,7 +17,6 @@ export function bodyAnimateForStart() {
 
   frame?.classList.add(BODY_ANIMATE_FOR_START_CLASS);
   root?.classList.add(BODY_ANIMATE_FOR_START_CLASS);
-
   root?.classList.remove(BODY_ACTIVE_CLASS);
   root?.classList.add(BODY_PENDING_CLASS);
 

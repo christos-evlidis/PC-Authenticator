@@ -13,7 +13,14 @@ import { BODY_PHASE_SIGNED_IN_CONTENT } from "../constants.js";
 import { BODY_PHASE_SIGNED_OUT_CONTENT } from "../constants.js";
 import { BODY_PHASE_START } from "../constants.js";
 
-/** Runs a body animation phase. */
+/**
+ * Dispatches a body animation phase by key.
+ *
+ * @param {string} phase One of the BODY_PHASE_* constants.
+ * @param {object} [options] Passed to signed-in/out content phases.
+ * @param {boolean} [options.reset]
+ * @param {boolean} [options.static]
+ */
 export async function bodyAnimationPlay(phase, options = {}) {
   if (phase === BODY_PHASE_START) {
     bodyAnimateForStart();
