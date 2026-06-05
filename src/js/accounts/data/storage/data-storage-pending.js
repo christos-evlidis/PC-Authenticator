@@ -1,5 +1,13 @@
 import { DATA_KEY_PENDING } from "../data-constants.js";
-import { dataStorageLogWarn } from "./data-storage-log.js";
+
+async function dataStorageLogWarn(operation, fn) {
+  try {
+    return await fn();
+  } catch (error) {
+    console.warn(`[data-storage] ${operation} failed`, error);
+    throw error;
+  }
+}
 
 /** Reads pending accounts queued before merge/upload. */
 export async function dataStorageGetPending() {

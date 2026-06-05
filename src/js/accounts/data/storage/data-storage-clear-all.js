@@ -1,9 +1,17 @@
 import { DATA_KEY_LEGACY } from "../data-constants.js";
-import { dataStorageLogWarn } from "./data-storage-log.js";
 import { dataStorageClearEncrypted } from "./data-storage-encrypted.js";
 import { dataStorageClearFinal } from "./data-storage-final.js";
 import { dataStorageClearMerged } from "./data-storage-merged.js";
 import { dataStorageClearPending } from "./data-storage-pending.js";
+
+async function dataStorageLogWarn(operation, fn) {
+  try {
+    return await fn();
+  } catch (error) {
+    console.warn(`[data-storage] ${operation} failed`, error);
+    throw error;
+  }
+}
 
 /** Clears all account-related keys from local storage (sign-out / reset). */
 export async function dataStorageClearAll() {

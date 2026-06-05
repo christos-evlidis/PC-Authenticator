@@ -1,5 +1,13 @@
 import { DATA_KEY_MERGED } from "../data-constants.js";
-import { dataStorageLogWarn } from "./data-storage-log.js";
+
+async function dataStorageLogWarn(operation, fn) {
+  try {
+    return await fn();
+  } catch (error) {
+    console.warn(`[data-storage] ${operation} failed`, error);
+    throw error;
+  }
+}
 
 /** Reads the temporary merged list used during add/sync flows. */
 export async function dataStorageGetMerged() {

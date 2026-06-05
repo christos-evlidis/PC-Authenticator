@@ -4,7 +4,6 @@ export { accountNumberClear } from "./auth/storage.js";
 export { accountNumberGet } from "./auth/storage.js";
 export { accountNumberSet } from "./auth/storage.js";
 export { accountNumberSanitize } from "./auth/number-sanitize.js";
-export { ACCOUNT_NUMBER_LENGTH } from "./auth/constants.js";
 export { dataAddManual } from "./data/actions/data-add.js";
 export { dataAddQr } from "./data/actions/data-add.js";
 export { dataDelete } from "./data/actions/data-delete.js";
@@ -18,6 +17,7 @@ export { dataOtpGetOptions } from "./data/otp/data-options.js";
 export { dataOtpIsHotp } from "./data/otp/data-type.js";
 export { dataOtpIsTotp } from "./data/otp/data-type.js";
 
+export { ACCOUNT_NUMBER_LENGTH } from "./auth/constants.js";
 export { DATA_HOTP_COUNTER_DEFAULT } from "./data/data-constants.js";
 export { DATA_COUNTER_MIN } from "./data/data-constants.js";
 export { DATA_OTP_DIGITS } from "./data/data-constants.js";
