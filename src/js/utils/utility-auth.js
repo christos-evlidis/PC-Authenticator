@@ -52,6 +52,11 @@ export function authNumberVerifyCacheClear() {
   verifiedAuthNumberCache = { value: undefined, storageSnapshot: undefined };
 }
 
+/** Returns whether a stored auth number exists in local storage. */
+export async function checkAuth() {
+  return Boolean(await authNumberGet());
+}
+
 /** Returns the verified auth number, or null when absent or invalid. */
 export async function getVerifiedAuthNumber() {
   return authNumberResolve();

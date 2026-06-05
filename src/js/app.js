@@ -15,10 +15,8 @@ import { initSectionModules } from "./sections/section-index.js";
 import { loadSections } from "./sections/section-index.js";
 import { registerSections } from "./sections/section-index.js";
 import { themeInit } from "./utils/utility-theme.js";
-import {
-  getVerifiedAuthNumber,
-  refreshAuth,
-} from "./utils/utility-auth.js";
+import { checkAuth, refreshAuth } from "./utils/utility-auth.js";
+import { authNumberGet } from "./accounts/accounts-index.js";
 import { dataSync } from "./accounts/accounts-index.js";
 import { hasPendingPostLoginReveal } from "./sections/codes/codes-reveal.js";
 import { setEmptyVisible } from "./sections/codes/codes-empty.js";
@@ -40,9 +38,8 @@ async function bootstrapExtension() {
   registerSections();
   initSectionModules();
 
-  const authNumber = await getVerifiedAuthNumber();
-  await refreshAuth(authNumber);
-  const isLoggedIn = Boolean(authNumber);
+  const isLoggedIn = await checkAuth();
+  await refreshAuth();
 
   headerAnimationPlay(HEADER_PHASE_START);
   bodyAnimationPlay(BODY_PHASE_START);
@@ -50,13 +47,17 @@ async function bootstrapExtension() {
   let signedInEmpty = false;
 
   if (isLoggedIn && !hasPendingPostLoginReveal()) {
-    try {
-      await loadTimerInvertedPreference();
-      const accounts = await dataSync(authNumber);
-      signedInEmpty =
-        accounts.filter((account) => account?.secret).length === 0;
-    } catch {
-      return;
+    const authNumber = await authNumberGet();
+
+    if (authNumber) {
+      try {
+        await loadTimerInvertedPreference();
+        const accounts = await dataSync(authNumber);
+        signedInEmpty =
+          accounts.filter((account) => account?.secret).length === 0;
+      } catch {
+        return;
+      }
     }
   }
 
