@@ -1,5 +1,5 @@
 .app-intro {
-    --intro-surface: #1e1e1e;
+    --intro-surface: #ffffff;
     --intro-logo-hold-ms: 500ms;
     --intro-shrink-frame-ms: 350ms;
     --intro-shrink-header-ms: 250ms;
@@ -50,6 +50,10 @@
 
 .app-intro__logo--dark {
     display: none;
+}
+
+body.theme-dark .app-intro {
+    --intro-surface: #1e1e1e;
 }
 
 body.theme-dark .app-intro__logo--light {

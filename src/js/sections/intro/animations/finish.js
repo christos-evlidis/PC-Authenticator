@@ -9,3 +9,8 @@ export function introAnimationFinish() {
     .querySelector(`link[href="${INTRO_STYLESHEET_HREF}"]`)
     ?.remove();
 }
+
+/** Removes only the sign-in intro overlay shell. */
+export function introSignInAnimationFinish() {
+  document.querySelector(INTRO_ROOT_SELECTOR)?.remove();
+}

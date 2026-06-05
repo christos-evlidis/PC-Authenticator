@@ -2,11 +2,14 @@ export { headerIconsDisable } from "./actions/icons.js";
 export { headerIconsEnable } from "./actions/icons.js";
 export { headerAnimationFinish } from "./animations/finish.js";
 
+import { cssMs } from "../../utils/utility-animation.js";
+import { delay } from "../../utils/utility-animation.js";
 import { headerAnimationFadeIn } from "./animations/fade-in.js";
 import { headerAnimationFinish } from "./animations/finish.js";
 import { headerAnimationIconPop } from "./animations/icon-pop.js";
 import { headerAnimationTitleType } from "./animations/title-type.js";
 import { HEADER_ANIMATION_PENDING_CLASS } from "./constants.js";
+import { HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "./constants.js";
 import { HEADER_BUTTON_SELECTOR } from "./constants.js";
 import { HEADER_HIDDEN_CLASS } from "./constants.js";
 import { HEADER_ICON_POP_PENDING_CLASS } from "./constants.js";
@@ -64,6 +67,7 @@ export async function headerAnimationRun() {
   }
 
   try {
+    await delay(cssMs(header, HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS));
     await headerAnimationFadeIn();
     await headerAnimationTitleType();
     await headerAnimationIconPop();

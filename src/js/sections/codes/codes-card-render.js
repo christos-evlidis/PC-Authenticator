@@ -62,6 +62,7 @@ export async function animateManualAccountAdd(account) {
 }
 
 export function renderAccounts(accounts, options = {}) {
+  const { revealEmpty = true } = options;
   const { empty, list, template } = getElements();
 
   stopTicker();
@@ -78,7 +79,9 @@ export function renderAccounts(accounts, options = {}) {
   setEmptyVisible(empty, list, isEmpty);
 
   if (isEmpty) {
-    revealCodesEmptyStatic();
+    if (revealEmpty) {
+      revealCodesEmptyStatic();
+    }
     return [];
   }
 

@@ -12,7 +12,7 @@ import { initCodesListWheelSnap } from "./codes-scroll.js";
 import { loadTimerInvertedPreference } from "./codes-timer.js";
 import { stopTicker } from "./codes-timer.js";
 
-let bootstrapStarted = false;
+let bootstrapPromise = null;
 
 /** Renders the active account list already stored locally. */
 export async function renderFromStorage() {
@@ -50,19 +50,19 @@ export function initCodes() {
 }
 
 /** Loads codes once after auth chrome is applied. */
-export async function bootstrapCodesOnce() {
-  if (bootstrapStarted) {
-    return;
+export function bootstrapCodesOnce() {
+  if (!bootstrapPromise) {
+    bootstrapPromise = (async () => {
+      try {
+        await initPopupResume();
+        await initOnLoad();
+      } catch {
+        // Startup sync or section init failed.
+      }
+    })();
   }
 
-  bootstrapStarted = true;
-
-  try {
-    await initPopupResume();
-    await initOnLoad();
-  } catch {
-    // Startup sync or section init failed.
-  }
+  return bootstrapPromise;
 }
 
 /** Syncs and renders codes; runs review prompt or pending QR scan when appropriate. */
@@ -72,13 +72,13 @@ async function initOnLoad() {
   const authNumber = await authNumberGet();
 
   if (!authNumber) {
-    renderAccounts([]);
+    renderAccounts([], { revealEmpty: false });
   } else if (hasPendingPostLoginReveal()) {
     // Post-login reveal runs when user menu closes.
   } else {
     await loadTimerInvertedPreference();
     const accounts = await dataSync(authNumber);
-    renderAccounts(accounts);
+    renderAccounts(accounts, { revealEmpty: false });
   }
 
   if (getPopupResumePending()) {

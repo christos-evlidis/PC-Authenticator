@@ -1,9 +1,21 @@
 .codes-search {
+    --search-intro-fade-ms: 250ms;
+    --search-animation-timeout-buffer-ms: 0ms;
     flex-shrink: 0;
     display: block;
     padding: 8px 14px;
     border-radius: var(--header-radius);
     background: var(--color-surface);
+}
+
+.codes-search.is-search-animation-pending {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.codes-search.is-search-fade-in {
+    opacity: 1;
+    transition: opacity var(--search-intro-fade-ms) ease;
 }
 
 .codes-search.hidden {

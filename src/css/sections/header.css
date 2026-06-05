@@ -12,14 +12,15 @@
     --header-btn-radius: 8px;
     --header-title-size: 16px;
     --header-btn-icon-size: 18px;
-    --header-actions-disabled-opacity: 0.45;
+    --header-actions-disabled-opacity: 0.5;
     --header-btn-accent-ms: 250ms;
     --header-blur-duration: 250ms;
     --header-intro-fade-ms: 250ms;
-    --header-title-type-ms: 500ms;
-    --header-icon-pop-ms: 250ms;
-    --header-icon-pop-stagger-ms: 200ms;
-    --header-animation-timeout-buffer-ms: 32ms;
+    --header-title-type-ms: 750ms;
+    --header-icon-pop-ms: 200ms;
+    --header-icon-pop-stagger-ms: 50ms;
+    --header-animation-timeout-buffer-ms: 50ms;
+    --header-slot-height: calc(var(--header-padding-block) * 2 + var(--header-btn-size));
 }
 
 .app-header {
@@ -36,13 +37,6 @@
     padding: var(--header-padding-block) var(--header-padding-inline);
 }
 
-.extension-frame {
-    --header-padding-block: 12px;
-    --header-padding-inline: 14px;
-    --header-btn-size: 32px;
-    --header-slot-height: calc(var(--header-padding-block) * 2 + var(--header-btn-size));
-}
-
 .app-header__intro-content {
     display: flex;
     align-items: center;
@@ -51,11 +45,12 @@
     width: 100%;
 }
 
-.app-header.is-header-animation-pending .app-header__intro-content {
+.app-header.is-header-animation-pending {
     opacity: 0;
+    pointer-events: none;
 }
 
-.app-header.is-header-fade-in .app-header__intro-content {
+.app-header.is-header-fade-in {
     opacity: 1;
     transition: opacity var(--header-intro-fade-ms) ease;
 }

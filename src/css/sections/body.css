@@ -12,6 +12,9 @@
     --body-message-size: 14px;
     --body-content-padding-block: 24px;
     --body-content-padding-inline: 20px;
+    --body-icon-pop-ms: 250ms;
+    --body-message-type-ms: 1000ms;
+    --body-animation-timeout-buffer-ms: 50ms;
 }
 
 .app-body {
@@ -74,10 +77,44 @@
     font-size: var(--body-icon-size);
     line-height: 1;
     color: var(--body-muted);
+    transform-origin: center center;
+    transition:
+        opacity var(--body-icon-pop-ms) ease,
+        transform var(--body-icon-pop-ms) ease,
+        max-height var(--body-icon-pop-ms) ease,
+        margin-bottom var(--body-icon-pop-ms) ease;
+}
+
+.app-body__icon.is-body-pop-pending {
+    opacity: 0;
+    transform: scale(0.4);
+    max-height: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.app-body__icon.is-body-pop-revealed {
+    opacity: 1;
+    transform: scale(1);
+    max-height: 4rem;
+    margin-bottom: 16px;
+    pointer-events: auto;
+}
+
+.app-body__message--display.is-body-message-typing::after {
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-left: 1px;
+    vertical-align: -0.08em;
+    background: currentColor;
 }
 
 .app-body__message-stack {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     width: 100%;
     max-width: var(--body-message-max-width);
 }
@@ -96,6 +133,10 @@
     visibility: hidden;
     pointer-events: none;
     user-select: none;
+}
+
+.app-body__message--display {
+    align-self: start;
 }
 
 body.is-frame-blurred .app-body {

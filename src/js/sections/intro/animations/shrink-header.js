@@ -1,8 +1,8 @@
-import { cssMs } from "../../utils/utility-animation.js";
-import { cssPhaseReset } from "../../utils/utility-animation.js";
-import { frameMetrics } from "../../utils/utility-animation.js";
-import { waitForAnimationEnd } from "../../utils/utility-animation.js";
-import { waitForNextFrame } from "../../utils/utility-animation.js";
+import { cssMs } from "../../../utils/utility-animation.js";
+import { cssPhaseReset } from "../../../utils/utility-animation.js";
+import { frameMetrics } from "../../../utils/utility-animation.js";
+import { waitForAnimationEnd } from "../../../utils/utility-animation.js";
+import { waitForNextFrame } from "../../../utils/utility-animation.js";
 import { INTRO_FRAME_SELECTOR } from "../constants.js";
 import { INTRO_HEADER_SELECTOR } from "../constants.js";
 import { INTRO_OVERLAY_SELECTOR } from "../constants.js";

@@ -3,6 +3,7 @@ import { cssMs } from "../../../utils/utility-animation.js";
 import { delay } from "../../../utils/utility-animation.js";
 import { waitForAnimationEnd } from "../../../utils/utility-animation.js";
 import { waitForNextFrame } from "../../../utils/utility-animation.js";
+import { introSignInAnimationPrepare } from "../../intro/index.js";
 import { refreshAuth } from "../../../utils/utility-auth.js";
 import { themeRead } from "../../../utils/utility-theme.js";
 import { THEME_DARK } from "../../../utils/utility-theme.js";
@@ -392,6 +393,8 @@ export async function userMenuSignInAnimation(resultIsSuccess) {
     await refreshAuth();
 
     if (isSignedInAfter) {
+      introSignInAnimationPrepare();
+
       const input = document.querySelector(USER_MENU_SIGN_IN_INPUT_SELECTOR);
 
       if (input) {

@@ -8,6 +8,7 @@ import { initCodes } from "./codes-init.js";
 import { renderFromStorage } from "./codes-init.js";
 import { restore } from "./codes-init.js";
 import { applyPostLogoutChrome } from "./codes-reveal.js";
+import { cancelPendingPostLoginReveal } from "./codes-reveal.js";
 import { hasPendingPostLoginReveal } from "./codes-reveal.js";
 import { playPostLoginReveal } from "./codes-reveal.js";
 import { preparePostLoginReveal } from "./codes-reveal.js";
@@ -27,6 +28,7 @@ export const codesSection = {
   setAuthState,
   refreshAuthState,
   stagePostLoginReveal,
+  cancelPendingPostLoginReveal,
   hasPendingPostLoginReveal,
   preparePostLoginReveal,
   playPostLoginReveal,

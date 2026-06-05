@@ -1,5 +1,5 @@
-import { cssMs } from "../../utils/utility-animation.js";
-import { delay } from "../../utils/utility-animation.js";
+import { cssMs } from "../../../utils/utility-animation.js";
+import { delay } from "../../../utils/utility-animation.js";
 import { INTRO_ROOT_SELECTOR } from "../constants.js";
 import { INTRO_VAR_LOGO_HOLD_MS } from "../constants.js";
 

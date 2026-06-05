@@ -7,3 +7,11 @@ export const SEARCH_FILTER_CARD_SELECTOR =
 
 // State classes
 export const SEARCH_HIDDEN_CLASS = "hidden";
+
+// Animation support classes
+export const SEARCH_ANIMATION_PENDING_CLASS = "is-search-animation-pending";
+export const SEARCH_FADE_IN_CLASS = "is-search-fade-in";
+
+// Shared timing vars (defined on .codes-search; read via cssMs).
+export const SEARCH_VAR_INTRO_FADE_MS = "--search-intro-fade-ms";
+export const SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--search-animation-timeout-buffer-ms";

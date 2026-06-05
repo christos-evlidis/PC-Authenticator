@@ -1,4 +1,5 @@
-import { cross } from "../../section-cross.js";
+import { introSignInAnimationIsPending } from "../../intro/index.js";
+import { introSignInAnimationRun } from "../../intro/index.js";
 import { userMenuStateGet } from "../state.js";
 import { userMenuStateSet } from "../state.js";
 import { userMenuPanelCloseAnimation } from "../animations/panel-close.js";
@@ -11,5 +12,8 @@ export async function userMenuPanelClose() {
 
   userMenuStateSet({ isOpen: false });
   await userMenuPanelCloseAnimation();
-  await cross.codes?.playPostLoginReveal?.();
+
+  if (introSignInAnimationIsPending()) {
+    await introSignInAnimationRun();
+  }
 }

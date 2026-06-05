@@ -44,6 +44,7 @@ export const INTRO_VAR_HEIGHT = "--intro-height";
 
 // Layout measurement anchors.
 export const INTRO_FRAME_SELECTOR = ".extension-frame";
+export const EXTENSION_FRAME_SELECTOR = ".extension-frame";
 export const INTRO_HEADER_SELECTOR = ".app-header";
 export const INTRO_SEARCH_SELECTOR = ".codes-search";
 export const INTRO_BODY_SELECTOR = ".app-body";
