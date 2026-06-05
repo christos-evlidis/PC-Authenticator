@@ -1,29 +1,29 @@
-import { dataRemoteRestore } from "../data-api.js";
-import { dataEncryptedIs } from "../data-crypto.js";
-import { dataEncryptedClear } from "../data-storage.js";
-import { dataEncryptedSet } from "../data-storage.js";
-import { dataMergedClear } from "../data-storage.js";
+import { dataApiRestore } from "../data-api.js";
+import { dataCryptoIsEncrypted } from "../data-crypto.js";
+import { dataStorageClearEncrypted } from "../data-storage.js";
+import { dataStorageSetEncrypted } from "../data-storage.js";
+import { dataStorageClearMerged } from "../data-storage.js";
 
 /** Fetches cloud backup and caches the encrypted blob locally when applicable. */
-export async function dataRestore(accountNumber) {
+export async function dataBackupRestore(accountNumber) {
   let result = { accounts: null };
   try {
-    result = await dataRemoteRestore(accountNumber);
+    result = await dataApiRestore(accountNumber);
   } catch (error) {
-    console.warn("[data-backup] dataRestore fetch failed", error);
+    console.warn("[data-backup] dataBackupRestore fetch failed", error);
   }
   try {
     if (
       typeof result.accounts === "string" &&
-      dataEncryptedIs(result.accounts)
+      dataCryptoIsEncrypted(result.accounts)
     ) {
-      await dataEncryptedSet(result.accounts);
+      await dataStorageSetEncrypted(result.accounts);
     } else {
-      await dataEncryptedClear();
-      await dataMergedClear();
+      await dataStorageClearEncrypted();
+      await dataStorageClearMerged();
     }
   } catch (error) {
-    console.warn("[data-backup] dataRestore cache update failed", error);
+    console.warn("[data-backup] dataBackupRestore cache update failed", error);
     throw error;
   }
   return result;

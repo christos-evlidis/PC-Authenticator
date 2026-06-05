@@ -1,22 +1,22 @@
-import { HOTP_TYPE } from "../data-constants.js";
-import { TOTP_TYPE } from "../data-constants.js";
+import { DATA_OTP_TYPE_HOTP } from "../data-constants.js";
+import { DATA_OTP_TYPE_TOTP } from "../data-constants.js";
 
 /** Returns whether the account uses HOTP (counter-based). */
-export function dataHotpIs(account) {
+export function dataOtpIsHotp(account) {
   try {
-    return account.type === HOTP_TYPE;
+    return account.type === DATA_OTP_TYPE_HOTP;
   } catch (error) {
-    console.warn("[data-otp] dataHotpIs failed", error);
+    console.warn("[data-otp] dataOtpIsHotp failed", error);
     return false;
   }
 }
 
 /** Returns whether the account uses TOTP (time-based). */
-export function dataTotpIs(account) {
+export function dataOtpIsTotp(account) {
   try {
-    return account.type === TOTP_TYPE;
+    return account.type === DATA_OTP_TYPE_TOTP;
   } catch (error) {
-    console.warn("[data-otp] dataTotpIs failed", error);
+    console.warn("[data-otp] dataOtpIsTotp failed", error);
     return false;
   }
 }

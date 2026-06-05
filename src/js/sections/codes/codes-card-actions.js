@@ -1,4 +1,4 @@
-import { dataHotpIs } from "../../accounts/account-index.js";
+import { dataOtpIsHotp } from "../../accounts/account-index.js";
 import { copyCode } from "./codes-copy.js";
 import { handleDeleteClick } from "./codes-delete.js";
 import { getAccountContactDisplay } from "./codes-edit.js";
@@ -7,7 +7,7 @@ import { pushCardRoot } from "./codes-state.js";
 import { formatHotpCounterDisplay } from "./codes-timer.js";
 
 export function bindCard(card, account) {
-  const isHotp = dataHotpIs(account);
+  const isHotp = dataOtpIsHotp(account);
   const els = {
     name: card.querySelector(".account-name"),
     email: card.querySelector(".account-email"),

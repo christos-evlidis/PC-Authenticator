@@ -1,11 +1,11 @@
-import { ACCOUNTS_ENCRYPTED_KEY } from "./data-constants.js";
-import { ACCOUNTS_FINAL_KEY } from "./data-constants.js";
-import { ACCOUNTS_LEGACY_KEYS } from "./data-constants.js";
-import { ACCOUNTS_MERGED_KEY } from "./data-constants.js";
-import { ACCOUNTS_UNENCRYPTED_KEY } from "./data-constants.js";
+import { DATA_KEY_ENCRYPTED } from "./data-constants.js";
+import { DATA_KEY_FINAL } from "./data-constants.js";
+import { DATA_KEY_LEGACY } from "./data-constants.js";
+import { DATA_KEY_MERGED } from "./data-constants.js";
+import { DATA_KEY_PENDING } from "./data-constants.js";
 
 /** Runs a storage operation and logs failures. */
-async function dataStorageWarn(operation, fn) {
+async function dataStorageLogWarn(operation, fn) {
   try {
     return await fn();
   } catch (error) {
@@ -15,76 +15,76 @@ async function dataStorageWarn(operation, fn) {
 }
 
 /** Reads the final (active) account list from local storage. */
-export async function dataFinalGet() {
-  return dataStorageWarn("dataFinalGet", async () => {
-    const stored = await chrome.storage.local.get([ACCOUNTS_FINAL_KEY]);
-    return stored[ACCOUNTS_FINAL_KEY];
+export async function dataStorageGetFinal() {
+  return dataStorageLogWarn("dataStorageGetFinal", async () => {
+    const stored = await chrome.storage.local.get([DATA_KEY_FINAL]);
+    return stored[DATA_KEY_FINAL];
   });
 }
 
 /** Writes the final (active) account list to local storage. */
-export async function dataFinalSet(accounts) {
-  return dataStorageWarn("dataFinalSet", () =>
-    chrome.storage.local.set({ [ACCOUNTS_FINAL_KEY]: accounts }),
+export async function dataStorageSetFinal(accounts) {
+  return dataStorageLogWarn("dataStorageSetFinal", () =>
+    chrome.storage.local.set({ [DATA_KEY_FINAL]: accounts }),
   );
 }
 
 /** Clears the final (active) account list from local storage. */
-export async function dataFinalClear() {
-  return dataStorageWarn("dataFinalClear", () =>
-    chrome.storage.local.remove([ACCOUNTS_FINAL_KEY]),
+export async function dataStorageClearFinal() {
+  return dataStorageLogWarn("dataStorageClearFinal", () =>
+    chrome.storage.local.remove([DATA_KEY_FINAL]),
   );
 }
 
 /** Reads the cached encrypted backup blob. */
-export async function dataEncryptedGet() {
-  return dataStorageWarn("dataEncryptedGet", async () => {
-    const stored = await chrome.storage.local.get([ACCOUNTS_ENCRYPTED_KEY]);
-    return stored[ACCOUNTS_ENCRYPTED_KEY];
+export async function dataStorageGetEncrypted() {
+  return dataStorageLogWarn("dataStorageGetEncrypted", async () => {
+    const stored = await chrome.storage.local.get([DATA_KEY_ENCRYPTED]);
+    return stored[DATA_KEY_ENCRYPTED];
   });
 }
 
 /** Writes the cached encrypted backup blob. */
-export async function dataEncryptedSet(encryptedBlob) {
-  return dataStorageWarn("dataEncryptedSet", () =>
-    chrome.storage.local.set({ [ACCOUNTS_ENCRYPTED_KEY]: encryptedBlob }),
+export async function dataStorageSetEncrypted(encryptedBlob) {
+  return dataStorageLogWarn("dataStorageSetEncrypted", () =>
+    chrome.storage.local.set({ [DATA_KEY_ENCRYPTED]: encryptedBlob }),
   );
 }
 
 /** Clears the cached encrypted backup blob. */
-export async function dataEncryptedClear() {
-  return dataStorageWarn("dataEncryptedClear", () =>
-    chrome.storage.local.remove([ACCOUNTS_ENCRYPTED_KEY]),
+export async function dataStorageClearEncrypted() {
+  return dataStorageLogWarn("dataStorageClearEncrypted", () =>
+    chrome.storage.local.remove([DATA_KEY_ENCRYPTED]),
   );
 }
 
 /** Reads pending accounts queued before merge/upload. */
-export async function dataPendingGet() {
-  return dataStorageWarn("dataPendingGet", async () => {
-    const stored = await chrome.storage.local.get([ACCOUNTS_UNENCRYPTED_KEY]);
-    return stored[ACCOUNTS_UNENCRYPTED_KEY];
+export async function dataStorageGetPending() {
+  return dataStorageLogWarn("dataStorageGetPending", async () => {
+    const stored = await chrome.storage.local.get([DATA_KEY_PENDING]);
+    return stored[DATA_KEY_PENDING];
   });
 }
 
 /** Writes the pending accounts queue. */
-export async function dataPendingSet(accounts) {
-  return dataStorageWarn("dataPendingSet", () =>
-    chrome.storage.local.set({ [ACCOUNTS_UNENCRYPTED_KEY]: accounts }),
+export async function dataStorageSetPending(accounts) {
+  return dataStorageLogWarn("dataStorageSetPending", () =>
+    chrome.storage.local.set({ [DATA_KEY_PENDING]: accounts }),
   );
 }
 
 /** Clears the pending accounts queue. */
-export async function dataPendingClear() {
-  return dataStorageWarn("dataPendingClear", () =>
-    chrome.storage.local.remove([ACCOUNTS_UNENCRYPTED_KEY]),
+export async function dataStorageClearPending() {
+  return dataStorageLogWarn("dataStorageClearPending", () =>
+    chrome.storage.local.remove([DATA_KEY_PENDING]),
   );
 }
 
 /** Appends one account to the pending queue. */
-export async function dataPendingAppend(account) {
-  return dataStorageWarn("dataPendingAppend", async () => {
-    const pending = await dataPendingGet();
-    await dataPendingSet([
+export async function dataStorageAppendPending(account) {
+  return dataStorageLogWarn("dataStorageAppendPending", async () => {
+    const pending = await dataStorageGetPending();
+    await dataStorageSetPending([
       ...(Array.isArray(pending) ? pending : []),
       account,
     ]);
@@ -92,34 +92,34 @@ export async function dataPendingAppend(account) {
 }
 
 /** Reads the temporary merged list used during add/sync flows. */
-export async function dataMergedGet() {
-  return dataStorageWarn("dataMergedGet", async () => {
-    const stored = await chrome.storage.local.get([ACCOUNTS_MERGED_KEY]);
-    return stored[ACCOUNTS_MERGED_KEY];
+export async function dataStorageGetMerged() {
+  return dataStorageLogWarn("dataStorageGetMerged", async () => {
+    const stored = await chrome.storage.local.get([DATA_KEY_MERGED]);
+    return stored[DATA_KEY_MERGED];
   });
 }
 
 /** Writes the temporary merged list. */
-export async function dataMergedSet(accounts) {
-  return dataStorageWarn("dataMergedSet", () =>
-    chrome.storage.local.set({ [ACCOUNTS_MERGED_KEY]: accounts }),
+export async function dataStorageSetMerged(accounts) {
+  return dataStorageLogWarn("dataStorageSetMerged", () =>
+    chrome.storage.local.set({ [DATA_KEY_MERGED]: accounts }),
   );
 }
 
 /** Clears the temporary merged list. */
-export async function dataMergedClear() {
-  return dataStorageWarn("dataMergedClear", () =>
-    chrome.storage.local.remove([ACCOUNTS_MERGED_KEY]),
+export async function dataStorageClearMerged() {
+  return dataStorageLogWarn("dataStorageClearMerged", () =>
+    chrome.storage.local.remove([DATA_KEY_MERGED]),
   );
 }
 
 /** Clears all account-related keys from local storage (sign-out / reset). */
-export async function dataClear() {
-  return dataStorageWarn("dataClear", async () => {
-    await dataFinalClear();
-    await dataEncryptedClear();
-    await dataPendingClear();
-    await dataMergedClear();
-    await chrome.storage.local.remove(ACCOUNTS_LEGACY_KEYS);
+export async function dataStorageClearAll() {
+  return dataStorageLogWarn("dataStorageClearAll", async () => {
+    await dataStorageClearFinal();
+    await dataStorageClearEncrypted();
+    await dataStorageClearPending();
+    await dataStorageClearMerged();
+    await chrome.storage.local.remove(DATA_KEY_LEGACY);
   });
 }

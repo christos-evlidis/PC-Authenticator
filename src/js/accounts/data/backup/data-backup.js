@@ -1,18 +1,18 @@
-import { dataRemoteBackup } from "../data-api.js";
-import { dataEncrypt } from "../data-crypto.js";
-import { dataListSanitize } from "../records/data-sanitize.js";
-import { dataMergedGet } from "../data-storage.js";
+import { dataApiBackup } from "../data-api.js";
+import { dataCryptoEncrypt } from "../data-crypto.js";
+import { dataSanitizeList } from "../records/data-sanitize.js";
+import { dataStorageGetMerged } from "../data-storage.js";
 
 /** Encrypts the merged list and uploads it as the cloud backup. */
-export async function dataBackup(accountNumber) {
+export async function dataBackupUpload(accountNumber) {
   try {
-    const merged = dataListSanitize(
-      await dataMergedGet(),
+    const merged = dataSanitizeList(
+      await dataStorageGetMerged(),
     );
-    const encryptedPayload = dataEncrypt(merged, accountNumber);
-    await dataRemoteBackup(accountNumber, encryptedPayload);
+    const encryptedPayload = dataCryptoEncrypt(merged, accountNumber);
+    await dataApiBackup(accountNumber, encryptedPayload);
   } catch (error) {
-    console.warn("[data-backup] dataBackup failed", error);
+    console.warn("[data-backup] dataBackupUpload failed", error);
     throw error;
   }
 }

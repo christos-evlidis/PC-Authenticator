@@ -20,7 +20,7 @@ import { registerSections } from "./sections/section-index.js";
 import { themeInit } from "./utils/utility-theme.js";
 import { checkAuth } from "./utils/utility-auth.js";
 import { refreshAuth } from "./utils/utility-auth.js";
-import { dataSync } from "./accounts/account-index.js";
+import { dataBackupSync } from "./accounts/account-index.js";
 import { accountNumberGet } from "./accounts/account-index.js";
 import { hasPendingPostLoginReveal } from "./sections/codes/codes-reveal.js";
 import { setEmptyVisible } from "./sections/codes/codes-empty.js";
@@ -54,7 +54,7 @@ async function bootstrapExtension() {
 
     if (accountNumber) {
       await loadTimerInvertedPreference();
-      const accounts = await dataSync(accountNumber);
+      const accounts = await dataBackupSync(accountNumber);
       signedInEmpty = accounts.filter((account) => account?.secret).length === 0;
     }
   }

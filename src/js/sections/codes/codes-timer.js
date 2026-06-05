@@ -1,11 +1,11 @@
 import {
-  HOTP_DEFAULT_COUNTER,
-  MIN_COUNTER,
-  dataHotpIs,
-  dataOtpClockGet,
-  dataOtpNumberGet,
-  dataOtpOptionsGet,
-  dataTotpIs,
+  DATA_HOTP_COUNTER_DEFAULT,
+  DATA_COUNTER_MIN,
+  dataOtpIsHotp,
+  dataOtpGetClock,
+  dataOtpGetNumber,
+  dataOtpGetOptions,
+  dataOtpIsTotp,
 } from "../../accounts/account-index.js";
 import {
   PIE_CENTER,
@@ -84,19 +84,19 @@ export function stopTicker() {
 }
 
 function hasTotpCards() {
-  return getCardRoots().some((root) => dataTotpIs(root.account));
+  return getCardRoots().some((root) => dataOtpIsTotp(root.account));
 }
 
 function getFirstTotpRoot() {
   return (
-    getCardRoots().find((root) => dataTotpIs(root.account)) ?? null
+    getCardRoots().find((root) => dataOtpIsTotp(root.account)) ?? null
   );
 }
 
 export function updateAccountCode(root) {
   const { account, els, card } = root;
-  const otpOptions = dataOtpOptionsGet(account);
-  const otp = dataOtpNumberGet(account.secret, otpOptions);
+  const otpOptions = dataOtpGetOptions(account);
+  const otp = dataOtpGetNumber(account.secret, otpOptions);
 
   if (els.code) {
     const digits = otpOptions.digits;
@@ -110,12 +110,12 @@ function runSecondTick() {
   let rolloverClock = null;
 
   for (const root of getCardRoots()) {
-    if (dataHotpIs(root.account)) {
+    if (dataOtpIsHotp(root.account)) {
       continue;
     }
 
-    const clock = dataOtpClockGet(
-      dataOtpOptionsGet(root.account),
+    const clock = dataOtpGetClock(
+      dataOtpGetOptions(root.account),
     );
 
     if (!rolloverClock) {
@@ -139,7 +139,7 @@ export function startTicker() {
   }
 
   for (const root of getCardRoots()) {
-    if (dataHotpIs(root.account)) {
+    if (dataOtpIsHotp(root.account)) {
       updateAccountCode(root);
     }
   }
@@ -155,18 +155,18 @@ export function startTicker() {
   const firstTotp = getFirstTotpRoot();
 
   handlePeriodRollover(
-    dataOtpClockGet(
-      firstTotp ? dataOtpOptionsGet(firstTotp.account) : {},
+    dataOtpGetClock(
+      firstTotp ? dataOtpGetOptions(firstTotp.account) : {},
     ),
   );
 
   for (const root of getCardRoots()) {
-    if (dataHotpIs(root.account)) {
+    if (dataOtpIsHotp(root.account)) {
       continue;
     }
 
-    const clock = dataOtpClockGet(
-      dataOtpOptionsGet(root.account),
+    const clock = dataOtpGetClock(
+      dataOtpGetOptions(root.account),
     );
 
     updateCardSecondTick(root, clock);
@@ -255,7 +255,7 @@ export function updateCardSecondTick(root, _clock) {
 export function getHotpCounterValue(account) {
   return Number.isInteger(account?.counter)
     ? account.counter
-    : HOTP_DEFAULT_COUNTER;
+    : DATA_HOTP_COUNTER_DEFAULT;
 }
 
 export function formatHotpCounterDisplay(account) {
@@ -271,7 +271,7 @@ export function parseHotpCounterInput(text) {
 
   const counter = Number.parseInt(trimmed, 10);
 
-  if (!Number.isInteger(counter) || counter < MIN_COUNTER) {
+  if (!Number.isInteger(counter) || counter < DATA_COUNTER_MIN) {
     return null;
   }
 
@@ -285,13 +285,13 @@ export function primeAccountCard(card) {
     return;
   }
 
-  if (dataHotpIs(root.account)) {
+  if (dataOtpIsHotp(root.account)) {
     updateAccountCode(root);
     return;
   }
 
-  const clock = dataOtpClockGet(
-    dataOtpOptionsGet(root.account),
+  const clock = dataOtpGetClock(
+    dataOtpGetOptions(root.account),
   );
 
   updateCardSecondTick(root, clock);

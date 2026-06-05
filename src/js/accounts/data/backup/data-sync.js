@@ -1,46 +1,46 @@
-import { dataDecrypt } from "../data-crypto.js";
-import { dataEncryptedIs } from "../data-crypto.js";
-import { dataListSanitize } from "../records/data-sanitize.js";
-import { dataEncryptedClear } from "../data-storage.js";
-import { dataEncryptedGet } from "../data-storage.js";
-import { dataFinalGet } from "../data-storage.js";
-import { dataFinalSet } from "../data-storage.js";
-import { dataMergedClear } from "../data-storage.js";
-import { dataPendingClear } from "../data-storage.js";
-import { dataPendingGet } from "../data-storage.js";
-import { dataMerge } from "./data-merge.js";
-import { dataRestore } from "./data-restore.js";
+import { dataCryptoDecrypt } from "../data-crypto.js";
+import { dataCryptoIsEncrypted } from "../data-crypto.js";
+import { dataSanitizeList } from "../records/data-sanitize.js";
+import { dataStorageClearEncrypted } from "../data-storage.js";
+import { dataStorageGetEncrypted } from "../data-storage.js";
+import { dataStorageGetFinal } from "../data-storage.js";
+import { dataStorageSetFinal } from "../data-storage.js";
+import { dataStorageClearMerged } from "../data-storage.js";
+import { dataStorageClearPending } from "../data-storage.js";
+import { dataStorageGetPending } from "../data-storage.js";
+import { dataBackupMerge } from "./data-merge.js";
+import { dataBackupRestore } from "./data-restore.js";
 
 /** Restores from cloud, merges pending adds, writes the active list, and clears temp keys. */
-export async function dataSync(accountNumber) {
+export async function dataBackupSync(accountNumber) {
   try {
-    const result = await dataRestore(accountNumber);
+    const result = await dataBackupRestore(accountNumber);
     if (result.accounts == null) {
-      const existing = dataListSanitize(
-        await dataFinalGet(),
+      const existing = dataSanitizeList(
+        await dataStorageGetFinal(),
       );
-      await dataEncryptedClear();
-      await dataMergedClear();
-      await dataPendingClear();
+      await dataStorageClearEncrypted();
+      await dataStorageClearMerged();
+      await dataStorageClearPending();
       if (existing.length) {
         console.debug(
-          `[data-backup] dataSync: empty restore; keeping ${existing.length} local account(s)`,
+          `[data-backup] dataBackupSync: empty restore; keeping ${existing.length} local account(s)`,
         );
         return existing;
       }
-      await dataFinalSet([]);
+      await dataStorageSetFinal([]);
       return [];
     }
     let plainAccounts = [];
     if (
       typeof result.accounts === "string" &&
-      dataEncryptedIs(result.accounts)
+      dataCryptoIsEncrypted(result.accounts)
     ) {
-      const encryptedBlob = await dataEncryptedGet();
-      if (dataEncryptedIs(encryptedBlob)) {
+      const encryptedBlob = await dataStorageGetEncrypted();
+      if (dataCryptoIsEncrypted(encryptedBlob)) {
         try {
-          plainAccounts = dataListSanitize(
-            dataDecrypt(encryptedBlob, accountNumber),
+          plainAccounts = dataSanitizeList(
+            dataCryptoDecrypt(encryptedBlob, accountNumber),
           );
         } catch (error) {
           console.warn(
@@ -50,32 +50,32 @@ export async function dataSync(accountNumber) {
         }
       }
     } else {
-      plainAccounts = dataListSanitize(result.accounts);
+      plainAccounts = dataSanitizeList(result.accounts);
     }
-    const pending = dataListSanitize(
-      await dataPendingGet(),
+    const pending = dataSanitizeList(
+      await dataStorageGetPending(),
     );
     if (pending.length) {
-      plainAccounts = await dataMerge(accountNumber, {
+      plainAccounts = await dataBackupMerge(accountNumber, {
         baseList: plainAccounts,
       });
     } else {
-      await dataFinalSet(plainAccounts);
+      await dataStorageSetFinal(plainAccounts);
     }
     try {
-      await dataEncryptedClear();
-      await dataMergedClear();
-      await dataPendingClear();
+      await dataStorageClearEncrypted();
+      await dataStorageClearMerged();
+      await dataStorageClearPending();
     } catch (error) {
       console.warn(
-        "[data-backup] dataSync clear temp keys failed",
+        "[data-backup] dataBackupSync clear temp keys failed",
         error,
       );
       throw error;
     }
     return plainAccounts;
   } catch (error) {
-    console.warn("[data-backup] dataSync failed", error);
+    console.warn("[data-backup] dataBackupSync failed", error);
     throw error;
   }
 }

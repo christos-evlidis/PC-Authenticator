@@ -1,5 +1,5 @@
 import { dataUpdate } from "../../accounts/account-index.js";
-import { dataHotpIs } from "../../accounts/account-index.js";
+import { dataOtpIsHotp } from "../../accounts/account-index.js";
 import { accountNumberGet } from "../../accounts/account-index.js";
 import { DEFAULT_CONTACT } from "./codes-state.js";
 import { EMAIL_PLACEHOLDER } from "./codes-state.js";
@@ -120,7 +120,7 @@ async function saveAccountEdit(
     return;
   }
 
-  const isHotp = dataHotpIs(account);
+  const isHotp = dataOtpIsHotp(account);
   let newCounter = null;
 
   if (isHotp && els.counter) {
@@ -196,7 +196,7 @@ export function startAccountEdit(card, account, els, onCardClick) {
   card.classList.add("editing");
   card.removeEventListener("click", onCardClick);
 
-  const isHotp = dataHotpIs(account);
+  const isHotp = dataOtpIsHotp(account);
 
   els.name.contentEditable = true;
   els.email.contentEditable = true;

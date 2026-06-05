@@ -1,51 +1,51 @@
-import { dataBackup } from "../backup/data-backup.js";
-import { dataMerge } from "../backup/data-merge.js";
-import { dataRestore } from "../backup/data-restore.js";
-import { dataSync } from "../backup/data-sync.js";
-import { dataManualParse } from "../parser/data-parser-manual.js";
-import { dataQrParse } from "../parser/data-parser-qr.js";
-import { dataFinalBuild } from "../records/data-build.js";
-import { dataEncryptedClear } from "../data-storage.js";
-import { dataMergedClear } from "../data-storage.js";
-import { dataPendingAppend } from "../data-storage.js";
-import { dataPendingClear } from "../data-storage.js";
+import { dataBackupUpload } from "../backup/data-backup.js";
+import { dataBackupMerge } from "../backup/data-merge.js";
+import { dataBackupRestore } from "../backup/data-restore.js";
+import { dataBackupSync } from "../backup/data-sync.js";
+import { dataParseManual } from "../parser/data-parser-manual.js";
+import { dataParseQr } from "../parser/data-parser-qr.js";
+import { dataBuildFinal } from "../records/data-build.js";
+import { dataStorageClearEncrypted } from "../data-storage.js";
+import { dataStorageClearMerged } from "../data-storage.js";
+import { dataStorageAppendPending } from "../data-storage.js";
+import { dataStorageClearPending } from "../data-storage.js";
 
 /** Adds an account from manual setup, merges with cloud backup, and syncs. */
-export async function dataManualAdd(accountNumber, formData) {
+export async function dataAddManual(accountNumber, formData) {
   try {
-    const parsed = dataManualParse(formData);
-    const account = dataFinalBuild(parsed);
-    await dataPendingAppend(account);
-    await dataRestore(accountNumber);
-    await dataMerge(accountNumber);
-    await dataEncryptedClear();
-    await dataPendingClear();
-    await dataBackup(accountNumber);
-    await dataMergedClear();
-    await dataSync(accountNumber);
+    const parsed = dataParseManual(formData);
+    const account = dataBuildFinal(parsed);
+    await dataStorageAppendPending(account);
+    await dataBackupRestore(accountNumber);
+    await dataBackupMerge(accountNumber);
+    await dataStorageClearEncrypted();
+    await dataStorageClearPending();
+    await dataBackupUpload(accountNumber);
+    await dataStorageClearMerged();
+    await dataBackupSync(accountNumber);
     return account;
   } catch (error) {
-    console.warn("[data-actions] dataManualAdd failed", error);
+    console.warn("[data-actions] dataAddManual failed", error);
     throw error;
   }
 }
 
 /** Adds an account from a scanned otpauth URI, merges with cloud backup, and syncs. */
-export async function dataQrAdd(accountNumber, otpauthUri) {
+export async function dataAddQr(accountNumber, otpauthUri) {
   try {
-    const parsed = dataQrParse(otpauthUri);
-    const account = dataFinalBuild(parsed);
-    await dataPendingAppend(account);
-    await dataRestore(accountNumber);
-    await dataMerge(accountNumber);
-    await dataEncryptedClear();
-    await dataPendingClear();
-    await dataBackup(accountNumber);
-    await dataMergedClear();
-    await dataSync(accountNumber);
+    const parsed = dataParseQr(otpauthUri);
+    const account = dataBuildFinal(parsed);
+    await dataStorageAppendPending(account);
+    await dataBackupRestore(accountNumber);
+    await dataBackupMerge(accountNumber);
+    await dataStorageClearEncrypted();
+    await dataStorageClearPending();
+    await dataBackupUpload(accountNumber);
+    await dataStorageClearMerged();
+    await dataBackupSync(accountNumber);
     return account;
   } catch (error) {
-    console.warn("[data-actions] dataQrAdd failed", error);
+    console.warn("[data-actions] dataAddQr failed", error);
     throw error;
   }
 }

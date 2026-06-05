@@ -1,4 +1,4 @@
-import { dataQrAdd } from "../../accounts/account-index.js";
+import { dataAddQr } from "../../accounts/account-index.js";
 import { accountNumberGet } from "../../accounts/account-index.js";
 import {
   QR_SCAN_UNSUPPORTED_PAGE_ERROR,
@@ -32,7 +32,7 @@ function resetQrSetupAfterStartError(errorMessage) {
 }
 
 export async function createQrAddPromise(accountNumber, otpauthUri) {
-  return dataQrAdd(accountNumber, otpauthUri);
+  return dataAddQr(accountNumber, otpauthUri);
 }
 
 export async function cancelPageSelection() {

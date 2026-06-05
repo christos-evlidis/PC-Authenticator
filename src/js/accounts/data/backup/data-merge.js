@@ -1,22 +1,22 @@
-import { dataDecrypt } from "../data-crypto.js";
-import { dataEncryptedIs } from "../data-crypto.js";
-import { dataListSanitize } from "../records/data-sanitize.js";
-import { dataEncryptedGet } from "../data-storage.js";
-import { dataFinalSet } from "../data-storage.js";
-import { dataMergedSet } from "../data-storage.js";
-import { dataPendingGet } from "../data-storage.js";
+import { dataCryptoDecrypt } from "../data-crypto.js";
+import { dataCryptoIsEncrypted } from "../data-crypto.js";
+import { dataSanitizeList } from "../records/data-sanitize.js";
+import { dataStorageGetEncrypted } from "../data-storage.js";
+import { dataStorageSetFinal } from "../data-storage.js";
+import { dataStorageSetMerged } from "../data-storage.js";
+import { dataStorageGetPending } from "../data-storage.js";
 
 /** Merges pending accounts into a base list and persists merged + active lists. */
-export async function dataMerge(accountNumber, options = {}) {
+export async function dataBackupMerge(accountNumber, options = {}) {
   try {
     let rawBase = options.baseList;
     if (rawBase == null) {
       rawBase = [];
-      const encryptedBlob = await dataEncryptedGet();
-      if (dataEncryptedIs(encryptedBlob)) {
+      const encryptedBlob = await dataStorageGetEncrypted();
+      if (dataCryptoIsEncrypted(encryptedBlob)) {
         try {
-          rawBase = dataListSanitize(
-            dataDecrypt(encryptedBlob, accountNumber),
+          rawBase = dataSanitizeList(
+            dataCryptoDecrypt(encryptedBlob, accountNumber),
           );
         } catch (error) {
           console.warn(
@@ -26,9 +26,9 @@ export async function dataMerge(accountNumber, options = {}) {
         }
       }
     }
-    const base = dataListSanitize(rawBase);
-    const incoming = dataListSanitize(
-      await dataPendingGet(),
+    const base = dataSanitizeList(rawBase);
+    const incoming = dataSanitizeList(
+      await dataStorageGetPending(),
     );
     const indexById = new Map();
     base.forEach((account, index) => {
@@ -45,15 +45,15 @@ export async function dataMerge(accountNumber, options = {}) {
     }
     const merged = [...toPrepend.reverse(), ...base];
     try {
-      await dataMergedSet(merged);
-      await dataFinalSet(merged);
+      await dataStorageSetMerged(merged);
+      await dataStorageSetFinal(merged);
     } catch (error) {
-      console.warn("[data-backup] dataMerge persist failed", error);
+      console.warn("[data-backup] dataBackupMerge persist failed", error);
       throw error;
     }
     return merged;
   } catch (error) {
-    console.warn("[data-backup] dataMerge failed", error);
+    console.warn("[data-backup] dataBackupMerge failed", error);
     throw error;
   }
 }

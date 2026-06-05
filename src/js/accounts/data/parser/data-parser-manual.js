@@ -1,27 +1,27 @@
-import { DEFAULT_ALGORITHM } from "../data-constants.js";
-import { HOTP_DEFAULT_COUNTER } from "../data-constants.js";
-import { HOTP_TYPE } from "../data-constants.js";
-import { TOTP_DIGITS } from "../data-constants.js";
-import { TOTP_PERIOD } from "../data-constants.js";
-import { TOTP_TYPE } from "../data-constants.js";
-import { dataIssuerSanitize } from "../records/data-sanitize.js";
-import { dataSecretSanitize } from "../records/data-sanitize.js";
+import { DATA_OTP_ALGORITHM_DEFAULT } from "../data-constants.js";
+import { DATA_HOTP_COUNTER_DEFAULT } from "../data-constants.js";
+import { DATA_OTP_TYPE_HOTP } from "../data-constants.js";
+import { DATA_OTP_DIGITS } from "../data-constants.js";
+import { DATA_OTP_PERIOD } from "../data-constants.js";
+import { DATA_OTP_TYPE_TOTP } from "../data-constants.js";
+import { dataSanitizeIssuer } from "../records/data-sanitize.js";
+import { dataSanitizeSecret } from "../records/data-sanitize.js";
 
 /** Parses manual setup form fields into account fields. */
-export function dataManualParse({ name, secret, email, type }) {
+export function dataParseManual({ name, secret, email, type }) {
   try {
-    const sanitizedName = dataIssuerSanitize(name);
-    const sanitizedSecret = dataSecretSanitize(secret);
-    const otpType = type === HOTP_TYPE ? HOTP_TYPE : TOTP_TYPE;
+    const sanitizedName = dataSanitizeIssuer(name);
+    const sanitizedSecret = dataSanitizeSecret(secret);
+    const otpType = type === DATA_OTP_TYPE_HOTP ? DATA_OTP_TYPE_HOTP : DATA_OTP_TYPE_TOTP;
     const otpOptions = {
       type: otpType,
-      algorithm: DEFAULT_ALGORITHM,
-      digits: TOTP_DIGITS,
+      algorithm: DATA_OTP_ALGORITHM_DEFAULT,
+      digits: DATA_OTP_DIGITS,
     };
-    if (otpType === HOTP_TYPE) {
-      otpOptions.counter = HOTP_DEFAULT_COUNTER;
+    if (otpType === DATA_OTP_TYPE_HOTP) {
+      otpOptions.counter = DATA_HOTP_COUNTER_DEFAULT;
     } else {
-      otpOptions.period = TOTP_PERIOD;
+      otpOptions.period = DATA_OTP_PERIOD;
     }
     const emailRaw = String(email).trim();
     const account = {
@@ -31,7 +31,7 @@ export function dataManualParse({ name, secret, email, type }) {
       algorithm: otpOptions.algorithm,
       digits: otpOptions.digits,
     };
-    if (otpType === HOTP_TYPE) {
+    if (otpType === DATA_OTP_TYPE_HOTP) {
       account.counter = otpOptions.counter;
     } else {
       account.period = otpOptions.period;
@@ -41,7 +41,7 @@ export function dataManualParse({ name, secret, email, type }) {
     }
     return account;
   } catch (error) {
-    console.warn("[data-parser-manual] dataManualParse failed", error);
+    console.warn("[data-parser-manual] dataParseManual failed", error);
     throw error;
   }
 }

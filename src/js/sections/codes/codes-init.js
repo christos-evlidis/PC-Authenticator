@@ -1,5 +1,5 @@
-import { dataFinalGet } from "../../accounts/account-index.js";
-import { dataSync } from "../../accounts/account-index.js";
+import { dataStorageGetFinal } from "../../accounts/account-index.js";
+import { dataBackupSync } from "../../accounts/account-index.js";
 import { cross } from "../section-cross.js";
 import { accountNumberGet } from "../../accounts/account-index.js";
 import { setShouldPlayCodesIntro } from "./codes-state.js";
@@ -15,7 +15,7 @@ import { loadTimerInvertedPreference } from "./codes-timer.js";
 import { stopTicker } from "./codes-timer.js";
 
 export async function renderFromStorage() {
-  const accounts = await dataFinalGet();
+  const accounts = await dataStorageGetFinal();
   renderAccounts(accounts);
   return accounts;
 }
@@ -29,7 +29,7 @@ export async function restore() {
   }
 
   await loadTimerInvertedPreference();
-  const accounts = await dataSync(accountNumber);
+  const accounts = await dataBackupSync(accountNumber);
   renderAccounts(accounts);
   return accounts;
 }
@@ -59,7 +59,7 @@ export async function initOnLoad(skipIntroForQrResume = false) {
     // Post-login reveal runs when user menu closes.
   } else {
     await loadTimerInvertedPreference();
-    const accounts = await dataSync(accountNumber);
+    const accounts = await dataBackupSync(accountNumber);
     renderAccounts(accounts);
     revealCodesSearchStatic();
   }

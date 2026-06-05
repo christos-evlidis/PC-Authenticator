@@ -1,7 +1,7 @@
 import { ACCOUNT_API_BASE_URL } from "../auth/constants.js";
 
 /** Wraps fetch, logs HTTP failures, and rethrows errors. */
-async function dataFetchWarn(label, request) {
+async function dataApiFetchWarn(label, request) {
   try {
     const response = await request();
     if (!response.ok) {
@@ -18,9 +18,9 @@ async function dataFetchWarn(label, request) {
 }
 
 /** Downloads the latest backup payload for an account. */
-export async function dataRemoteRestore(accountNumber) {
+export async function dataApiRestore(accountNumber) {
   try {
-    const response = await dataFetchWarn("dataRemoteRestore", () =>
+    const response = await dataApiFetchWarn("dataApiRestore", () =>
       fetch(`${ACCOUNT_API_BASE_URL}/restore-accounts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -30,15 +30,15 @@ export async function dataRemoteRestore(accountNumber) {
     const data = await response.json();
     return { accounts: data.accounts };
   } catch (error) {
-    console.warn("[data-api] dataRemoteRestore failed", error);
+    console.warn("[data-api] dataApiRestore failed", error);
     throw error;
   }
 }
 
 /** Uploads an encrypted accounts blob, replacing any previous backup. */
-export async function dataRemoteBackup(accountNumber, encryptedAccounts) {
+export async function dataApiBackup(accountNumber, encryptedAccounts) {
   try {
-    const response = await dataFetchWarn("dataRemoteBackup", () =>
+    const response = await dataApiFetchWarn("dataApiBackup", () =>
       fetch(`${ACCOUNT_API_BASE_URL}/backup-accounts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -51,7 +51,7 @@ export async function dataRemoteBackup(accountNumber, encryptedAccounts) {
     );
     return response.json();
   } catch (error) {
-    console.warn("[data-api] dataRemoteBackup failed", error);
+    console.warn("[data-api] dataApiBackup failed", error);
     throw error;
   }
 }

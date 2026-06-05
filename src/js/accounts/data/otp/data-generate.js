@@ -1,11 +1,11 @@
-import { dataOtpCounterGet } from "./data-counter.js";
-import { dataSecretSanitize } from "../records/data-sanitize.js";
+import { dataOtpGetCounter } from "./data-counter.js";
+import { dataSanitizeSecret } from "../records/data-sanitize.js";
 
 /** Generates a TOTP or HOTP code for the given secret and options. */
-export function dataOtpNumberGet(secret, options) {
+export function dataOtpGetNumber(secret, options) {
   try {
-    const sanitized = dataSecretSanitize(secret);
-    const counterValue = dataOtpCounterGet(options);
+    const sanitized = dataSanitizeSecret(secret);
+    const counterValue = dataOtpGetCounter(options);
     const hmacFn = {
       SHA1: CryptoJS.HmacSHA1,
       SHA256: CryptoJS.HmacSHA256,
@@ -13,7 +13,7 @@ export function dataOtpNumberGet(secret, options) {
     }[options.algorithm];
     if (!hmacFn) {
       console.warn(
-        `[data-otp] dataOtpNumberGet: unsupported algorithm ${options.algorithm}`,
+        `[data-otp] dataOtpGetNumber: unsupported algorithm ${options.algorithm}`,
       );
       return "".padStart(options.digits, "0");
     }
@@ -75,7 +75,7 @@ export function dataOtpNumberGet(secret, options) {
     const otp = binary % 10 ** options.digits;
     return otp.toString().padStart(options.digits, "0");
   } catch (error) {
-    console.warn("[data-otp] dataOtpNumberGet failed", error);
+    console.warn("[data-otp] dataOtpGetNumber failed", error);
     return "".padStart(options?.digits ?? 6, "0");
   }
 }

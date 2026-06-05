@@ -1,9 +1,9 @@
 /** Returns TOTP timer state for the countdown UI. */
-export function dataOtpClockGet(options) {
+export function dataOtpGetClock(options) {
   try {
     const period = options.period;
     if (!period || period < 1) {
-      console.warn("[data-otp] dataOtpClockGet: invalid period", options.period);
+      console.warn("[data-otp] dataOtpGetClock: invalid period", options.period);
       return {
         period: 0,
         timeLeft: 0,
@@ -26,7 +26,7 @@ export function dataOtpClockGet(options) {
       angle: fillAngle,
     };
   } catch (error) {
-    console.warn("[data-otp] dataOtpClockGet failed", error);
+    console.warn("[data-otp] dataOtpGetClock failed", error);
     return {
       period: 0,
       timeLeft: 0,

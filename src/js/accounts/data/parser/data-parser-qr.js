@@ -1,13 +1,13 @@
-import { DEFAULT_ALGORITHM } from "../data-constants.js";
-import { HOTP_DEFAULT_COUNTER } from "../data-constants.js";
-import { HOTP_TYPE } from "../data-constants.js";
-import { TOTP_DIGITS } from "../data-constants.js";
-import { TOTP_PERIOD } from "../data-constants.js";
-import { dataNameBuild } from "../records/data-build.js";
-import { dataSecretSanitize } from "../records/data-sanitize.js";
+import { DATA_OTP_ALGORITHM_DEFAULT } from "../data-constants.js";
+import { DATA_HOTP_COUNTER_DEFAULT } from "../data-constants.js";
+import { DATA_OTP_TYPE_HOTP } from "../data-constants.js";
+import { DATA_OTP_DIGITS } from "../data-constants.js";
+import { DATA_OTP_PERIOD } from "../data-constants.js";
+import { dataBuildName } from "../records/data-build.js";
+import { dataSanitizeSecret } from "../records/data-sanitize.js";
 
 /** Parses a scanned QR otpauth URI into account fields. */
-export function dataQrParse(uri) {
+export function dataParseQr(uri) {
   try {
     let raw = String(uri).trim();
     if (raw.toLowerCase().startsWith("apple-otpauth://")) {
@@ -15,22 +15,22 @@ export function dataQrParse(uri) {
     }
     const url = new URL(raw);
     const type = url.hostname.toLowerCase();
-    const secret = dataSecretSanitize(url.searchParams.get("secret"));
+    const secret = dataSanitizeSecret(url.searchParams.get("secret"));
     const digitsParam = url.searchParams.get("digits");
-    const digits = digitsParam ? Number.parseInt(digitsParam, 10) : TOTP_DIGITS;
+    const digits = digitsParam ? Number.parseInt(digitsParam, 10) : DATA_OTP_DIGITS;
     const algorithmParam = url.searchParams.get("algorithm");
-    const algorithm = algorithmParam || DEFAULT_ALGORITHM;
+    const algorithm = algorithmParam || DATA_OTP_ALGORITHM_DEFAULT;
     const otpOptions = { type, algorithm, digits };
-    if (type === HOTP_TYPE) {
+    if (type === DATA_OTP_TYPE_HOTP) {
       const counterParam = url.searchParams.get("counter");
       otpOptions.counter = counterParam
         ? Number.parseInt(counterParam, 10)
-        : HOTP_DEFAULT_COUNTER;
+        : DATA_HOTP_COUNTER_DEFAULT;
     } else {
       const periodParam = url.searchParams.get("period");
       otpOptions.period = periodParam
         ? Number.parseInt(periodParam, 10)
-        : TOTP_PERIOD;
+        : DATA_OTP_PERIOD;
     }
     const pathLabel = decodeURIComponent(url.pathname.replace(/^\//, ""));
     const colonIndex = pathLabel.indexOf(":");
@@ -42,7 +42,7 @@ export function dataQrParse(uri) {
     const issuer = issuerParam
       ? decodeURIComponent(issuerParam).trim()
       : pathIssuer;
-    const { name, email } = dataNameBuild(issuer, label);
+    const { name, email } = dataBuildName(issuer, label);
     const account = {
       name,
       secret,
@@ -50,7 +50,7 @@ export function dataQrParse(uri) {
       algorithm,
       digits,
     };
-    if (type === HOTP_TYPE) {
+    if (type === DATA_OTP_TYPE_HOTP) {
       account.counter = otpOptions.counter;
     } else {
       account.period = otpOptions.period;
@@ -60,7 +60,7 @@ export function dataQrParse(uri) {
     }
     return account;
   } catch (error) {
-    console.warn("[data-parser-qr] dataQrParse failed", error);
+    console.warn("[data-parser-qr] dataParseQr failed", error);
     throw error;
   }
 }

@@ -1,8 +1,8 @@
 import { dataUpdate } from "../../accounts/account-index.js";
-import { dataHotpIs } from "../../accounts/account-index.js";
+import { dataOtpIsHotp } from "../../accounts/account-index.js";
 import { accountNumberGet } from "../../accounts/account-index.js";
-import { dataOtpOptionsGet } from "../../accounts/account-index.js";
-import { TOTP_DIGITS } from "../../accounts/account-index.js";
+import { dataOtpGetOptions } from "../../accounts/account-index.js";
+import { DATA_OTP_DIGITS } from "../../accounts/account-index.js";
 import { getCardRoots } from "./codes-state.js";
 import { formatHotpCounterDisplay } from "./codes-timer.js";
 import { getHotpCounterValue } from "./codes-timer.js";
@@ -20,7 +20,7 @@ function applyHotpAdvanceUI(root) {
 async function persistHotpAdvance(root) {
   const accountNumber = await accountNumberGet();
 
-  if (!accountNumber || !dataHotpIs(root.account)) {
+  if (!accountNumber || !dataOtpIsHotp(root.account)) {
     return;
   }
 
@@ -40,8 +40,8 @@ export async function copyCode(card, codeText) {
   const raw = String(codeText ?? "").replace(/\s+/g, "");
   const root = getCardRoots().find((item) => item.card === card);
   const expectedDigits = root
-    ? dataOtpOptionsGet(root.account).digits
-    : TOTP_DIGITS;
+    ? dataOtpGetOptions(root.account).digits
+    : DATA_OTP_DIGITS;
   const codePattern = new RegExp(`^\\d{${expectedDigits}}$`);
 
   if (!codePattern.test(raw)) {
@@ -50,7 +50,7 @@ export async function copyCode(card, codeText) {
 
   await navigator.clipboard.writeText(raw);
 
-  if (root && dataHotpIs(root.account)) {
+  if (root && dataOtpIsHotp(root.account)) {
     applyHotpAdvanceUI(root);
     void persistHotpAdvance(root);
   }

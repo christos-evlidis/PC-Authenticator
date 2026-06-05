@@ -1,5 +1,5 @@
 /** Coerces backup/pending/restore payloads into an account array. */
-export function dataListSanitize(value) {
+export function dataSanitizeList(value) {
   try {
     if (value == null) {
       return [];
@@ -23,13 +23,13 @@ export function dataListSanitize(value) {
     }
     return [];
   } catch (error) {
-    console.warn("[data-records] dataListSanitize failed", error);
+    console.warn("[data-records] dataSanitizeList failed", error);
     return [];
   }
 }
 
 /** Strips whitespace and padding, then uppercases a base32 OTP secret. */
-export function dataSecretSanitize(raw) {
+export function dataSanitizeSecret(raw) {
   try {
     return String(raw)
       .trim()
@@ -37,28 +37,28 @@ export function dataSecretSanitize(raw) {
       .replace(/=+$/, "")
       .toUpperCase();
   } catch (error) {
-    console.warn("[data-records] dataSecretSanitize failed", error);
+    console.warn("[data-records] dataSanitizeSecret failed", error);
     throw error;
   }
 }
 
 /** Trims control characters and caps display names at 64 characters. */
-export function dataNameSanitize(name) {
+export function dataSanitizeName(name) {
   try {
     const trimmed = String(name)
       .trim()
       .replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
     return Array.from(trimmed).slice(0, 64).join("").trim();
   } catch (error) {
-    console.warn("[data-records] dataNameSanitize failed", error);
+    console.warn("[data-records] dataSanitizeName failed", error);
     return "";
   }
 }
 
 /** Title-cases each word of an issuer or manual account name. */
-export function dataIssuerSanitize(issuer) {
+export function dataSanitizeIssuer(issuer) {
   try {
-    const sanitized = dataNameSanitize(issuer);
+    const sanitized = dataSanitizeName(issuer);
     if (!sanitized) {
       return "";
     }
@@ -77,7 +77,7 @@ export function dataIssuerSanitize(issuer) {
       .filter(Boolean)
       .join(" ");
   } catch (error) {
-    console.warn("[data-records] dataIssuerSanitize failed", error);
+    console.warn("[data-records] dataSanitizeIssuer failed", error);
     return "";
   }
 }

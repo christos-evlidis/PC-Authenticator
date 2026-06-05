@@ -1,4 +1,4 @@
-import { dataFinalGet } from "../../accounts/account-index.js";
+import { dataStorageGetFinal } from "../../accounts/account-index.js";
 import { getPopupResumePending } from "../../popup-resume/popup-resume.js";
 import { whenPopupResumeReady } from "../../popup-resume/popup-resume.js";
 import { accountNumberGet } from "../../accounts/account-index.js";
@@ -91,7 +91,7 @@ function hasElapsedSince(timestamp, ms) {
 }
 
 async function hasSavedAccount() {
-  const accounts = (await dataFinalGet()) ?? [];
+  const accounts = (await dataStorageGetFinal()) ?? [];
   return accounts.some((account) => account?.secret);
 }
 
