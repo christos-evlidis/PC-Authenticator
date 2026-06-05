@@ -6,6 +6,7 @@
     --frame-padding-right: 12px;
     --frame-padding-bottom: 12px;
     --frame-padding-left: 12px;
+    --frame-gap: 12px;
     --header-radius: 12px;
     --font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --icon-color: #176cca;
@@ -75,7 +76,7 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--frame-gap);
     width: var(--extension-width);
     height: var(--extension-height);
     padding: var(--frame-padding-top) var(--frame-padding-right) var(--frame-padding-bottom) var(--frame-padding-left);

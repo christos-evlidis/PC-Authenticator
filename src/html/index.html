@@ -17,36 +17,42 @@
         <link rel="stylesheet" href="../css/sections/codes.css"/>
         <link rel="stylesheet" href="../css/sections/scan-setup.css"/>
         <link rel="stylesheet" href="../css/sections/review-menu.css"/>
+        <link rel="stylesheet" href="../css/sections/intro.css"/>
     </head>
     <body>
         <!-- Extension Frame -->
         <div class="extension-frame">
             <!-- Header Section -->
-            <header class="app-header">
+            <header class="app-header is-header-animation-pending">
                 <div class="app-header__shell">
-                <h1 class="app-header__title" data-full-title="PC Authenticator">PC Authenticator</h1>
-                <!-- Signed-out View -->
-                <section class="app-header__view app-header__view--signed-out">
-                    <div class="app-header__actions">
-                        <button type="button" class="app-header__btn app-header__user-menu-btn">
-                            <i class="fas fa-user"></i>
-                        </button>
+                    <div class="app-header__intro-content">
+                        <h1 class="app-header__title" data-full-title="PC Authenticator">
+                            <span class="app-header__title-spacer" aria-hidden="true">PC Authenticator</span>
+                            <span class="app-header__title-display"></span>
+                        </h1>
+                        <!-- Signed-out View -->
+                        <section class="app-header__view app-header__view--signed-out">
+                            <div class="app-header__actions">
+                                <button type="button" class="app-header__btn app-header__user-menu-btn is-header-pop-pending">
+                                    <i class="fas fa-user"></i>
+                                </button>
+                            </div>
+                        </section>
+                        <!-- Signed-in View -->
+                        <section class="app-header__view app-header__view--signed-in is-hidden">
+                            <div class="app-header__actions">
+                                <button type="button" class="app-header__btn app-header__manual-setup-btn is-header-pop-pending">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button type="button" class="app-header__btn app-header__scan-qr-btn is-header-pop-pending">
+                                    <i class="fas fa-qrcode"></i>
+                                </button>
+                                <button type="button" class="app-header__btn app-header__user-menu-btn is-header-pop-pending">
+                                    <i class="fas fa-user"></i>
+                                </button>
+                            </div>
+                        </section>
                     </div>
-                </section>
-                <!-- Signed-in View -->
-                <section class="app-header__view app-header__view--signed-in is-hidden">
-                    <div class="app-header__actions">
-                        <button type="button" class="app-header__btn app-header__manual-setup-btn">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                        <button type="button" class="app-header__btn app-header__scan-qr-btn">
-                            <i class="fas fa-qrcode"></i>
-                        </button>
-                        <button type="button" class="app-header__btn app-header__user-menu-btn">
-                            <i class="fas fa-user"></i>
-                        </button>
-                    </div>
-                </section>
                 </div>
             </header>
 
@@ -367,6 +373,16 @@
                             </div>
                         </div>
                     </section>
+                </div>
+            </section>
+
+            <!-- Load intro -->
+            <section class="app-intro is-active" aria-hidden="true" aria-label="Loading PC Authenticator">
+                <div class="app-intro__overlay">
+                    <div class="app-intro__logo-wrap" aria-hidden="true">
+                        <img class="app-intro__logo app-intro__logo--light" src="../icons/light-icon128.png" alt="" width="128" height="128"/>
+                        <img class="app-intro__logo app-intro__logo--dark" src="../icons/dark-icon128.png" alt="" width="128" height="128"/>
+                    </div>
                 </div>
             </section>
 

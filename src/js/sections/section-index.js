@@ -1,8 +1,7 @@
 import { cross } from "./section-cross.js";
 import { bodyApply } from "./body/index.js";
 import { codesSection } from "./codes/codes-section.js";
-import { initCodes } from "./codes/codes-section.js";
-import { initOnLoad } from "./codes/codes-section.js";
+import { initCodes } from "./codes/codes-init.js";
 import { headerApply } from "./header/index.js";
 import { searchApply, searchInit, searchReset } from "./search/index.js";
 import { userMenuApply } from "./user-menu/index.js";
@@ -33,11 +32,4 @@ export function initSectionModules() {
   initManualSetup();
   initQrCodeSetup();
   initCodes();
-}
-
-export { initCodes };
-export { initOnLoad };
-
-export async function loadSections(skipIntroForQrResume = false) {
-  await initOnLoad(skipIntroForQrResume);
 }

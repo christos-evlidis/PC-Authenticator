@@ -15,6 +15,11 @@
     --header-actions-disabled-opacity: 0.45;
     --header-btn-accent-ms: 250ms;
     --header-blur-duration: 250ms;
+    --header-intro-fade-ms: 250ms;
+    --header-title-type-ms: 500ms;
+    --header-icon-pop-ms: 250ms;
+    --header-icon-pop-stagger-ms: 200ms;
+    --header-animation-timeout-buffer-ms: 32ms;
 }
 
 .app-header {
@@ -26,10 +31,6 @@
 
 .app-header__shell {
     box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--header-gap);
     width: 100%;
     min-height: var(--header-slot-height);
     padding: var(--header-padding-block) var(--header-padding-inline);
@@ -40,6 +41,23 @@
     --header-padding-inline: 14px;
     --header-btn-size: 32px;
     --header-slot-height: calc(var(--header-padding-block) * 2 + var(--header-btn-size));
+}
+
+.app-header__intro-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--header-gap);
+    width: 100%;
+}
+
+.app-header.is-header-animation-pending .app-header__intro-content {
+    opacity: 0;
+}
+
+.app-header.is-header-fade-in .app-header__intro-content {
+    opacity: 1;
+    transition: opacity var(--header-intro-fade-ms) ease;
 }
 
 .app-header__view {
@@ -67,14 +85,36 @@
 }
 
 .app-header__title {
+    position: relative;
     margin: 0;
     min-width: 0;
-    display: inline-block;
+    display: inline-grid;
     font-size: var(--header-title-size);
     font-weight: 700;
     line-height: 1.2;
-    white-space: nowrap;
     color: var(--color-text);
+}
+
+.app-header__title-spacer,
+.app-header__title-display {
+    grid-area: 1 / 1;
+    white-space: nowrap;
+}
+
+.app-header__title-spacer {
+    visibility: hidden;
+    pointer-events: none;
+    user-select: none;
+}
+
+.app-header__title-display.is-header-title-typing::after {
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-left: 1px;
+    vertical-align: -0.08em;
+    background: currentColor;
 }
 
 .app-header__actions {
@@ -95,9 +135,24 @@
     background: transparent;
     color: var(--header-icon);
     cursor: pointer;
+    transform-origin: center center;
     transition:
         background-color var(--header-btn-accent-ms) ease,
-        color var(--header-btn-accent-ms) ease;
+        color var(--header-btn-accent-ms) ease,
+        opacity var(--header-icon-pop-ms) ease,
+        transform var(--header-icon-pop-ms) ease;
+}
+
+.app-header__btn.is-header-pop-pending {
+    opacity: 0;
+    transform: scale(0.4);
+    pointer-events: none;
+}
+
+.app-header__btn.is-header-pop-revealed {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
 }
 
 .app-header__btn:hover {

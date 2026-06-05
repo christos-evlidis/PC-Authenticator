@@ -1,3 +1,4 @@
+import { bodyRevealMessage } from "../sections/body/index.js";
 import { cross } from "../sections/section-cross.js";
 import { authNumberGet } from "../accounts/accounts-index.js";
 
@@ -18,7 +19,9 @@ export async function refreshAuth() {
     cross.userMenu?.apply(true, authNumber);
   } else {
     cross.userMenu?.apply(false);
+    bodyRevealMessage({ signedIn: false });
   }
 
   cross.search?.apply(isSignedIn);
+  cross.codes?.bootstrapOnce?.();
 }

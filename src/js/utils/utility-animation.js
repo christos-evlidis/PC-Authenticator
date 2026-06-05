@@ -23,6 +23,35 @@ export function cssMs(element, varName) {
   return Number.parseFloat(getComputedStyle(element).getPropertyValue(varName)) || 0;
 }
 
+/** Reads a length custom property on an element as pixels. */
+export function cssPx(element, varName) {
+  if (!element) {
+    return 0;
+  }
+
+  return Number.parseFloat(getComputedStyle(element).getPropertyValue(varName)) || 0;
+}
+
+/** Reads extension frame padding and gap from root CSS custom properties. */
+export function frameMetrics(frame) {
+  const root = document.documentElement;
+  const padTop = cssPx(root, "--frame-padding-top");
+  const padRight = cssPx(root, "--frame-padding-right");
+  const padBottom = cssPx(root, "--frame-padding-bottom");
+  const padLeft = cssPx(root, "--frame-padding-left");
+  const gap = cssPx(root, "--frame-gap");
+
+  return {
+    padTop,
+    padRight,
+    padBottom,
+    padLeft,
+    gap,
+    bottomAnchor: frame ? frame.offsetHeight - padBottom : 0,
+    insetWidth: frame ? frame.offsetWidth - padLeft - padRight : 0,
+  };
+}
+
 /** Resolves when an element finishes transitioning a property, or after a timeout. */
 export function waitForTransitionEnd(element, propertyName, timeoutMs) {
   if (!element) {
