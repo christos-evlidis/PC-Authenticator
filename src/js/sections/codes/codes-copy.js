@@ -1,6 +1,6 @@
 import { dataUpdate } from "../../accounts/account-index.js";
 import { dataOtpIsHotp } from "../../accounts/account-index.js";
-import { accountNumberGet } from "../../accounts/account-index.js";
+import { authNumberGet } from "../../accounts/account-index.js";
 import { dataOtpGetOptions } from "../../accounts/account-index.js";
 import { DATA_OTP_DIGITS } from "../../accounts/account-index.js";
 import { getCardRoots } from "./codes-state.js";
@@ -18,7 +18,7 @@ function applyHotpAdvanceUI(root) {
 }
 
 async function persistHotpAdvance(root) {
-  const accountNumber = await accountNumberGet();
+  const accountNumber = await authNumberGet();
 
   if (!accountNumber || !dataOtpIsHotp(root.account)) {
     return;

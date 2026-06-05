@@ -1,6 +1,6 @@
 import { dataAddManual } from "../../accounts/account-index.js";
 import { cross } from "../section-cross.js";
-import { accountNumberGet } from "../../accounts/account-index.js";
+import { authNumberGet } from "../../accounts/account-index.js";
 import { clearForm } from "./manual-setup-form-utils.js";
 import { getFormSnapshot } from "./manual-setup-form-utils.js";
 import { getManualSetupForm } from "./manual-setup-panel.js";
@@ -24,7 +24,7 @@ export {
 } from "./manual-setup-form-utils.js";
 
 export async function createAddAccountPromise(formData) {
-  const accountNumber = await accountNumberGet();
+  const accountNumber = await authNumberGet();
 
   return dataAddManual(accountNumber, formData);
 }

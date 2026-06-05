@@ -1,7 +1,7 @@
-import { accountCreate } from "../../../accounts/account-index.js";
-import { accountNumberSet } from "../../../accounts/account-index.js";
-import { accountNumberSanitize } from "../../../accounts/account-index.js";
-import { ACCOUNT_NUMBER_LENGTH } from "../../../accounts/account-index.js";
+import { authCreate } from "../../../accounts/account-index.js";
+import { authNumberSet } from "../../../accounts/account-index.js";
+import { authSanitize } from "../../../accounts/account-index.js";
+import { AUTH_NUMBER_LENGTH } from "../../../accounts/account-index.js";
 import { userMenuStateGet } from "../state.js";
 import { userMenuSignUpAnimation } from "../animations/sign-up.js";
 
@@ -14,11 +14,11 @@ export async function userMenuSignUp() {
   let isSuccess = false;
 
   try {
-    const accountNumber = await accountCreate();
-    const sanitized = accountNumberSanitize(accountNumber);
+    const accountNumber = await authCreate();
+    const sanitized = authSanitize(accountNumber);
 
-    if (sanitized.length === ACCOUNT_NUMBER_LENGTH) {
-      await accountNumberSet(sanitized);
+    if (sanitized.length === AUTH_NUMBER_LENGTH) {
+      await authNumberSet(sanitized);
       isSuccess = true;
     }
   } catch {

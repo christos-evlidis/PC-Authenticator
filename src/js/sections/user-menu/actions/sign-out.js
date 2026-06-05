@@ -1,4 +1,4 @@
-import { accountNumberClear } from "../../../accounts/account-index.js";
+import { authNumberClear } from "../../../accounts/account-index.js";
 import { dataStorageClearAll } from "../../../accounts/account-index.js";
 import { userMenuStateGet } from "../state.js";
 import { userMenuSignOutAnimation } from "../animations/sign-out.js";
@@ -9,7 +9,7 @@ export async function userMenuSignOut() {
     return false;
   }
 
-  await accountNumberClear();
+  await authNumberClear();
   await dataStorageClearAll();
 
   return userMenuSignOutAnimation();

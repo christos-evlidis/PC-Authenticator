@@ -1,5 +1,5 @@
 import { dataDelete } from "../../accounts/account-index.js";
-import { accountNumberGet } from "../../accounts/account-index.js";
+import { authNumberGet } from "../../accounts/account-index.js";
 import { revealCodesEmptyStatic } from "./codes-empty.js";
 import { setEmptyVisible } from "./codes-empty.js";
 import { refreshCodesListScroll } from "./codes-scroll.js";
@@ -67,7 +67,7 @@ function showDeleteConfirmation(account, card, deleteBtn) {
 }
 
 async function performDeleteAccount(account, card) {
-  const accountNumber = await accountNumberGet();
+  const accountNumber = await authNumberGet();
 
   if (!accountNumber) {
     return;

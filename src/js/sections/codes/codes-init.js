@@ -1,7 +1,7 @@
 import { dataStorageGetFinal } from "../../accounts/account-index.js";
 import { dataSync } from "../../accounts/account-index.js";
 import { cross } from "../section-cross.js";
-import { accountNumberGet } from "../../accounts/account-index.js";
+import { authNumberGet } from "../../accounts/account-index.js";
 import { setShouldPlayCodesIntro } from "./codes-state.js";
 import { renderAccounts } from "./codes-cards.js";
 import { revealCodesEmptyStatic } from "./codes-empty.js";
@@ -21,7 +21,7 @@ export async function renderFromStorage() {
 }
 
 export async function restore() {
-  const accountNumber = await accountNumberGet();
+  const accountNumber = await authNumberGet();
 
   if (!accountNumber) {
     renderAccounts([]);
@@ -49,7 +49,7 @@ export function initCodes() {
 export async function initOnLoad(skipIntroForQrResume = false) {
   setShouldPlayCodesIntro(false);
 
-  const accountNumber = await accountNumberGet();
+  const accountNumber = await authNumberGet();
 
   cross.codes.setSearchAuthVisible(Boolean(accountNumber));
 

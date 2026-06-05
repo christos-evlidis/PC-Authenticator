@@ -1,4 +1,4 @@
-import { ACCOUNT_API_BASE_URL } from "../auth/constants.js";
+import { AUTH_API_BASE_URL } from "../auth/auth-constants.js";
 
 /** Wraps fetch, logs HTTP failures, and rethrows errors. */
 async function dataApiFetchWarn(label, request) {
@@ -21,7 +21,7 @@ async function dataApiFetchWarn(label, request) {
 export async function dataApiRestore(accountNumber) {
   try {
     const response = await dataApiFetchWarn("dataApiRestore", () =>
-      fetch(`${ACCOUNT_API_BASE_URL}/restore-accounts`, {
+      fetch(`${AUTH_API_BASE_URL}/restore-accounts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ account_number: accountNumber }),
@@ -45,7 +45,7 @@ export async function dataApiRestore(accountNumber) {
 export async function dataApiBackup(accountNumber, encryptedAccounts) {
   try {
     const response = await dataApiFetchWarn("dataApiBackup", () =>
-      fetch(`${ACCOUNT_API_BASE_URL}/backup-accounts`, {
+      fetch(`${AUTH_API_BASE_URL}/backup-accounts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -21,7 +21,7 @@ import { themeInit } from "./utils/utility-theme.js";
 import { checkAuth } from "./utils/utility-auth.js";
 import { refreshAuth } from "./utils/utility-auth.js";
 import { dataSync } from "./accounts/account-index.js";
-import { accountNumberGet } from "./accounts/account-index.js";
+import { authNumberGet } from "./accounts/account-index.js";
 import { hasPendingPostLoginReveal } from "./sections/codes/codes-reveal.js";
 import { setEmptyVisible } from "./sections/codes/codes-empty.js";
 import { SELECTORS } from "./sections/codes/codes-state.js";
@@ -51,7 +51,7 @@ async function bootstrapExtension() {
   let signedInEmpty = false;
 
   if (isLoggedIn && !hasPendingPostLoginReveal()) {
-    const accountNumber = await accountNumberGet();
+    const accountNumber = await authNumberGet();
 
     if (accountNumber) {
       try {

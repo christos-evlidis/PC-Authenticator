@@ -1,14 +1,14 @@
 import { cross } from "../sections/section-cross.js";
-import { accountNumberGet } from "../accounts/account-index.js";
+import { authNumberGet } from "../accounts/account-index.js";
 
 /** Returns whether a stored account number exists. */
 export async function checkAuth() {
-  return Boolean(await accountNumberGet());
+  return Boolean(await authNumberGet());
 }
 
 /** Reads storage and applies header, body, and user-menu auth state. */
 export async function refreshAuth() {
-  const accountNumber = await accountNumberGet();
+  const accountNumber = await authNumberGet();
   const isSignedIn = Boolean(accountNumber);
 
   cross.header?.apply(isSignedIn, accountNumber ?? null);

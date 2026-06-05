@@ -1,6 +1,6 @@
 import { dataUpdate } from "../../accounts/account-index.js";
 import { dataOtpIsHotp } from "../../accounts/account-index.js";
-import { accountNumberGet } from "../../accounts/account-index.js";
+import { authNumberGet } from "../../accounts/account-index.js";
 import { DEFAULT_CONTACT } from "./codes-state.js";
 import { EMAIL_PLACEHOLDER } from "./codes-state.js";
 import { findCardRoot } from "./codes-state.js";
@@ -173,7 +173,7 @@ async function saveAccountEdit(
   applyAccountEditLocally(targetAccount, els, patch, root);
   finishEditing(card, els, editBtn, deleteBtn, buttonContainer, onCardClick);
 
-  const accountNumber = await accountNumberGet();
+  const accountNumber = await authNumberGet();
 
   if (!accountNumber) {
     throw new Error("No account number in storage.");

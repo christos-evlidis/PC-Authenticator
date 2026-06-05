@@ -1,7 +1,7 @@
 import { dataStorageGetFinal } from "../../accounts/account-index.js";
 import { getPopupResumePending } from "../../popup-resume/popup-resume.js";
 import { whenPopupResumeReady } from "../../popup-resume/popup-resume.js";
-import { accountNumberGet } from "../../accounts/account-index.js";
+import { authNumberGet } from "../../accounts/account-index.js";
 
 export const STORE_REVIEWS_URL =
   "https://chromewebstore.google.com/detail/authenticator-for-pc/ppkkcfblhfgmdmefkmkoomenhgecbemi/reviews";
@@ -112,7 +112,7 @@ export async function shouldShowReviewPrompt() {
     return false;
   }
 
-  const accountNumber = await accountNumberGet();
+  const accountNumber = await authNumberGet();
 
   if (!accountNumber) {
     return false;
