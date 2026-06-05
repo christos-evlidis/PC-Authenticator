@@ -5,8 +5,7 @@ import { getPendingPostLoginReveal } from "./codes-state.js";
 import { setPendingPostLoginReveal } from "./codes-state.js";
 import { renderAccounts } from "./codes-cards.js";
 import { setEmptyVisible } from "./codes-empty.js";
-import { playCodesEmptyIntro } from "./codes-empty.js";
-import { revealCodesSearchStatic } from "./codes-search.js";
+import { revealCodesEmptyStatic } from "./codes-empty.js";
 
 /** Queues accounts to reveal after the post-login user-menu animation. */
 export function stagePostLoginReveal(accounts) {
@@ -58,13 +57,12 @@ export async function playPostLoginReveal() {
   const renderableAccounts = accounts.filter((account) => account?.secret);
 
   cross.codes.setAuthState(true, { authNumber: await authNumberGet() });
-  revealCodesSearchStatic();
 
   if (!renderableAccounts.length) {
     const { empty, list } = getElements();
 
     setEmptyVisible(empty, list, true);
-    await playCodesEmptyIntro();
+    revealCodesEmptyStatic();
   } else {
     renderAccounts(accounts);
   }

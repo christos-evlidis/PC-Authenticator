@@ -13,12 +13,6 @@ import { playPostLoginReveal } from "./codes-reveal.js";
 import { preparePostLoginReveal } from "./codes-reveal.js";
 import { stagePostLoginReveal } from "./codes-reveal.js";
 import { loadTimerInvertedPreference } from "./codes-timer.js";
-import {
-  initCodesSearch,
-  playCodesSearchIntro,
-  revealCodesSearchStatic,
-  setSearchAuthVisible,
-} from "./codes-search.js";
 
 loadTimerInvertedPreference();
 
@@ -37,9 +31,6 @@ export const codesSection = {
   preparePostLoginReveal,
   playPostLoginReveal,
   applyPostLogoutChrome,
-  setSearchAuthVisible,
-  playCodesSearchIntro,
-  revealCodesSearchStatic,
 };
 
 export { initCodes };

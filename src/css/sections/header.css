@@ -13,12 +13,8 @@
     --header-title-size: 16px;
     --header-btn-icon-size: 18px;
     --header-actions-disabled-opacity: 0.45;
-    --header-title-type-ms: 1000ms;
-    --header-btn-pop-ms: 250ms;
     --header-btn-accent-ms: 250ms;
-    --header-btn-pop-stagger-ms: 200ms;
     --header-blur-duration: 250ms;
-    --header-animate-for-fade-in-ms: 250ms;
 }
 
 .app-header {
@@ -35,7 +31,7 @@
     justify-content: space-between;
     gap: var(--header-gap);
     width: 100%;
-    min-height: var(--header-animate-for-header-slot-height);
+    min-height: var(--header-slot-height);
     padding: var(--header-padding-block) var(--header-padding-inline);
 }
 
@@ -43,120 +39,7 @@
     --header-padding-block: 12px;
     --header-padding-inline: 14px;
     --header-btn-size: 32px;
-    --header-animate-for-header-frame-gap: 12px;
-    --header-animate-for-header-slot-height: calc(var(--header-padding-block) * 2 + var(--header-btn-size));
-}
-
-.extension-frame.is-animate-for-start {
-    gap: 0;
-    --frame-animate-for-header-body-top: calc(
-        var(--frame-padding-top)
-        + var(--header-animate-for-header-slot-height)
-        + var(--header-animate-for-header-frame-gap)
-    );
-}
-
-.extension-frame.is-animate-for-start > .app-header.is-animate-for-fade-in-hidden,
-.extension-frame.is-animate-for-start > .app-header.is-animate-for-fade-in {
-    position: absolute;
-    top: var(--frame-padding-top);
-    right: var(--frame-padding-right);
-    left: var(--frame-padding-left);
-}
-
-.extension-frame.is-animate-for-start > .app-header.is-animate-for-fade-in-hidden {
-    z-index: 1;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.extension-frame.is-animate-for-start > .app-header.is-animate-for-fade-in {
-    z-index: 3;
-    visibility: visible;
-    pointer-events: auto;
-    opacity: 0;
-    animation: headerAnimateForFadeIn var(--header-animate-for-fade-in-ms) ease forwards;
-}
-
-@keyframes headerAnimateForFadeIn {
-    to {
-        opacity: 1;
-    }
-}
-
-.app-header__title.is-typing {
-    white-space: nowrap;
-}
-
-.app-header__title.is-typing.is-running {
-    border-right: 2px solid var(--color-text);
-    padding-right: 1px;
-}
-
-.app-header__btn.is-popping {
-    visibility: visible;
-    opacity: 0;
-    animation: headerBtnPopFade var(--header-btn-pop-ms) ease both;
-}
-
-.app-header__actions .app-header__btn.is-popping:nth-child(1) {
-    animation-delay: 0ms;
-}
-
-.app-header__actions .app-header__btn.is-popping:nth-child(2) {
-    animation-delay: var(--header-btn-pop-stagger-ms);
-}
-
-.app-header__actions .app-header__btn.is-popping:nth-child(3) {
-    animation-delay: calc(var(--header-btn-pop-stagger-ms) * 2);
-}
-
-.app-header__actions .app-header__btn.is-popping:nth-child(4) {
-    animation-delay: calc(var(--header-btn-pop-stagger-ms) * 3);
-}
-
-.app-header__btn.is-popping i {
-    display: block;
-    transform: scale(0.4);
-    transform-origin: center center;
-    animation: headerBtnPopScale var(--header-btn-pop-ms) ease both;
-}
-
-.app-header__actions .app-header__btn.is-popping:nth-child(1) i {
-    animation-delay: 0ms;
-}
-
-.app-header__actions .app-header__btn.is-popping:nth-child(2) i {
-    animation-delay: var(--header-btn-pop-stagger-ms);
-}
-
-.app-header__actions .app-header__btn.is-popping:nth-child(3) i {
-    animation-delay: calc(var(--header-btn-pop-stagger-ms) * 2);
-}
-
-.app-header__actions .app-header__btn.is-popping:nth-child(4) i {
-    animation-delay: calc(var(--header-btn-pop-stagger-ms) * 3);
-}
-
-@keyframes headerBtnPopFade {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes headerBtnPopScale {
-    from {
-        transform: scale(0.4);
-    }
-
-    to {
-        transform: scale(1);
-    }
+    --header-slot-height: calc(var(--header-padding-block) * 2 + var(--header-btn-size));
 }
 
 .app-header__view {
@@ -170,23 +53,6 @@
 
 .app-header__view.is-hidden {
     display: none;
-}
-
-.app-header.is-pending .app-header__title {
-    transition: none;
-}
-
-.app-header.is-pending .app-header__title:empty {
-    opacity: 0;
-}
-
-.app-header.is-pending .app-header__title.is-running {
-    opacity: 1;
-}
-
-.app-header__btn.is-pending {
-    opacity: 0;
-    pointer-events: none;
 }
 
 .app-header.is-disabled .app-header__btn {
@@ -242,16 +108,6 @@
 .app-header__btn i {
     font-size: var(--header-btn-icon-size);
     line-height: 1;
-}
-
-.app-header__btn.is-active {
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.app-header__btn.is-active i {
-    transform: scale(1);
 }
 
 body.is-frame-blurred .app-header {

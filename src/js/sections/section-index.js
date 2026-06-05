@@ -3,7 +3,8 @@ import { bodyApply } from "./body/index.js";
 import { codesSection } from "./codes/codes-section.js";
 import { initCodes } from "./codes/codes-section.js";
 import { initOnLoad } from "./codes/codes-section.js";
-import { headerApply } from "./header/header-index.js";
+import { headerApply } from "./header/index.js";
+import { searchApply, searchInit, searchReset } from "./search/index.js";
 import { userMenuApply } from "./user-menu/index.js";
 import { userMenuInit } from "./user-menu/index.js";
 import { initManualSetup } from "./manual-setup/manual-setup-section.js";
@@ -18,6 +19,7 @@ export function registerSections() {
   cross.codes = codesSection;
   cross.header = { apply: headerApply };
   cross.body = { apply: bodyApply };
+  cross.search = { apply: searchApply, init: searchInit, reset: searchReset };
   cross.userMenu = { apply: userMenuApply };
   cross.manualSetup = manualSetupSection;
   cross.qrCodeSetup = qrCodeSetupSection;
@@ -27,6 +29,7 @@ export function registerSections() {
 export function initSectionModules() {
   initReviewPrompt();
   userMenuInit();
+  searchInit();
   initManualSetup();
   initQrCodeSetup();
   initCodes();

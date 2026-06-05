@@ -8,6 +8,7 @@ export const cross = {
   codes: null,
   header: null,
   body: null,
+  search: null,
   userMenu: null,
   manualSetup: null,
   qrCodeSetup: null,

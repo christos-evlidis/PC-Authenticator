@@ -1,11 +1,7 @@
 import { cross } from "../section-cross.js";
 import { authNumberGet } from "../../accounts/accounts-index.js";
-import { bodyApply } from "../body/index.js";
-import { bodyAnimationPlay } from "../body/index.js";
-import { BODY_PHASE_SIGNED_OUT_CONTENT } from "../body/constants.js";
-import { headerApply } from "../header/header-index.js";
-import { headerIconsDisable } from "../header/header-index.js";
-import { headerIconsEnable } from "../header/header-index.js";
+import { bodyApply, bodyRevealMessage } from "../body/index.js";
+import { headerApply, headerIconsDisable, headerIconsEnable } from "../header/index.js";
 
 /** Syncs header, body, and related section bindings for the signed-in state. */
 export function setAuthState(isLoggedIn, options = {}) {
@@ -25,10 +21,10 @@ export function setAuthState(isLoggedIn, options = {}) {
   }
 
   if (!isLoggedIn && (bodyStaticReveal || !skipSignedOutReveal)) {
-    bodyAnimationPlay(BODY_PHASE_SIGNED_OUT_CONTENT, { static: true });
+    bodyRevealMessage({ signedIn: false });
   }
 
-  cross.codes.setSearchAuthVisible(isLoggedIn);
+  cross.search?.apply(isLoggedIn);
 
   if (isLoggedIn) {
     cross.manualSetup.refreshBindings();

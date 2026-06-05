@@ -19,4 +19,6 @@ export async function refreshAuth() {
   } else {
     cross.userMenu?.apply(false);
   }
+
+  cross.search?.apply(isSignedIn);
 }

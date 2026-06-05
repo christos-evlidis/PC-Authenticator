@@ -8,7 +8,7 @@ import { getTickIntervalId } from "./codes-state.js";
 import { refreshCardRootsFromList } from "./codes-state.js";
 import { createCardFromTemplate } from "./codes-card-template.js";
 import { primeAccountCard } from "./codes-timer.js";
-import { applyCodesSearchFilter } from "./codes-search.js";
+import { searchFilterApply } from "../search/index.js";
 import { startTicker } from "./codes-timer.js";
 import { stopTicker } from "./codes-timer.js";
 
@@ -57,7 +57,7 @@ export async function animateManualAccountAdd(account) {
   primeAccountCard(card);
   list.prepend(card);
   refreshCardRootsFromList(list);
-  applyCodesSearchFilter();
+  searchFilterApply();
   refreshCodesListScroll(list);
 }
 
@@ -95,7 +95,7 @@ export function renderAccounts(accounts, options = {}) {
 
   refreshCardRootsFromList(list);
   refreshCodesListScroll(list);
-  applyCodesSearchFilter();
+  searchFilterApply();
   startTicker();
 
   return cards;

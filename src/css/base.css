@@ -82,12 +82,6 @@ body {
     overflow: hidden;
 }
 
-.extension-frame.is-animate-for-start > .codes-search {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
 /* Shared overlay status indicators (manual setup, QR setup, etc.) */
 .login-status {
     position: absolute;

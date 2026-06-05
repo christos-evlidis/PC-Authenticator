@@ -1,14 +1,6 @@
-:root {
-    --codes-search-height: 40px;
-}
-
 .codes-search {
     flex-shrink: 0;
-    overflow: hidden;
-    display: none;
-    max-height: var(--codes-search-height);
-    margin-top: 0;
-    margin-bottom: -12px;
+    display: block;
     padding: 8px 14px;
     border-radius: var(--header-radius);
     background: var(--color-surface);
@@ -16,12 +8,6 @@
 
 .codes-search.hidden {
     display: none;
-}
-
-.codes-search.is-slot-open.is-visible {
-    display: block;
-    margin-bottom: 0;
-    opacity: 1;
 }
 
 .codes-search__field {

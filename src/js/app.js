@@ -1,16 +1,4 @@
-import { bodyAnimationPlay } from "./sections/body/index.js";
-import { BODY_PHASE_SIGNED_IN_CONTENT } from "./sections/body/constants.js";
-import { BODY_PHASE_FINISH } from "./sections/body/constants.js";
-import { BODY_PHASE_SIGNED_OUT_CONTENT } from "./sections/body/constants.js";
-import { BODY_PHASE_EXTENSION_FRAME } from "./sections/body/constants.js";
-import { BODY_PHASE_HEADER } from "./sections/body/constants.js";
-import { BODY_PHASE_LOGO } from "./sections/body/constants.js";
-import { BODY_PHASE_START } from "./sections/body/constants.js";
-import { headerAnimationPlay } from "./sections/header/header-index.js";
-import { HEADER_PHASE_CONTENT } from "./sections/header/header-constants.js";
-import { HEADER_PHASE_FINISH } from "./sections/header/header-constants.js";
-import { HEADER_PHASE_FADE_IN } from "./sections/header/header-constants.js";
-import { HEADER_PHASE_START } from "./sections/header/header-constants.js";
+import { bodyRevealMessage } from "./sections/body/index.js";
 import { initSectionModules } from "./sections/section-index.js";
 import { loadSections } from "./sections/section-index.js";
 import { registerSections } from "./sections/section-index.js";
@@ -25,24 +13,13 @@ import { loadTimerInvertedPreference } from "./sections/codes/codes-timer.js";
 
 themeInit();
 
-/** Runs logo, extension-frame, header, and header fade-in phases. */
-async function runBootstrapAnimation() {
-  await bodyAnimationPlay(BODY_PHASE_LOGO);
-  await bodyAnimationPlay(BODY_PHASE_EXTENSION_FRAME);
-  await bodyAnimationPlay(BODY_PHASE_HEADER);
-  await headerAnimationPlay(HEADER_PHASE_FADE_IN);
-}
-
-/** Registers sections, applies auth, plays animations, and loads section modules. */
+/** Registers sections, applies auth, and loads section modules. */
 async function bootstrapExtension() {
   registerSections();
   initSectionModules();
 
   const isLoggedIn = await checkAuth();
   await refreshAuth();
-
-  headerAnimationPlay(HEADER_PHASE_START);
-  bodyAnimationPlay(BODY_PHASE_START);
 
   let signedInEmpty = false;
 
@@ -61,21 +38,16 @@ async function bootstrapExtension() {
     }
   }
 
-  await runBootstrapAnimation();
-  await headerAnimationPlay(HEADER_PHASE_CONTENT);
-
   if (!isLoggedIn) {
-    await bodyAnimationPlay(BODY_PHASE_SIGNED_OUT_CONTENT);
+    bodyRevealMessage({ signedIn: false });
   } else if (signedInEmpty) {
     const empty = document.querySelector(SELECTORS.empty);
     const list = document.querySelector(SELECTORS.list);
 
     setEmptyVisible(empty, list, true);
-    await bodyAnimationPlay(BODY_PHASE_SIGNED_IN_CONTENT);
+    bodyRevealMessage({ signedIn: true });
   }
 
-  headerAnimationPlay(HEADER_PHASE_FINISH);
-  bodyAnimationPlay(BODY_PHASE_FINISH);
   await loadSections();
 }
 

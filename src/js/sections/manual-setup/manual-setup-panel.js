@@ -1,4 +1,4 @@
-import { HEADER_MANUAL_SETUP_BTN_SELECTOR } from "../header/header-constants.js";
+import { HEADER_MANUAL_SETUP_BTN_SELECTOR } from "../header/constants.js";
 import { cross } from "../section-cross.js";
 import { FRAME_BLUR_CLASS } from "../section-cross.js";
 

@@ -12,14 +12,6 @@
     --body-message-size: 14px;
     --body-content-padding-block: 24px;
     --body-content-padding-inline: 20px;
-    --body-signed-out-icon-pop-ms: 250ms;
-    --body-signed-out-text-type-ms: 1000ms;
-    --body-signed-in-icon-pop-ms: 250ms;
-    --body-signed-in-text-type-ms: 1000ms;
-    --body-animate-for-logo-hold-ms: 250ms;
-    --body-logo-fade-ms: 250ms;
-    --body-animate-for-extension-frame-ms: 250ms;
-    --body-animate-for-header-ms: 250ms;
 }
 
 .app-body {
@@ -27,67 +19,6 @@
     min-height: 0;
     display: flex;
     flex-direction: column;
-}
-
-.extension-frame.is-animate-for-start > .app-body.is-animate-for-start {
-    position: absolute;
-    z-index: 2;
-    flex: none;
-    min-height: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    transition:
-        top var(--body-animate-for-extension-frame-ms) ease,
-        right var(--body-animate-for-extension-frame-ms) ease,
-        bottom var(--body-animate-for-extension-frame-ms) ease,
-        left var(--body-animate-for-extension-frame-ms) ease;
-}
-
-.extension-frame.is-animate-for-start > .app-body.is-animate-for-start.is-animate-for-extension-frame {
-    top: var(--frame-padding-top);
-    right: var(--frame-padding-right);
-    bottom: var(--frame-padding-bottom);
-    left: var(--frame-padding-left);
-}
-
-.extension-frame.is-animate-for-start > .app-body.is-animate-for-start.is-animate-for-extension-frame.is-animate-for-header {
-    top: var(--frame-animate-for-header-body-top, 68px);
-}
-
-.extension-frame.is-animate-for-start > .app-body.is-animate-for-start .app-body__view {
-    flex: 1;
-    min-height: 100%;
-}
-
-.app-body__logo {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--body-surface);
-    pointer-events: none;
-    opacity: 1;
-    transition: opacity var(--body-logo-fade-ms) ease;
-}
-
-.app-body__logo.is-logo-fading-out {
-    opacity: 0;
-}
-
-.app-body__logo-image {
-    display: block;
-    width: 96px;
-    height: 96px;
-    object-fit: contain;
-}
-
-.app-body__logo.is-animate-for-logo {
-    visibility: hidden;
-    opacity: 0;
 }
 
 .app-body__view {
@@ -123,14 +54,6 @@
     display: none;
 }
 
-.app-body.is-pending .app-body__message--display:empty {
-    opacity: 0;
-}
-
-.app-body.is-pending .app-body__message--display.is-running {
-    opacity: 1;
-}
-
 .app-body__content {
     flex: 1;
     min-height: 0;
@@ -151,7 +74,6 @@
     font-size: var(--body-icon-size);
     line-height: 1;
     color: var(--body-muted);
-    transform-origin: center center;
 }
 
 .app-body__message-stack {
@@ -167,66 +89,13 @@
     font-size: var(--body-message-size);
     line-height: 1.5;
     text-align: center;
+    white-space: pre-line;
 }
 
 .app-body__message--spacer {
     visibility: hidden;
     pointer-events: none;
     user-select: none;
-}
-
-.app-body__icon.is-pending {
-    opacity: 0;
-    transform: scale(0.4);
-}
-
-.app-body__icon.is-active {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.app-body__icon.is-signed-out-icon-pop {
-    animation: bodySignedOutIconPop var(--body-signed-out-icon-pop-ms) ease forwards;
-}
-
-@keyframes bodySignedOutIconPop {
-    from {
-        opacity: 0;
-        transform: scale(0.4);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.app-body__icon.is-signed-in-icon-pop {
-    animation: bodySignedInIconPop var(--body-signed-in-icon-pop-ms) ease forwards;
-}
-
-@keyframes bodySignedInIconPop {
-    from {
-        opacity: 0;
-        transform: scale(0.4);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.app-body__message--display.is-signed-out-text-type {
-    white-space: pre-line;
-}
-
-.app-body__message--display.is-signed-in-text-type {
-    white-space: pre-line;
-}
-
-.app-body__message--display.is-running {
-    white-space: pre-line;
 }
 
 body.is-frame-blurred .app-body {

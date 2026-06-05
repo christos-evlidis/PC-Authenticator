@@ -1,3 +1,4 @@
+import { cross } from "../../section-cross.js";
 import { userMenuStateGet } from "../state.js";
 import { userMenuStateSet } from "../state.js";
 import { userMenuPanelCloseAnimation } from "../animations/panel-close.js";
@@ -10,4 +11,5 @@ export async function userMenuPanelClose() {
 
   userMenuStateSet({ isOpen: false });
   await userMenuPanelCloseAnimation();
+  await cross.codes?.playPostLoginReveal?.();
 }
