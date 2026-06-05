@@ -12,10 +12,12 @@
     --body-message-size: 14px;
     --body-content-padding-block: 24px;
     --body-content-padding-inline: 20px;
-    --body-icon-pop-ms: 250ms;
-    --body-message-type-ms: 1000ms;
-    --body-animate-for-logo-splash-hold-ms: 250ms;
-    --body-splash-fade-ms: 250ms;
+    --body-signed-out-icon-pop-ms: 250ms;
+    --body-signed-out-text-type-ms: 1000ms;
+    --body-signed-in-icon-pop-ms: 250ms;
+    --body-signed-in-text-type-ms: 1000ms;
+    --body-animate-for-logo-hold-ms: 250ms;
+    --body-logo-fade-ms: 250ms;
     --body-animate-for-extension-frame-ms: 250ms;
     --body-animate-for-header-ms: 250ms;
 }
@@ -59,7 +61,7 @@
     min-height: 100%;
 }
 
-.app-body__splash {
+.app-body__logo {
     position: absolute;
     inset: 0;
     z-index: 4;
@@ -69,21 +71,21 @@
     background: var(--body-surface);
     pointer-events: none;
     opacity: 1;
-    transition: opacity var(--body-splash-fade-ms) ease;
+    transition: opacity var(--body-logo-fade-ms) ease;
 }
 
-.app-body__splash.is-splash-fading-out {
+.app-body__logo.is-logo-fading-out {
     opacity: 0;
 }
 
-.app-body__splash-logo {
+.app-body__logo-image {
     display: block;
     width: 96px;
     height: 96px;
     object-fit: contain;
 }
 
-.app-body__splash.is-animate-for-logo-hidden {
+.app-body__logo.is-animate-for-logo {
     visibility: hidden;
     opacity: 0;
 }
@@ -183,11 +185,11 @@
     transform: scale(1);
 }
 
-.app-body__icon.is-popping {
-    animation: bodyIconPop var(--body-icon-pop-ms) ease forwards;
+.app-body__icon.is-signed-out-icon-pop {
+    animation: bodySignedOutIconPop var(--body-signed-out-icon-pop-ms) ease forwards;
 }
 
-@keyframes bodyIconPop {
+@keyframes bodySignedOutIconPop {
     from {
         opacity: 0;
         transform: scale(0.4);
@@ -199,7 +201,27 @@
     }
 }
 
-.app-body__message--display.is-typing {
+.app-body__icon.is-signed-in-icon-pop {
+    animation: bodySignedInIconPop var(--body-signed-in-icon-pop-ms) ease forwards;
+}
+
+@keyframes bodySignedInIconPop {
+    from {
+        opacity: 0;
+        transform: scale(0.4);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.app-body__message--display.is-signed-out-text-type {
+    white-space: pre-line;
+}
+
+.app-body__message--display.is-signed-in-text-type {
     white-space: pre-line;
 }
 

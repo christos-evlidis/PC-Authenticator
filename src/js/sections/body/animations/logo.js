@@ -3,34 +3,34 @@ import { delay } from "../../../utils/utility-animation.js";
 import { waitForNextFrame } from "../../../utils/utility-animation.js";
 import { waitForTransitionEnd } from "../../../utils/utility-animation.js";
 import { BODY_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
+import { BODY_ANIMATE_FOR_LOGO_CLASS } from "../constants.js";
+import { BODY_LOGO_FADING_CLASS } from "../constants.js";
+import { BODY_LOGO_SELECTOR } from "../constants.js";
 import { BODY_ROOT_SELECTOR } from "../constants.js";
-import { BODY_SPLASH_FADING_CLASS } from "../constants.js";
-import { BODY_ANIMATE_FOR_LOGO_HIDDEN_CLASS } from "../constants.js";
-import { BODY_SPLASH_SELECTOR } from "../constants.js";
-import { BODY_VAR_ANIMATE_FOR_LOGO_SPLASH_HOLD_MS } from "../constants.js";
-import { BODY_VAR_SPLASH_FADE_MS } from "../constants.js";
+import { BODY_VAR_ANIMATE_FOR_LOGO_HOLD_MS } from "../constants.js";
+import { BODY_VAR_LOGO_FADE_MS } from "../constants.js";
 
-/** Fades out the splash logo during the logo phase. */
+/** Fades out the body logo during the logo phase. */
 export async function bodyAnimateForLogo() {
   const body = document.querySelector(BODY_ROOT_SELECTOR);
-  const splash = document.querySelector(BODY_SPLASH_SELECTOR);
-  const splashHoldMs = cssMs(body, BODY_VAR_ANIMATE_FOR_LOGO_SPLASH_HOLD_MS);
-  const splashFadeMs = cssMs(body, BODY_VAR_SPLASH_FADE_MS);
+  const logo = document.querySelector(BODY_LOGO_SELECTOR);
+  const logoHoldMs = cssMs(body, BODY_VAR_ANIMATE_FOR_LOGO_HOLD_MS);
+  const logoFadeMs = cssMs(body, BODY_VAR_LOGO_FADE_MS);
 
   await waitForNextFrame();
-  await delay(splashHoldMs);
+  await delay(logoHoldMs);
 
-  if (!splash) {
+  if (!logo) {
     return;
   }
 
-  splash.classList.add(BODY_SPLASH_FADING_CLASS);
+  logo.classList.add(BODY_LOGO_FADING_CLASS);
   await waitForNextFrame();
   await waitForTransitionEnd(
-    splash,
+    logo,
     "opacity",
-    splashFadeMs + BODY_ANIMATION_TIMEOUT_BUFFER_MS,
+    logoFadeMs + BODY_ANIMATION_TIMEOUT_BUFFER_MS,
   );
-  splash.classList.add(BODY_ANIMATE_FOR_LOGO_HIDDEN_CLASS);
-  splash.classList.remove(BODY_SPLASH_FADING_CLASS);
+  logo.classList.add(BODY_ANIMATE_FOR_LOGO_CLASS);
+  logo.classList.remove(BODY_LOGO_FADING_CLASS);
 }

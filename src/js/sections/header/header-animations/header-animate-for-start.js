@@ -1,4 +1,4 @@
-import { themeApplySplashLogo } from "../../../utils/utility-theme.js";
+import { themeApplyBodyLogo } from "../../../utils/utility-theme.js";
 import { themeRead } from "../../../utils/utility-theme.js";
 import { HEADER_ACTIVE_CLASS } from "../header-constants.js";
 import { HEADER_BUTTON_SELECTOR } from "../header-constants.js";
@@ -15,7 +15,7 @@ import { HEADER_TYPING_CLASS } from "../header-constants.js";
 
 /** Resets header chrome to the pre-start hidden state. */
 export function headerAnimateForStart() {
-  themeApplySplashLogo(themeRead());
+  themeApplyBodyLogo(themeRead());
 
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
   const title = document.querySelector(HEADER_TITLE_SELECTOR);

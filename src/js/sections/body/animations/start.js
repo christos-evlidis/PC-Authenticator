@@ -1,4 +1,4 @@
-import { themeApplySplashLogo } from "../../../utils/utility-theme.js";
+import { themeApplyBodyLogo } from "../../../utils/utility-theme.js";
 import { themeRead } from "../../../utils/utility-theme.js";
 import { bodyAnimateForSignedInContent } from "./signed-in-content.js";
 import { bodyAnimateForSignedOutContent } from "./signed-out-content.js";
@@ -10,7 +10,7 @@ import { EXTENSION_FRAME_SELECTOR } from "../constants.js";
 
 /** Resets body chrome to the pre-start hidden state. */
 export function bodyAnimateForStart() {
-  themeApplySplashLogo(themeRead());
+  themeApplyBodyLogo(themeRead());
 
   const frame = document.querySelector(EXTENSION_FRAME_SELECTOR);
   const root = document.querySelector(BODY_ROOT_SELECTOR);

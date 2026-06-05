@@ -16,7 +16,7 @@ const THEME_ICON_SIZES = [
   THEME_ICON_SIZE_48,
   THEME_ICON_SIZE_128,
 ];
-const THEME_SPLASH_LOGO_SELECTOR = ".app-body__splash-logo";
+const THEME_BODY_LOGO_IMAGE_SELECTOR = ".app-body__logo-image";
 
 const THEME_LAYER_SELECTORS = [
   "body",
@@ -63,8 +63,8 @@ export function themeExtensionIconPath(theme, size) {
   return `icons/${themeIconPrefix(theme)}-icon${size}.png`;
 }
 
-// Returns a popup-relative splash logo path for the body logo phase.
-export function themeSplashIconPath(theme) {
+// Returns a popup-relative logo path for the body logo phase.
+export function themeBodyLogoPath(theme) {
   return `../icons/${themeIconPrefix(theme)}-icon${THEME_ICON_SIZE_128}.png`;
 }
 
@@ -88,21 +88,21 @@ function themeApplyExtensionIcon(theme) {
   }
 }
 
-// Updates the body splash logo used during the bootstrap animation sequence.
-export function themeApplySplashLogo(theme) {
-  const splashLogo = document.querySelector(THEME_SPLASH_LOGO_SELECTOR);
+// Updates the body logo used during the bootstrap animation sequence.
+export function themeApplyBodyLogo(theme) {
+  const logoImage = document.querySelector(THEME_BODY_LOGO_IMAGE_SELECTOR);
 
-  if (!splashLogo) {
+  if (!logoImage) {
     return;
   }
 
-  splashLogo.src = themeSplashIconPath(theme);
+  logoImage.src = themeBodyLogoPath(theme);
 }
 
-// Syncs extension and splash icons with the active theme.
+// Syncs extension and body logo with the active theme.
 function themeApplyIcons(theme) {
   themeApplyExtensionIcon(theme);
-  themeApplySplashLogo(theme);
+  themeApplyBodyLogo(theme);
 }
 
 // Toggles theme-dark on every layer at once for instant startup or sync.

@@ -9,13 +9,13 @@ import { BODY_MESSAGE_DISPLAY_SELECTOR } from "../constants.js";
 import { BODY_MESSAGE_SPACER_SELECTOR } from "../constants.js";
 import { BODY_MESSAGE_STACK_SELECTOR } from "../constants.js";
 import { BODY_PENDING_CLASS } from "../constants.js";
-import { BODY_POPPING_CLASS } from "../constants.js";
 import { BODY_ROOT_SELECTOR } from "../constants.js";
 import { BODY_RUNNING_CLASS } from "../constants.js";
+import { BODY_SIGNED_OUT_ICON_POP_CLASS } from "../constants.js";
 import { BODY_SIGNED_OUT_MESSAGE_TEXT } from "../constants.js";
-import { BODY_TYPING_CLASS } from "../constants.js";
-import { BODY_VAR_ICON_POP_MS } from "../constants.js";
-import { BODY_VAR_MESSAGE_TYPE_MS } from "../constants.js";
+import { BODY_SIGNED_OUT_TEXT_TYPE_CLASS } from "../constants.js";
+import { BODY_VAR_SIGNED_OUT_ICON_POP_MS } from "../constants.js";
+import { BODY_VAR_SIGNED_OUT_TEXT_TYPE_MS } from "../constants.js";
 
 /** Handles signed-out body content reset, animation, and static reveal. */
 export async function bodyAnimateForSignedOutContent(options = {}) {
@@ -53,10 +53,10 @@ export async function bodyAnimateForSignedOutContent(options = {}) {
     }
 
     display.textContent = "";
-    display.classList.remove(BODY_RUNNING_CLASS, BODY_TYPING_CLASS);
+    display.classList.remove(BODY_RUNNING_CLASS, BODY_SIGNED_OUT_TEXT_TYPE_CLASS);
     display.removeAttribute("data-full-text");
 
-    icon?.classList.remove(BODY_RUNNING_CLASS, BODY_ACTIVE_CLASS, BODY_POPPING_CLASS);
+    icon?.classList.remove(BODY_RUNNING_CLASS, BODY_ACTIVE_CLASS, BODY_SIGNED_OUT_ICON_POP_CLASS);
     icon?.classList.add(BODY_PENDING_CLASS);
     return;
   }
@@ -79,35 +79,35 @@ export async function bodyAnimateForSignedOutContent(options = {}) {
       display.textContent = messageHtml;
     }
 
-    display.classList.remove(BODY_RUNNING_CLASS, BODY_TYPING_CLASS);
+    display.classList.remove(BODY_RUNNING_CLASS, BODY_SIGNED_OUT_TEXT_TYPE_CLASS);
     display.removeAttribute("data-full-text");
 
-    icon?.classList.remove(BODY_PENDING_CLASS, BODY_RUNNING_CLASS, BODY_POPPING_CLASS);
+    icon?.classList.remove(BODY_PENDING_CLASS, BODY_RUNNING_CLASS, BODY_SIGNED_OUT_ICON_POP_CLASS);
     icon?.classList.add(BODY_ACTIVE_CLASS);
     return;
   }
 
-  const iconPopMs = cssMs(root, BODY_VAR_ICON_POP_MS);
-  const messageTypeMs = cssMs(root, BODY_VAR_MESSAGE_TYPE_MS);
+  const iconPopMs = cssMs(root, BODY_VAR_SIGNED_OUT_ICON_POP_MS);
+  const textTypeMs = cssMs(root, BODY_VAR_SIGNED_OUT_TEXT_TYPE_MS);
 
   if (icon) {
     icon.classList.remove(BODY_PENDING_CLASS);
-    icon.classList.add(BODY_POPPING_CLASS);
+    icon.classList.add(BODY_SIGNED_OUT_ICON_POP_CLASS);
     await waitForAnimationEnd(
       icon,
-      "bodyIconPop",
+      "bodySignedOutIconPop",
       iconPopMs + BODY_ANIMATION_TIMEOUT_BUFFER_MS,
     );
-    icon.classList.remove(BODY_POPPING_CLASS);
+    icon.classList.remove(BODY_SIGNED_OUT_ICON_POP_CLASS);
     icon.classList.add(BODY_ACTIVE_CLASS);
   }
 
   if (stack && display) {
     display.textContent = "";
-    display.classList.add(BODY_TYPING_CLASS, BODY_RUNNING_CLASS);
+    display.classList.add(BODY_SIGNED_OUT_TEXT_TYPE_CLASS, BODY_RUNNING_CLASS);
 
     const charCount = fullText.length;
-    const stepMs = charCount > 0 ? messageTypeMs / charCount : 0;
+    const stepMs = charCount > 0 ? textTypeMs / charCount : 0;
 
     for (let index = 1; index <= charCount; index += 1) {
       display.textContent = fullText.slice(0, index);
@@ -117,7 +117,7 @@ export async function bodyAnimateForSignedOutContent(options = {}) {
       }
     }
 
-    display.classList.remove(BODY_TYPING_CLASS, BODY_RUNNING_CLASS);
+    display.classList.remove(BODY_SIGNED_OUT_TEXT_TYPE_CLASS, BODY_RUNNING_CLASS);
 
     if (typeof messageHtml === "string" && messageHtml.includes("<br>")) {
       display.innerHTML = messageHtml;
