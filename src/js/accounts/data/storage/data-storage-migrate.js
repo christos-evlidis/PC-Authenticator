@@ -1,12 +1,9 @@
-import { DATA_KEY_ENCRYPTED } from "../data-constants.js";
 import { DATA_KEY_FINAL } from "../data-constants.js";
 import { DATA_KEY_LEGACY } from "../data-constants.js";
+import { DATA_KEY_LEGACY_ACCOUNTS } from "../data-constants.js";
+import { DATA_KEY_LEGACY_ALL } from "../data-constants.js";
 import { DATA_KEY_LEGACY_ENCRYPTED } from "../data-constants.js";
-import { DATA_KEY_LEGACY_FINAL } from "../data-constants.js";
-import { DATA_KEY_LEGACY_MERGED } from "../data-constants.js";
-import { DATA_KEY_LEGACY_PENDING } from "../data-constants.js";
-import { DATA_KEY_MERGED } from "../data-constants.js";
-import { DATA_KEY_PENDING } from "../data-constants.js";
+import { DATA_KEY_LEGACY_RESTORE } from "../data-constants.js";
 import { dataCryptoDecrypt } from "../crypto/data-crypto-decrypt.js";
 import { dataCryptoIsEncrypted } from "../crypto/data-crypto-type.js";
 import { dataMergeLists } from "../records/data-merge-lists.js";
@@ -22,46 +19,58 @@ async function dataStorageLogWarn(operation, fn) {
   }
 }
 
-/** Reads legacy and current storage keys into one merged active list. */
+/** Turns a legacy storage value into a plain account list. */
+function dataLegacyAccountsFromValue(value, accountNumber) {
+  if (value == null) {
+    return [];
+  }
+
+  if (typeof value === "string" && dataCryptoIsEncrypted(value)) {
+    if (!accountNumber) {
+      return [];
+    }
+    try {
+      return dataSanitizeList(dataCryptoDecrypt(value, accountNumber));
+    } catch (error) {
+      console.warn(
+        "[data-storage] dataStorageMigrateLegacy decrypt failed",
+        error,
+      );
+      return [];
+    }
+  }
+
+  return dataSanitizeList(value);
+}
+
+/** Reads pre-refactor storage keys (accountsAll era) into dataReady. */
 export async function dataStorageMigrateLegacy(accountNumber) {
   return dataStorageLogWarn("dataStorageMigrateLegacy", async () => {
     const stored = await chrome.storage.local.get([
       DATA_KEY_FINAL,
-      DATA_KEY_ENCRYPTED,
-      DATA_KEY_PENDING,
-      DATA_KEY_MERGED,
-      DATA_KEY_LEGACY_FINAL,
+      DATA_KEY_LEGACY_ALL,
+      DATA_KEY_LEGACY_ACCOUNTS,
       DATA_KEY_LEGACY_ENCRYPTED,
-      DATA_KEY_LEGACY_PENDING,
-      DATA_KEY_LEGACY_MERGED,
+      DATA_KEY_LEGACY_RESTORE,
     ]);
 
     let list = dataSanitizeList(stored[DATA_KEY_FINAL]);
-    list = dataMergeLists(list, dataSanitizeList(stored[DATA_KEY_LEGACY_FINAL]));
-    list = dataMergeLists(list, dataSanitizeList(stored[DATA_KEY_MERGED]));
-    list = dataMergeLists(list, dataSanitizeList(stored[DATA_KEY_LEGACY_MERGED]));
-    list = dataMergeLists(list, dataSanitizeList(stored[DATA_KEY_PENDING]));
-    list = dataMergeLists(list, dataSanitizeList(stored[DATA_KEY_LEGACY_PENDING]));
-
-    for (const encryptedBlob of [
-      stored[DATA_KEY_ENCRYPTED],
-      stored[DATA_KEY_LEGACY_ENCRYPTED],
-    ]) {
-      if (!dataCryptoIsEncrypted(encryptedBlob) || !accountNumber) {
-        continue;
-      }
-      try {
-        list = dataMergeLists(
-          list,
-          dataSanitizeList(dataCryptoDecrypt(encryptedBlob, accountNumber)),
-        );
-      } catch (error) {
-        console.warn(
-          "[data-storage] dataStorageMigrateLegacy decrypt failed",
-          error,
-        );
-      }
-    }
+    list = dataMergeLists(
+      list,
+      dataLegacyAccountsFromValue(stored[DATA_KEY_LEGACY_ALL], accountNumber),
+    );
+    list = dataMergeLists(
+      list,
+      dataLegacyAccountsFromValue(stored[DATA_KEY_LEGACY_ACCOUNTS], accountNumber),
+    );
+    list = dataMergeLists(
+      list,
+      dataLegacyAccountsFromValue(stored[DATA_KEY_LEGACY_ENCRYPTED], accountNumber),
+    );
+    list = dataMergeLists(
+      list,
+      dataLegacyAccountsFromValue(stored[DATA_KEY_LEGACY_RESTORE], accountNumber),
+    );
 
     await dataStorageSetFinal(list);
     return list;
