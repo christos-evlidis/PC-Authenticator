@@ -27,10 +27,13 @@ export async function dataApiRestore(accountNumber) {
         body: JSON.stringify({ account_number: accountNumber }),
       }),
     );
+    const data = await response.json();
+    if (data?.success === false && data?.error === "No backup found") {
+      return { accounts: null };
+    }
     if (!response.ok) {
       throw new Error(`dataApiRestore HTTP ${response.status}`);
     }
-    const data = await response.json();
     return { accounts: data.accounts };
   } catch (error) {
     console.warn("[data-api] dataApiRestore failed", error);
