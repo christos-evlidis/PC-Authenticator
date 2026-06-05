@@ -104,12 +104,12 @@
     padding: 0;
 }
 
-.app-body__view--signed-in .app-body__content--empty-codes {
+.app-body__view--signed-in .app-body__content {
     flex: 1;
     min-height: 0;
 }
 
-.app-body__view--signed-in .app-body__content--empty-codes.hidden {
+.app-body__view--signed-in .app-body__content.hidden {
     display: none;
 }
 

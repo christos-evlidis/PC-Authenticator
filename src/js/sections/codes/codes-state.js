@@ -6,7 +6,7 @@ export const TIMER_INVERTED_KEY = "timerInverted";
 
 export const SELECTORS = {
   section: ".codes-section",
-  empty: ".app-body__content--empty-codes",
+  empty: ".app-body__view--signed-in .app-body__content",
   list: ".codes-section__list",
   template: ".code-card-template",
 };

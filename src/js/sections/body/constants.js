@@ -3,7 +3,7 @@ export const BODY_SIGNED_OUT_VIEW_SELECTOR = ".app-body__view--signed-out";
 export const BODY_SIGNED_IN_VIEW_SELECTOR = ".app-body__view--signed-in";
 
 export const BODY_CONTENT_SELECTOR = ".app-body__view--signed-out .app-body__content";
-export const BODY_CONTENT_SIGNED_IN_EMPTY_SELECTOR = ".app-body__view--signed-in .app-body__content--empty-codes";
+export const BODY_CONTENT_SIGNED_IN_SELECTOR = ".app-body__view--signed-in .app-body__content";
 export const BODY_ICON_SELECTOR = ".app-body__icon";
 export const BODY_MESSAGE_STACK_SELECTOR = ".app-body__message-stack";
 export const BODY_MESSAGE_SPACER_SELECTOR = ".app-body__message--spacer";

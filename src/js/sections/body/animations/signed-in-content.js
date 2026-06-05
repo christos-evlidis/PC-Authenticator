@@ -3,7 +3,7 @@ import { delay } from "../../../utils/utility-animation.js";
 import { waitForAnimationEnd } from "../../../utils/utility-animation.js";
 import { BODY_ACTIVE_CLASS } from "../constants.js";
 import { BODY_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
-import { BODY_CONTENT_SIGNED_IN_EMPTY_SELECTOR } from "../constants.js";
+import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "../constants.js";
 import { BODY_ICON_SELECTOR } from "../constants.js";
 import { BODY_MESSAGE_DISPLAY_SELECTOR } from "../constants.js";
 import { BODY_MESSAGE_SPACER_SELECTOR } from "../constants.js";
@@ -17,10 +17,10 @@ import { BODY_TYPING_CLASS } from "../constants.js";
 import { BODY_VAR_ICON_POP_MS } from "../constants.js";
 import { BODY_VAR_MESSAGE_TYPE_MS } from "../constants.js";
 
-/** Handles signed-in empty-codes body content reset, intro animation, and static reveal. */
+/** Handles signed-in body content reset, intro animation, and static reveal. */
 export async function bodyAnimateForSignedInContent(options = {}) {
   const { reset = false, static: isStatic = false } = options;
-  const content = document.querySelector(BODY_CONTENT_SIGNED_IN_EMPTY_SELECTOR);
+  const content = document.querySelector(BODY_CONTENT_SIGNED_IN_SELECTOR);
   const root = document.querySelector(BODY_ROOT_SELECTOR);
   const icon = content?.querySelector(BODY_ICON_SELECTOR);
   const stack = content?.querySelector(BODY_MESSAGE_STACK_SELECTOR);
