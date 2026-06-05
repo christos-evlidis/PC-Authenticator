@@ -1,26 +1,26 @@
 import { cssMs } from "../../../utils/utility-animation.js";
 import { delay } from "../../../utils/utility-animation.js";
 import { waitForAnimationEnd } from "../../../utils/utility-animation.js";
-import { BODY_ACTIVE_CLASS } from "../body-constants.js";
-import { BODY_ANIMATION_TIMEOUT_BUFFER_MS } from "../body-constants.js";
-import { BODY_CONTENT_SELECTOR } from "../body-constants.js";
-import { BODY_ICON_SELECTOR } from "../body-constants.js";
-import { BODY_MESSAGE_DISPLAY_SELECTOR } from "../body-constants.js";
-import { BODY_MESSAGE_SPACER_SELECTOR } from "../body-constants.js";
-import { BODY_MESSAGE_STACK_SELECTOR } from "../body-constants.js";
-import { BODY_PENDING_CLASS } from "../body-constants.js";
-import { BODY_POPPING_CLASS } from "../body-constants.js";
-import { BODY_ROOT_SELECTOR } from "../body-constants.js";
-import { BODY_RUNNING_CLASS } from "../body-constants.js";
-import { BODY_SIGNED_OUT_MESSAGE_TEXT } from "../body-constants.js";
-import { BODY_TYPING_CLASS } from "../body-constants.js";
-import { BODY_VAR_ICON_POP_MS } from "../body-constants.js";
-import { BODY_VAR_MESSAGE_TYPE_MS } from "../body-constants.js";
+import { BODY_ACTIVE_CLASS } from "../constants.js";
+import { BODY_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
+import { BODY_CONTENT_SIGNED_IN_EMPTY_SELECTOR } from "../constants.js";
+import { BODY_ICON_SELECTOR } from "../constants.js";
+import { BODY_MESSAGE_DISPLAY_SELECTOR } from "../constants.js";
+import { BODY_MESSAGE_SPACER_SELECTOR } from "../constants.js";
+import { BODY_MESSAGE_STACK_SELECTOR } from "../constants.js";
+import { BODY_PENDING_CLASS } from "../constants.js";
+import { BODY_POPPING_CLASS } from "../constants.js";
+import { BODY_ROOT_SELECTOR } from "../constants.js";
+import { BODY_RUNNING_CLASS } from "../constants.js";
+import { BODY_SIGNED_IN_EMPTY_MESSAGE_TEXT } from "../constants.js";
+import { BODY_TYPING_CLASS } from "../constants.js";
+import { BODY_VAR_ICON_POP_MS } from "../constants.js";
+import { BODY_VAR_MESSAGE_TYPE_MS } from "../constants.js";
 
-/** Handles signed-out body content reset, intro animation, and static reveal. */
-export async function bodyAnimateForSignedOutContent(options = {}) {
+/** Handles signed-in empty-codes body content reset, intro animation, and static reveal. */
+export async function bodyAnimateForSignedInContent(options = {}) {
   const { reset = false, static: isStatic = false } = options;
-  const content = document.querySelector(BODY_CONTENT_SELECTOR);
+  const content = document.querySelector(BODY_CONTENT_SIGNED_IN_EMPTY_SELECTOR);
   const root = document.querySelector(BODY_ROOT_SELECTOR);
   const icon = content?.querySelector(BODY_ICON_SELECTOR);
   const stack = content?.querySelector(BODY_MESSAGE_STACK_SELECTOR);
@@ -29,7 +29,7 @@ export async function bodyAnimateForSignedOutContent(options = {}) {
   const stored = stack?.dataset?.fullText;
   const fullText = stored
     ? stored.replace(/\\n/g, "\n")
-    : BODY_SIGNED_OUT_MESSAGE_TEXT;
+    : BODY_SIGNED_IN_EMPTY_MESSAGE_TEXT;
   const lines = fullText
     .split("\n")
     .map((line) => line.trim())
@@ -37,7 +37,7 @@ export async function bodyAnimateForSignedOutContent(options = {}) {
   const messageHtml =
     lines.length <= 1
       ? fullText.trim()
-      : `${lines[0]}<br>${lines.slice(1).join("<br>")}`;
+      : `${lines[0]}<br>${lines.slice(1).map((line) => line.replace(/\+/g, "<strong>+</strong>")).join("<br>")}`;
 
   if (reset) {
     if (!stack || !spacer || !display) {

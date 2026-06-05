@@ -1,5 +1,5 @@
 import { cross } from "./section-cross.js";
-import { bodyApply } from "./body/body-index.js";
+import { bodyApply } from "./body/index.js";
 import { codesSection } from "./codes/codes-section.js";
 import { initCodes } from "./codes/codes-section.js";
 import { initOnLoad } from "./codes/codes-section.js";

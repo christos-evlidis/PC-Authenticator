@@ -1,8 +1,8 @@
 import { cross } from "../section-cross.js";
 import { authNumberGet } from "../../accounts/accounts-index.js";
-import { bodyApply } from "../body/body-index.js";
-import { bodyAnimationPlay } from "../body/body-index.js";
-import { BODY_PHASE_SIGNED_OUT_CONTENT } from "../body/body-constants.js";
+import { bodyApply } from "../body/index.js";
+import { bodyAnimationPlay } from "../body/index.js";
+import { BODY_PHASE_SIGNED_OUT_CONTENT } from "../body/constants.js";
 import { headerApply } from "../header/header-index.js";
 import { headerIconsDisable } from "../header/header-index.js";
 import { headerIconsEnable } from "../header/header-index.js";

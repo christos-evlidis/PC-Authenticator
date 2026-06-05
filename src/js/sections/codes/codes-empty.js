@@ -1,4 +1,4 @@
-import { bodyAnimateForSignedInContent } from "../body/body-animations/body-animate-for-signed-in-content.js";
+import { bodyAnimateForSignedInContent } from "../body/animations/signed-in-content.js";
 import { SELECTORS } from "./codes-state.js";
 
 export function setEmptyVisible(empty, list, isEmpty) {

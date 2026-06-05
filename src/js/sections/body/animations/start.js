@@ -1,13 +1,13 @@
 import { themeApplySplashLogo } from "../../../utils/utility-theme.js";
 import { themeRead } from "../../../utils/utility-theme.js";
-import { bodyAnimateForSignedInContent } from "./body-animate-for-signed-in-content.js";
-import { bodyAnimateForSignedOutContent } from "./body-animate-for-signed-out-content.js";
-import { BODY_ACTIVE_CLASS } from "../body-constants.js";
-import { BODY_INTRO_FULLBLEED_CLASS } from "../body-constants.js";
-import { BODY_PENDING_CLASS } from "../body-constants.js";
-import { BODY_ROOT_SELECTOR } from "../body-constants.js";
-import { EXTENSION_FRAME_SELECTOR } from "../body-constants.js";
-import { FRAME_INTRO_CLASS } from "../body-constants.js";
+import { bodyAnimateForSignedInContent } from "./signed-in-content.js";
+import { bodyAnimateForSignedOutContent } from "./signed-out-content.js";
+import { BODY_ACTIVE_CLASS } from "../constants.js";
+import { BODY_INTRO_FULLBLEED_CLASS } from "../constants.js";
+import { BODY_PENDING_CLASS } from "../constants.js";
+import { BODY_ROOT_SELECTOR } from "../constants.js";
+import { EXTENSION_FRAME_SELECTOR } from "../constants.js";
+import { FRAME_INTRO_CLASS } from "../constants.js";
 
 /** Resets body chrome to the pre-intro hidden state. */
 export function bodyAnimateForStart() {
