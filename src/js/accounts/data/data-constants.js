@@ -1,12 +1,21 @@
-export const DATA_KEY_FINAL = "accountsFinal";
+export const DATA_KEY_FINAL = "dataReady";
 
-export const DATA_KEY_ENCRYPTED = "accountsEncrypted";
+export const DATA_KEY_ENCRYPTED = "dataEncrypted";
 
-export const DATA_KEY_PENDING = "accountsUnencrypted";
+export const DATA_KEY_PENDING = "dataUnencrypted";
 
-export const DATA_KEY_MERGED = "accountsMerged";
+export const DATA_KEY_MERGED = "dataMerged";
 
-export const DATA_KEY_LEGACY = ["accountsRestore", "accounts", "encrypted", "accountsAll"];
+export const DATA_KEY_LEGACY = [
+  "accountsFinal",
+  "accountsEncrypted",
+  "accountsUnencrypted",
+  "accountsMerged",
+  "accountsRestore",
+  "accounts",
+  "encrypted",
+  "accountsAll",
+];
 
 export const DATA_OTP_TYPE_TOTP = "totp";
 
