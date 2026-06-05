@@ -1,7 +1,7 @@
 import { dataApiBackup } from "../data-api.js";
-import { dataCryptoEncrypt } from "../data-crypto.js";
+import { dataCryptoEncrypt } from "../crypto/data-crypto-encrypt.js";
 import { dataSanitizeList } from "../records/data-sanitize.js";
-import { dataStorageGetMerged } from "../data-storage.js";
+import { dataStorageGetMerged } from "../storage/data-storage-merged.js";
 
 /** Encrypts the merged list and uploads it as the cloud backup. */
 export async function dataBackupUpload(accountNumber) {

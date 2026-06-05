@@ -1,14 +1,14 @@
 import { dataApiBackup } from "../data-api.js";
 import { dataBackupRestore } from "../backup/data-restore.js";
 import { dataBackupSync } from "../backup/data-sync.js";
-import { dataCryptoDecrypt } from "../data-crypto.js";
-import { dataCryptoIsEncrypted } from "../data-crypto.js";
-import { dataCryptoEncrypt } from "../data-crypto.js";
+import { dataCryptoDecrypt } from "../crypto/data-crypto-decrypt.js";
+import { dataCryptoIsEncrypted } from "../crypto/data-crypto-type.js";
+import { dataCryptoEncrypt } from "../crypto/data-crypto-encrypt.js";
 import { dataSanitizeList } from "../records/data-sanitize.js";
-import { dataStorageClearEncrypted } from "../data-storage.js";
-import { dataStorageGetEncrypted } from "../data-storage.js";
-import { dataStorageClearMerged } from "../data-storage.js";
-import { dataStorageClearPending } from "../data-storage.js";
+import { dataStorageClearEncrypted } from "../storage/data-storage-encrypted.js";
+import { dataStorageGetEncrypted } from "../storage/data-storage-encrypted.js";
+import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
+import { dataStorageClearPending } from "../storage/data-storage-pending.js";
 
 /** Patches account fields, re-encrypts the list, uploads backup, and syncs locally. */
 export async function dataUpdate(accountNumber, accountId, patch) {

@@ -1,8 +1,8 @@
 import { dataApiRestore } from "../data-api.js";
-import { dataCryptoIsEncrypted } from "../data-crypto.js";
-import { dataStorageClearEncrypted } from "../data-storage.js";
-import { dataStorageSetEncrypted } from "../data-storage.js";
-import { dataStorageClearMerged } from "../data-storage.js";
+import { dataCryptoIsEncrypted } from "../crypto/data-crypto-type.js";
+import { dataStorageClearEncrypted } from "../storage/data-storage-encrypted.js";
+import { dataStorageSetEncrypted } from "../storage/data-storage-encrypted.js";
+import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
 
 /** Fetches cloud backup and caches the encrypted blob locally when applicable. */
 export async function dataBackupRestore(accountNumber) {

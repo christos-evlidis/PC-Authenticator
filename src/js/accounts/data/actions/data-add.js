@@ -5,10 +5,10 @@ import { dataBackupSync } from "../backup/data-sync.js";
 import { dataParseManual } from "../parser/data-parser-manual.js";
 import { dataParseQr } from "../parser/data-parser-qr.js";
 import { dataBuildFinal } from "../records/data-build.js";
-import { dataStorageClearEncrypted } from "../data-storage.js";
-import { dataStorageClearMerged } from "../data-storage.js";
-import { dataStorageAppendPending } from "../data-storage.js";
-import { dataStorageClearPending } from "../data-storage.js";
+import { dataStorageClearEncrypted } from "../storage/data-storage-encrypted.js";
+import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
+import { dataStorageAppendPending } from "../storage/data-storage-pending.js";
+import { dataStorageClearPending } from "../storage/data-storage-pending.js";
 
 /** Adds an account from manual setup, merges with cloud backup, and syncs. */
 export async function dataAddManual(accountNumber, formData) {

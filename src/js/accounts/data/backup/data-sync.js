@@ -1,13 +1,13 @@
-import { dataCryptoDecrypt } from "../data-crypto.js";
-import { dataCryptoIsEncrypted } from "../data-crypto.js";
+import { dataCryptoDecrypt } from "../crypto/data-crypto-decrypt.js";
+import { dataCryptoIsEncrypted } from "../crypto/data-crypto-type.js";
 import { dataSanitizeList } from "../records/data-sanitize.js";
-import { dataStorageClearEncrypted } from "../data-storage.js";
-import { dataStorageGetEncrypted } from "../data-storage.js";
-import { dataStorageGetFinal } from "../data-storage.js";
-import { dataStorageSetFinal } from "../data-storage.js";
-import { dataStorageClearMerged } from "../data-storage.js";
-import { dataStorageClearPending } from "../data-storage.js";
-import { dataStorageGetPending } from "../data-storage.js";
+import { dataStorageClearEncrypted } from "../storage/data-storage-encrypted.js";
+import { dataStorageGetEncrypted } from "../storage/data-storage-encrypted.js";
+import { dataStorageGetFinal } from "../storage/data-storage-final.js";
+import { dataStorageSetFinal } from "../storage/data-storage-final.js";
+import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
+import { dataStorageClearPending } from "../storage/data-storage-pending.js";
+import { dataStorageGetPending } from "../storage/data-storage-pending.js";
 import { dataBackupMerge } from "./data-merge.js";
 import { dataBackupRestore } from "./data-restore.js";
 
