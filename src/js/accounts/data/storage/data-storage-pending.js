@@ -11,7 +11,7 @@ async function dataStorageLogWarn(operation, fn) {
 }
 
 /** Reads pending accounts queued before merge/upload. */
-export async function dataStorageGetPending() {
+async function dataStorageGetPending() {
   return dataStorageLogWarn("dataStorageGetPending", async () => {
     const stored = await chrome.storage.local.get([DATA_KEY_PENDING]);
     return stored[DATA_KEY_PENDING];
@@ -19,21 +19,21 @@ export async function dataStorageGetPending() {
 }
 
 /** Writes the pending accounts queue. */
-export async function dataStorageSetPending(accounts) {
+async function dataStorageSetPending(accounts) {
   return dataStorageLogWarn("dataStorageSetPending", () =>
     chrome.storage.local.set({ [DATA_KEY_PENDING]: accounts }),
   );
 }
 
 /** Clears the pending accounts queue. */
-export async function dataStorageClearPending() {
+async function dataStorageClearPending() {
   return dataStorageLogWarn("dataStorageClearPending", () =>
     chrome.storage.local.remove([DATA_KEY_PENDING]),
   );
 }
 
 /** Appends one account to the pending queue. */
-export async function dataStorageAppendPending(account) {
+async function dataStorageAppendPending(account) {
   return dataStorageLogWarn("dataStorageAppendPending", async () => {
     const pending = await dataStorageGetPending();
     await dataStorageSetPending([
@@ -42,3 +42,8 @@ export async function dataStorageAppendPending(account) {
     ]);
   });
 }
+
+export { dataStorageGetPending };
+export { dataStorageSetPending };
+export { dataStorageClearPending };
+export { dataStorageAppendPending };

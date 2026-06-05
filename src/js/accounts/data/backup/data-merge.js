@@ -7,7 +7,7 @@ import { dataStorageSetMerged } from "../storage/data-storage-merged.js";
 import { dataStorageGetPending } from "../storage/data-storage-pending.js";
 
 /** Merges pending accounts into a base list and persists merged + active lists. */
-export async function dataMerge(authNumber, options = {}) {
+async function dataMerge(authNumber, options = {}) {
   try {
     let rawBase = options.baseList;
     if (rawBase == null) {
@@ -57,3 +57,5 @@ export async function dataMerge(authNumber, options = {}) {
     throw error;
   }
 }
+
+export { dataMerge };

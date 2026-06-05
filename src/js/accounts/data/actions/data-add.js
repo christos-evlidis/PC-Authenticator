@@ -11,7 +11,7 @@ import { dataStorageAppendPending } from "../storage/data-storage-pending.js";
 import { dataStorageClearPending } from "../storage/data-storage-pending.js";
 
 /** Adds an account from manual setup, merges with cloud backup, and syncs. */
-export async function dataAddManual(authNumber, formData) {
+async function dataAddManual(authNumber, formData) {
   try {
     const parsed = dataParserManual(formData);
     const account = dataBuildFinal(parsed);
@@ -31,7 +31,7 @@ export async function dataAddManual(authNumber, formData) {
 }
 
 /** Adds an account from a scanned otpauth URI, merges with cloud backup, and syncs. */
-export async function dataAddQr(authNumber, otpauthUri) {
+async function dataAddQr(authNumber, otpauthUri) {
   try {
     const parsed = dataParserQr(otpauthUri);
     const account = dataBuildFinal(parsed);
@@ -49,3 +49,6 @@ export async function dataAddQr(authNumber, otpauthUri) {
     throw error;
   }
 }
+
+export { dataAddManual };
+export { dataAddQr };

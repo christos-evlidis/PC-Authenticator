@@ -1,5 +1,5 @@
 /** Coerces backup/pending/restore payloads into an account array. */
-export function dataSanitizeList(value) {
+function dataSanitizeList(value) {
   try {
     if (value == null) {
       return [];
@@ -29,7 +29,7 @@ export function dataSanitizeList(value) {
 }
 
 /** Strips whitespace and padding, then uppercases a base32 OTP secret. */
-export function dataSanitizeSecret(raw) {
+function dataSanitizeSecret(raw) {
   try {
     return String(raw)
       .trim()
@@ -43,7 +43,7 @@ export function dataSanitizeSecret(raw) {
 }
 
 /** Trims control characters and caps display names at 64 characters. */
-export function dataSanitizeName(name) {
+function dataSanitizeName(name) {
   try {
     const trimmed = String(name)
       .trim()
@@ -56,7 +56,7 @@ export function dataSanitizeName(name) {
 }
 
 /** Title-cases each word of an issuer or manual account name. */
-export function dataSanitizeIssuer(issuer) {
+function dataSanitizeIssuer(issuer) {
   try {
     const sanitized = dataSanitizeName(issuer);
     if (!sanitized) {
@@ -81,3 +81,8 @@ export function dataSanitizeIssuer(issuer) {
     return "";
   }
 }
+
+export { dataSanitizeList };
+export { dataSanitizeSecret };
+export { dataSanitizeName };
+export { dataSanitizeIssuer };

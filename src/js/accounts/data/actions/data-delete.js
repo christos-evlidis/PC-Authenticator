@@ -11,7 +11,7 @@ import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
 import { dataStorageClearPending } from "../storage/data-storage-pending.js";
 
 /** Deletes an account from backup and refreshes the local active list. */
-export async function dataDelete(authNumber, accountId) {
+async function dataDelete(authNumber, accountId) {
   try {
     const deleteId = String(accountId);
     await dataRestore(authNumber);
@@ -43,3 +43,5 @@ export async function dataDelete(authNumber, accountId) {
     throw error;
   }
 }
+
+export { dataDelete };

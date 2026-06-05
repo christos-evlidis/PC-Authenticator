@@ -2,7 +2,7 @@ import { DATA_OTP_TYPE_HOTP } from "../data-constants.js";
 import { DATA_OTP_PERIOD } from "../data-constants.js";
 
 /** Resolves the HMAC counter: HOTP uses stored counter, TOTP uses current time step. */
-export function dataOtpGetCounter(options) {
+function dataOtpGetCounter(options) {
   try {
     if (options.type === DATA_OTP_TYPE_HOTP) {
       return options.counter;
@@ -22,3 +22,5 @@ export function dataOtpGetCounter(options) {
     return 0;
   }
 }
+
+export { dataOtpGetCounter };

@@ -1,7 +1,7 @@
 import { DATA_OTP_TYPE_HOTP } from "../data-constants.js";
 
 /** Builds the option object passed into OTP generation for a stored account. */
-export function dataOtpGetOptions(account) {
+function dataOtpGetOptions(account) {
   try {
     const options = {
       type: account.type,
@@ -19,3 +19,5 @@ export function dataOtpGetOptions(account) {
     throw error;
   }
 }
+
+export { dataOtpGetOptions };

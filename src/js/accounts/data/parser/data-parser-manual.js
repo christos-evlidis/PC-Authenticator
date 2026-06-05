@@ -1,14 +1,15 @@
+import { dataSanitizeIssuer } from "../records/data-sanitize.js";
+import { dataSanitizeSecret } from "../records/data-sanitize.js";
+
 import { DATA_OTP_ALGORITHM_DEFAULT } from "../data-constants.js";
 import { DATA_HOTP_COUNTER_DEFAULT } from "../data-constants.js";
 import { DATA_OTP_TYPE_HOTP } from "../data-constants.js";
 import { DATA_OTP_DIGITS } from "../data-constants.js";
 import { DATA_OTP_PERIOD } from "../data-constants.js";
 import { DATA_OTP_TYPE_TOTP } from "../data-constants.js";
-import { dataSanitizeIssuer } from "../records/data-sanitize.js";
-import { dataSanitizeSecret } from "../records/data-sanitize.js";
 
 /** Parses manual setup form fields into account fields. */
-export function dataParserManual({ name, secret, email, type }) {
+function dataParserManual({ name, secret, email, type }) {
   try {
     const sanitizedName = dataSanitizeIssuer(name);
     const sanitizedSecret = dataSanitizeSecret(secret);
@@ -45,3 +46,5 @@ export function dataParserManual({ name, secret, email, type }) {
     throw error;
   }
 }
+
+export { dataParserManual };

@@ -12,7 +12,7 @@ import { dataMerge } from "./data-merge.js";
 import { dataRestore } from "./data-restore.js";
 
 /** Restores from cloud, merges pending adds, writes the active list, and clears temp keys. */
-export async function dataSync(authNumber) {
+async function dataSync(authNumber) {
   try {
     const result = await dataRestore(authNumber);
     if (result.accounts == null) {
@@ -79,3 +79,5 @@ export async function dataSync(authNumber) {
     throw error;
   }
 }
+
+export { dataSync };

@@ -2,7 +2,7 @@ import { dataOtpGetCounter } from "./data-counter.js";
 import { dataSanitizeSecret } from "../records/data-sanitize.js";
 
 /** Generates a TOTP or HOTP code for the given secret and options. */
-export function dataOtpGetNumber(secret, options) {
+function dataOtpGetNumber(secret, options) {
   try {
     const sanitized = dataSanitizeSecret(secret);
     const counterValue = dataOtpGetCounter(options);
@@ -79,3 +79,5 @@ export function dataOtpGetNumber(secret, options) {
     return "".padStart(options?.digits ?? 6, "0");
   }
 }
+
+export { dataOtpGetNumber };

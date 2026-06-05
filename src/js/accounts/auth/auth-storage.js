@@ -11,7 +11,7 @@ async function authStorageWarn(operation, fn) {
 }
 
 /** Reads the signed-in account number from local storage, or null when absent. */
-export async function authNumberGet() {
+async function authNumberGet() {
   return authStorageWarn("authNumberGet", async () => {
     const stored = await chrome.storage.local.get([AUTH_NUMBER_KEY]);
     return stored[AUTH_NUMBER_KEY] ?? null;
@@ -19,7 +19,7 @@ export async function authNumberGet() {
 }
 
 /** Persists the signed-in account number after login or account creation. */
-export async function authNumberSet(authNumber) {
+async function authNumberSet(authNumber) {
   return authStorageWarn("authNumberSet", () =>
     chrome.storage.local.set({
       [AUTH_NUMBER_KEY]: authNumber,
@@ -28,8 +28,12 @@ export async function authNumberSet(authNumber) {
 }
 
 /** Removes the signed-in account number during sign-out or reset flows. */
-export async function authNumberClear() {
+async function authNumberClear() {
   return authStorageWarn("authNumberClear", () =>
     chrome.storage.local.remove([AUTH_NUMBER_KEY]),
   );
 }
+
+export { authNumberGet };
+export { authNumberSet };
+export { authNumberClear };

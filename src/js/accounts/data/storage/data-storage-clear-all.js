@@ -1,8 +1,9 @@
-import { DATA_KEY_LEGACY } from "../data-constants.js";
 import { dataStorageClearEncrypted } from "./data-storage-encrypted.js";
 import { dataStorageClearFinal } from "./data-storage-final.js";
 import { dataStorageClearMerged } from "./data-storage-merged.js";
 import { dataStorageClearPending } from "./data-storage-pending.js";
+
+import { DATA_KEY_LEGACY } from "../data-constants.js";
 
 /** Runs a storage operation and logs failures. */
 async function dataStorageLogWarn(operation, fn) {
@@ -15,7 +16,7 @@ async function dataStorageLogWarn(operation, fn) {
 }
 
 /** Clears all account-related keys from local storage (sign-out / reset). */
-export async function dataStorageClearAll() {
+async function dataStorageClearAll() {
   return dataStorageLogWarn("dataStorageClearAll", async () => {
     await dataStorageClearFinal();
     await dataStorageClearEncrypted();
@@ -24,3 +25,5 @@ export async function dataStorageClearAll() {
     await chrome.storage.local.remove(DATA_KEY_LEGACY);
   });
 }
+
+export { dataStorageClearAll };

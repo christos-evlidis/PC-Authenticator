@@ -5,7 +5,7 @@ import { dataStorageSetEncrypted } from "../storage/data-storage-encrypted.js";
 import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
 
 /** Fetches cloud backup and caches the encrypted blob locally when applicable. */
-export async function dataRestore(authNumber) {
+async function dataRestore(authNumber) {
   let result;
   try {
     result = await dataApiRestore(authNumber);
@@ -29,3 +29,5 @@ export async function dataRestore(authNumber) {
   }
   return result;
 }
+
+export { dataRestore };

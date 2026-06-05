@@ -18,7 +18,7 @@ async function authFetchWarn(label, request) {
 }
 
 /** Confirms that an account number exists on the server. */
-export async function authVerify(authNumber) {
+async function authVerify(authNumber) {
   try {
     const response = await authFetchWarn("authVerify", () =>
       fetch(`${AUTH_API_BASE_URL}/verify-account`, {
@@ -40,7 +40,7 @@ export async function authVerify(authNumber) {
 }
 
 /** Creates a new user account and returns its 24-digit account number. */
-export async function authCreate() {
+async function authCreate() {
   try {
     const response = await authFetchWarn("authCreate", () =>
       fetch(`${AUTH_API_BASE_URL}/create-account`, {
@@ -65,3 +65,6 @@ export async function authCreate() {
     throw error;
   }
 }
+
+export { authVerify };
+export { authCreate };

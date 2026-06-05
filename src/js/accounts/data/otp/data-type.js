@@ -2,7 +2,7 @@ import { DATA_OTP_TYPE_HOTP } from "../data-constants.js";
 import { DATA_OTP_TYPE_TOTP } from "../data-constants.js";
 
 /** Returns whether the account uses HOTP (counter-based). */
-export function dataOtpIsHotp(account) {
+function dataOtpIsHotp(account) {
   try {
     return account.type === DATA_OTP_TYPE_HOTP;
   } catch (error) {
@@ -12,7 +12,7 @@ export function dataOtpIsHotp(account) {
 }
 
 /** Returns whether the account uses TOTP (time-based). */
-export function dataOtpIsTotp(account) {
+function dataOtpIsTotp(account) {
   try {
     return account.type === DATA_OTP_TYPE_TOTP;
   } catch (error) {
@@ -20,3 +20,6 @@ export function dataOtpIsTotp(account) {
     return false;
   }
 }
+
+export { dataOtpIsHotp };
+export { dataOtpIsTotp };

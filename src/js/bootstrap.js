@@ -4,7 +4,7 @@ import { dataSync } from "./accounts/accounts-index.js";
 import { refreshAuth } from "./utils/utility-auth.js";
 
 /** Verifies stored auth, syncs data from API, and applies chrome. */
-export async function bootstrap() {
+async function bootstrap() {
   const authNumber = await authNumberGet();
 
   if (!authNumber) {
@@ -20,3 +20,5 @@ export async function bootstrap() {
     return { isSignedIn: true };
   }
 }
+
+export { bootstrap };

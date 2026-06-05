@@ -1,5 +1,5 @@
 /** Returns TOTP timer state for the countdown UI. */
-export function dataOtpGetClock(options) {
+function dataOtpGetClock(options) {
   try {
     const period = options.period;
     if (!period || period < 1) {
@@ -36,3 +36,5 @@ export function dataOtpGetClock(options) {
     };
   }
 }
+
+export { dataOtpGetClock };

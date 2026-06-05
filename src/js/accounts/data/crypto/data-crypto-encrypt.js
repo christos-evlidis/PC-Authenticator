@@ -1,5 +1,5 @@
 /** Serializes accounts to JSON and encrypts them with the auth number as key. */
-export function dataCryptoEncrypt(accounts, authNumber) {
+function dataCryptoEncrypt(accounts, authNumber) {
   try {
     const accountsJson = JSON.stringify(accounts);
     return CryptoJS.AES.encrypt(accountsJson, authNumber).toString();
@@ -8,3 +8,5 @@ export function dataCryptoEncrypt(accounts, authNumber) {
     throw error;
   }
 }
+
+export { dataCryptoEncrypt };

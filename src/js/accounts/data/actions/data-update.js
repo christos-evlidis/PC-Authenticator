@@ -11,7 +11,7 @@ import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
 import { dataStorageClearPending } from "../storage/data-storage-pending.js";
 
 /** Patches account fields, re-encrypts the list, uploads backup, and syncs locally. */
-export async function dataUpdate(authNumber, accountId, patch) {
+async function dataUpdate(authNumber, accountId, patch) {
   try {
     const updateId = String(accountId);
     await dataRestore(authNumber);
@@ -59,3 +59,5 @@ export async function dataUpdate(authNumber, accountId, patch) {
     throw error;
   }
 }
+
+export { dataUpdate };

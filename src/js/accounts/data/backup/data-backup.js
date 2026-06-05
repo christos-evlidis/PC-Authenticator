@@ -4,7 +4,7 @@ import { dataSanitizeList } from "../records/data-sanitize.js";
 import { dataStorageGetMerged } from "../storage/data-storage-merged.js";
 
 /** Encrypts the merged list and uploads it as the cloud backup. */
-export async function dataBackup(authNumber) {
+async function dataBackup(authNumber) {
   try {
     const merged = dataSanitizeList(
       await dataStorageGetMerged(),
@@ -16,3 +16,5 @@ export async function dataBackup(authNumber) {
     throw error;
   }
 }
+
+export { dataBackup };

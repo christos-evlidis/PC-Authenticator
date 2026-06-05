@@ -1,14 +1,15 @@
+import { dataSanitizeIssuer } from "./data-sanitize.js";
+import { dataSanitizeName } from "./data-sanitize.js";
+
 import { DATA_OTP_ALGORITHM_DEFAULT } from "../data-constants.js";
 import { DATA_HOTP_COUNTER_DEFAULT } from "../data-constants.js";
 import { DATA_OTP_TYPE_HOTP } from "../data-constants.js";
 import { DATA_OTP_DIGITS } from "../data-constants.js";
 import { DATA_OTP_PERIOD } from "../data-constants.js";
 import { DATA_OTP_TYPE_TOTP } from "../data-constants.js";
-import { dataSanitizeIssuer } from "./data-sanitize.js";
-import { dataSanitizeName } from "./data-sanitize.js";
 
 /** Builds display name and optional email from issuer and label. */
-export function dataBuildName(issuer, label) {
+function dataBuildName(issuer, label) {
   try {
     const issuerText = dataSanitizeIssuer(issuer);
     const labelText = dataSanitizeName(label);
@@ -34,7 +35,7 @@ export function dataBuildName(issuer, label) {
 }
 
 /** Turns parsed OTP fields into a storable account object. */
-export function dataBuildFinal({
+function dataBuildFinal({
   name,
   secret,
   email,
@@ -68,3 +69,6 @@ export function dataBuildFinal({
     throw error;
   }
 }
+
+export { dataBuildName };
+export { dataBuildFinal };

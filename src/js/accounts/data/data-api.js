@@ -18,7 +18,7 @@ async function dataApiFetchWarn(label, request) {
 }
 
 /** Downloads the latest backup payload for an account. */
-export async function dataApiRestore(authNumber) {
+async function dataApiRestore(authNumber) {
   try {
     const response = await dataApiFetchWarn("dataApiRestore", () =>
       fetch(`${AUTH_API_BASE_URL}/restore-accounts`, {
@@ -42,7 +42,7 @@ export async function dataApiRestore(authNumber) {
 }
 
 /** Uploads an encrypted accounts blob, replacing any previous backup. */
-export async function dataApiBackup(authNumber, encryptedAccounts) {
+async function dataApiBackup(authNumber, encryptedAccounts) {
   try {
     const response = await dataApiFetchWarn("dataApiBackup", () =>
       fetch(`${AUTH_API_BASE_URL}/backup-accounts`, {
@@ -61,3 +61,6 @@ export async function dataApiBackup(authNumber, encryptedAccounts) {
     throw error;
   }
 }
+
+export { dataApiRestore };
+export { dataApiBackup };

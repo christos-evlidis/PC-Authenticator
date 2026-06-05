@@ -1,13 +1,14 @@
+import { dataBuildName } from "../records/data-build.js";
+import { dataSanitizeSecret } from "../records/data-sanitize.js";
+
 import { DATA_OTP_ALGORITHM_DEFAULT } from "../data-constants.js";
 import { DATA_HOTP_COUNTER_DEFAULT } from "../data-constants.js";
 import { DATA_OTP_TYPE_HOTP } from "../data-constants.js";
 import { DATA_OTP_DIGITS } from "../data-constants.js";
 import { DATA_OTP_PERIOD } from "../data-constants.js";
-import { dataBuildName } from "../records/data-build.js";
-import { dataSanitizeSecret } from "../records/data-sanitize.js";
 
 /** Parses a scanned QR otpauth URI into account fields. */
-export function dataParserQr(uri) {
+function dataParserQr(uri) {
   try {
     let raw = String(uri).trim();
     if (raw.toLowerCase().startsWith("apple-otpauth://")) {
@@ -64,3 +65,5 @@ export function dataParserQr(uri) {
     throw error;
   }
 }
+
+export { dataParserQr };

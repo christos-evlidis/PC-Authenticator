@@ -1,5 +1,5 @@
 /** Returns whether a payload is an AES-encrypted ciphertext string. */
-export function dataCryptoIsEncrypted(data) {
+function dataCryptoIsEncrypted(data) {
   try {
     return typeof data === "string" && data.startsWith("U2FsdGVkX1");
   } catch (error) {
@@ -7,3 +7,5 @@ export function dataCryptoIsEncrypted(data) {
     return false;
   }
 }
+
+export { dataCryptoIsEncrypted };
