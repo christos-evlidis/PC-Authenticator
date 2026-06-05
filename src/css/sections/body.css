@@ -14,10 +14,10 @@
     --body-content-padding-inline: 20px;
     --body-icon-pop-ms: 250ms;
     --body-message-type-ms: 1000ms;
-    --body-intro-splash-hold-ms: 250ms;
+    --body-animate-for-logo-splash-hold-ms: 250ms;
     --body-splash-fade-ms: 250ms;
-    --body-intro-inset-ms: 250ms;
-    --body-intro-header-slot-ms: 250ms;
+    --body-animate-for-extension-frame-ms: 250ms;
+    --body-animate-for-header-ms: 250ms;
 }
 
 .app-body {
@@ -27,7 +27,7 @@
     flex-direction: column;
 }
 
-.extension-frame.is-frame-intro > .app-body.is-intro-fullbleed {
+.extension-frame.is-animate-for-start > .app-body.is-animate-for-start {
     position: absolute;
     z-index: 2;
     flex: none;
@@ -37,24 +37,24 @@
     bottom: 0;
     left: 0;
     transition:
-        top var(--body-intro-inset-ms) ease,
-        right var(--body-intro-inset-ms) ease,
-        bottom var(--body-intro-inset-ms) ease,
-        left var(--body-intro-inset-ms) ease;
+        top var(--body-animate-for-extension-frame-ms) ease,
+        right var(--body-animate-for-extension-frame-ms) ease,
+        bottom var(--body-animate-for-extension-frame-ms) ease,
+        left var(--body-animate-for-extension-frame-ms) ease;
 }
 
-.extension-frame.is-frame-intro > .app-body.is-intro-fullbleed.is-intro-inset {
+.extension-frame.is-animate-for-start > .app-body.is-animate-for-start.is-animate-for-extension-frame {
     top: var(--frame-padding-top);
     right: var(--frame-padding-right);
     bottom: var(--frame-padding-bottom);
     left: var(--frame-padding-left);
 }
 
-.extension-frame.is-frame-intro > .app-body.is-intro-fullbleed.is-intro-inset.is-intro-header-slot {
-    top: var(--frame-intro-body-top, 68px);
+.extension-frame.is-animate-for-start > .app-body.is-animate-for-start.is-animate-for-extension-frame.is-animate-for-header {
+    top: var(--frame-animate-for-header-body-top, 68px);
 }
 
-.extension-frame.is-frame-intro > .app-body.is-intro-fullbleed .app-body__view {
+.extension-frame.is-animate-for-start > .app-body.is-animate-for-start .app-body__view {
     flex: 1;
     min-height: 100%;
 }
@@ -83,7 +83,7 @@
     object-fit: contain;
 }
 
-.app-body__splash.is-splash-hidden {
+.app-body__splash.is-animate-for-logo-hidden {
     visibility: hidden;
     opacity: 0;
 }

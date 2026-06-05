@@ -82,7 +82,7 @@ body {
     overflow: hidden;
 }
 
-.extension-frame.is-frame-intro > .codes-search {
+.extension-frame.is-animate-for-start > .codes-search {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;

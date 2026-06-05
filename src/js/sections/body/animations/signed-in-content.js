@@ -17,7 +17,7 @@ import { BODY_TYPING_CLASS } from "../constants.js";
 import { BODY_VAR_ICON_POP_MS } from "../constants.js";
 import { BODY_VAR_MESSAGE_TYPE_MS } from "../constants.js";
 
-/** Handles signed-in body content reset, intro animation, and static reveal. */
+/** Handles signed-in body content reset, animation, and static reveal. */
 export async function bodyAnimateForSignedInContent(options = {}) {
   const { reset = false, static: isStatic = false } = options;
   const content = document.querySelector(BODY_CONTENT_SIGNED_IN_SELECTOR);

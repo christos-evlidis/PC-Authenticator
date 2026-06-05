@@ -13,7 +13,7 @@ import { HEADER_TITLE_SELECTOR } from "../header-constants.js";
 import { HEADER_TITLE_TEXT } from "../header-constants.js";
 import { HEADER_TYPING_CLASS } from "../header-constants.js";
 
-/** Resets header chrome to the pre-intro hidden state. */
+/** Resets header chrome to the pre-start hidden state. */
 export function headerAnimateForStart() {
   themeApplySplashLogo(themeRead());
 

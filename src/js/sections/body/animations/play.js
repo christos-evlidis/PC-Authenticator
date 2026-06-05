@@ -13,7 +13,7 @@ import { BODY_PHASE_SIGNED_IN_CONTENT } from "../constants.js";
 import { BODY_PHASE_SIGNED_OUT_CONTENT } from "../constants.js";
 import { BODY_PHASE_START } from "../constants.js";
 
-/** Runs body animation phases for intro, content, or cleanup. */
+/** Runs a body animation phase. */
 export async function bodyAnimationPlay(phase, options = {}) {
   if (phase === BODY_PHASE_START) {
     bodyAnimateForStart();

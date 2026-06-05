@@ -63,7 +63,7 @@ export function themeExtensionIconPath(theme, size) {
   return `icons/${themeIconPrefix(theme)}-icon${size}.png`;
 }
 
-// Returns a popup-relative splash logo path for the body intro animation.
+// Returns a popup-relative splash logo path for the body logo phase.
 export function themeSplashIconPath(theme) {
   return `../icons/${themeIconPrefix(theme)}-icon${THEME_ICON_SIZE_128}.png`;
 }
@@ -88,7 +88,7 @@ function themeApplyExtensionIcon(theme) {
   }
 }
 
-// Updates the body splash logo used during the header and body intro sequence.
+// Updates the body splash logo used during the bootstrap animation sequence.
 export function themeApplySplashLogo(theme) {
   const splashLogo = document.querySelector(THEME_SPLASH_LOGO_SELECTOR);
 
@@ -99,7 +99,7 @@ export function themeApplySplashLogo(theme) {
   splashLogo.src = themeSplashIconPath(theme);
 }
 
-// Syncs extension and intro splash icons with the active theme.
+// Syncs extension and splash icons with the active theme.
 function themeApplyIcons(theme) {
   themeApplyExtensionIcon(theme);
   themeApplySplashLogo(theme);

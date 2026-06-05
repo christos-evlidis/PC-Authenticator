@@ -30,7 +30,7 @@ export async function preparePostLoginReveal() {
   hideCodesSectionContent();
 }
 
-/** Restores signed-out chrome after logout without replaying the intro. */
+/** Restores signed-out chrome after logout without replaying the animation. */
 export async function applyPostLogoutChrome() {
   cancelPendingPostLoginReveal();
   await cross.codes.refreshAuthState({

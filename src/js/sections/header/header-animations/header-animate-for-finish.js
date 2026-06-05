@@ -1,10 +1,13 @@
-import { HEADER_INTRO_FADE_IN_CLASS } from "../header-constants.js";
-import { HEADER_INTRO_HIDDEN_CLASS } from "../header-constants.js";
+import { HEADER_ANIMATE_FOR_FADE_IN_CLASS } from "../header-constants.js";
+import { HEADER_ANIMATE_FOR_FADE_IN_HIDDEN_CLASS } from "../header-constants.js";
 import { HEADER_ROOT_SELECTOR } from "../header-constants.js";
 
-/** Removes intro fade classes after header content animation completes. */
+/** Removes fade-in classes after the finish phase. */
 export function headerAnimateForFinish() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
 
-  header?.classList.remove(HEADER_INTRO_HIDDEN_CLASS, HEADER_INTRO_FADE_IN_CLASS);
+  header?.classList.remove(
+    HEADER_ANIMATE_FOR_FADE_IN_HIDDEN_CLASS,
+    HEADER_ANIMATE_FOR_FADE_IN_CLASS,
+  );
 }

@@ -15,8 +15,8 @@ export const HEADER_RUNNING_CLASS = "is-running";
 export const HEADER_TYPING_CLASS = "is-typing";
 export const HEADER_POPPING_CLASS = "is-popping";
 
-export const HEADER_INTRO_HIDDEN_CLASS = "is-intro-hidden";
-export const HEADER_INTRO_FADE_IN_CLASS = "is-intro-fade-in";
+export const HEADER_ANIMATE_FOR_FADE_IN_HIDDEN_CLASS = "is-animate-for-fade-in-hidden";
+export const HEADER_ANIMATE_FOR_FADE_IN_CLASS = "is-animate-for-fade-in";
 
 export const HEADER_TITLE_TEXT = "PC Authenticator";
 
@@ -28,6 +28,6 @@ export const HEADER_PHASE_FINISH = "animateforfinish";
 export const HEADER_VAR_TITLE_TYPE_MS = "--header-title-type-ms";
 export const HEADER_VAR_BTN_POP_MS = "--header-btn-pop-ms";
 export const HEADER_VAR_BTN_POP_STAGGER_MS = "--header-btn-pop-stagger-ms";
-export const HEADER_VAR_INTRO_FADE_MS = "--header-intro-fade-ms";
+export const HEADER_VAR_ANIMATE_FOR_FADE_IN_MS = "--header-animate-for-fade-in-ms";
 
 export const HEADER_ANIMATION_TIMEOUT_BUFFER_MS = 32;

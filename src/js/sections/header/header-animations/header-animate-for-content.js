@@ -6,7 +6,7 @@ import { HEADER_ACTIVE_CLASS } from "../header-constants.js";
 import { HEADER_ANIMATION_TIMEOUT_BUFFER_MS } from "../header-constants.js";
 import { HEADER_BUTTON_SELECTOR } from "../header-constants.js";
 import { HEADER_HIDDEN_CLASS } from "../header-constants.js";
-import { HEADER_INTRO_FADE_IN_CLASS } from "../header-constants.js";
+import { HEADER_ANIMATE_FOR_FADE_IN_CLASS } from "../header-constants.js";
 import { HEADER_PENDING_CLASS } from "../header-constants.js";
 import { HEADER_POPPING_CLASS } from "../header-constants.js";
 import { HEADER_ROOT_SELECTOR } from "../header-constants.js";
@@ -83,6 +83,6 @@ export async function headerAnimateForContent() {
     });
   }
 
-  header?.classList.remove(HEADER_PENDING_CLASS, HEADER_INTRO_FADE_IN_CLASS);
+  header?.classList.remove(HEADER_PENDING_CLASS, HEADER_ANIMATE_FOR_FADE_IN_CLASS);
   header?.classList.add(HEADER_ACTIVE_CLASS);
 }

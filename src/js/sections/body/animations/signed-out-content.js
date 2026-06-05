@@ -17,7 +17,7 @@ import { BODY_TYPING_CLASS } from "../constants.js";
 import { BODY_VAR_ICON_POP_MS } from "../constants.js";
 import { BODY_VAR_MESSAGE_TYPE_MS } from "../constants.js";
 
-/** Handles signed-out body content reset, intro animation, and static reveal. */
+/** Handles signed-out body content reset, animation, and static reveal. */
 export async function bodyAnimateForSignedOutContent(options = {}) {
   const { reset = false, static: isStatic = false } = options;
   const content = document.querySelector(BODY_CONTENT_SIGNED_OUT_SELECTOR);

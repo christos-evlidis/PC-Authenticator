@@ -5,16 +5,16 @@ import { waitForTransitionEnd } from "../../../utils/utility-animation.js";
 import { BODY_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
 import { BODY_ROOT_SELECTOR } from "../constants.js";
 import { BODY_SPLASH_FADING_CLASS } from "../constants.js";
-import { BODY_SPLASH_HIDDEN_CLASS } from "../constants.js";
+import { BODY_ANIMATE_FOR_LOGO_HIDDEN_CLASS } from "../constants.js";
 import { BODY_SPLASH_SELECTOR } from "../constants.js";
-import { BODY_VAR_INTRO_SPLASH_HOLD_MS } from "../constants.js";
+import { BODY_VAR_ANIMATE_FOR_LOGO_SPLASH_HOLD_MS } from "../constants.js";
 import { BODY_VAR_SPLASH_FADE_MS } from "../constants.js";
 
-/** Fades out the splash logo during frame intro. */
+/** Fades out the splash logo during the logo phase. */
 export async function bodyAnimateForLogo() {
   const body = document.querySelector(BODY_ROOT_SELECTOR);
   const splash = document.querySelector(BODY_SPLASH_SELECTOR);
-  const splashHoldMs = cssMs(body, BODY_VAR_INTRO_SPLASH_HOLD_MS);
+  const splashHoldMs = cssMs(body, BODY_VAR_ANIMATE_FOR_LOGO_SPLASH_HOLD_MS);
   const splashFadeMs = cssMs(body, BODY_VAR_SPLASH_FADE_MS);
 
   await waitForNextFrame();
@@ -31,6 +31,6 @@ export async function bodyAnimateForLogo() {
     "opacity",
     splashFadeMs + BODY_ANIMATION_TIMEOUT_BUFFER_MS,
   );
-  splash.classList.add(BODY_SPLASH_HIDDEN_CLASS);
+  splash.classList.add(BODY_ANIMATE_FOR_LOGO_HIDDEN_CLASS);
   splash.classList.remove(BODY_SPLASH_FADING_CLASS);
 }

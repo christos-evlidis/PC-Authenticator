@@ -25,15 +25,15 @@ import { loadTimerInvertedPreference } from "./sections/codes/codes-timer.js";
 
 themeInit();
 
-/** Fades the splash logo and runs the frame/header intro sequence. */
-async function initFrameIntro() {
+/** Runs logo, extension-frame, header, and header fade-in phases. */
+async function runBootstrapAnimation() {
   await bodyAnimationPlay(BODY_PHASE_LOGO);
   await bodyAnimationPlay(BODY_PHASE_EXTENSION_FRAME);
   await bodyAnimationPlay(BODY_PHASE_HEADER);
   await headerAnimationPlay(HEADER_PHASE_FADE_IN);
 }
 
-/** Registers sections, applies auth, plays intros, and loads section modules. */
+/** Registers sections, applies auth, plays animations, and loads section modules. */
 async function bootstrapExtension() {
   registerSections();
   initSectionModules();
@@ -61,7 +61,7 @@ async function bootstrapExtension() {
     }
   }
 
-  await initFrameIntro();
+  await runBootstrapAnimation();
   await headerAnimationPlay(HEADER_PHASE_CONTENT);
 
   if (!isLoggedIn) {
