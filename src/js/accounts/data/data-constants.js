@@ -6,11 +6,19 @@ export const DATA_KEY_PENDING = "dataUnencrypted";
 
 export const DATA_KEY_MERGED = "dataMerged";
 
+export const DATA_KEY_LEGACY_FINAL = "accountsFinal";
+
+export const DATA_KEY_LEGACY_ENCRYPTED = "accountsEncrypted";
+
+export const DATA_KEY_LEGACY_PENDING = "accountsUnencrypted";
+
+export const DATA_KEY_LEGACY_MERGED = "accountsMerged";
+
 export const DATA_KEY_LEGACY = [
-  "accountsFinal",
-  "accountsEncrypted",
-  "accountsUnencrypted",
-  "accountsMerged",
+  DATA_KEY_LEGACY_FINAL,
+  DATA_KEY_LEGACY_ENCRYPTED,
+  DATA_KEY_LEGACY_PENDING,
+  DATA_KEY_LEGACY_MERGED,
   "accountsRestore",
   "accounts",
   "encrypted",
