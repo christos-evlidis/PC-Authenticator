@@ -2,6 +2,7 @@ import { dataStorageGetFinal } from "../../accounts/account-index.js";
 import { dataBackupSync } from "../../accounts/account-index.js";
 import { cross } from "../section-cross.js";
 import { accountNumberGet } from "../../accounts/account-index.js";
+import { bootstrapRestoreWasSucceeded } from "../../bootstrap-restore-state.js";
 import { setShouldPlayCodesIntro } from "./codes-state.js";
 import { renderAccounts } from "./codes-cards.js";
 import { revealCodesEmptyStatic } from "./codes-empty.js";
@@ -57,6 +58,10 @@ export async function initOnLoad(skipIntroForQrResume = false) {
     renderAccounts([]);
   } else if (hasPendingPostLoginReveal()) {
     // Post-login reveal runs when user menu closes.
+  } else if (bootstrapRestoreWasSucceeded()) {
+    await loadTimerInvertedPreference();
+    await renderFromStorage();
+    revealCodesSearchStatic();
   } else {
     await loadTimerInvertedPreference();
     const accounts = await dataBackupSync(accountNumber);

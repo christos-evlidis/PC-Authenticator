@@ -6,19 +6,15 @@ export const DATA_KEY_PENDING = "dataUnencrypted";
 
 export const DATA_KEY_MERGED = "dataMerged";
 
-export const DATA_KEY_LEGACY_RESTORE = "accountsRestore";
-
-export const DATA_KEY_LEGACY_ACCOUNTS = "accounts";
-
-export const DATA_KEY_LEGACY_ENCRYPTED = "encrypted";
-
-export const DATA_KEY_LEGACY_ALL = "accountsAll";
-
 export const DATA_KEY_LEGACY = [
-  DATA_KEY_LEGACY_RESTORE,
-  DATA_KEY_LEGACY_ACCOUNTS,
-  DATA_KEY_LEGACY_ENCRYPTED,
-  DATA_KEY_LEGACY_ALL,
+  "accountsFinal",
+  "accountsEncrypted",
+  "accountsUnencrypted",
+  "accountsMerged",
+  "accountsRestore",
+  "accounts",
+  "encrypted",
+  "accountsAll",
 ];
 
 export const DATA_OTP_TYPE_TOTP = "totp";

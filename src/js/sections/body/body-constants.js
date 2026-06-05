@@ -25,6 +25,9 @@ export const FRAME_INTRO_CLASS = "is-frame-intro";
 export const BODY_INTRO_FULLBLEED_CLASS = "is-intro-fullbleed";
 export const BODY_INTRO_INSET_CLASS = "is-intro-inset";
 export const BODY_INTRO_SLOT_CLASS = "is-intro-header-slot";
+export const BODY_SPLASH_RESTORE_ERROR_CLASS = "is-restore-error";
+export const BODY_SPLASH_RESTORE_ERROR_SELECTOR = ".app-body__splash-error";
+export const BODY_SPLASH_RESTORE_RETRY_SELECTOR = ".app-body__splash-retry";
 export const BODY_SPLASH_HIDDEN_CLASS = "is-splash-hidden";
 
 export const BODY_SIGNED_OUT_MESSAGE_TEXT = "To use the authenticator\nsign in or sign up.";
@@ -32,6 +35,8 @@ export const BODY_SIGNED_IN_EMPTY_MESSAGE_TEXT ="Add your first code.\nUse + or 
 
 export const BODY_PHASE_START = "animateforstart";
 export const BODY_PHASE_LOGO = "animateforlogo";
+export const BODY_PHASE_LOGO_HOLD = "animateforlogohold";
+export const BODY_PHASE_LOGO_FADE = "animateforlogofade";
 export const BODY_PHASE_EXTENSION_FRAME = "animateforextensionframe";
 export const BODY_PHASE_HEADER = "animateforheader";
 export const BODY_PHASE_SIGNED_OUT_CONTENT = "animateforsignedoutcontent";

@@ -3,7 +3,6 @@ import { dataCryptoIsEncrypted } from "../crypto/data-crypto-type.js";
 import { dataSanitizeList } from "../records/data-sanitize.js";
 import { dataStorageClearEncrypted } from "../storage/data-storage-encrypted.js";
 import { dataStorageGetEncrypted } from "../storage/data-storage-encrypted.js";
-import { dataStorageGetFinal } from "../storage/data-storage-final.js";
 import { dataStorageSetFinal } from "../storage/data-storage-final.js";
 import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
 import { dataStorageClearPending } from "../storage/data-storage-pending.js";
@@ -12,39 +11,13 @@ import { dataBackupMerge } from "./data-merge.js";
 import { dataBackupRestore } from "./data-restore.js";
 
 /** Restores from cloud, merges pending adds, writes the active list, and clears temp keys. */
-export async function dataBackupSync(accountNumber, options = {}) {
+export async function dataBackupSync(accountNumber) {
   try {
     const result = await dataBackupRestore(accountNumber);
-
-    if (!result.ok && !options.skipMigration) {
-      const { dataBackupMigrate } = await import("./data-migrate.js");
-      return dataBackupMigrate(accountNumber);
-    }
-
-    if (!result.ok) {
-      const existing = dataSanitizeList(await dataStorageGetFinal());
-      if (existing.length) {
-        console.debug(
-          `[data-backup] dataBackupSync: restore failed; keeping ${existing.length} local account(s)`,
-        );
-        return existing;
-      }
-      return [];
-    }
-
     if (result.accounts == null) {
-      const existing = dataSanitizeList(
-        await dataStorageGetFinal(),
-      );
       await dataStorageClearEncrypted();
       await dataStorageClearMerged();
       await dataStorageClearPending();
-      if (existing.length) {
-        console.debug(
-          `[data-backup] dataBackupSync: empty restore; keeping ${existing.length} local account(s)`,
-        );
-        return existing;
-      }
       await dataStorageSetFinal([]);
       return [];
     }

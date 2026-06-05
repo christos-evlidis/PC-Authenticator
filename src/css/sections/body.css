@@ -88,6 +88,50 @@
     opacity: 0;
 }
 
+.app-body__splash.is-restore-error {
+    pointer-events: auto;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.app-body__splash.is-restore-error .app-body__splash-logo {
+    margin-bottom: 4px;
+}
+
+.app-body__splash-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: 240px;
+    text-align: center;
+}
+
+.app-body__splash-error.is-hidden {
+    display: none;
+}
+
+.app-body__splash-error-message {
+    margin: 0;
+    color: var(--body-text);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.app-body__splash-retry {
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    background: #1a73e8;
+    color: #ffffff;
+    font: 600 14px/1.2 Arial, sans-serif;
+    cursor: pointer;
+}
+
+.app-body__splash-retry:hover {
+    background: #1765cc;
+}
+
 .app-body__view {
     flex: 1;
     min-height: 0;
