@@ -6,6 +6,7 @@ import { bodyAnimationFinish } from "./animations/finish.js";
 import { bodyAnimationMessageType } from "./animations/message-type.js";
 
 import { BODY_ANIMATION_PENDING_CLASS } from "./constants.js";
+import { BODY_CONTENT_HIDDEN_CLASS } from "./constants.js";
 import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "./constants.js";
 import { BODY_CONTENT_SIGNED_OUT_SELECTOR } from "./constants.js";
 import { BODY_HIDDEN_CLASS } from "./constants.js";
@@ -24,12 +25,15 @@ import { BODY_ACTIVE_CLASS } from "./constants.js";
 import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "./constants.js";
 
 /** Toggles signed-in/out body views for the current auth state. */
-function bodyApply(isSignedIn) {
+function bodyApply(isSignedIn, options = {}) {
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
   const signedInView = document.querySelector(BODY_SIGNED_IN_VIEW_SELECTOR);
+  const signedInContent = document.querySelector(BODY_CONTENT_SIGNED_IN_SELECTOR);
+  const hideEmptyState = isSignedIn && options.hasAccounts === true;
 
   signedOutView?.classList.toggle(BODY_HIDDEN_CLASS, isSignedIn);
   signedInView?.classList.toggle(BODY_HIDDEN_CLASS, !isSignedIn);
+  signedInContent?.classList.toggle(BODY_CONTENT_HIDDEN_CLASS, hideEmptyState);
 
   if (isSignedIn) {
     document.querySelector(BODY_ROOT_SELECTOR)?.classList.remove(BODY_ACTIVE_CLASS);
@@ -63,6 +67,10 @@ async function bodyAnimationPrepare(mode) {
   }
 
   if (!body || !content) {
+    return;
+  }
+
+  if (signedIn && content.classList.contains(BODY_CONTENT_HIDDEN_CLASS)) {
     return;
   }
 
@@ -126,6 +134,7 @@ async function bodyAnimationRun(mode) {
 }
 
 export { bodyAnimationFinish } from "./animations/finish.js";
+export { bodyAnimationFadeRestore } from "./animations/fade-out.js";
 export { bodyApply };
 export { bodyAnimationPrepare };
 export { bodyAnimationRun };

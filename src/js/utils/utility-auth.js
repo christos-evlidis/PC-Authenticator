@@ -14,8 +14,10 @@ async function authChromeApply(options = {}) {
   const isSignedIn =
     options.isSignedIn === undefined ? Boolean(authNumber) : options.isSignedIn;
 
-  cross.header?.apply(isSignedIn);
-  cross.body?.apply(isSignedIn);
+  if (options.applyExtensionChrome !== false) {
+    cross.header?.apply(isSignedIn);
+    cross.body?.apply(isSignedIn, { hasAccounts: options.hasAccounts });
+  }
 
   if (isSignedIn) {
     cross.userMenu?.apply(true, authNumber);

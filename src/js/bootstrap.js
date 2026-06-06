@@ -15,9 +15,11 @@ async function bootstrap() {
     if (verifyResult?.success !== true) {
       throw new Error("Account verification failed");
     }
-    await dataSync(authNumber);
-    await authChromeApply({ authNumber, isSignedIn: true });
-    return { isSignedIn: true };
+    const accounts = await dataSync(authNumber);
+    const hasAccounts = accounts.length > 0;
+
+    await authChromeApply({ authNumber, isSignedIn: true, hasAccounts });
+    return { isSignedIn: true, hasAccounts };
   }
 }
 

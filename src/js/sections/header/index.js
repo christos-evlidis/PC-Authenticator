@@ -2,6 +2,7 @@ import { animCssMsGet } from "../../utils/utility-animation.js";
 import { animDelay } from "../../utils/utility-animation.js";
 import { headerAnimationFadeIn } from "./animations/fade-in.js";
 import { headerAnimationFadeOutContents } from "./animations/fade-out.js";
+import { headerAnimationFadeRestore } from "./animations/fade-out.js";
 import { headerAnimationFinish } from "./animations/finish.js";
 import { headerAnimationIconPop } from "./animations/icon-pop.js";
 import { headerAnimationTitleType } from "./animations/title-type.js";
@@ -111,6 +112,7 @@ async function headerAnimationRun(mode) {
 export { headerIconsDisable } from "./actions/icons.js";
 export { headerIconsEnable } from "./actions/icons.js";
 export { headerAnimationFinish } from "./animations/finish.js";
+export { headerAnimationFadeRestore } from "./animations/fade-out.js";
 export { headerApply };
 export { headerAnimationPrepare };
 export { headerAnimationRun };

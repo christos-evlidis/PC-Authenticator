@@ -3,6 +3,10 @@ import { animCssMsGet } from "../../../utils/utility-animation.js";
 import { animDelay } from "../../../utils/utility-animation.js";
 import { animAnimationEndWait } from "../../../utils/utility-animation.js";
 import { animFrameWait } from "../../../utils/utility-animation.js";
+import { bodyAnimationFadeRestore } from "../../body/index.js";
+import { bodyAnimationPrepare } from "../../body/index.js";
+import { headerAnimationFadeRestore } from "../../header/index.js";
+import { headerAnimationPrepare } from "../../header/index.js";
 import { userMenuStateSet } from "../state.js";
 
 import { USER_MENU_AUTH_BAR_SELECTOR } from "../constants.js";
@@ -114,6 +118,8 @@ async function userMenuSignInAnimation(resultIsSuccess, onPreRestore) {
     panel.classList.remove(USER_MENU_SIGN_IN_RUNNING_CLASS);
     panel.style.removeProperty("position");
   }
+
+  await Promise.all([headerAnimationFadeRestore(), bodyAnimationFadeRestore()]);
   userMenuStateSet({ isSignInRunning: true });
   document
     .querySelector(USER_MENU_ROOT_SELECTOR)
@@ -173,8 +179,11 @@ async function userMenuSignInAnimation(resultIsSuccess, onPreRestore) {
   });
 
     panel.classList.add(USER_MENU_SIGN_IN_FADE_CLASS);
-  await animDelay(signInFadeMs);
-  panel.classList.remove(USER_MENU_SIGN_IN_FADE_CLASS);
+    const headerFade = headerAnimationPrepare("sign-in-fade");
+    const bodyFade = bodyAnimationPrepare("sign-in-fade");
+
+    await Promise.all([animDelay(signInFadeMs), headerFade, bodyFade]);
+    panel.classList.remove(USER_MENU_SIGN_IN_FADE_CLASS);
 
     if (runId !== USER_MENU_SIGN_IN_ANIMATION_RUN_ID.value) {
       return false;
@@ -360,18 +369,35 @@ async function userMenuSignInAnimation(resultIsSuccess, onPreRestore) {
       });
     }
 
+    let extensionFades = [];
+    let afterFades = null;
+
     if (onPreRestore) {
-      await onPreRestore(resultIsSuccess);
+      const restoreResult = await onPreRestore(resultIsSuccess);
+
+      if (Array.isArray(restoreResult)) {
+        extensionFades = restoreResult;
+      } else {
+        extensionFades = restoreResult?.extensionFades ?? [];
+        afterFades = restoreResult?.afterFades ?? null;
+      }
     }
 
     await animFrameWait();
     panel.classList.add(USER_MENU_SIGN_IN_RESTORE_FADE_CLASS);
 
-    await animAnimationEndWait(
-      header,
-      "userMenuRestoreFade",
-      restoreFadeMs + timeoutBufferMs,
-    );
+    await Promise.all([
+      ...extensionFades,
+      animAnimationEndWait(
+        header,
+        "userMenuRestoreFade",
+        restoreFadeMs + timeoutBufferMs,
+      ),
+    ]);
+
+    if (afterFades) {
+      await afterFades();
+    }
 
     if (panel) {
       panel.classList.remove(

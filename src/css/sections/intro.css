@@ -21,7 +21,7 @@
     pointer-events: auto;
 }
 
-.app-intro.is-sign-in-staged {
+.app-intro:is(.is-sign-in-staged, .is-sign-up-staged) {
     z-index: 20;
 }
 

@@ -43,11 +43,11 @@
     justify-content: space-between;
     gap: var(--header-gap);
     width: 100%;
-    transition: opacity var(--header-intro-fade-ms) ease;
+    transition: opacity var(--header-intro-fade-ms) ease !important;
 }
 
 .app-header.is-header-content-pending .app-header__intro-content {
-    opacity: 0;
+    opacity: 0 !important;
     pointer-events: none;
 }
 

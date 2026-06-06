@@ -361,18 +361,35 @@ async function userMenuSignOutAnimation(onPreRestore) {
       });
     }
 
+    let extensionFades = [];
+    let afterFades = null;
+
     if (onPreRestore) {
-      await onPreRestore();
+      const restoreResult = await onPreRestore();
+
+      if (Array.isArray(restoreResult)) {
+        extensionFades = restoreResult;
+      } else {
+        extensionFades = restoreResult?.extensionFades ?? [];
+        afterFades = restoreResult?.afterFades ?? null;
+      }
     }
 
     await animFrameWait();
     panel.classList.add(USER_MENU_SIGN_OUT_RESTORE_FADE_CLASS);
 
-    await animAnimationEndWait(
-      header,
-      "userMenuRestoreFade",
-      restoreFadeMs + timeoutBufferMs,
-    );
+    await Promise.all([
+      ...extensionFades,
+      animAnimationEndWait(
+        header,
+        "userMenuRestoreFade",
+        restoreFadeMs + timeoutBufferMs,
+      ),
+    ]);
+
+    if (afterFades) {
+      await afterFades();
+    }
 
     if (panel) {
       panel.classList.remove(

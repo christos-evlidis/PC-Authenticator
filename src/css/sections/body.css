@@ -64,11 +64,11 @@
     padding: var(--body-content-padding-block) var(--body-content-padding-inline);
     color: var(--body-text);
     text-align: center;
-    transition: opacity var(--body-intro-fade-ms) ease;
+    transition: opacity var(--body-intro-fade-ms) ease !important;
 }
 
 .app-body__content.is-body-content-fade-pending {
-    opacity: 0;
+    opacity: 0 !important;
     pointer-events: none;
 }
 
