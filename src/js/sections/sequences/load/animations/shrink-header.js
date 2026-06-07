@@ -25,7 +25,7 @@ import { INTRO_VAR_TOP } from "../../constants.js";
 import { INTRO_VAR_WIDTH } from "../../constants.js";
 
 /** Shrinks the overlay from the top until the header is fully visible. */
-async function introAnimationShrinkHeader() {
+async function loadAnimationShrinkHeader() {
   const intro = document.querySelector(INTRO_ROOT_SELECTOR);
   const overlay = document.querySelector(INTRO_OVERLAY_SELECTOR);
   const frame = document.querySelector(INTRO_FRAME_SELECTOR);
@@ -89,4 +89,4 @@ async function introAnimationShrinkHeader() {
   overlay.style.removeProperty(INTRO_VAR_TO_HEIGHT);
 }
 
-export { introAnimationShrinkHeader };
+export { loadAnimationShrinkHeader };

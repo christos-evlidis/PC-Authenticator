@@ -25,7 +25,7 @@ import { INTRO_VAR_TOP } from "../../constants.js";
 import { INTRO_VAR_WIDTH } from "../../constants.js";
 
 /** Shrinks the overlay from the top until the body section starts. */
-async function introAnimationShrinkBody() {
+async function loadAnimationShrinkBody() {
   const intro = document.querySelector(INTRO_ROOT_SELECTOR);
   const overlay = document.querySelector(INTRO_OVERLAY_SELECTOR);
   const frame = document.querySelector(INTRO_FRAME_SELECTOR);
@@ -88,4 +88,4 @@ async function introAnimationShrinkBody() {
   overlay.style.removeProperty(INTRO_VAR_TO_HEIGHT);
 }
 
-export { introAnimationShrinkBody };
+export { loadAnimationShrinkBody };

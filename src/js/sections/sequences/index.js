@@ -1,12 +1,5 @@
-export { introAnimationFinish } from "./load/index.js";
+export { loadAnimationFinish } from "./load/index.js";
 export { loadAnimationRun } from "./load/index.js";
-export { signInAnimationCancel } from "./sign-in/index.js";
-export { signInAnimationFinish } from "./sign-in/index.js";
-export { signInAnimationPendingClear } from "./sign-in/index.js";
-export { signInAnimationPendingIs } from "./sign-in/index.js";
-export { signInAnimationPendingSet } from "./sign-in/index.js";
-export { signInAnimationPrepare } from "./sign-in/index.js";
-export { signInAnimationRun } from "./sign-in/index.js";
 export { signUpAnimationCancel } from "./sign-up/index.js";
 export { signUpAnimationFinish } from "./sign-up/index.js";
 export { signUpAnimationPendingClear } from "./sign-up/index.js";

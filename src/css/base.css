@@ -98,7 +98,6 @@ body {
     transition: opacity 200ms ease, visibility 200ms ease;
 }
 
-.login-status.hidden,
 .login-status.is-hidden {
     opacity: 0;
     visibility: hidden;

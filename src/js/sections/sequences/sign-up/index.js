@@ -1,13 +1,12 @@
 import { bodyAnimationFinish } from "../../body/index.js";
 import { bodyAnimationPrepare } from "../../body/index.js";
 import { bodyAnimationRun } from "../../body/index.js";
-import { headerAnimationFinish } from "../../header/index.js";
-import { headerAnimationPrepare } from "../../header/index.js";
-import { headerAnimationRun } from "../../header/index.js";
+import { bodyApply } from "../../body/index.js";
 import { searchAnimationFinish } from "../../search/index.js";
 import { searchAnimationPrepare } from "../../search/index.js";
 import { searchAnimationRun } from "../../search/index.js";
 import { animFrameMetricsGet } from "../../../utils/utility-animation.js";
+import { authChromeApply } from "../../../utils/utility-auth.js";
 import { signUpAnimationFinish } from "./animations/finish.js";
 import { signUpAnimationShrinkBody } from "./animations/shrink-body.js";
 import { signUpAnimationShrinkSearch } from "./animations/shrink-search.js";
@@ -28,9 +27,8 @@ import { INTRO_VAR_LEFT } from "../constants.js";
 import { INTRO_VAR_TOP } from "../constants.js";
 import { INTRO_VAR_WIDTH } from "../constants.js";
 
-/** Covers search and body behind the overlay while the user menu stays open. */
+/** Mounts the overlay, applies signed-in chrome, and prepares reveal animations. */
 async function signUpAnimationPrepare() {
-  searchAnimationPrepare("sign-in");
   signUpAnimationMount();
 
   const overlay = document.querySelector(INTRO_OVERLAY_SELECTOR);
@@ -49,12 +47,11 @@ async function signUpAnimationPrepare() {
     overlay.style.setProperty(INTRO_VAR_HEIGHT, `${bottomAnchor - top}px`);
   }
 
-  const intro = document.querySelector(INTRO_ROOT_SELECTOR);
-
-  intro?.classList.add(INTRO_ACTIVE_CLASS);
-  await headerAnimationPrepare("sign-in");
+  document.querySelector(INTRO_ROOT_SELECTOR)?.classList.add(INTRO_ACTIVE_CLASS);
+  await authChromeApply({ applyBody: false });
+  bodyApply(true);
+  searchAnimationPrepare("sign-in");
   await bodyAnimationPrepare("sign-in");
-  signUpAnimationPendingSet();
 }
 
 /** Runs the post-sign-up reveal after the user menu closes. */
@@ -65,26 +62,26 @@ async function signUpAnimationRun() {
 
   signUpAnimationPendingClear();
 
-  const intro = document.querySelector(INTRO_ROOT_SELECTOR);
-
-  if (!intro) {
-    headerAnimationFinish();
-    searchAnimationFinish();
-    bodyAnimationFinish();
-    return;
-  }
-
-  intro.classList.remove(INTRO_SIGN_UP_STAGED_CLASS);
-
   try {
-    await headerAnimationRun("sign-in");
+    await bodyAnimationPrepare("sign-in-fade");
+    await signUpAnimationPrepare();
+
+    const intro = document.querySelector(INTRO_ROOT_SELECTOR);
+
+    if (!intro) {
+      searchAnimationFinish();
+      bodyAnimationFinish();
+      return;
+    }
+
+    intro.classList.remove(INTRO_SIGN_UP_STAGED_CLASS);
+
     await signUpAnimationShrinkSearch();
     await searchAnimationRun("sign-in");
     await signUpAnimationShrinkBody();
     signUpAnimationFinish();
     await bodyAnimationRun("sign-in");
   } catch {
-    headerAnimationFinish();
     searchAnimationFinish();
     bodyAnimationFinish();
     signUpAnimationFinish();
@@ -99,7 +96,6 @@ function signUpAnimationCancel() {
 
   signUpAnimationPendingClear();
   signUpAnimationUnmount();
-  headerAnimationFinish();
   searchAnimationFinish();
   bodyAnimationFinish();
 }

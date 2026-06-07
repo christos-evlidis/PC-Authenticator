@@ -24,7 +24,7 @@
     <!-- Extension Frame -->
     <div class="extension-frame">
         <!-- Header Section -->
-        <header class="app-header is-header-animation-pending">
+        <header class="app-header is-hidden">
             <div class="app-header__shell">
                 <div class="app-header__intro-content">
                     <h1 class="app-header__title" data-full-title="PC Authenticator">
@@ -32,10 +32,9 @@
                         <span class="app-header__title-display"></span>
                     </h1>
                     <!-- Signed-out View -->
-                    <section class="app-header__view app-header__view--signed-out">
+                    <section class="app-header__view app-header__view--signed-out is-hidden">
                         <div class="app-header__actions">
-                            <button type="button"
-                                class="app-header__btn app-header__user-menu-btn is-header-pop-pending">
+                            <button type="button" class="app-header__btn app-header__user-menu-btn">
                                 <i class="fas fa-user"></i>
                             </button>
                         </div>
@@ -43,15 +42,13 @@
                     <!-- Signed-in View -->
                     <section class="app-header__view app-header__view--signed-in is-hidden">
                         <div class="app-header__actions">
-                            <button type="button"
-                                class="app-header__btn app-header__manual-setup-btn is-header-pop-pending">
+                            <button type="button" class="app-header__btn app-header__manual-setup-btn">
                                 <i class="fas fa-plus"></i>
                             </button>
-                            <button type="button" class="app-header__btn app-header__scan-qr-btn is-header-pop-pending">
+                            <button type="button" class="app-header__btn app-header__scan-qr-btn">
                                 <i class="fas fa-qrcode"></i>
                             </button>
-                            <button type="button"
-                                class="app-header__btn app-header__user-menu-btn is-header-pop-pending">
+                            <button type="button" class="app-header__btn app-header__user-menu-btn">
                                 <i class="fas fa-user"></i>
                             </button>
                         </div>
@@ -60,7 +57,7 @@
             </div>
         </header>
 
-        <section class="codes-search hidden" aria-label="Search accounts">
+        <section class="codes-search is-hidden" aria-label="Search accounts">
             <label class="codes-search__field">
                 <i class="fas fa-magnifying-glass codes-search__icon" aria-hidden="true"></i>
                 <input type="search" class="codes-search__input" placeholder="Search accounts" autocomplete="off"
@@ -69,11 +66,11 @@
         </section>
 
         <!-- Body Section -->
-        <section class="app-body">
+        <section class="app-body is-hidden">
             <!-- Signed-out View -->
-            <section class="app-body__view app-body__view--signed-out">
+            <section class="app-body__view app-body__view--signed-out is-hidden">
                 <div class="app-body__content">
-                    <div class="app-body__icon is-body-pop-pending" aria-hidden="true">
+                    <div class="app-body__icon" aria-hidden="true">
                         <i class="fas fa-lock"></i>
                     </div>
 
@@ -90,8 +87,8 @@
 
             <!-- Signed-in View -->
             <section class="app-body__view app-body__view--signed-in is-hidden">
-                <div class="app-body__content hidden">
-                    <div class="app-body__icon is-body-pop-pending" aria-hidden="true">
+                <div class="app-body__content">
+                    <div class="app-body__icon" aria-hidden="true">
                         <i class="fas fa-key"></i>
                     </div>
 
@@ -107,7 +104,7 @@
         </section>
 
         <!-- User Menu Section -->
-        <section class="app-user-menu">
+        <section class="app-user-menu is-hidden">
             <div class="app-user-menu__backdrop"></div>
             <div class="app-user-menu__panel">
                 <header class="app-user-menu__header">
@@ -131,7 +128,7 @@
                     </div>
                 </div>
 
-                <div class="app-user-menu__theme-bar is-hidden">
+                <div class="app-user-menu__theme-bar">
                     <div class="app-user-menu__theme-switch">
                         <div class="app-user-menu__theme-switch-track is-light">
                             <span class="app-user-menu__theme-switch-thumb"></span>
@@ -146,7 +143,7 @@
                 <div class="app-user-menu__content">
                     <div class="app-user-menu__body">
                         <!-- Signed-out View -->
-                        <section class="app-user-menu__view app-user-menu__view--signed-out">
+                        <section class="app-user-menu__view app-user-menu__view--signed-out is-hidden">
                             <div class="app-user-menu__tabs">
                                 <section class="app-user-menu__auth-view app-user-menu__auth-view--sign-in">
                                     <div class="app-user-menu__tab-content">
@@ -164,7 +161,7 @@
                                         </form>
                                     </div>
                                 </section>
-                                <section class="app-user-menu__auth-view app-user-menu__auth-view--sign-up is-hidden">
+                                <section class="app-user-menu__auth-view app-user-menu__auth-view--sign-up">
                                     <div class="app-user-menu__tab-content">
                                         <div class="app-user-menu__form app-user-menu__form--sign-up">
                                             <p class="app-user-menu__text">
@@ -211,19 +208,19 @@
                         </section>
 
                         <div class="app-user-menu__status">
-                            <div class="login-status login-status--loading is-hidden">
+                            <div class="login-status login-status--loading">
                                 <span class="login-status__dot"></span>
                                 <span class="login-status__dot"></span>
                                 <span class="login-status__dot"></span>
                             </div>
-                            <div class="login-status login-status--success is-hidden">
+                            <div class="login-status login-status--success">
                                 <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
                                     <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
                                     <path class="login-status__icon-mark login-status__icon-mark--check" fill="none"
                                         d="M14 27l7 7 16-16" />
                                 </svg>
                             </div>
-                            <div class="login-status login-status--error is-hidden">
+                            <div class="login-status login-status--error">
                                 <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
                                     <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
                                     <path class="login-status__icon-mark login-status__icon-mark--x" fill="none"
@@ -239,7 +236,7 @@
         </section>
 
         <!-- Manual Setup Section -->
-        <section class="manual-setup-section">
+        <section class="manual-setup-section is-hidden">
             <div class="manual-setup-backdrop"></div>
             <div class="manual-setup-panel">
                 <header class="manual-setup-header">
@@ -250,19 +247,19 @@
                 </header>
                 <section class="manual-setup-body">
                     <div class="manual-setup-body__status" aria-hidden="true">
-                        <div class="login-status login-status--loading manual-setup-status--loading hidden">
+                        <div class="login-status login-status--loading manual-setup-status--loading">
                             <span class="login-status__dot"></span>
                             <span class="login-status__dot"></span>
                             <span class="login-status__dot"></span>
                         </div>
-                        <div class="login-status login-status--success manual-setup-status--success hidden">
+                        <div class="login-status login-status--success manual-setup-status--success">
                             <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
                                 <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
                                 <path class="login-status__icon-mark login-status__icon-mark--check" fill="none"
                                     d="M14 27l7 7 16-16" />
                             </svg>
                         </div>
-                        <div class="login-status login-status--error manual-setup-status--error hidden">
+                        <div class="login-status login-status--error manual-setup-status--error">
                             <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
                                 <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
                                 <path class="login-status__icon-mark login-status__icon-mark--x" fill="none"
@@ -309,7 +306,7 @@
         </section>
 
         <!-- QR Setup Section -->
-        <section class="qr-setup-section">
+        <section class="qr-setup-section is-hidden">
             <div class="qr-setup-backdrop"></div>
             <div class="qr-setup-panel">
                 <header class="qr-setup-header">
@@ -321,19 +318,19 @@
                 </header>
                 <section class="qr-setup-body">
                     <div class="qr-setup-body__status" aria-hidden="true">
-                        <div class="login-status login-status--loading qr-setup-status--loading hidden">
+                        <div class="login-status login-status--loading qr-setup-status--loading">
                             <span class="login-status__dot"></span>
                             <span class="login-status__dot"></span>
                             <span class="login-status__dot"></span>
                         </div>
-                        <div class="login-status login-status--success qr-setup-status--success hidden">
+                        <div class="login-status login-status--success qr-setup-status--success">
                             <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
                                 <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
                                 <path class="login-status__icon-mark login-status__icon-mark--check" fill="none"
                                     d="M14 27l7 7 16-16" />
                             </svg>
                         </div>
-                        <div class="login-status login-status--error qr-setup-status--error hidden">
+                        <div class="login-status login-status--error qr-setup-status--error">
                             <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
                                 <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
                                 <path class="login-status__icon-mark login-status__icon-mark--x" fill="none"
@@ -372,7 +369,7 @@
         </section>
 
         <!-- Review prompt (full-screen slide-up) -->
-        <section class="review-prompt" aria-hidden="true" aria-label="Rate PC Authenticator">
+        <section class="review-prompt is-hidden" aria-hidden="true" aria-label="Rate PC Authenticator">
             <div class="review-prompt__panel">
                 <div class="review-prompt__content is-layout-reserved">
                     <div class="review-prompt__star-slot">

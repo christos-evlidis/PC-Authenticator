@@ -5,7 +5,7 @@ import { INTRO_ROOT_SELECTOR } from "../../constants.js";
 import { INTRO_VAR_LOGO_HOLD_MS } from "../../constants.js";
 
 /** Holds the logo on screen before the frame shrink begins. */
-async function introAnimationLogo() {
+async function loadAnimationLogo() {
   const intro = document.querySelector(INTRO_ROOT_SELECTOR);
 
   if (!intro) {
@@ -15,4 +15,4 @@ async function introAnimationLogo() {
   await animDelay(animCssMsGet(intro, INTRO_VAR_LOGO_HOLD_MS));
 }
 
-export { introAnimationLogo };
+export { loadAnimationLogo };

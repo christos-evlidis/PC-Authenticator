@@ -15,8 +15,13 @@ async function authChromeApply(options = {}) {
     options.isSignedIn === undefined ? Boolean(authNumber) : options.isSignedIn;
 
   if (options.applyExtensionChrome !== false) {
-    cross.header?.apply(isSignedIn);
-    cross.body?.apply(isSignedIn, { hasAccounts: options.hasAccounts });
+    if (options.applyHeader !== false) {
+      cross.header?.apply(isSignedIn);
+    }
+
+    if (options.applyBody !== false) {
+      cross.body?.apply(isSignedIn, { hasAccounts: options.hasAccounts });
+    }
   }
 
   if (isSignedIn) {

@@ -12,7 +12,7 @@
     --body-message-size: 14px;
     --body-content-padding-block: 24px;
     --body-content-padding-inline: 20px;
-    --body-intro-fade-ms: 250ms;
+    --body-auth-fade-ms: 500ms;
     --body-icon-pop-ms: 250ms;
     --body-message-type-ms: 1000ms;
     --body-animation-timeout-buffer-ms: 50ms;
@@ -46,11 +46,9 @@
     min-height: 0;
 }
 
-.app-body__view--signed-in .app-body__content.hidden {
-    display: none;
-}
-
-.app-body__view.is-hidden {
+.app-body.is-hidden,
+.app-body__view.is-hidden,
+.app-body__view--signed-in .app-body__content.is-hidden {
     display: none;
 }
 
@@ -64,7 +62,7 @@
     padding: var(--body-content-padding-block) var(--body-content-padding-inline);
     color: var(--body-text);
     text-align: center;
-    transition: opacity var(--body-intro-fade-ms) ease !important;
+    transition: opacity var(--body-auth-fade-ms) ease !important;
 }
 
 .app-body__content.is-body-content-fade-pending {

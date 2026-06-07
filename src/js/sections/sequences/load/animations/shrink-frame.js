@@ -26,7 +26,7 @@ import { INTRO_VAR_TOP } from "../../constants.js";
 import { INTRO_VAR_WIDTH } from "../../constants.js";
 
 /** Shrinks the overlay from all sides until the extension frame padding is visible. */
-async function introAnimationShrinkFrame() {
+async function loadAnimationShrinkFrame() {
   const intro = document.querySelector(INTRO_ROOT_SELECTOR);
   const overlay = document.querySelector(INTRO_OVERLAY_SELECTOR);
   const frame = document.querySelector(INTRO_FRAME_SELECTOR);
@@ -87,4 +87,4 @@ async function introAnimationShrinkFrame() {
   overlay.style.removeProperty(INTRO_VAR_TO_HEIGHT);
 }
 
-export { introAnimationShrinkFrame };
+export { loadAnimationShrinkFrame };

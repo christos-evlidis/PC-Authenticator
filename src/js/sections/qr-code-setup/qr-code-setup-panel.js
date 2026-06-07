@@ -82,7 +82,7 @@ export function setGuideText(text) {
 export function setGuideCopyVisible(isVisible) {
   document
     .querySelector(QR_GUIDE_TEXT_SELECTOR)
-    ?.classList.toggle("hidden", !isVisible);
+    ?.classList.toggle("is-hidden", !isVisible);
 }
 
 export function resetQrSetupGuide() {

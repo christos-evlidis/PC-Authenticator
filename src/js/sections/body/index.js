@@ -1,11 +1,12 @@
 import { animCssMsGet } from "../../utils/utility-animation.js";
 import { animDelay } from "../../utils/utility-animation.js";
-import { bodyAnimationFadeOutContent } from "./animations/fade-out.js";
+import { bodyAnimationFadeOut } from "./animations/fade-out.js";
 import { bodyAnimationIconPop } from "./animations/icon-pop.js";
 import { bodyAnimationFinish } from "./animations/finish.js";
 import { bodyAnimationMessageType } from "./animations/message-type.js";
 
 import { BODY_ANIMATION_PENDING_CLASS } from "./constants.js";
+import { BODY_CONTENT_FADE_PENDING_CLASS } from "./constants.js";
 import { BODY_CONTENT_HIDDEN_CLASS } from "./constants.js";
 import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "./constants.js";
 import { BODY_CONTENT_SIGNED_OUT_SELECTOR } from "./constants.js";
@@ -36,6 +37,12 @@ function bodyApply(isSignedIn, options = {}) {
   signedInContent?.classList.toggle(BODY_CONTENT_HIDDEN_CLASS, hideEmptyState);
 
   if (isSignedIn) {
+    document
+      .querySelector(BODY_CONTENT_SIGNED_OUT_SELECTOR)
+      ?.classList.remove(BODY_CONTENT_FADE_PENDING_CLASS);
+  }
+
+  if (isSignedIn) {
     document.querySelector(BODY_ROOT_SELECTOR)?.classList.remove(BODY_ACTIVE_CLASS);
   }
 }
@@ -55,6 +62,8 @@ async function bodyAnimationPrepare(mode) {
     signedIn = true;
   }
 
+  body?.classList.remove(BODY_HIDDEN_CLASS);
+
   if (mode === "sign-in-fade") {
     const signedOutContent = document.querySelector(BODY_CONTENT_SIGNED_OUT_SELECTOR);
 
@@ -62,7 +71,7 @@ async function bodyAnimationPrepare(mode) {
       return;
     }
 
-    await bodyAnimationFadeOutContent(signedOutContent);
+    await bodyAnimationFadeOut(signedOutContent);
     return;
   }
 
@@ -134,7 +143,6 @@ async function bodyAnimationRun(mode) {
 }
 
 export { bodyAnimationFinish } from "./animations/finish.js";
-export { bodyAnimationFadeRestore } from "./animations/fade-out.js";
 export { bodyApply };
 export { bodyAnimationPrepare };
 export { bodyAnimationRun };

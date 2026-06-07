@@ -3,10 +3,6 @@ import { animCssMsGet } from "../../../utils/utility-animation.js";
 import { animDelay } from "../../../utils/utility-animation.js";
 import { animAnimationEndWait } from "../../../utils/utility-animation.js";
 import { animFrameWait } from "../../../utils/utility-animation.js";
-import { bodyAnimationFadeRestore } from "../../body/index.js";
-import { bodyAnimationPrepare } from "../../body/index.js";
-import { headerAnimationFadeRestore } from "../../header/index.js";
-import { headerAnimationPrepare } from "../../header/index.js";
 import { userMenuStateSet } from "../state.js";
 
 import { USER_MENU_AUTH_BAR_SELECTOR } from "../constants.js";
@@ -119,7 +115,6 @@ async function userMenuSignUpAnimation(resultIsSuccess, onPreRestore) {
     panel.style.removeProperty("position");
   }
 
-  await Promise.all([headerAnimationFadeRestore(), bodyAnimationFadeRestore()]);
   userMenuStateSet({ isSignInRunning: true });
   document
     .querySelector(USER_MENU_ROOT_SELECTOR)
@@ -179,10 +174,7 @@ async function userMenuSignUpAnimation(resultIsSuccess, onPreRestore) {
   });
 
     panel.classList.add(USER_MENU_SIGN_UP_FADE_CLASS);
-    const headerFade = headerAnimationPrepare("sign-in-fade");
-    const bodyFade = bodyAnimationPrepare("sign-in-fade");
-
-    await Promise.all([animDelay(signUpFadeMs), headerFade, bodyFade]);
+    await animDelay(signUpFadeMs);
     panel.classList.remove(USER_MENU_SIGN_UP_FADE_CLASS);
 
     if (runId !== USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value) {

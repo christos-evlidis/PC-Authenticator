@@ -1,9 +1,5 @@
-import { signInAnimationCancel } from "../../sequences/index.js";
-import { signInAnimationPrepare } from "../../sequences/index.js";
 import { signUpAnimationCancel } from "../../sequences/index.js";
-import { signUpAnimationPrepare } from "../../sequences/index.js";
-import { bodyAnimationFadeRestore } from "../../body/index.js";
-import { headerAnimationFadeRestore } from "../../header/index.js";
+import { signUpAnimationPendingSet } from "../../sequences/index.js";
 import { authChromeApply } from "../../../utils/utility-auth.js";
 import { themeGet } from "../../../utils/utility-theme.js";
 
@@ -33,10 +29,10 @@ function userMenuSignInInputClear() {
   }
 }
 
-/** Applies sign-in result state after the shrink phase, before menu restore fade. */
+/** Applies sign-in result state immediately after verification. */
 async function userMenuAuthSignInResultApply(resultIsSuccess) {
   if (resultIsSuccess) {
-    await authChromeApply({ applyExtensionChrome: false });
+    await authChromeApply();
     userMenuSignInInputClear();
 
     const theme = themeGet();
@@ -50,16 +46,8 @@ async function userMenuAuthSignInResultApply(resultIsSuccess) {
 
     themeTrack?.classList.toggle(USER_MENU_THEME_LIGHT_CLASS, !isDark);
     themeTrack?.classList.toggle(USER_MENU_THEME_DARK_CLASS, isDark);
-
-    return {
-      afterFades: async () => {
-        await authChromeApply();
-        await signInAnimationPrepare();
-      },
-    };
+    return;
   }
-
-  await Promise.all([headerAnimationFadeRestore(), bodyAnimationFadeRestore()]);
 
   const signInView = document.querySelector(USER_MENU_SIGN_IN_VIEW_SELECTOR);
   const signUpView = document.querySelector(USER_MENU_SIGN_UP_VIEW_SELECTOR);
@@ -78,7 +66,6 @@ async function userMenuAuthSignInResultApply(resultIsSuccess) {
 
   authTrack?.classList.add(USER_MENU_AUTH_SIGN_IN_CLASS);
   authTrack?.classList.remove(USER_MENU_AUTH_SIGN_UP_CLASS);
-  return [];
 }
 
 /** Applies sign-up result state after the shrink phase, before menu restore fade. */
@@ -101,13 +88,10 @@ async function userMenuAuthSignUpResultApply(resultIsSuccess) {
 
     return {
       afterFades: async () => {
-        await authChromeApply();
-        await signUpAnimationPrepare();
+        signUpAnimationPendingSet();
       },
     };
   }
-
-  await Promise.all([headerAnimationFadeRestore(), bodyAnimationFadeRestore()]);
 
   const signInView = document.querySelector(USER_MENU_SIGN_IN_VIEW_SELECTOR);
   const signUpView = document.querySelector(USER_MENU_SIGN_UP_VIEW_SELECTOR);
@@ -131,7 +115,6 @@ async function userMenuAuthSignUpResultApply(resultIsSuccess) {
 
 /** Applies sign-out result state after the shrink phase, before menu restore fade. */
 async function userMenuAuthSignOutResultApply() {
-  signInAnimationCancel();
   signUpAnimationCancel();
 
   const signInView = document.querySelector(USER_MENU_SIGN_IN_VIEW_SELECTOR);

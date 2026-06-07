@@ -16,6 +16,10 @@
     pointer-events: none;
 }
 
+.manual-setup-section.is-hidden {
+    display: none;
+}
+
 .manual-setup-section.is-active {
     visibility: visible;
     pointer-events: auto;

@@ -9,7 +9,7 @@ import { HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../constants.js";
 import { HEADER_VAR_INTRO_FADE_MS } from "../constants.js";
 
 /** Fades out header contents while keeping the shell visible. */
-async function headerAnimationFadeOutContents() {
+async function headerAnimationFadeOut() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
   const content = document.querySelector(HEADER_INTRO_CONTENT_SELECTOR);
 
@@ -42,5 +42,5 @@ async function headerAnimationFadeRestore() {
   await animTransitionEndWait(content, "opacity", fadeMs + timeoutBufferMs);
 }
 
-export { headerAnimationFadeOutContents };
+export { headerAnimationFadeOut };
 export { headerAnimationFadeRestore };

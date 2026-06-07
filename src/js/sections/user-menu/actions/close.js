@@ -1,5 +1,3 @@
-import { signInAnimationPendingIs } from "../../sequences/index.js";
-import { signInAnimationRun } from "../../sequences/index.js";
 import { signUpAnimationPendingIs } from "../../sequences/index.js";
 import { signUpAnimationRun } from "../../sequences/index.js";
 import { userMenuStateGet } from "../state.js";
@@ -15,9 +13,7 @@ async function userMenuPanelClose() {
   userMenuStateSet({ isOpen: false });
   await userMenuPanelCloseAnimation();
 
-  if (signInAnimationPendingIs()) {
-    await signInAnimationRun();
-  } else if (signUpAnimationPendingIs()) {
+  if (signUpAnimationPendingIs()) {
     await signUpAnimationRun();
   }
 }

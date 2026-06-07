@@ -15,6 +15,10 @@
     pointer-events: none;
 }
 
+.review-prompt.is-hidden {
+    display: none;
+}
+
 .review-prompt.is-active {
     visibility: visible;
     pointer-events: auto;

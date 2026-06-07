@@ -16,6 +16,10 @@
     pointer-events: none;
 }
 
+.qr-setup-section.is-hidden {
+    display: none;
+}
+
 .qr-setup-section.is-active {
     visibility: visible;
     pointer-events: auto;
@@ -163,7 +167,7 @@ body.is-auth-flow-locked.is-frame-blurred .qr-setup-backdrop {
     line-height: 1;
 }
 
-.qr-setup-guide__text.hidden {
+.qr-setup-guide__text.is-hidden {
     display: none;
 }
 

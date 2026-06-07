@@ -7,12 +7,12 @@ import { headerAnimationRun } from "../../header/index.js";
 import { searchAnimationFinish } from "../../search/index.js";
 import { searchAnimationPrepare } from "../../search/index.js";
 import { searchAnimationRun } from "../../search/index.js";
-import { introAnimationFinish } from "./animations/finish.js";
-import { introAnimationLogo } from "./animations/logo-fade.js";
-import { introAnimationShrinkBody } from "./animations/shrink-body.js";
-import { introAnimationShrinkFrame } from "./animations/shrink-frame.js";
-import { introAnimationShrinkHeader } from "./animations/shrink-header.js";
-import { introAnimationShrinkSearch } from "./animations/shrink-search.js";
+import { loadAnimationFinish } from "./animations/finish.js";
+import { loadAnimationLogo } from "./animations/logo-fade.js";
+import { loadAnimationShrinkBody } from "./animations/shrink-body.js";
+import { loadAnimationShrinkFrame } from "./animations/shrink-frame.js";
+import { loadAnimationShrinkHeader } from "./animations/shrink-header.js";
+import { loadAnimationShrinkSearch } from "./animations/shrink-search.js";
 
 import { INTRO_ACTIVE_CLASS } from "../constants.js";
 import { INTRO_ROOT_SELECTOR } from "../constants.js";
@@ -22,40 +22,30 @@ async function loadAnimationRun(isSignedIn) {
   const intro = document.querySelector(INTRO_ROOT_SELECTOR);
 
   if (!intro) {
-    headerAnimationFinish();
-    bodyAnimationFinish();
-    searchAnimationFinish();
     return;
   }
 
   intro.classList.add(INTRO_ACTIVE_CLASS);
   headerAnimationPrepare("load");
 
-  try {
-    await introAnimationLogo();
+  await loadAnimationLogo();
 
-    bodyAnimationPrepare("load");
+  bodyAnimationPrepare("load");
 
-    await introAnimationShrinkFrame();
-    await introAnimationShrinkHeader();
-    await headerAnimationRun("load");
+  await loadAnimationShrinkFrame();
+  await loadAnimationShrinkHeader();
+  await headerAnimationRun("load");
 
-    if (isSignedIn) {
-      searchAnimationPrepare("load");
-      await introAnimationShrinkSearch();
-      await searchAnimationRun("load");
-    }
-
-    await introAnimationShrinkBody();
-    introAnimationFinish();
-    await bodyAnimationRun("load");
-  } catch {
-    headerAnimationFinish();
-    bodyAnimationFinish();
-    searchAnimationFinish();
-    introAnimationFinish();
+  if (isSignedIn) {
+    searchAnimationPrepare("load");
+    await loadAnimationShrinkSearch();
+    await searchAnimationRun("load");
   }
+
+  await loadAnimationShrinkBody();
+  loadAnimationFinish();
+  await bodyAnimationRun("load");
 }
 
 export { loadAnimationRun };
-export { introAnimationFinish };
+export { loadAnimationFinish };

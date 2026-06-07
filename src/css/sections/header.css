@@ -30,6 +30,10 @@
     background: var(--header-surface);
 }
 
+.app-header.is-hidden {
+    display: none;
+}
+
 .app-header__shell {
     box-sizing: border-box;
     width: 100%;

@@ -126,7 +126,9 @@ function userMenuInit() {
 
   const theme = themeGet();
 
-  userMenuStateSet({ theme });
+  document.querySelector(USER_MENU_SIGN_UP_VIEW_SELECTOR)?.classList.add(USER_MENU_HIDDEN_CLASS);
+
+  userMenuStateSet({ theme, authView: USER_MENU_AUTH_VIEW_SIGN_IN });
 
   document.querySelectorAll(USER_MENU_THEME_BTN_SELECTOR).forEach((button) => {
     button.classList.toggle(USER_MENU_ACTIVE_CLASS, button.dataset.theme === theme);
