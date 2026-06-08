@@ -1,52 +1,42 @@
-import { dataCryptoDecrypt } from "../crypto/data-crypto-decrypt.js";
-import { dataCryptoIsEncrypted } from "../crypto/data-crypto-type.js";
 import { dataSanitizeList } from "../records/data-sanitize.js";
-import { dataStorageGetEncrypted } from "../storage/data-storage-encrypted.js";
-import { dataStorageSetFinal } from "../storage/data-storage-final.js";
+import { dataStorageGetFinal } from "../storage/data-storage-final.js";
 import { dataStorageSetMerged } from "../storage/data-storage-merged.js";
 import { dataStorageGetPending } from "../storage/data-storage-pending.js";
+import { dataStorageGetRestored } from "../storage/data-storage-restored.js";
 
-/** Merges pending accounts into a base list and persists merged + active lists. */
+/** Merges incoming accounts into a base list by id (updates in place, prepends new). */
+function dataMergeIncoming(base, incoming) {
+  const indexById = new Map();
+  base.forEach((account, index) => {
+    indexById.set(String(account.id), index);
+  });
+  const toPrepend = [];
+  for (const account of incoming) {
+    const id = String(account.id);
+    if (indexById.has(id)) {
+      base[indexById.get(id)] = account;
+    } else {
+      toPrepend.push(account);
+    }
+  }
+  return [...toPrepend.reverse(), ...base];
+}
+
+/** Merges dataRestored + dataReady + dataPending and persists the result to dataMerged. */
 async function dataMerge(authNumber, options = {}) {
   try {
-    let rawBase = options.baseList;
-    if (rawBase == null) {
-      rawBase = [];
-      const encryptedBlob = await dataStorageGetEncrypted();
-      if (dataCryptoIsEncrypted(encryptedBlob)) {
-        try {
-          rawBase = dataSanitizeList(
-            dataCryptoDecrypt(encryptedBlob, authNumber),
-          );
-        } catch (error) {
-          console.warn(
-            "[data-backup] decrypt cached backup failed, using []",
-            error,
-          );
-        }
-      }
-    }
-    const base = dataSanitizeList(rawBase);
-    const incoming = dataSanitizeList(
-      await dataStorageGetPending(),
+    const restored = dataSanitizeList(
+      options.baseList ?? (await dataStorageGetRestored()),
     );
-    const indexById = new Map();
-    base.forEach((account, index) => {
-      indexById.set(String(account.id), index);
-    });
-    const toPrepend = [];
-    for (const account of incoming) {
-      const id = String(account.id);
-      if (indexById.has(id)) {
-        base[indexById.get(id)] = account;
-      } else {
-        toPrepend.push(account);
-      }
-    }
-    const merged = [...toPrepend.reverse(), ...base];
+    const ready = dataSanitizeList(await dataStorageGetFinal());
+    const pending = dataSanitizeList(await dataStorageGetPending());
+
+    let merged = restored;
+    merged = dataMergeIncoming(merged, ready);
+    merged = dataMergeIncoming(merged, pending);
+
     try {
       await dataStorageSetMerged(merged);
-      await dataStorageSetFinal(merged);
     } catch (error) {
       console.warn("[data-backup] dataMerge persist failed", error);
       throw error;

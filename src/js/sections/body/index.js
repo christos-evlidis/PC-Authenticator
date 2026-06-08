@@ -1,6 +1,5 @@
 import { animCssMsGet } from "../../utils/utility-animation.js";
 import { animDelay } from "../../utils/utility-animation.js";
-import { bodyAnimationFadeOut } from "./animations/fade-out.js";
 import { bodyAnimationIconPop } from "./animations/icon-pop.js";
 import { bodyAnimationFinish } from "./animations/finish.js";
 import { bodyAnimationMessageType } from "./animations/message-type.js";
@@ -63,17 +62,6 @@ async function bodyAnimationPrepare(mode) {
   }
 
   body?.classList.remove(BODY_HIDDEN_CLASS);
-
-  if (mode === "sign-in-fade") {
-    const signedOutContent = document.querySelector(BODY_CONTENT_SIGNED_OUT_SELECTOR);
-
-    if (signedOutView?.classList.contains(BODY_HIDDEN_CLASS) || !signedOutContent) {
-      return;
-    }
-
-    await bodyAnimationFadeOut(signedOutContent);
-    return;
-  }
 
   if (!body || !content) {
     return;
@@ -146,3 +134,5 @@ export { bodyAnimationFinish } from "./animations/finish.js";
 export { bodyApply };
 export { bodyAnimationPrepare };
 export { bodyAnimationRun };
+
+

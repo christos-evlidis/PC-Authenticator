@@ -1,8 +1,6 @@
 import { animCssMsGet } from "../../utils/utility-animation.js";
 import { animDelay } from "../../utils/utility-animation.js";
 import { headerAnimationFadeIn } from "./animations/fade-in.js";
-import { headerAnimationFadeOut } from "./animations/fade-out.js";
-import { headerAnimationFadeRestore } from "./animations/fade-out.js";
 import { headerAnimationFinish } from "./animations/finish.js";
 import { headerAnimationIconPop } from "./animations/icon-pop.js";
 import { headerAnimationTitleType } from "./animations/title-type.js";
@@ -41,19 +39,8 @@ async function headerAnimationPrepare(mode) {
   }
 
   header.classList.remove(HEADER_HIDDEN_CLASS);
-
-  if (mode === "sign-in-fade") {
-    header.classList.remove(HEADER_ANIMATION_PENDING_CLASS);
-    await headerAnimationFadeOut();
-    return;
-  }
-
-  if (mode === "sign-in") {
-    header.classList.remove(HEADER_ANIMATION_PENDING_CLASS);
-  } else {
-    header.classList.add(HEADER_ANIMATION_PENDING_CLASS);
-    header.classList.remove(HEADER_CONTENT_PENDING_CLASS);
-  }
+  header.classList.add(HEADER_ANIMATION_PENDING_CLASS);
+  header.classList.remove(HEADER_CONTENT_PENDING_CLASS);
 
   [...document.querySelectorAll(HEADER_VIEW_SELECTOR)]
     .filter((view) => !view.classList.contains(HEADER_HIDDEN_CLASS))
@@ -78,24 +65,6 @@ async function headerAnimationRun(mode) {
     return;
   }
 
-  if (mode === "sign-in") {
-    if (!header.classList.contains(HEADER_CONTENT_PENDING_CLASS)) {
-      return;
-    }
-
-    try {
-      await animDelay(animCssMsGet(header, HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS));
-      header.classList.remove(HEADER_CONTENT_PENDING_CLASS);
-      await headerAnimationTitleType();
-      await headerAnimationIconPop();
-      headerAnimationFinish();
-    } catch {
-      headerAnimationFinish();
-    }
-
-    return;
-  }
-
   if (!header.classList.contains(HEADER_ANIMATION_PENDING_CLASS)) {
     return;
   }
@@ -114,7 +83,6 @@ async function headerAnimationRun(mode) {
 export { headerIconsDisable } from "./actions/icons.js";
 export { headerIconsEnable } from "./actions/icons.js";
 export { headerAnimationFinish } from "./animations/finish.js";
-export { headerAnimationFadeRestore } from "./animations/fade-out.js";
 export { headerApply };
 export { headerAnimationPrepare };
 export { headerAnimationRun };

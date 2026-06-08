@@ -42,9 +42,9 @@ async function userMenuPanelOpenAnimation() {
   );
 
   try {
-    document
-      .querySelector(USER_MENU_OPEN_BTN_SELECTOR)
-      ?.classList.toggle(USER_MENU_HEADER_BTN_ACTIVE_CLASS, true);
+    document.querySelectorAll(USER_MENU_OPEN_BTN_SELECTOR).forEach((button) => {
+      button.classList.toggle(USER_MENU_HEADER_BTN_ACTIVE_CLASS, true);
+    });
     root.classList.add(USER_MENU_ACTIVE_CLASS);
     root.classList.add(USER_MENU_OPEN_CLASS);
     root.classList.add(USER_MENU_PANEL_OPENING_CLASS);

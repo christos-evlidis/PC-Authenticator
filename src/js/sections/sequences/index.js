@@ -1,9 +1,2 @@
 export { loadAnimationFinish } from "./load/index.js";
 export { loadAnimationRun } from "./load/index.js";
-export { signUpAnimationCancel } from "./sign-up/index.js";
-export { signUpAnimationFinish } from "./sign-up/index.js";
-export { signUpAnimationPendingClear } from "./sign-up/index.js";
-export { signUpAnimationPendingIs } from "./sign-up/index.js";
-export { signUpAnimationPendingSet } from "./sign-up/index.js";
-export { signUpAnimationPrepare } from "./sign-up/index.js";
-export { signUpAnimationRun } from "./sign-up/index.js";

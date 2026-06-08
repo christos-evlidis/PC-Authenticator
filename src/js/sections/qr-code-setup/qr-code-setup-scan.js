@@ -11,44 +11,57 @@ import { clearPopupResumeState } from "../../popup-resume/popup-resume.js";
 import { getPopupResumePending } from "../../popup-resume/popup-resume.js";
 import { playQrAddFromUri } from "./qr-code-setup-add.js";
 import { showScanError } from "./qr-code-setup-add.js";
-import {
-  getIsAwaitingPageSelection,
-  getIsQrBusy,
-  isQrSetupActive,
-  openQrSetup,
-  resetQrSetupGuide,
-  setAuthFlowLock,
-  setGuideCopyVisible,
-  setGuideText,
-  setIsAwaitingPageSelection,
-} from "./qr-code-setup-panel.js";
+import { qrSetupPanelOpen } from "./actions/open.js";
+import { BODY_AUTH_FLOW_LOCK_CLASS } from "./constants.js";
+import { qrSetupGuideReset } from "./guide.js";
+import { qrSetupGuideSetCopyVisible } from "./guide.js";
+import { qrSetupGuideSetText } from "./guide.js";
+import { qrSetupStateGet } from "./state.js";
+import { qrSetupStateSet } from "./state.js";
 
-function resetQrSetupAfterStartError(errorMessage) {
-  setIsAwaitingPageSelection(false);
-  setAuthFlowLock(false);
-  resetQrSetupGuide();
-  setGuideText(errorMessage);
-  setGuideCopyVisible(true);
+import { QR_SETUP_ACTIVE_CLASS } from "./constants.js";
+import { QR_SETUP_ROOT_SELECTOR } from "./constants.js";
+
+function qrSetupIsActive() {
+  return (
+    qrSetupStateGet().isOpen
+    || (document.querySelector(QR_SETUP_ROOT_SELECTOR)?.classList.contains(QR_SETUP_ACTIVE_CLASS)
+      ?? false)
+  );
 }
 
-export async function createQrAddPromise(authNumber, otpauthUri) {
+function qrSetupAuthFlowLockSet(isLocked) {
+  document.body.classList.toggle(BODY_AUTH_FLOW_LOCK_CLASS, isLocked);
+}
+
+function resetQrSetupAfterStartError(errorMessage) {
+  qrSetupStateSet({ isAwaitingPageSelection: false });
+  qrSetupAuthFlowLockSet(false);
+  qrSetupGuideReset();
+  qrSetupGuideSetText(errorMessage);
+  qrSetupGuideSetCopyVisible(true);
+}
+
+/** Creates the promise that adds an account from a scanned otpauth URI. */
+async function createQrAddPromise(authNumber, otpauthUri) {
   return dataAddQr(authNumber, otpauthUri);
 }
 
-export async function cancelPageSelection() {
-  if (!getIsAwaitingPageSelection()) {
+/** Cancels an in-progress page QR selection when applicable. */
+async function cancelPageSelection() {
+  if (!qrSetupStateGet().isAwaitingPageSelection) {
     return;
   }
 
-  setIsAwaitingPageSelection(false);
+  qrSetupStateSet({ isAwaitingPageSelection: false });
   await qrScanCancel();
 }
 
 async function startPageQrOverlay(options = {}) {
   const { onScanError } = options;
 
-  setIsAwaitingPageSelection(true);
-  resetQrSetupGuide();
+  qrSetupStateSet({ isAwaitingPageSelection: true });
+  qrSetupGuideReset();
 
   const response = await qrScanStart();
 
@@ -56,9 +69,9 @@ async function startPageQrOverlay(options = {}) {
     const errorMessage =
       response?.error || QR_SCAN_UNSUPPORTED_PAGE_ERROR;
 
-    setIsAwaitingPageSelection(false);
-    setGuideText(errorMessage);
-    setGuideCopyVisible(true);
+    qrSetupStateSet({ isAwaitingPageSelection: false });
+    qrSetupGuideSetText(errorMessage);
+    qrSetupGuideSetCopyVisible(true);
 
     if (onScanError) {
       await onScanError({ message: errorMessage, instantOpen: true });
@@ -70,18 +83,20 @@ async function startPageQrOverlay(options = {}) {
   return true;
 }
 
-export async function resumePageQrScan(options = {}) {
-  if (getIsQrBusy()) {
+/** Resumes page QR selection after a successful add. */
+async function resumePageQrScan(options = {}) {
+  if (qrSetupStateGet().isBusy) {
     return;
   }
 
   return startPageQrOverlay(options);
 }
 
-export async function startQrScan(options = {}) {
+/** Starts QR scan flow: opens panel and begins page selection. */
+async function startQrScan(options = {}) {
   const { onScanError } = options;
 
-  if (getIsQrBusy()) {
+  if (qrSetupStateGet().isBusy) {
     return;
   }
 
@@ -94,22 +109,24 @@ export async function startQrScan(options = {}) {
     return;
   }
 
-  await openQrSetup();
+  await qrSetupPanelOpen();
   await startPageQrOverlay({ onScanError });
 }
 
-export function handleQrScanCancelled() {
-  setIsAwaitingPageSelection(false);
-  setGuideText("Scan cancelled. Tap the QR button to try again.");
+/** Handles a cancelled QR scan message from the extension runtime. */
+function handleQrScanCancelled() {
+  qrSetupStateSet({ isAwaitingPageSelection: false });
+  qrSetupGuideSetText("Scan cancelled. Tap the QR button to try again.");
 }
 
-export function createQrSetupKeyDownHandler(closeQrSetupBound) {
+/** Creates the Escape key handler for closing QR setup. */
+function createQrSetupKeyDownHandler(closeQrSetupBound) {
   return function handleQrSetupKeyDown(event) {
     if (event.key !== "Escape") {
       return;
     }
 
-    if (!isQrSetupActive()) {
+    if (!qrSetupIsActive()) {
       return;
     }
 
@@ -119,10 +136,11 @@ export function createQrSetupKeyDownHandler(closeQrSetupBound) {
   };
 }
 
-export async function processPendingQrScan(options = {}) {
+/** Processes a pending QR scan saved before the popup opened. */
+async function processPendingQrScan(options = {}) {
   const { instantOpen = false, onScanError } = options;
 
-  if (getIsQrBusy()) {
+  if (qrSetupStateGet().isBusy) {
     return;
   }
 
@@ -134,7 +152,7 @@ export async function processPendingQrScan(options = {}) {
 
   await qrScanPendingClear();
   clearPopupResumeState();
-  setIsAwaitingPageSelection(false);
+  qrSetupStateSet({ isAwaitingPageSelection: false });
 
   if (pending.status === "ready" && pending.uri) {
     await playQrAddFromUri(pending.uri, { instantOpen });
@@ -152,3 +170,11 @@ export async function processPendingQrScan(options = {}) {
     }
   }
 }
+
+export { cancelPageSelection };
+export { createQrAddPromise };
+export { createQrSetupKeyDownHandler };
+export { handleQrScanCancelled };
+export { processPendingQrScan };
+export { resumePageQrScan };
+export { startQrScan };

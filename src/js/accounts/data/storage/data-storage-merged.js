@@ -10,7 +10,7 @@ async function dataStorageLogWarn(operation, fn) {
   }
 }
 
-/** Reads the temporary merged list used during add/sync flows. */
+/** Reads the merged (unencrypted) account list. */
 async function dataStorageGetMerged() {
   return dataStorageLogWarn("dataStorageGetMerged", async () => {
     const stored = await chrome.storage.local.get([DATA_KEY_MERGED]);
@@ -18,14 +18,14 @@ async function dataStorageGetMerged() {
   });
 }
 
-/** Writes the temporary merged list. */
+/** Writes the merged (unencrypted) account list. */
 async function dataStorageSetMerged(accounts) {
   return dataStorageLogWarn("dataStorageSetMerged", () =>
     chrome.storage.local.set({ [DATA_KEY_MERGED]: accounts }),
   );
 }
 
-/** Clears the temporary merged list. */
+/** Clears the merged account list. */
 async function dataStorageClearMerged() {
   return dataStorageLogWarn("dataStorageClearMerged", () =>
     chrome.storage.local.remove([DATA_KEY_MERGED]),

@@ -1,9 +1,15 @@
 export const DATA_KEY_FINAL = "dataReady";
-export const DATA_KEY_ENCRYPTED = "dataEncrypted";
-export const DATA_KEY_PENDING = "dataUnencrypted";
+export const DATA_KEY_PENDING = "dataPending";
+export const DATA_KEY_RESTORED = "dataRestored";
 export const DATA_KEY_MERGED = "dataMerged";
 
 export const DATA_KEY_LEGACY = [
+  "dataManual",
+  "dataSync",
+  "dataEncrypted",
+  "dataUnencrypted",
+  "dataRestoredEncrypted",
+  "dataRestoredUnencrypted",
   "accountsFinal",
   "accountsEncrypted",
   "accountsUnencrypted",

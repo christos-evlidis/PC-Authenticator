@@ -1,5 +1,4 @@
-import { signUpAnimationCancel } from "../../sequences/index.js";
-import { signUpAnimationPendingSet } from "../../sequences/index.js";
+import { bodyAnimationFinish } from "../../body/index.js";
 import { authChromeApply } from "../../../utils/utility-auth.js";
 import { themeGet } from "../../../utils/utility-theme.js";
 
@@ -29,10 +28,10 @@ function userMenuSignInInputClear() {
   }
 }
 
-/** Applies sign-in result state immediately after verification. */
+/** Applies sign-in result state after the shrink phase, before menu restore fade. */
 async function userMenuAuthSignInResultApply(resultIsSuccess) {
   if (resultIsSuccess) {
-    await authChromeApply();
+    await authChromeApply({ applyExtensionChrome: false });
     userMenuSignInInputClear();
 
     const theme = themeGet();
@@ -46,7 +45,13 @@ async function userMenuAuthSignInResultApply(resultIsSuccess) {
 
     themeTrack?.classList.toggle(USER_MENU_THEME_LIGHT_CLASS, !isDark);
     themeTrack?.classList.toggle(USER_MENU_THEME_DARK_CLASS, isDark);
-    return;
+
+    return {
+      afterFades: async () => {
+        await authChromeApply();
+        bodyAnimationFinish();
+      },
+    };
   }
 
   const signInView = document.querySelector(USER_MENU_SIGN_IN_VIEW_SELECTOR);
@@ -66,6 +71,7 @@ async function userMenuAuthSignInResultApply(resultIsSuccess) {
 
   authTrack?.classList.add(USER_MENU_AUTH_SIGN_IN_CLASS);
   authTrack?.classList.remove(USER_MENU_AUTH_SIGN_UP_CLASS);
+  return [];
 }
 
 /** Applies sign-up result state after the shrink phase, before menu restore fade. */
@@ -88,7 +94,8 @@ async function userMenuAuthSignUpResultApply(resultIsSuccess) {
 
     return {
       afterFades: async () => {
-        signUpAnimationPendingSet();
+        await authChromeApply();
+        bodyAnimationFinish();
       },
     };
   }
@@ -115,8 +122,6 @@ async function userMenuAuthSignUpResultApply(resultIsSuccess) {
 
 /** Applies sign-out result state after the shrink phase, before menu restore fade. */
 async function userMenuAuthSignOutResultApply() {
-  signUpAnimationCancel();
-
   const signInView = document.querySelector(USER_MENU_SIGN_IN_VIEW_SELECTOR);
   const signUpView = document.querySelector(USER_MENU_SIGN_UP_VIEW_SELECTOR);
 
@@ -137,6 +142,7 @@ async function userMenuAuthSignOutResultApply() {
 
   userMenuSignInInputClear();
   await authChromeApply();
+  bodyAnimationFinish();
   return [];
 }
 

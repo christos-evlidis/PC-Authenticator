@@ -32,9 +32,9 @@ async function userMenuPanelCloseAnimation() {
   }
 
   try {
-    document
-      .querySelector(USER_MENU_OPEN_BTN_SELECTOR)
-      ?.classList.toggle(USER_MENU_HEADER_BTN_ACTIVE_CLASS, false);
+    document.querySelectorAll(USER_MENU_OPEN_BTN_SELECTOR).forEach((button) => {
+      button.classList.toggle(USER_MENU_HEADER_BTN_ACTIVE_CLASS, false);
+    });
 
     root.classList.add(USER_MENU_PANEL_CLOSING_CLASS);
 

@@ -15,8 +15,7 @@
     <link rel="stylesheet" href="../css/sections/search.css" />
     <link rel="stylesheet" href="../css/sections/body.css" />
     <link rel="stylesheet" href="../css/sections/manual-setup.css" />
-    <link rel="stylesheet" href="../css/sections/scan-setup.css" />
-    <link rel="stylesheet" href="../css/sections/review-menu.css" />
+    <link rel="stylesheet" href="../css/sections/qr-setup.css" />
     <link rel="stylesheet" href="../css/sections/intro.css" />
 </head>
 
@@ -236,123 +235,131 @@
         </section>
 
         <!-- Manual Setup Section -->
-        <section class="manual-setup-section is-hidden">
-            <div class="manual-setup-backdrop"></div>
-            <div class="manual-setup-panel">
-                <header class="manual-setup-header">
-                    <h2 class="manual-setup-header__title">Manual Setup</h2>
-                    <button type="button" class="manual-setup-header__btn manual-setup-close-btn">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </header>
-                <section class="manual-setup-body">
-                    <div class="manual-setup-body__status" aria-hidden="true">
-                        <div class="login-status login-status--loading manual-setup-status--loading">
-                            <span class="login-status__dot"></span>
-                            <span class="login-status__dot"></span>
-                            <span class="login-status__dot"></span>
-                        </div>
-                        <div class="login-status login-status--success manual-setup-status--success">
-                            <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
-                                <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
-                                <path class="login-status__icon-mark login-status__icon-mark--check" fill="none"
-                                    d="M14 27l7 7 16-16" />
-                            </svg>
-                        </div>
-                        <div class="login-status login-status--error manual-setup-status--error">
-                            <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
-                                <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
-                                <path class="login-status__icon-mark login-status__icon-mark--x" fill="none"
-                                    d="M18 18 L34 34" />
-                                <path class="login-status__icon-mark login-status__icon-mark--x" fill="none"
-                                    d="M34 18 L18 34" />
-                            </svg>
-                        </div>
+        <section class="manual-setup is-hidden">
+            <div class="manual-setup__backdrop"></div>
+            <div class="manual-setup__panel">
+                <header class="manual-setup__header">
+                    <h2 class="manual-setup__title">Manual Setup</h2>
+                    <div class="manual-setup__actions">
+                        <button type="button" class="manual-setup__btn manual-setup__close-btn">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
-                    <div class="manual-setup-body__content">
-                        <form class="manual-setup-form">
-                            <label class="manual-setup-form__label">
-                                <span class="manual-setup-form__label-text">Account Name *</span>
-                                <input type="text" class="manual-setup-form__input" name="name" maxlength="64"
+                </header>
+
+                <div class="manual-setup__content">
+                    <div class="manual-setup__body">
+                        <div class="manual-setup__status" aria-hidden="true">
+                            <div class="login-status login-status--loading manual-setup__status--loading is-hidden">
+                                <span class="login-status__dot"></span>
+                                <span class="login-status__dot"></span>
+                                <span class="login-status__dot"></span>
+                            </div>
+                            <div class="login-status login-status--success manual-setup__status--success is-hidden">
+                                <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
+                                    <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
+                                    <path class="login-status__icon-mark login-status__icon-mark--check" fill="none"
+                                        d="M14 27l7 7 16-16" />
+                                </svg>
+                            </div>
+                            <div class="login-status login-status--error manual-setup__status--error is-hidden">
+                                <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
+                                    <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
+                                    <path class="login-status__icon-mark login-status__icon-mark--x" fill="none"
+                                        d="M18 18 L34 34" />
+                                    <path class="login-status__icon-mark login-status__icon-mark--x" fill="none"
+                                        d="M34 18 L18 34" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <form class="manual-setup__form">
+                            <label class="manual-setup__label">
+                                <span class="manual-setup__label-text">Account Name *</span>
+                                <input type="text" class="manual-setup__input" name="name" maxlength="64"
                                     autocomplete="off" required />
                             </label>
-                            <label class="manual-setup-form__label">
-                                <span class="manual-setup-form__label-text">Secret Key *</span>
-                                <input type="text" class="manual-setup-form__input manual-setup-form__input--secret"
+                            <label class="manual-setup__label">
+                                <span class="manual-setup__label-text">Secret Key *</span>
+                                <input type="text" class="manual-setup__input manual-setup__input--secret"
                                     name="secret" maxlength="64" autocomplete="off" spellcheck="false" required />
                             </label>
-                            <label class="manual-setup-form__label">
-                                <span class="manual-setup-form__label-text">Email</span>
-                                <input type="email" class="manual-setup-form__input" name="email" maxlength="128"
+                            <label class="manual-setup__label">
+                                <span class="manual-setup__label-text">Email</span>
+                                <input type="email" class="manual-setup__input" name="email" maxlength="128"
                                     autocomplete="email" />
                             </label>
 
-                            <div class="manual-setup-type-selector">
-                                <div class="manual-setup-type-selector__track">
-                                    <span class="manual-setup-type-selector__thumb"></span>
-                                    <button type="button" class="manual-setup-type-selector__btn is-active"
+                            <div class="manual-setup__type-selector">
+                                <div class="manual-setup__type-track">
+                                    <span class="manual-setup__type-thumb"></span>
+                                    <button type="button" class="manual-setup__type-btn is-active"
                                         data-otp-type="totp">TOTP</button>
-                                    <button type="button" class="manual-setup-type-selector__btn"
+                                    <button type="button" class="manual-setup__type-btn"
                                         data-otp-type="hotp">HOTP</button>
                                 </div>
                             </div>
                             <input type="hidden" name="type" value="totp" />
 
-                            <button type="submit" class="manual-setup-form__submit">Add Account</button>
+                            <button type="submit" class="manual-setup__submit">Add Account</button>
                         </form>
                     </div>
-                </section>
+                </div>
             </div>
         </section>
 
         <!-- QR Setup Section -->
-        <section class="qr-setup-section is-hidden">
-            <div class="qr-setup-backdrop"></div>
-            <div class="qr-setup-panel">
-                <header class="qr-setup-header">
-                    <h2 class="qr-setup-header__title">QR Code Setup</h2>
-                    <button type="button" class="qr-setup-header__btn qr-setup-close-btn"
-                        aria-label="Close QR code setup">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </header>
-                <section class="qr-setup-body">
-                    <div class="qr-setup-body__status" aria-hidden="true">
-                        <div class="login-status login-status--loading qr-setup-status--loading">
-                            <span class="login-status__dot"></span>
-                            <span class="login-status__dot"></span>
-                            <span class="login-status__dot"></span>
-                        </div>
-                        <div class="login-status login-status--success qr-setup-status--success">
-                            <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
-                                <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
-                                <path class="login-status__icon-mark login-status__icon-mark--check" fill="none"
-                                    d="M14 27l7 7 16-16" />
-                            </svg>
-                        </div>
-                        <div class="login-status login-status--error qr-setup-status--error">
-                            <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
-                                <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
-                                <path class="login-status__icon-mark login-status__icon-mark--x" fill="none"
-                                    d="M18 18 L34 34" />
-                                <path class="login-status__icon-mark login-status__icon-mark--x" fill="none"
-                                    d="M34 18 L18 34" />
-                            </svg>
-                        </div>
+        <section class="qr-setup is-hidden">
+            <div class="qr-setup__backdrop"></div>
+            <div class="qr-setup__panel">
+                <header class="qr-setup__header">
+                    <h2 class="qr-setup__title">QR Code Setup</h2>
+                    <div class="qr-setup__actions">
+                        <button type="button" class="qr-setup__btn qr-setup__close-btn"
+                            aria-label="Close QR code setup">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
-                    <div class="qr-setup-body__content">
-                        <div class="qr-setup-guide">
-                            <div class="qr-setup-guide__media" aria-hidden="true">
-                                <span class="qr-setup-guide__icon">
+                </header>
+
+                <div class="qr-setup__content">
+                    <div class="qr-setup__body">
+                        <div class="qr-setup__status" aria-hidden="true">
+                            <div class="login-status login-status--loading qr-setup__status--loading is-hidden">
+                                <span class="login-status__dot"></span>
+                                <span class="login-status__dot"></span>
+                                <span class="login-status__dot"></span>
+                            </div>
+                            <div class="login-status login-status--success qr-setup__status--success is-hidden">
+                                <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
+                                    <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
+                                    <path class="login-status__icon-mark login-status__icon-mark--check" fill="none"
+                                        d="M14 27l7 7 16-16" />
+                                </svg>
+                            </div>
+                            <div class="login-status login-status--error qr-setup__status--error is-hidden">
+                                <svg class="login-status__icon" viewbox="0 0 52 52" aria-hidden="true">
+                                    <circle class="login-status__icon-circle" cx="26" cy="26" r="24" fill="none" />
+                                    <path class="login-status__icon-mark login-status__icon-mark--x" fill="none"
+                                        d="M18 18 L34 34" />
+                                    <path class="login-status__icon-mark login-status__icon-mark--x" fill="none"
+                                        d="M34 18 L18 34" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="qr-setup__guide">
+                            <div class="qr-setup__guide-media" aria-hidden="true">
+                                <span class="qr-setup__guide-icon">
                                     <i class="fas fa-qrcode"></i>
                                 </span>
                             </div>
-                            <p class="qr-setup-guide__text">
+                            <p class="qr-setup__guide-text">
                                 Drag your mouse over the QR code to select and scan it.
                             </p>
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
         </section>
 
@@ -364,47 +371,6 @@
                         width="128" height="128" />
                     <img class="app-intro__logo app-intro__logo--dark" src="../icons/dark-icon128.png" alt=""
                         width="128" height="128" />
-                </div>
-            </div>
-        </section>
-
-        <!-- Review prompt (full-screen slide-up) -->
-        <section class="review-prompt is-hidden" aria-hidden="true" aria-label="Rate PC Authenticator">
-            <div class="review-prompt__panel">
-                <div class="review-prompt__content is-layout-reserved">
-                    <div class="review-prompt__star-slot">
-                        <span class="review-prompt__stars" aria-hidden="true">
-                            <i class="fas fa-star review-prompt__star is-seq-hidden"></i>
-                            <i class="fas fa-star review-prompt__star is-seq-hidden"></i>
-                            <i class="fas fa-star review-prompt__star is-seq-hidden"></i>
-                            <i class="fas fa-star review-prompt__star is-seq-hidden"></i>
-                            <i class="fas fa-star review-prompt__star is-seq-hidden"></i>
-                        </span>
-                    </div>
-                    <div class="review-prompt__title-slot">
-                        <span class="review-prompt__title-reserve" aria-hidden="true">Enjoying PC Authenticator?</span>
-                        <h2 class="review-prompt__title-live is-seq-hidden" data-full-text="Enjoying PC Authenticator?">
-                        </h2>
-                    </div>
-                    <div class="review-prompt__message-slot">
-                        <p class="review-prompt__message-reserve" aria-hidden="true">
-                            You get
-                            <span class="review-prompt__mark-reserve">10% off your subscription</span>
-                            forever by leaving a review!
-                        </p>
-                        <p class="review-prompt__message-live is-seq-hidden">
-                            <span class="review-prompt__message-part" data-full-text="You get "></span>
-                            <span class="review-prompt__mark">
-                                <span class="review-prompt__mark-text"
-                                    data-full-text="10% off your subscription"></span>
-                                <span class="review-prompt__mark-strokes" aria-hidden="true"></span>
-                            </span>
-                            <span class="review-prompt__message-part"
-                                data-full-text=" forever by leaving a review!"></span>
-                        </p>
-                    </div>
-                    <button type="button" class="review-prompt__rate is-seq-hidden">Leave a Review</button>
-                    <button type="button" class="review-prompt__dismiss is-seq-hidden">Not Now</button>
                 </div>
             </div>
         </section>

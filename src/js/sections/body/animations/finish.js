@@ -11,7 +11,9 @@ import { BODY_MESSAGE_DISPLAY_SELECTOR } from "../constants.js";
 import { BODY_MESSAGE_STACK_SELECTOR } from "../constants.js";
 import { BODY_MESSAGE_TYPING_CLASS } from "../constants.js";
 import { BODY_ROOT_SELECTOR } from "../constants.js";
+import { BODY_SIGNED_IN_EMPTY_MESSAGE_TEXT } from "../constants.js";
 import { BODY_SIGNED_IN_VIEW_SELECTOR } from "../constants.js";
+import { BODY_SIGNED_OUT_MESSAGE_TEXT } from "../constants.js";
 import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "../constants.js";
 
 /** Clears one-shot body animation classes and commits the final message markup. */
@@ -45,7 +47,10 @@ function bodyAnimationFinish() {
 
   if (stack && display) {
     const stored = stack.dataset.fullText;
-    const fullText = stored ? stored.replace(/\\n/g, "\n") : "";
+    const defaultText = signedIn
+      ? BODY_SIGNED_IN_EMPTY_MESSAGE_TEXT
+      : BODY_SIGNED_OUT_MESSAGE_TEXT;
+    const fullText = stored ? stored.replace(/\\n/g, "\n") : defaultText;
     const lines = fullText
       .split("\n")
       .map((line) => line.trim())

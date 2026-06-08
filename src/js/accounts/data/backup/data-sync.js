@@ -1,17 +1,15 @@
-import { dataCryptoDecrypt } from "../crypto/data-crypto-decrypt.js";
-import { dataCryptoIsEncrypted } from "../crypto/data-crypto-type.js";
 import { dataSanitizeList } from "../records/data-sanitize.js";
-import { dataStorageClearEncrypted } from "../storage/data-storage-encrypted.js";
-import { dataStorageGetEncrypted } from "../storage/data-storage-encrypted.js";
 import { dataStorageGetFinal } from "../storage/data-storage-final.js";
 import { dataStorageSetFinal } from "../storage/data-storage-final.js";
-import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
 import { dataStorageClearPending } from "../storage/data-storage-pending.js";
 import { dataStorageGetPending } from "../storage/data-storage-pending.js";
+import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
+import { dataStorageClearRestored } from "../storage/data-storage-restored.js";
+import { dataStorageGetRestored } from "../storage/data-storage-restored.js";
 import { dataMerge } from "./data-merge.js";
 import { dataRestore } from "./data-restore.js";
 
-/** Restores from cloud, merges pending adds, writes the active list, and clears temp keys. */
+/** Restores from cloud, merges pending adds when present, and refreshes dataReady. */
 async function dataSync(authNumber) {
   try {
     const result = await dataRestore(authNumber);
@@ -19,9 +17,9 @@ async function dataSync(authNumber) {
       const existing = dataSanitizeList(
         await dataStorageGetFinal(),
       );
-      await dataStorageClearEncrypted();
-      await dataStorageClearMerged();
+      await dataStorageClearRestored();
       await dataStorageClearPending();
+      await dataStorageClearMerged();
       if (existing.length) {
         console.debug(
           `[data-backup] dataSync: empty restore; keeping ${existing.length} local account(s)`,
@@ -31,41 +29,23 @@ async function dataSync(authNumber) {
       await dataStorageSetFinal([]);
       return [];
     }
-    let plainAccounts = [];
-    if (
-      typeof result.accounts === "string" &&
-      dataCryptoIsEncrypted(result.accounts)
-    ) {
-      const encryptedBlob = await dataStorageGetEncrypted();
-      if (dataCryptoIsEncrypted(encryptedBlob)) {
-        try {
-          plainAccounts = dataSanitizeList(
-            dataCryptoDecrypt(encryptedBlob, authNumber),
-          );
-        } catch (error) {
-          console.warn(
-            "[data-backup] decrypt cached backup failed, using []",
-            error,
-          );
-        }
-      }
-    } else {
-      plainAccounts = dataSanitizeList(result.accounts);
-    }
+
     const pending = dataSanitizeList(
       await dataStorageGetPending(),
     );
     if (pending.length) {
-      plainAccounts = await dataMerge(authNumber, {
-        baseList: plainAccounts,
-      });
-    } else {
-      await dataStorageSetFinal(plainAccounts);
+      return dataMerge(authNumber);
     }
+
+    const restored = dataSanitizeList(
+      await dataStorageGetRestored(),
+    );
+    await dataStorageSetFinal(restored);
+
     try {
-      await dataStorageClearEncrypted();
-      await dataStorageClearMerged();
+      await dataStorageClearRestored();
       await dataStorageClearPending();
+      await dataStorageClearMerged();
     } catch (error) {
       console.warn(
         "[data-backup] dataSync clear temp keys failed",
@@ -73,7 +53,7 @@ async function dataSync(authNumber) {
       );
       throw error;
     }
-    return plainAccounts;
+    return restored;
   } catch (error) {
     console.warn("[data-backup] dataSync failed", error);
     throw error;

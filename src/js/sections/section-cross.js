@@ -11,5 +11,4 @@ export const cross = {
   userMenu: null,
   manualSetup: null,
   qrCodeSetup: null,
-  reviewPrompt: null,
 };

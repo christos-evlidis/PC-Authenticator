@@ -3,8 +3,8 @@ import { INTRO_STYLESHEET_HREF } from "../../constants.js";
 
 const LOAD_OVERLAY_ROOT_SELECTORS = [
   ".app-user-menu",
-  ".manual-setup-section",
-  ".qr-setup-section"
+  ".manual-setup",
+  ".qr-setup"
 ];
 
 /** Reveals overlay roots and removes load intro markup from the document. */

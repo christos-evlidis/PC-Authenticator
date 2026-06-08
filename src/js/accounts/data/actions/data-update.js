@@ -1,35 +1,26 @@
-import { dataApiBackup } from "../data-api.js";
+import { dataBackup } from "../backup/data-backup.js";
 import { dataRestore } from "../backup/data-restore.js";
 import { dataSync } from "../backup/data-sync.js";
-import { dataCryptoDecrypt } from "../crypto/data-crypto-decrypt.js";
-import { dataCryptoIsEncrypted } from "../crypto/data-crypto-type.js";
-import { dataCryptoEncrypt } from "../crypto/data-crypto-encrypt.js";
 import { dataSanitizeList } from "../records/data-sanitize.js";
-import { dataStorageClearEncrypted } from "../storage/data-storage-encrypted.js";
-import { dataStorageGetEncrypted } from "../storage/data-storage-encrypted.js";
-import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
+import { dataStorageGetFinal } from "../storage/data-storage-final.js";
+import { dataStorageSetMerged } from "../storage/data-storage-merged.js";
 import { dataStorageClearPending } from "../storage/data-storage-pending.js";
+import { dataStorageClearMerged } from "../storage/data-storage-merged.js";
+import { dataStorageGetRestored } from "../storage/data-storage-restored.js";
+import { dataStorageClearRestored } from "../storage/data-storage-restored.js";
 
 /** Patches account fields, re-encrypts the list, uploads backup, and syncs locally. */
 async function dataUpdate(authNumber, accountId, patch) {
   try {
     const updateId = String(accountId);
     await dataRestore(authNumber);
-    let decrypted = [];
-    const encryptedBlob = await dataStorageGetEncrypted();
-    if (dataCryptoIsEncrypted(encryptedBlob)) {
-      try {
-        decrypted = dataSanitizeList(
-          dataCryptoDecrypt(encryptedBlob, authNumber),
-        );
-      } catch (error) {
-        console.warn(
-          "[data-actions] decrypt cached backup failed, using []",
-          error,
-        );
-      }
+
+    let accounts = dataSanitizeList(await dataStorageGetFinal());
+    if (!accounts.length) {
+      accounts = dataSanitizeList(await dataStorageGetRestored());
     }
-    const account = decrypted.find((entry) => String(entry.id) === updateId);
+
+    const account = accounts.find((entry) => String(entry.id) === updateId);
     if (!account) {
       console.warn(
         `[data-actions] dataUpdate: account ${updateId} not found in backup`,
@@ -48,9 +39,10 @@ async function dataUpdate(authNumber, accountId, patch) {
         account.counter = patch.counter;
       }
     }
-    const encryptedPayload = dataCryptoEncrypt(decrypted, authNumber);
-    await dataApiBackup(authNumber, encryptedPayload);
-    await dataStorageClearEncrypted();
+
+    await dataStorageSetMerged(accounts);
+    await dataBackup(authNumber);
+    await dataStorageClearRestored();
     await dataStorageClearMerged();
     await dataStorageClearPending();
     return dataSync(authNumber);

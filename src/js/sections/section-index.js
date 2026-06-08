@@ -4,12 +4,8 @@ import { headerApply } from "./header/index.js";
 import { searchApply, searchInit, searchReset } from "./search/index.js";
 import { userMenuApply } from "./user-menu/index.js";
 import { userMenuInit } from "./user-menu/index.js";
-import { initManualSetup } from "./manual-setup/manual-setup-section.js";
-import { manualSetupSection } from "./manual-setup/manual-setup-section.js";
-import { initQrCodeSetup } from "./qr-code-setup/qr-code-setup-section.js";
-import { qrCodeSetupSection } from "./qr-code-setup/qr-code-setup-section.js";
-import { initReviewPrompt } from "./review-prompt/review-prompt-section.js";
-import { reviewPromptSection } from "./review-prompt/review-prompt-section.js";
+import { manualSetupSection } from "./manual-setup/index.js";
+import { qrCodeSetupSection } from "./qr-code-setup/index.js";
 
 /** Wires cross-section APIs before bootstrap runs. */
 export function registerSections() {
@@ -19,13 +15,11 @@ export function registerSections() {
   cross.userMenu = { apply: userMenuApply };
   cross.manualSetup = manualSetupSection;
   cross.qrCodeSetup = qrCodeSetupSection;
-  cross.reviewPrompt = reviewPromptSection;
 }
 
 export function initSectionModules() {
-  initReviewPrompt();
   userMenuInit();
   searchInit();
-  initManualSetup();
-  initQrCodeSetup();
+  manualSetupSection.init();
+  qrCodeSetupSection.init();
 }
