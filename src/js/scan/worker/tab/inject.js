@@ -1,4 +1,4 @@
-﻿import { MESSAGES } from "../constants.js";
+﻿import { MESSAGES } from "../../constants.js";
 import { messageContent } from "../../message/index.js";
 
 const CONTENT_INDEX_PATH = "js/scan/content/index.js";

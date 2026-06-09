@@ -1,4 +1,4 @@
-import { PENDING_KEY } from "../../constants.js";
+import { PENDING_KEY } from "../../../constants.js";
 
 /** Clears the pending QR scan session entry. */
 async function workerStoragePendingClear() {

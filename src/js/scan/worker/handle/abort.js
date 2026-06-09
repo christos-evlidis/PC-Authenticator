@@ -1,4 +1,4 @@
-﻿import { MESSAGES } from "../constants.js";
+﻿import { MESSAGES } from "../../constants.js";
 import { workerStoragePendingClear } from "../storage/pending/clear.js";
 import { workerTabResolve } from "../tab/resolve.js";
 import { messageContent } from "../../message/index.js";

@@ -1,5 +1,5 @@
-﻿import { dataAddQr } from "../../accounts/accounts-index.js";
-import { authNumberGet } from "../../accounts/accounts-index.js";
+﻿import { dataActionAddQr } from "../../accounts/accounts-index.js";
+import { authStorageGet } from "../../accounts/accounts-index.js";
 import {
   UNSUPPORTED_PAGE_ERROR,
   scanCancel,
@@ -44,7 +44,7 @@ function resetQrSetupAfterStartError(errorMessage) {
 
 /** Creates the promise that adds an account from a scanned otpauth URI. */
 async function createQrAddPromise(authNumber, otpauthUri) {
-  return dataAddQr(authNumber, otpauthUri);
+  return dataActionAddQr(authNumber, otpauthUri);
 }
 
 /** Cancels an in-progress page QR selection when applicable. */
@@ -100,7 +100,7 @@ async function startQrScan(options = {}) {
     return;
   }
 
-  const authNumber = await authNumberGet();
+  const authNumber = await authStorageGet();
 
   if (!authNumber) {
     if (onScanError) {

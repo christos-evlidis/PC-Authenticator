@@ -1,6 +1,6 @@
-﻿import { authNumberSet } from "../../../accounts/accounts-index.js";
-import { authSanitize } from "../../../accounts/accounts-index.js";
-import { authVerify } from "../../../accounts/accounts-index.js";
+﻿import { authStorageSet } from "../../../accounts/accounts-index.js";
+import { authSanitizeNumber } from "../../../accounts/accounts-index.js";
+import { authApiVerify } from "../../../accounts/accounts-index.js";
 import { userMenuStateGet } from "../state.js";
 import { userMenuAuthSignInResultApply } from "./auth-result.js";
 import { userMenuSignInAnimation } from "../animations/sign-in.js";
@@ -13,7 +13,7 @@ async function userMenuSignIn(input) {
     return false;
   }
 
-  const sanitized = authSanitize(input);
+  const sanitized = authSanitizeNumber(input);
 
   if (sanitized.length !== AUTH_NUMBER_LENGTH) {
     return false;
@@ -22,10 +22,10 @@ async function userMenuSignIn(input) {
   let isSuccess = false;
 
   try {
-    const result = await authVerify(sanitized);
+    const result = await authApiVerify(sanitized);
 
     if (result?.success === true) {
-      await authNumberSet(sanitized);
+      await authStorageSet(sanitized);
       isSuccess = true;
     }
   } catch {

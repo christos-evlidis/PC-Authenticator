@@ -1,0 +1,27 @@
+import { AUTH_API_BASE_URL } from "../../constants.js";
+
+/** Confirms that an account number exists on the server. */
+async function authApiVerify(authNumber) {
+  try {
+    const response = await fetch(`${AUTH_API_BASE_URL}/verify-account`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ account_number: authNumber }),
+    });
+
+    if (!response.ok) {
+      console.warn(
+        `[auth-api] authApiVerify HTTP ${response.status}`,
+        response.statusText,
+      );
+      return { success: false };
+    }
+
+    return response.json();
+  } catch (error) {
+    console.warn("[auth-api] authApiVerify failed", error);
+    throw error;
+  }
+}
+
+export { authApiVerify };

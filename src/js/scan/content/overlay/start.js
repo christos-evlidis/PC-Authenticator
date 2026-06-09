@@ -1,10 +1,10 @@
 import { contentScreenshotCapture } from "../screenshot/capture.js";
-import { MESSAGES } from "../constants.js";
-import { OVERLAY_CLASS } from "../constants.js";
-import { OVERLAY_DIMMED_CLASS } from "../constants.js";
-import { OVERLAY_DYNAMIC_STYLE_ID } from "../constants.js";
-import { OVERLAY_SELECTION_CLASS } from "../constants.js";
-import { OVERLAY_SELECTING_CLASS } from "../constants.js";
+import { MESSAGES } from "../../constants.js";
+import { OVERLAY_CLASS } from "../../constants.js";
+import { OVERLAY_DIMMED_CLASS } from "../../constants.js";
+import { OVERLAY_DYNAMIC_STYLE_ID } from "../../constants.js";
+import { OVERLAY_SELECTION_CLASS } from "../../constants.js";
+import { OVERLAY_SELECTING_CLASS } from "../../constants.js";
 import { contentOverlayCreate } from "./create.js";
 import { contentOverlayActiveSession } from "./remove.js";
 import { contentOverlayRemove } from "./remove.js";

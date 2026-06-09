@@ -1,5 +1,5 @@
-﻿import { dataAddManual } from "../../../accounts/accounts-index.js";
-import { authNumberGet } from "../../../accounts/accounts-index.js";
+﻿import { dataActionAddManual } from "../../../accounts/accounts-index.js";
+import { authStorageGet } from "../../../accounts/accounts-index.js";
 import { manualSetupSubmitAnimation } from "../animations/submit.js";
 import { manualSetupStateGet } from "../state.js";
 
@@ -68,8 +68,8 @@ async function manualSetupFormSubmit(event) {
     button.disabled = true;
   });
 
-  const addPromise = authNumberGet().then((authNumber) =>
-    dataAddManual(authNumber, snapshot),
+  const addPromise = authStorageGet().then((authNumber) =>
+    dataActionAddManual(authNumber, snapshot),
   );
 
   await manualSetupSubmitAnimation(

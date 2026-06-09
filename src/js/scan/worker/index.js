@@ -1,5 +1,5 @@
-﻿import { MESSAGES } from "./constants.js";
-import { UNSUPPORTED_PAGE_ERROR } from "../message/constants.js";
+﻿import { MESSAGES } from "../constants.js";
+import { UNSUPPORTED_PAGE_ERROR } from "../constants.js";
 import { workerStoragePendingClear } from "./storage/pending/clear.js";
 import { workerStoragePendingGet } from "./storage/pending/get.js";
 import { workerHandleAbort } from "./handle/abort.js";

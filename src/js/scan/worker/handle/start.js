@@ -1,5 +1,5 @@
-﻿import { MESSAGES } from "../constants.js";
-import { START_FAILED_ERROR } from "../constants.js";
+﻿import { MESSAGES } from "../../constants.js";
+import { START_FAILED_ERROR } from "../../constants.js";
 import { workerTabInject } from "../tab/inject.js";
 import { workerWaitForContent } from "../tab/inject.js";
 import { workerTabResolve } from "../tab/resolve.js";

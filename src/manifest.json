@@ -34,9 +34,8 @@
     {
       "resources": [
         "css/scan/overlay.css",
-        "js/scan/content/constants.js",
+        "js/scan/constants.js",
         "js/scan/content/index.js",
-        "js/scan/message/constants.js",
         "js/scan/content/overlay/create.js",
         "js/scan/content/overlay/remove.js",
         "js/scan/content/overlay/start.js",

@@ -1,4 +1,4 @@
-﻿import { MESSAGES } from "./constants.js";
+﻿import { MESSAGES } from "../constants.js";
 import { contentOverlayRemove } from "./overlay/remove.js";
 import { contentOverlayStart } from "./overlay/start.js";
 

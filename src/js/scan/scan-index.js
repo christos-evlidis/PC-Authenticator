@@ -1,5 +1,5 @@
-﻿import { MESSAGES } from "./message/constants.js";
-import { UNSUPPORTED_PAGE_ERROR } from "./message/constants.js";
+﻿import { MESSAGES } from "./constants.js";
+import { UNSUPPORTED_PAGE_ERROR } from "./constants.js";
 import { messageWorker } from "./message/index.js";
 
 /** Starts the QR scan overlay on the active tab. */

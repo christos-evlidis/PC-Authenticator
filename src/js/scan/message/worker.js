@@ -1,4 +1,4 @@
-import { UNSUPPORTED_PAGE_ERROR } from "./constants.js";
+import { UNSUPPORTED_PAGE_ERROR } from "../constants.js";
 
 /** Sends a runtime message from the popup to the service worker. */
 function messageWorker(payload, { orError = true } = {}) {

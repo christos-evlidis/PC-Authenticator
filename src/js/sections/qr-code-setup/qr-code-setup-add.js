@@ -1,4 +1,4 @@
-﻿import { authNumberGet } from "../../accounts/accounts-index.js";
+﻿import { authStorageGet } from "../../accounts/accounts-index.js";
 import { qrSetupPanelOpen } from "./actions/open.js";
 import { qrSetupPanelOpenInstant } from "./actions/open.js";
 import { BODY_AUTH_FLOW_LOCK_CLASS } from "./constants.js";
@@ -24,7 +24,7 @@ async function playQrAddFromUri(otpauthUri, options = {}) {
     throw new Error("QR add is already running.");
   }
 
-  const authNumber = await authNumberGet();
+  const authNumber = await authStorageGet();
 
   if (!authNumber) {
     throw new Error("Sign in to add accounts.");

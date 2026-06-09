@@ -1,5 +1,5 @@
-import { OVERLAY_HOST_CLASS } from "../constants.js";
-import { MESSAGES } from "../constants.js";
+import { OVERLAY_HOST_CLASS } from "../../constants.js";
+import { MESSAGES } from "../../constants.js";
 
 export const contentOverlayActiveSession = {
   teardown: null,

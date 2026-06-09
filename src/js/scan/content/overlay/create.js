@@ -1,10 +1,10 @@
-﻿import { OVERLAY_CSS_PATH } from "../constants.js";
-import { OVERLAY_CLASS } from "../constants.js";
-import { OVERLAY_HOST_CLASS } from "../constants.js";
-import { OVERLAY_HOST_STYLE_ID } from "../constants.js";
-import { OVERLAY_INSTRUCTION_CLASS } from "../constants.js";
-import { OVERLAY_INSTRUCTION_TEXT } from "../constants.js";
-import { OVERLAY_SELECTION_CLASS } from "../constants.js";
+﻿import { OVERLAY_CSS_PATH } from "../../constants.js";
+import { OVERLAY_CLASS } from "../../constants.js";
+import { OVERLAY_HOST_CLASS } from "../../constants.js";
+import { OVERLAY_HOST_STYLE_ID } from "../../constants.js";
+import { OVERLAY_INSTRUCTION_CLASS } from "../../constants.js";
+import { OVERLAY_INSTRUCTION_TEXT } from "../../constants.js";
+import { OVERLAY_SELECTION_CLASS } from "../../constants.js";
 
 /** Creates the full-page QR scan overlay on the website. */
 function contentOverlayCreate() {

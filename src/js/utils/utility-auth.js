@@ -1,16 +1,16 @@
-﻿import { authNumberGet } from "../accounts/accounts-index.js";
+﻿import { authStorageGet } from "../accounts/accounts-index.js";
 
 import { cross } from "../sections/section-cross.js";
 
 /** Returns whether a stored auth number exists in local storage. */
 async function authSignedInIs() {
-  return Boolean(await authNumberGet());
+  return Boolean(await authStorageGet());
 }
 
 /** Applies signed-in/out chrome from storage or explicit bootstrap values. */
 async function authChromeApply(options = {}) {
   const authNumber =
-    options.authNumber === undefined ? await authNumberGet() : options.authNumber;
+    options.authNumber === undefined ? await authStorageGet() : options.authNumber;
   const isSignedIn =
     options.isSignedIn === undefined ? Boolean(authNumber) : options.isSignedIn;
 

@@ -1,0 +1,32 @@
+import { AUTH_API_BASE_URL } from "../../constants.js";
+
+/** Creates a new user account and returns its 24-digit account number. */
+async function authApiCreate() {
+  try {
+    const response = await fetch(`${AUTH_API_BASE_URL}/create-account`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      console.warn(
+        `[auth-api] authApiCreate HTTP ${response.status}`,
+        response.statusText,
+      );
+      throw new Error(`authApiCreate HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!data?.account_number) {
+      throw new Error("authApiCreate response missing account_number");
+    }
+
+    return data.account_number;
+  } catch (error) {
+    console.warn("[auth-api] authApiCreate failed", error);
+    throw error;
+  }
+}
+
+export { authApiCreate };
