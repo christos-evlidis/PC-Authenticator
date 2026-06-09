@@ -1,37 +1,42 @@
-import { PENDING_KEY } from "../scan-constants.js";
-import { qrScanPopupReopen } from "../scan-tabs/scan-messaging.js";
+import { PENDING_KEY } from "../../scan-constants.js";
+import { scanPopupReopen } from "../../messaging/index.js";
 
 /** Reads the pending QR scan result from session storage. */
-export async function qrScanPendingGet() {
+async function scanPendingGet() {
   const stored = await chrome.storage.session.get([PENDING_KEY]);
 
   return stored[PENDING_KEY];
 }
 
 /** Writes a pending QR scan payload to session storage. */
-export async function qrScanPendingSet(payload) {
+async function scanPendingSet(payload) {
   await chrome.storage.session.set({ [PENDING_KEY]: payload });
 }
 
 /** Clears the pending QR scan session entry. */
-export async function qrScanPendingClear() {
+async function scanPendingClear() {
   await chrome.storage.session.remove([PENDING_KEY]);
 }
 
 /** Stores a scan error and reopens the extension popup. */
-export async function qrScanFailureStore(message) {
-  await qrScanPendingSet({
+async function scanFailureStore(message) {
+  await scanPendingSet({
     status: "error",
     message,
   });
-  await qrScanPopupReopen();
+  await scanPopupReopen();
 }
 
 /** Stores a successful scan URI and reopens the extension popup. */
-export async function qrScanSuccessStore(uri) {
-  await qrScanPendingSet({
+async function scanSuccessStore(uri) {
+  await scanPendingSet({
     status: "ready",
     uri,
   });
-  await qrScanPopupReopen();
+  await scanPopupReopen();
 }
+
+export { scanPendingGet };
+export { scanPendingClear };
+export { scanFailureStore };
+export { scanSuccessStore };

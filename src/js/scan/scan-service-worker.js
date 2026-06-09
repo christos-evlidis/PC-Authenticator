@@ -1,3 +1,3 @@
-import { qrScanBackgroundListenersRegister } from "./scan-background/scan-listeners.js";
+import { scanBackgroundListenersRegister } from "./service-worker/index.js";
 
-qrScanBackgroundListenersRegister();
+scanBackgroundListenersRegister();

@@ -2,10 +2,10 @@ import { dataAddQr } from "../../accounts/accounts-index.js";
 import { authNumberGet } from "../../accounts/accounts-index.js";
 import {
   QR_SCAN_UNSUPPORTED_PAGE_ERROR,
-  qrScanCancel,
-  qrScanPendingClear,
-  qrScanPendingGet,
-  qrScanStart,
+  scanCancel,
+  scanPendingClear,
+  scanPendingGet,
+  scanStart,
 } from "../../scan/scan-index.js";
 import { clearPopupResumeState } from "../../popup-resume/popup-resume.js";
 import { getPopupResumePending } from "../../popup-resume/popup-resume.js";
@@ -54,7 +54,7 @@ async function cancelPageSelection() {
   }
 
   qrSetupStateSet({ isAwaitingPageSelection: false });
-  await qrScanCancel();
+  await scanCancel();
 }
 
 async function startPageQrOverlay(options = {}) {
@@ -63,7 +63,7 @@ async function startPageQrOverlay(options = {}) {
   qrSetupStateSet({ isAwaitingPageSelection: true });
   qrSetupGuideReset();
 
-  const response = await qrScanStart();
+  const response = await scanStart();
 
   if (!response?.success) {
     const errorMessage =
@@ -144,13 +144,13 @@ async function processPendingQrScan(options = {}) {
     return;
   }
 
-  const pending = getPopupResumePending() || (await qrScanPendingGet());
+  const pending = getPopupResumePending() || (await scanPendingGet());
 
   if (!pending) {
     return;
   }
 
-  await qrScanPendingClear();
+  await scanPendingClear();
   clearPopupResumeState();
   qrSetupStateSet({ isAwaitingPageSelection: false });
 

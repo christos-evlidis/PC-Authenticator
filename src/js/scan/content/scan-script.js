@@ -1,5 +1,5 @@
 /** Injected content-script entry: prevents duplicate load and boots the QR scan modules. */
-(function qrScanPingListenersRegister() {
+(function scanPingListenersRegister() {
   if (window.pcAuthQrScanPingListener) {
     return;
   }
@@ -22,13 +22,13 @@
   window.pcAuthQrScanLoaded = true;
 
   try {
-    const { qrScanContentInit } = await import(
-      chrome.runtime.getURL("js/scan/scan-content/scan-boot.js")
+    const { scanContentInit } = await import(
+      chrome.runtime.getURL("js/scan/content/index.js")
     );
 
-    qrScanContentInit();
+    scanContentInit();
     window.pcAuthQrScanReady = true;
   } catch (error) {
-    console.error("[qr-scan] content script boot failed", error);
+    console.error("[scan] content script boot failed", error);
   }
 })();

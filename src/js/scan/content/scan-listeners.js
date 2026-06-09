@@ -1,7 +1,7 @@
 import { QR_SCAN_MESSAGES } from "../scan-constants.js";
 
 /** Registers content-script runtime message routing. */
-export function qrScanContentListenersRegister(callbacks) {
+function scanContentListenersRegister(callbacks) {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (message.action === QR_SCAN_MESSAGES.PING) {
       sendResponse({ loaded: true });
@@ -23,3 +23,5 @@ export function qrScanContentListenersRegister(callbacks) {
     return false;
   });
 }
+
+export { scanContentListenersRegister };

@@ -1,18 +1,18 @@
 /** Returns the tab URL or pending URL string. */
-export function qrScanTabUrlGet(tab) {
+function scanTabUrlGet(tab) {
   return tab?.url || tab?.pendingUrl || "";
 }
 
 /** Builds an unsupported-page error message for a URL. */
-export function qrScanUnsupportedPageErrorGet(url) {
+function scanUnsupportedPageErrorGet(url) {
   const display = url?.trim() || "(unknown)";
 
   return `QR scanning cannot run on this page: ${display}. Open a normal website tab and try again.`;
 }
 
 /** Logs tab metadata for scan target debugging. */
-export function qrScanTabContextLog(tab, source) {
-  console.debug("[qr-scan-tabs] scan tab candidate", {
+function scanTabContextLog(tab, source) {
+  console.debug("[scan-tab] scan tab candidate", {
     source,
     id: tab?.id ?? null,
     url: tab?.url ?? null,
@@ -23,7 +23,7 @@ export function qrScanTabContextLog(tab, source) {
 }
 
 /** Returns whether a URL can host the QR selection overlay. */
-export function qrScanUrlScannableIs(url) {
+function scanUrlScannableIs(url) {
   if (!url) {
     return false;
   }
@@ -38,7 +38,7 @@ export function qrScanUrlScannableIs(url) {
 }
 
 /** Returns whether file:// URLs are allowed for scanning. */
-function qrScanFileSchemeAccessAllowedIs() {
+function scanFileSchemeAccessAllowedIs() {
   return new Promise((resolve) => {
     if (!chrome.extension?.isAllowedFileSchemeAccess) {
       resolve(false);
@@ -50,29 +50,29 @@ function qrScanFileSchemeAccessAllowedIs() {
 }
 
 /** Returns whether the tab URL can host the QR selection content script. */
-export async function qrScanTabScannableIs(tab) {
+async function scanTabScannableIs(tab) {
   if (!tab?.id || tab.id < 0) {
     return false;
   }
 
-  const url = qrScanTabUrlGet(tab);
+  const url = scanTabUrlGet(tab);
 
   if (!url) {
     return false;
   }
 
   if (url.toLowerCase().startsWith("file://")) {
-    return qrScanFileSchemeAccessAllowedIs();
+    return scanFileSchemeAccessAllowedIs();
   }
 
-  return qrScanUrlScannableIs(url);
+  return scanUrlScannableIs(url);
 }
 
 /** Returns the tab if scannable, otherwise undefined. */
-async function qrScanTabScannablePick(tab, source) {
-  qrScanTabContextLog(tab, source);
+async function scanTabScannablePick(tab, source) {
+  scanTabContextLog(tab, source);
 
-  if (await qrScanTabScannableIs(tab)) {
+  if (await scanTabScannableIs(tab)) {
     return tab;
   }
 
@@ -80,16 +80,16 @@ async function qrScanTabScannablePick(tab, source) {
 }
 
 /** Resolves the browser tab to scan (not the extension popup). */
-export async function qrScanTargetTabResolve() {
+async function scanTargetTabResolve() {
   let detectedUrl = "(no tab found)";
 
   const accept = (tab, source) => {
-    const url = qrScanTabUrlGet(tab);
+    const url = scanTabUrlGet(tab);
     if (url) {
       detectedUrl = url;
     }
 
-    return qrScanTabScannablePick(tab, source);
+    return scanTabScannablePick(tab, source);
   };
 
   try {
@@ -105,11 +105,11 @@ export async function qrScanTargetTabResolve() {
       const tab = await accept(normalActive, "lastFocusedNormalWindow");
 
       if (tab) {
-        return { tab, detectedUrl: qrScanTabUrlGet(tab) };
+        return { tab, detectedUrl: scanTabUrlGet(tab) };
       }
     }
   } catch (error) {
-    console.warn("[qr-scan-tabs] getLastFocused(normal) failed", error);
+    console.warn("[scan-tab] getLastFocused(normal) failed", error);
   }
 
   const [lastFocusedTab] = await chrome.tabs.query({
@@ -119,7 +119,7 @@ export async function qrScanTargetTabResolve() {
   let tab = await accept(lastFocusedTab, "lastFocusedWindow");
 
   if (tab) {
-    return { tab, detectedUrl: qrScanTabUrlGet(tab) };
+    return { tab, detectedUrl: scanTabUrlGet(tab) };
   }
 
   const normalActiveTabs = await chrome.tabs.query({
@@ -131,7 +131,7 @@ export async function qrScanTargetTabResolve() {
     tab = await accept(candidate, "normalWindowActive");
 
     if (tab) {
-      return { tab, detectedUrl: qrScanTabUrlGet(tab) };
+      return { tab, detectedUrl: scanTabUrlGet(tab) };
     }
   }
 
@@ -141,16 +141,21 @@ export async function qrScanTargetTabResolve() {
   );
 
   for (const candidate of byRecency) {
-    if (await qrScanTabScannableIs(candidate)) {
-      qrScanTabContextLog(candidate, "mostRecentScannableNormal");
-      return { tab: candidate, detectedUrl: qrScanTabUrlGet(candidate) };
+    if (await scanTabScannableIs(candidate)) {
+      scanTabContextLog(candidate, "mostRecentScannableNormal");
+      return { tab: candidate, detectedUrl: scanTabUrlGet(candidate) };
     }
   }
 
-  console.warn("[qr-scan-tabs] no scannable tab; last detected URL:", detectedUrl);
+  console.warn("[scan-tab] no scannable tab; last detected URL:", detectedUrl);
 
   return {
-    error: qrScanUnsupportedPageErrorGet(detectedUrl),
+    error: scanUnsupportedPageErrorGet(detectedUrl),
     detectedUrl,
   };
 }
+
+export { scanTabUrlGet };
+export { scanUnsupportedPageErrorGet };
+export { scanTabScannableIs };
+export { scanTargetTabResolve };

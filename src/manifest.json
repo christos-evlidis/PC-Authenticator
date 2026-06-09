@@ -35,13 +35,12 @@
       "resources": [
         "css/scan/scan-overlay.css",
         "js/scan/scan-constants.js",
-        "js/scan/scan-content/scan-boot.js",
-        "js/scan/scan-content/scan-listeners.js",
-        "js/scan/scan-overlay/scan-host.js",
-        "js/scan/scan-overlay/scan-elements.js",
-        "js/scan/scan-overlay/scan-selection.js",
-        "js/scan/scan-capture/scan-screenshot.js",
-        "js/scan/scan-capture/scan-crop.js"
+        "js/scan/content/index.js",
+        "js/scan/content/scan-listeners.js",
+        "js/scan/content/overlay/scan-overlay-create.js",
+        "js/scan/content/capture/scan-screenshot-load.js",
+        "js/scan/content/capture/scan-screenshot-capture.js",
+        "js/scan/content/capture/scan-screenshot-crop.js"
       ],
       "matches": ["<all_urls>"]
     }

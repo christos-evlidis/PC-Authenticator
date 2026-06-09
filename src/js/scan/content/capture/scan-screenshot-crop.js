@@ -1,5 +1,5 @@
 /** Crops a region from a screenshot image using device-pixel coordinates. */
-export function qrScanScreenshotCrop(img, selection) {
+function scanScreenshotCrop(img, selection) {
   const dpr = window.devicePixelRatio || 1;
   const sx = Math.round(selection.x * dpr);
   const sy = Math.round(selection.y * dpr);
@@ -21,3 +21,5 @@ export function qrScanScreenshotCrop(img, selection) {
     height: sh,
   };
 }
+
+export { scanScreenshotCrop };

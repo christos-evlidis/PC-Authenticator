@@ -1,12 +1,12 @@
 import { FRAME_BLUR_CLASS } from "../sections/section-cross.js";
-import { qrScanPendingGet } from "../scan/scan-index.js";
+import { scanPendingGet } from "../scan/scan-index.js";
 
 let pending = null;
 let readyPromise = null;
 
 /** Loads pending scan state when status is ready or error. */
 async function queryPendingQrScan() {
-  const response = await qrScanPendingGet();
+  const response = await scanPendingGet();
 
   if (response?.status === "ready" || response?.status === "error") {
     return response;

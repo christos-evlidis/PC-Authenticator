@@ -15,7 +15,7 @@ export const QR_SCAN_MESSAGES = {
 export const QR_SCAN_UNSUPPORTED_PAGE_ERROR =
   "QR scanning cannot run on this page. Open a normal website tab and try again.";
 
-export const CONTENT_SCRIPT_PATH = "js/scan/scan-content/scan-script.js";
+export const CONTENT_SCRIPT_PATH = "js/scan/content/scan-script.js";
 
 export const PENDING_KEY = "qrScanPending";
 

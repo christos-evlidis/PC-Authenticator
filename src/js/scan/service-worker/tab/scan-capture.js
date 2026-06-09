@@ -1,5 +1,5 @@
 /** Captures the visible area of a browser window as a PNG data URL. */
-export function qrScanTabCapture(windowId) {
+function scanTabCapture(windowId) {
   return new Promise((resolve) => {
     chrome.tabs.captureVisibleTab(windowId ?? null, { format: "png" }, (dataUrl) => {
       if (chrome.runtime.lastError) {
@@ -11,3 +11,5 @@ export function qrScanTabCapture(windowId) {
     });
   });
 }
+
+export { scanTabCapture };
