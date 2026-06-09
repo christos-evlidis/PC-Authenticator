@@ -1,4 +1,4 @@
-import { qrSetupPanelClose } from "./actions/close.js";
+﻿import { qrSetupPanelClose } from "./actions/close.js";
 import { qrSetupPanelOpen } from "./actions/open.js";
 import { cancelPageSelection } from "./qr-code-setup-scan.js";
 import { createQrSetupKeyDownHandler } from "./qr-code-setup-scan.js";
@@ -93,7 +93,7 @@ export const qrCodeSetupSection = {
   init: qrSetupInit,
   open: qrSetupPanelOpen,
   close: closeQrSetupBound,
-  startScan: startQrScanBound,
+  workerStartScan: startQrScanBound,
   processPendingScan: processPendingQrScanBound,
   isActive: qrSetupIsActive,
   isRunning: qrSetupIsRunning,

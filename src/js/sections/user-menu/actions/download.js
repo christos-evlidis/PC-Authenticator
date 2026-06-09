@@ -1,7 +1,7 @@
-import { userMenuStateGet } from "../state.js";
+﻿import { userMenuStateGet } from "../state.js";
 import { userMenuDownloadButtonAnimation } from "../animations/download-button.js";
 
-/** Downloads the signed-in account number as a local backup text file. */
+/** Downloads the signed-in account number as a local accountsBackup text file. */
 async function userMenuAccountDownload() {
   const { authNumber } = userMenuStateGet();
 

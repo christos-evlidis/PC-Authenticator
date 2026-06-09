@@ -1,4 +1,4 @@
-import { authCreate } from "../../../accounts/accounts-index.js";
+﻿import { authCreate } from "../../../accounts/accounts-index.js";
 import { authNumberSet } from "../../../accounts/accounts-index.js";
 import { authSanitize } from "../../../accounts/accounts-index.js";
 import { userMenuStateGet } from "../state.js";

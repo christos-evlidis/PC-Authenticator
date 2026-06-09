@@ -1,4 +1,4 @@
-import { animCssMsGet } from "../../../utils/utility-animation.js";
+﻿import { animCssMsGet } from "../../../utils/utility-animation.js";
 import { animTransitionEndWait } from "../../../utils/utility-animation.js";
 
 import { USER_MENU_AUTH_SIGN_IN_CLASS } from "../constants.js";

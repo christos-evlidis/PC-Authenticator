@@ -1,4 +1,4 @@
-export const USER_MENU_ROOT_SELECTOR = ".app-user-menu";
+﻿export const USER_MENU_ROOT_SELECTOR = ".app-user-menu";
 export const USER_MENU_BACKDROP_SELECTOR = ".app-user-menu__backdrop";
 export const USER_MENU_PANEL_SELECTOR = ".app-user-menu__panel";
 export const USER_MENU_HEADER_SELECTOR = ".app-user-menu__header";

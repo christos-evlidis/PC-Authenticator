@@ -1,4 +1,4 @@
-import { bodyAnimationFinish } from "../../body/index.js";
+﻿import { bodyAnimationFinish } from "../../body/index.js";
 import { bodyAnimationPrepare } from "../../body/index.js";
 import { bodyAnimationRun } from "../../body/index.js";
 import { headerAnimationFinish } from "../../header/index.js";
@@ -17,7 +17,7 @@ import { loadAnimationShrinkSearch } from "./animations/shrink-search.js";
 import { INTRO_ACTIVE_CLASS } from "../constants.js";
 import { INTRO_ROOT_SELECTOR } from "../constants.js";
 
-/** Runs the one-time load sequence after bootstrap restore has finished. */
+/** Runs the one-time load sequence after bootstrap accountsRestore has finished. */
 async function loadAnimationRun(isSignedIn) {
   const intro = document.querySelector(INTRO_ROOT_SELECTOR);
 

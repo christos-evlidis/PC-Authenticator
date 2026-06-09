@@ -1,4 +1,4 @@
-let manualSetupState = {
+﻿let manualSetupState = {
   isOpen: false,
   isSubmitting: false,
 };

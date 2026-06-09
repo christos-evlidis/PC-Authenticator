@@ -1,4 +1,4 @@
-import "./jsQR.js";
+﻿import "./jsQR.js";
 
 const jsQR = globalThis.jsQR;
 

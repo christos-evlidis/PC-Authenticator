@@ -1,4 +1,4 @@
-import { authNumberGet } from "../../accounts/accounts-index.js";
+﻿import { authNumberGet } from "../../accounts/accounts-index.js";
 import { qrSetupPanelOpen } from "./actions/open.js";
 import { qrSetupPanelOpenInstant } from "./actions/open.js";
 import { BODY_AUTH_FLOW_LOCK_CLASS } from "./constants.js";

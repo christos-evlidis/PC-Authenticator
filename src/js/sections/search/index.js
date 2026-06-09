@@ -1,4 +1,4 @@
-import { animCssMsGet } from "../../utils/utility-animation.js";
+﻿import { animCssMsGet } from "../../utils/utility-animation.js";
 import { animDelay } from "../../utils/utility-animation.js";
 import { searchFilterApply } from "./actions/filter.js";
 import { searchReset } from "./actions/reset.js";

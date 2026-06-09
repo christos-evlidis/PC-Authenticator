@@ -1,4 +1,4 @@
-export const HEADER_ROOT_SELECTOR = ".app-header";
+﻿export const HEADER_ROOT_SELECTOR = ".app-header";
 export const HEADER_SHELL_SELECTOR = ".app-header__shell";
 export const HEADER_INTRO_CONTENT_SELECTOR = ".app-header__intro-content";
 export const HEADER_TITLE_SELECTOR = ".app-header__title";

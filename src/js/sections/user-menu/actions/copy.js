@@ -1,4 +1,4 @@
-import { userMenuStateGet } from "../state.js";
+﻿import { userMenuStateGet } from "../state.js";
 import { userMenuCopyButtonAnimation } from "../animations/copy-button.js";
 
 /** Copies the signed-in account number and confirms the action in the field button. */

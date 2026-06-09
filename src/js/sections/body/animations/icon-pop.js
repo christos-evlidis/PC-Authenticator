@@ -1,4 +1,4 @@
-import { animCssMsGet } from "../../../utils/utility-animation.js";
+﻿import { animCssMsGet } from "../../../utils/utility-animation.js";
 import { animDelay } from "../../../utils/utility-animation.js";
 import { animFrameWait } from "../../../utils/utility-animation.js";
 

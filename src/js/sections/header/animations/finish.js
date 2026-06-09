@@ -1,4 +1,4 @@
-import { HEADER_ANIMATION_PENDING_CLASS } from "../constants.js";
+﻿import { HEADER_ANIMATION_PENDING_CLASS } from "../constants.js";
 import { HEADER_CONTENT_PENDING_CLASS } from "../constants.js";
 import { HEADER_FADE_IN_CLASS } from "../constants.js";
 import { HEADER_ICON_POP_PENDING_CLASS } from "../constants.js";

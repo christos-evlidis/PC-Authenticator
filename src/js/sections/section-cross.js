@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Internal cross-section API links. Wired once by section-index before bootstrap.
  * Avoids circular imports between section domains.
  */

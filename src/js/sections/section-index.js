@@ -1,4 +1,4 @@
-import { cross } from "./section-cross.js";
+﻿import { cross } from "./section-cross.js";
 import { bodyApply } from "./body/index.js";
 import { headerApply } from "./header/index.js";
 import { searchApply, searchInit, searchReset } from "./search/index.js";

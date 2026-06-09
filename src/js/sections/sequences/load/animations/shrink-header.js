@@ -1,4 +1,4 @@
-import { animCssMsGet } from "../../../../utils/utility-animation.js";
+﻿import { animCssMsGet } from "../../../../utils/utility-animation.js";
 import { animPhaseReset } from "../../../../utils/utility-animation.js";
 import { animFrameMetricsGet } from "../../../../utils/utility-animation.js";
 import { animAnimationEndWait } from "../../../../utils/utility-animation.js";

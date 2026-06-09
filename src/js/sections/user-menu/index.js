@@ -1,4 +1,4 @@
-import { userMenuAccountCopy } from "./actions/copy.js";
+﻿import { userMenuAccountCopy } from "./actions/copy.js";
 import { userMenuAccountDownload } from "./actions/download.js";
 import { userMenuAuthSwitch } from "./actions/auth-switch.js";
 import { userMenuPanelClose } from "./actions/close.js";

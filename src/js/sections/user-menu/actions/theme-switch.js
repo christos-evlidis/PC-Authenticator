@@ -1,4 +1,4 @@
-import { themePersist } from "../../../utils/utility-theme.js";
+﻿import { themePersist } from "../../../utils/utility-theme.js";
 import { userMenuStateGet } from "../state.js";
 import { userMenuStateSet } from "../state.js";
 import { userMenuThemeSwitchAnimation } from "../animations/theme-switch.js";

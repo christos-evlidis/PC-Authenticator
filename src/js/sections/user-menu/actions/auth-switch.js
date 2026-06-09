@@ -1,4 +1,4 @@
-import { userMenuStateGet } from "../state.js";
+﻿import { userMenuStateGet } from "../state.js";
 import { userMenuStateSet } from "../state.js";
 import { userMenuAuthSwitchAnimation } from "../animations/auth-switch.js";
 

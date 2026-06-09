@@ -1,4 +1,4 @@
-import { searchFilterReset } from "./filter.js";
+﻿import { searchFilterReset } from "./filter.js";
 
 import { SEARCH_ANIMATION_PENDING_CLASS } from "../constants.js";
 import { SEARCH_FADE_IN_CLASS } from "../constants.js";

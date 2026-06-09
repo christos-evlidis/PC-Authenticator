@@ -1,4 +1,4 @@
-import { dataAddManual } from "../../../accounts/accounts-index.js";
+﻿import { dataAddManual } from "../../../accounts/accounts-index.js";
 import { authNumberGet } from "../../../accounts/accounts-index.js";
 import { manualSetupSubmitAnimation } from "../animations/submit.js";
 import { manualSetupStateGet } from "../state.js";

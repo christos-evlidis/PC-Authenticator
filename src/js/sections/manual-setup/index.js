@@ -1,4 +1,4 @@
-import { manualSetupFormSubmit } from "./actions/submit.js";
+﻿import { manualSetupFormSubmit } from "./actions/submit.js";
 import { manualSetupPanelClose } from "./actions/close.js";
 import { manualSetupPanelOpen } from "./actions/open.js";
 import { manualSetupTypeSwitch } from "./actions/type-switch.js";

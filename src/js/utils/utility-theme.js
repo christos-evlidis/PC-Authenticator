@@ -1,4 +1,4 @@
-import { animDelay } from "./utility-animation.js";
+﻿import { animDelay } from "./utility-animation.js";
 
 const THEME_LIGHT = "light";
 const THEME_DARK = "dark";

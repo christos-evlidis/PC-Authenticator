@@ -1,4 +1,4 @@
-import { manualSetupPanelCloseAnimation } from "../animations/panel-close.js";
+﻿import { manualSetupPanelCloseAnimation } from "../animations/panel-close.js";
 import { manualSetupStateGet } from "../state.js";
 import { manualSetupStateSet } from "../state.js";
 

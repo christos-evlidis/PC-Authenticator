@@ -1,4 +1,4 @@
-let qrSetupState = {
+﻿let qrSetupState = {
   isOpen: false,
   isBusy: false,
   isAwaitingPageSelection: false,

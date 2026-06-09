@@ -1,4 +1,4 @@
-import { SEARCH_ANIMATION_PENDING_CLASS } from "../constants.js";
+﻿import { SEARCH_ANIMATION_PENDING_CLASS } from "../constants.js";
 import { SEARCH_FADE_IN_CLASS } from "../constants.js";
 import { SEARCH_ROOT_SELECTOR } from "../constants.js";
 

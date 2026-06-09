@@ -1,4 +1,4 @@
-import { HEADER_BUTTON_SELECTOR } from "../constants.js";
+﻿import { HEADER_BUTTON_SELECTOR } from "../constants.js";
 import { HEADER_DISABLED_CLASS } from "../constants.js";
 import { HEADER_ROOT_SELECTOR } from "../constants.js";
 

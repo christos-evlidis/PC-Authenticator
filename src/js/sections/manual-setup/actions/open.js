@@ -1,4 +1,4 @@
-import { cross } from "../../section-cross.js";
+﻿import { cross } from "../../section-cross.js";
 import { manualSetupPanelOpenAnimation } from "../animations/panel-open.js";
 import { manualSetupStateGet } from "../state.js";
 import { manualSetupStateSet } from "../state.js";

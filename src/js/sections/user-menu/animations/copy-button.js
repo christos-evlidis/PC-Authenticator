@@ -1,4 +1,4 @@
-import { animCssMsGet } from "../../../utils/utility-animation.js";
+﻿import { animCssMsGet } from "../../../utils/utility-animation.js";
 import { animDelay } from "../../../utils/utility-animation.js";
 
 import { USER_MENU_VAR_ACCOUNT_ACTION_CONFIRM_MS } from "../constants.js";

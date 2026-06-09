@@ -1,4 +1,4 @@
-import { cross } from "../../section-cross.js";
+﻿import { cross } from "../../section-cross.js";
 import { qrSetupPanelOpenAnimation } from "../animations/panel-open.js";
 import { qrSetupGuideReset } from "../guide.js";
 import { qrSetupStateGet } from "../state.js";

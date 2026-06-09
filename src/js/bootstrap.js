@@ -1,4 +1,4 @@
-import { authNumberGet } from "./accounts/accounts-index.js";
+﻿import { authNumberGet } from "./accounts/accounts-index.js";
 import { authVerify } from "./accounts/accounts-index.js";
 import { dataSync } from "./accounts/accounts-index.js";
 import { authChromeApply } from "./utils/utility-auth.js";

@@ -1,4 +1,4 @@
-import { QR_SETUP_GUIDE_SELECTION_TEXT } from "./constants.js";
+﻿import { QR_SETUP_GUIDE_SELECTION_TEXT } from "./constants.js";
 import { QR_SETUP_GUIDE_TEXT_SELECTOR } from "./constants.js";
 
 /** Sets the QR setup guide message text. */

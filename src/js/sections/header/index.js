@@ -1,4 +1,4 @@
-import { animCssMsGet } from "../../utils/utility-animation.js";
+﻿import { animCssMsGet } from "../../utils/utility-animation.js";
 import { animDelay } from "../../utils/utility-animation.js";
 import { headerAnimationFadeIn } from "./animations/fade-in.js";
 import { headerAnimationFinish } from "./animations/finish.js";

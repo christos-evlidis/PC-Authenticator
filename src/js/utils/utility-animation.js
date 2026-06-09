@@ -1,4 +1,4 @@
-/** Resolves after the given number of milliseconds. */
+﻿/** Resolves after the given number of milliseconds. */
 function animDelay(ms) {
   return new Promise((resolve) => {
     window.setTimeout(resolve, ms);

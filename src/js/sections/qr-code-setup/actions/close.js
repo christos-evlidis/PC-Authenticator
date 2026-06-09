@@ -1,4 +1,4 @@
-import { BODY_AUTH_FLOW_LOCK_CLASS } from "../constants.js";
+﻿import { BODY_AUTH_FLOW_LOCK_CLASS } from "../constants.js";
 import { qrSetupPanelCloseAnimation } from "../animations/panel-close.js";
 import { qrSetupGuideReset } from "../guide.js";
 import { qrSetupStateGet } from "../state.js";

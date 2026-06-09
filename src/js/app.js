@@ -1,4 +1,4 @@
-import { bootstrap } from "./bootstrap.js";
+﻿import { bootstrap } from "./bootstrap.js";
 import { loadAnimationRun } from "./sections/sequences/index.js";
 import { initSectionModules } from "./sections/section-index.js";
 import { registerSections } from "./sections/section-index.js";

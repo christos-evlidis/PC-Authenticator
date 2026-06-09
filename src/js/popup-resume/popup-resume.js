@@ -1,4 +1,4 @@
-import { FRAME_BLUR_CLASS } from "../sections/section-cross.js";
+﻿import { FRAME_BLUR_CLASS } from "../sections/section-cross.js";
 import { scanPendingGet } from "../scan/scan-index.js";
 
 let pending = null;

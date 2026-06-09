@@ -1,7 +1,7 @@
-import { dataAddQr } from "../../accounts/accounts-index.js";
+﻿import { dataAddQr } from "../../accounts/accounts-index.js";
 import { authNumberGet } from "../../accounts/accounts-index.js";
 import {
-  QR_SCAN_UNSUPPORTED_PAGE_ERROR,
+  UNSUPPORTED_PAGE_ERROR,
   scanCancel,
   scanPendingClear,
   scanPendingGet,
@@ -67,7 +67,7 @@ async function startPageQrOverlay(options = {}) {
 
   if (!response?.success) {
     const errorMessage =
-      response?.error || QR_SCAN_UNSUPPORTED_PAGE_ERROR;
+      response?.error || UNSUPPORTED_PAGE_ERROR;
 
     qrSetupStateSet({ isAwaitingPageSelection: false });
     qrSetupGuideSetText(errorMessage);
@@ -161,7 +161,7 @@ async function processPendingQrScan(options = {}) {
 
   if (pending.status === "error") {
     const errorMessage =
-      pending.message || QR_SCAN_UNSUPPORTED_PAGE_ERROR;
+      pending.message || UNSUPPORTED_PAGE_ERROR;
 
     if (onScanError) {
       await onScanError({ instantOpen, message: errorMessage });
