@@ -1,13 +1,14 @@
 import { contentScreenshotCapture } from "../screenshot/capture.js";
+import { contentOverlayCreate } from "./create.js";
+import { contentOverlayStateStore } from "./state/store.js";
+import { contentOverlayRemove } from "./remove.js";
 import { MESSAGES } from "../../constants.js";
 import { OVERLAY_CLASS } from "../../constants.js";
 import { OVERLAY_DIMMED_CLASS } from "../../constants.js";
 import { OVERLAY_DYNAMIC_STYLE_ID } from "../../constants.js";
 import { OVERLAY_SELECTION_CLASS } from "../../constants.js";
 import { OVERLAY_SELECTING_CLASS } from "../../constants.js";
-import { contentOverlayCreate } from "./create.js";
-import { contentOverlayActiveSession } from "./remove.js";
-import { contentOverlayRemove } from "./remove.js";
+import { UNSUPPORTED_PAGE_ERROR } from "../../constants.js";
 
 /** Opens the selection overlay and begins listening for user input. */
 function contentOverlayStart() {
@@ -32,10 +33,10 @@ function contentOverlayStart() {
         height: cropped.height,
       });
     } catch (error) {
+      console.warn("[scan-content] contentOverlayStart capture failed", error);
+
       const message =
-        error instanceof Error
-          ? error.message
-          : "QR scanning cannot run on this page. Open a normal website tab and try again.";
+        error instanceof Error ? error.message : UNSUPPORTED_PAGE_ERROR;
 
       await chrome.runtime.sendMessage({
         action: MESSAGES.SCAN_QR_CODE,
@@ -183,7 +184,7 @@ function contentOverlayStart() {
   overlay.addEventListener("pointercancel", onPointerUp);
   window.addEventListener("keydown", onKeyDown, true);
 
-  contentOverlayActiveSession.teardown = () => {
+  contentOverlayStateStore.teardown = () => {
     overlay.removeEventListener("pointerdown", onPointerDown);
     overlay.removeEventListener("pointermove", onPointerMove);
     overlay.removeEventListener("pointerup", onPointerUp);

@@ -27,5 +27,5 @@ function contentScriptInit() {
 }
 
 export { contentScriptInit };
-export { contentOverlayStart };
-export { contentOverlayRemove };
+export { contentOverlayStart } from "./overlay/start.js";
+export { contentOverlayRemove } from "./overlay/remove.js";

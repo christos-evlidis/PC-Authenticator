@@ -31,3 +31,5 @@ export const OVERLAY_DIMMED_CLASS = "is-dimmed";
 export const OVERLAY_INSTRUCTION_TEXT =
   "Drag your mouse over the QR code to select and scan it. Press ESC to cancel.";
 export const OVERLAY_CSS_PATH = "css/scan/overlay.css";
+
+export const CONTENT_INDEX_PATH = "js/scan/content/index.js";

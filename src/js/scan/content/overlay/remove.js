@@ -1,14 +1,11 @@
 import { OVERLAY_HOST_CLASS } from "../../constants.js";
 import { MESSAGES } from "../../constants.js";
-
-export const contentOverlayActiveSession = {
-  teardown: null,
-};
+import { contentOverlayStateStore } from "./state/store.js";
 
 /** Tears down selection listeners and removes the overlay from the page. */
 function contentOverlayRemove({ notifyCancel = false } = {}) {
-  contentOverlayActiveSession.teardown?.();
-  contentOverlayActiveSession.teardown = null;
+  contentOverlayStateStore.teardown?.();
+  contentOverlayStateStore.teardown = null;
   document.querySelector(`.${OVERLAY_HOST_CLASS}`)?.remove();
 
   if (notifyCancel) {
@@ -17,3 +14,4 @@ function contentOverlayRemove({ notifyCancel = false } = {}) {
 }
 
 export { contentOverlayRemove };
+export { contentOverlayStateStore } from "./state/store.js";

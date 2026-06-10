@@ -5,6 +5,8 @@ async function messageContent(tabId, action) {
 
     return { ok: true, response };
   } catch (error) {
+    console.warn("[scan-message] messageContent failed", error);
+
     const message =
       error instanceof Error ? error.message : String(error ?? "");
 

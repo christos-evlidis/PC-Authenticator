@@ -1,10 +1,8 @@
-﻿import { manualSetupFormSubmit } from "./actions/submit.js";
-import { manualSetupPanelClose } from "./actions/close.js";
-import { manualSetupPanelOpen } from "./actions/open.js";
-import { manualSetupTypeSwitch } from "./actions/type-switch.js";
-import { manualSetupStateGet } from "./state.js";
+﻿import { manualSetupActionsFormSubmit } from "./actions/form/submit.js";
+import { manualSetupActionsPanelClose } from "./actions/panel/close.js";
+import { manualSetupActionsPanelOpen } from "./actions/panel/open.js";
+import { manualSetupActionsTypeSwitch } from "./actions/type/switch.js";
 
-import { MANUAL_SETUP_ACTIVE_CLASS } from "./constants.js";
 import { MANUAL_SETUP_BACKDROP_SELECTOR } from "./constants.js";
 import { MANUAL_SETUP_CLOSE_BTN_SELECTOR } from "./constants.js";
 import { MANUAL_SETUP_FORM_SELECTOR } from "./constants.js";
@@ -12,32 +10,22 @@ import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "./constants.js";
 import { MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR } from "./constants.js";
 import { MANUAL_SETUP_OPEN_BTN_SELECTOR } from "./constants.js";
 import { MANUAL_SETUP_PANEL_SELECTOR } from "./constants.js";
-import { MANUAL_SETUP_ROOT_SELECTOR } from "./constants.js";
-
-/** Returns whether the manual setup overlay is currently open. */
-function manualSetupIsActive() {
-  return (
-    manualSetupStateGet().isOpen
-    || (document.querySelector(MANUAL_SETUP_ROOT_SELECTOR)?.classList.contains(MANUAL_SETUP_ACTIVE_CLASS)
-      ?? false)
-  );
-}
 
 /** Registers manual setup listeners. */
 function manualSetupInit() {
   document.querySelectorAll(MANUAL_SETUP_OPEN_BTN_SELECTOR).forEach((button) => {
     button.addEventListener("click", () => {
-      void manualSetupPanelOpen();
+      void manualSetupActionsPanelOpen();
     });
   });
 
   document
     .querySelector(MANUAL_SETUP_CLOSE_BTN_SELECTOR)
-    ?.addEventListener("click", manualSetupPanelClose);
+    ?.addEventListener("click", manualSetupActionsPanelClose);
 
   document
     .querySelector(MANUAL_SETUP_BACKDROP_SELECTOR)
-    ?.addEventListener("click", manualSetupPanelClose);
+    ?.addEventListener("click", manualSetupActionsPanelClose);
 
   document
     .querySelector(MANUAL_SETUP_PANEL_SELECTOR)
@@ -46,7 +34,7 @@ function manualSetupInit() {
     });
 
   document.querySelector(MANUAL_SETUP_FORM_SELECTOR)?.addEventListener("submit", (event) => {
-    void manualSetupFormSubmit(event);
+    void manualSetupActionsFormSubmit(event);
   });
 
   const form = document.querySelector(MANUAL_SETUP_FORM_SELECTOR);
@@ -64,15 +52,17 @@ function manualSetupInit() {
       button.classList.toggle("is-active", button.dataset.otpType !== "hotp");
       button.addEventListener("click", (event) => {
         event.preventDefault();
-        manualSetupTypeSwitch(button.dataset.otpType);
+        manualSetupActionsTypeSwitch(button.dataset.otpType);
       });
     });
   }
 }
 
-export const manualSetupSection = {
-  init: manualSetupInit,
-  open: manualSetupPanelOpen,
-  close: manualSetupPanelClose,
-  isActive: manualSetupIsActive,
-};
+export { manualSetupActionsFormSubmit } from "./actions/form/submit.js";
+export { manualSetupActionsPanelClose } from "./actions/panel/close.js";
+export { manualSetupActionsPanelOpen } from "./actions/panel/open.js";
+export { manualSetupActionsTypeSwitch } from "./actions/type/switch.js";
+export { manualSetupAnimationClose } from "./animation/close.js";
+export { manualSetupAnimationOpen } from "./animation/open.js";
+export { manualSetupAnimationSubmit } from "./animation/submit.js";
+export { manualSetupInit };

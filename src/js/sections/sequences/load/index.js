@@ -1,10 +1,10 @@
-﻿import { bodyAnimationFinish } from "../../body/index.js";
-import { bodyAnimationPrepare } from "../../body/index.js";
-import { bodyAnimationRun } from "../../body/index.js";
-import { headerAnimationFinish } from "../../header/index.js";
-import { headerAnimationPrepare } from "../../header/index.js";
-import { headerAnimationRun } from "../../header/index.js";
-import { searchAnimationFinish } from "../../search/index.js";
+﻿import { bodyAnimationInstant } from "../../body/index.js";
+import { bodyAnimationReset } from "../../body/index.js";
+import { bodyAnimationStart } from "../../body/index.js";
+import { headerAnimationInstant } from "../../header/index.js";
+import { headerAnimationReset } from "../../header/index.js";
+import { headerAnimationStart } from "../../header/index.js";
+import { searchAnimationInstant } from "../../search/index.js";
 import { searchAnimationPrepare } from "../../search/index.js";
 import { searchAnimationRun } from "../../search/index.js";
 import { loadAnimationFinish } from "./animations/finish.js";
@@ -18,23 +18,36 @@ import { INTRO_ACTIVE_CLASS } from "../constants.js";
 import { INTRO_ROOT_SELECTOR } from "../constants.js";
 
 /** Runs the one-time load sequence after bootstrap accountsRestore has finished. */
-async function loadAnimationRun(isSignedIn) {
+async function loadAnimationRun(isSignedIn, options = {}) {
+  const { skipIntro = false } = options;
   const intro = document.querySelector(INTRO_ROOT_SELECTOR);
 
   if (!intro) {
     return;
   }
 
+  if (skipIntro) {
+    loadAnimationFinish();
+    headerAnimationInstant();
+    bodyAnimationInstant();
+
+    if (isSignedIn) {
+      searchAnimationInstant();
+    }
+
+    return;
+  }
+
   intro.classList.add(INTRO_ACTIVE_CLASS);
-  headerAnimationPrepare("load");
+  headerAnimationReset();
 
   await loadAnimationLogo();
 
-  bodyAnimationPrepare("load");
+  bodyAnimationReset();
 
   await loadAnimationShrinkFrame();
   await loadAnimationShrinkHeader();
-  await headerAnimationRun("load");
+  await headerAnimationStart();
 
   if (isSignedIn) {
     searchAnimationPrepare("load");
@@ -44,7 +57,7 @@ async function loadAnimationRun(isSignedIn) {
 
   await loadAnimationShrinkBody();
   loadAnimationFinish();
-  await bodyAnimationRun("load");
+  await bodyAnimationStart();
 }
 
 export { loadAnimationRun };

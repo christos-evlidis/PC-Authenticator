@@ -4,24 +4,29 @@ import { workerStorageStoreSuccess } from "../storage/store/success.js";
 
 /** Decodes a cropped selection and stores the scan result. */
 async function workerHandleSelection(message) {
-  if (message.error) {
-    await workerStorageStoreFailure(message.error);
+  try {
+    if (message.error) {
+      await workerStorageStoreFailure(message.error);
+      return { success: true };
+    }
+
+    const result = workerCodexDecode(
+      message.imageData,
+      message.width,
+      message.height,
+    );
+
+    if (result) {
+      await workerStorageStoreSuccess(result.data);
+    } else {
+      await workerStorageStoreFailure("No QR code found in the selected area.");
+    }
+
     return { success: true };
+  } catch (error) {
+    console.warn("[scan-handle] workerHandleSelection failed", error);
+    throw error;
   }
-
-  const result = workerCodexDecode(
-    message.imageData,
-    message.width,
-    message.height,
-  );
-
-  if (result) {
-    await workerStorageStoreSuccess(result.data);
-  } else {
-    await workerStorageStoreFailure("No QR code found in the selected area.");
-  }
-
-  return { success: true };
 }
 
 export { workerHandleSelection };

@@ -16,11 +16,11 @@ async function authChromeApply(options = {}) {
 
   if (options.applyExtensionChrome !== false) {
     if (options.applyHeader !== false) {
-      cross.header?.apply(isSignedIn);
+      cross.header?.init(isSignedIn);
     }
 
     if (options.applyBody !== false) {
-      cross.body?.apply(isSignedIn, { hasAccounts: options.hasAccounts });
+      cross.body?.init(isSignedIn, { hasAccounts: options.hasAccounts });
     }
   }
 

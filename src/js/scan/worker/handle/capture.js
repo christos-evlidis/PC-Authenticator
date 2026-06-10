@@ -4,13 +4,13 @@ import { workerTabResolve } from "../tab/resolve.js";
 
 /** Captures the visible tab for content-script cropping. */
 async function workerHandleCapture() {
-  const { tab, error } = await workerTabResolve();
-
-  if (!tab) {
-    return { success: false, error };
-  }
-
   try {
+    const { tab, error } = await workerTabResolve();
+
+    if (!tab) {
+      return { success: false, error };
+    }
+
     const imageData = await workerTabCapture(tab.windowId);
 
     if (!imageData) {
@@ -18,9 +18,11 @@ async function workerHandleCapture() {
     }
 
     return { success: true, imageData };
-  } catch (caught) {
+  } catch (error) {
+    console.warn("[scan-handle] workerHandleCapture failed", error);
+
     const message =
-      caught instanceof Error ? caught.message : String(caught ?? "");
+      error instanceof Error ? error.message : String(error ?? "");
     const detail = message
       ? `${START_FAILED_ERROR} (${message})`
       : START_FAILED_ERROR;

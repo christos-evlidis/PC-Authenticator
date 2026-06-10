@@ -1,25 +1,45 @@
 ﻿import { cross } from "./section-cross.js";
-import { bodyApply } from "./body/index.js";
-import { headerApply } from "./header/index.js";
+import { bodyInit } from "./body/index.js";
+import { headerInit } from "./header/index.js";
 import { searchApply, searchInit, searchReset } from "./search/index.js";
 import { userMenuApply } from "./user-menu/index.js";
 import { userMenuInit } from "./user-menu/index.js";
-import { manualSetupSection } from "./manual-setup/index.js";
-import { qrCodeSetupSection } from "./qr-code-setup/index.js";
+import {
+  manualSetupActionsPanelClose,
+  manualSetupActionsPanelOpen,
+  manualSetupInit,
+} from "./manual-setup/index.js";
+import {
+  qrSetupActionsPanelClose,
+  qrSetupActionsPanelOpen,
+  qrSetupActionsScanStart,
+  qrSetupHandlePending,
+  qrSetupInit,
+} from "./qr-code-setup/index.js";
 
 /** Wires cross-section APIs before bootstrap runs. */
 export function registerSections() {
-  cross.header = { apply: headerApply };
-  cross.body = { apply: bodyApply };
+  cross.header = { init: headerInit };
+  cross.body = { init: bodyInit };
   cross.search = { apply: searchApply, init: searchInit, reset: searchReset };
   cross.userMenu = { apply: userMenuApply };
-  cross.manualSetup = manualSetupSection;
-  cross.qrCodeSetup = qrCodeSetupSection;
+  cross.manualSetup = {
+    init: manualSetupInit,
+    open: manualSetupActionsPanelOpen,
+    close: manualSetupActionsPanelClose,
+  };
+  cross.qrCodeSetup = {
+    init: qrSetupInit,
+    open: qrSetupActionsPanelOpen,
+    close: qrSetupActionsPanelClose,
+    workerStartScan: qrSetupActionsScanStart,
+    processPendingScan: qrSetupHandlePending,
+  };
 }
 
 export function initSectionModules() {
   userMenuInit();
   searchInit();
-  manualSetupSection.init();
-  qrCodeSetupSection.init();
+  manualSetupInit();
+  qrSetupInit();
 }

@@ -72,6 +72,7 @@ async function searchAnimationRun(mode) {
 }
 
 export { searchAnimationFinish } from "./animations/finish.js";
+export { searchAnimationInstant } from "./animations/instant.js";
 export { searchFilterApply } from "./actions/filter.js";
 export { searchReset } from "./actions/reset.js";
 export { searchInit };

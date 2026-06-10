@@ -43,7 +43,8 @@ function workerScriptInit() {
           result ?? { success: false, error: UNSUPPORTED_PAGE_ERROR },
         );
       })
-      .catch(() => {
+      .catch((error) => {
+        console.warn("[scan-worker] message handler failed", error);
         sendResponse({ success: false, error: UNSUPPORTED_PAGE_ERROR });
       });
 

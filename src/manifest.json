@@ -39,6 +39,7 @@
         "js/scan/content/overlay/create.js",
         "js/scan/content/overlay/remove.js",
         "js/scan/content/overlay/start.js",
+        "js/scan/content/overlay/state/store.js",
         "js/scan/content/screenshot/load.js",
         "js/scan/content/screenshot/capture.js",
         "js/scan/content/screenshot/crop.js"
