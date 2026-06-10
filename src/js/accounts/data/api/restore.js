@@ -1,6 +1,5 @@
 import { AUTH_API_BASE_URL } from "../../constants.js";
 
-/** Downloads the latest backup payload for an account. */
 async function dataApiRestore(authNumber) {
   try {
     const response = await fetch(`${AUTH_API_BASE_URL}/restore-accounts`, {

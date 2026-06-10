@@ -1,6 +1,5 @@
-﻿import { workerTabResolve } from "../tab/resolve.js";
+import { workerTabResolve } from "../tab/resolve.js";
 
-/** Reports which tab would be used for scanning (debug/QA). */
 async function workerHandleTarget() {
   try {
     const { tab, error, detectedUrl } = await workerTabResolve();

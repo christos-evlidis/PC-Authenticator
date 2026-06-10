@@ -1,8 +1,7 @@
-﻿import { workerCodexDecode } from "../codex/decode.js";
+import { workerCodexDecode } from "../codex/decode.js";
 import { workerStorageStoreFailure } from "../storage/store/failure.js";
 import { workerStorageStoreSuccess } from "../storage/store/success.js";
 
-/** Decodes a cropped selection and stores the scan result. */
 async function workerHandleSelection(message) {
   try {
     if (message.error) {

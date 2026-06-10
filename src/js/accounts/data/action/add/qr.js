@@ -3,12 +3,11 @@ import { dataHandleMerge } from "../../handle/merge.js";
 import { dataHandleRestore } from "../../handle/restore.js";
 import { dataParseQr } from "../../parse/qr.js";
 import { dataRecordBuildFinal } from "../../record/build/final.js";
+import { dataStorageMergedClear } from "../../storage/merged/clear.js";
 import { dataStoragePendingAppend } from "../../storage/pending/append.js";
 import { dataStoragePendingClear } from "../../storage/pending/clear.js";
-import { dataStorageMergedClear } from "../../storage/merged/clear.js";
 import { dataStorageRestoredClear } from "../../storage/restored/clear.js";
 
-/** Adds an account from a scanned otpauth URI, merges with cloud dataBackup, and syncs. */
 async function dataActionAddQr(authNumber, otpauthUri) {
   try {
     const parsed = dataParseQr(otpauthUri);

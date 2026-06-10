@@ -1,9 +1,8 @@
-import { DATA_KEY_RESTORED } from "../../../constants.js";
+import { dataRestored } from "../../../constants.js";
 
-/** Writes the decrypted cloud restore cache. */
 async function dataStorageRestoredSet(accounts) {
   try {
-    await chrome.storage.local.set({ [DATA_KEY_RESTORED]: accounts });
+    await chrome.storage.local.set({ [dataRestored]: accounts });
   } catch (error) {
     console.warn("[data-storage] dataStorageRestoredSet failed", error);
     throw error;

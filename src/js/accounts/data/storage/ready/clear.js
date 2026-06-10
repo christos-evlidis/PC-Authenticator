@@ -1,6 +1,5 @@
 import { DATA_KEY_FINAL } from "../../../constants.js";
 
-/** Clears the final (active) account list from local storage. */
 async function dataStorageReadyClear() {
   try {
     await chrome.storage.local.remove([DATA_KEY_FINAL]);

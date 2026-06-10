@@ -1,7 +1,6 @@
 import { dataCodeCounter } from "./counter.js";
 import { dataRecordSanitizeSecret } from "../record/sanitize/secret.js";
 
-/** Generates a TOTP or HOTP code for the given secret and options. */
 function dataCodeGenerate(secret, options) {
   try {
     const sanitized = dataRecordSanitizeSecret(secret);

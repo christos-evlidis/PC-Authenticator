@@ -1,4 +1,3 @@
-﻿/** Serializes accounts to JSON and encrypts them with the auth number as key. */
 function dataCryptoEncrypt(accounts, authNumber) {
   try {
     const accountsJson = JSON.stringify(accounts);

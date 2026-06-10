@@ -1,10 +1,9 @@
 import { dataRecordSanitizeList } from "../record/sanitize/list.js";
-import { dataStorageReadyGet } from "../storage/ready/get.js";
 import { dataStorageMergedSet } from "../storage/merged/set.js";
 import { dataStoragePendingGet } from "../storage/pending/get.js";
+import { dataStorageReadyGet } from "../storage/ready/get.js";
 import { dataStorageRestoredGet } from "../storage/restored/get.js";
 
-/** Merges dataRestored + dataReady + dataPending and persists the result to dataMerged. */
 async function dataHandleMerge(authNumber, options = {}) {
   try {
     const restored = dataRecordSanitizeList(

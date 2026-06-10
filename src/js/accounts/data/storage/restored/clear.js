@@ -1,9 +1,8 @@
-import { DATA_KEY_RESTORED } from "../../../constants.js";
+import { dataRestored } from "../../../constants.js";
 
-/** Clears the decrypted cloud restore cache. */
 async function dataStorageRestoredClear() {
   try {
-    await chrome.storage.local.remove([DATA_KEY_RESTORED]);
+    await chrome.storage.local.remove([dataRestored]);
   } catch (error) {
     console.warn("[data-storage] dataStorageRestoredClear failed", error);
     throw error;

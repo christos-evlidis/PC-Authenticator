@@ -1,4 +1,3 @@
-/** Returns TOTP timer state for the countdown UI. */
 function dataCodeClock(options) {
   try {
     const period = options.period;

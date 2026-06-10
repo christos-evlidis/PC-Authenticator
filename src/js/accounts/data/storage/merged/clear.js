@@ -1,9 +1,8 @@
-import { DATA_KEY_MERGED } from "../../../constants.js";
+import { dataMerged } from "../../../constants.js";
 
-/** Clears the merged account list. */
 async function dataStorageMergedClear() {
   try {
-    await chrome.storage.local.remove([DATA_KEY_MERGED]);
+    await chrome.storage.local.remove([dataMerged]);
   } catch (error) {
     console.warn("[data-storage] dataStorageMergedClear failed", error);
     throw error;

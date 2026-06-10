@@ -1,4 +1,3 @@
-﻿/** Resolves after the given number of milliseconds. */
 function animDelay(ms) {
   return new Promise((resolve) => {
     window.setTimeout(resolve, ms);
@@ -141,11 +140,11 @@ async function animPhasePlay(
   element.classList.remove(activeClass);
 }
 
-export { animDelay };
-export { animFrameWait };
-export { animCssMsGet };
-export { animFrameMetricsGet };
-export { animTransitionEndWait };
 export { animAnimationEndWait };
-export { animPhaseReset };
+export { animCssMsGet };
+export { animDelay };
+export { animFrameMetricsGet };
+export { animFrameWait };
 export { animPhasePlay };
+export { animPhaseReset };
+export { animTransitionEndWait };

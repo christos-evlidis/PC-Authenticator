@@ -1,14 +1,13 @@
 import { dataRecordBuildIssuer } from "../record/build/issuer.js";
 import { dataRecordSanitizeSecret } from "../record/sanitize/secret.js";
 
-import { DATA_OTP_ALGORITHM_DEFAULT } from "../../constants.js";
 import { DATA_HOTP_COUNTER_DEFAULT } from "../../constants.js";
-import { DATA_OTP_TYPE_HOTP } from "../../constants.js";
+import { DATA_OTP_ALGORITHM_DEFAULT } from "../../constants.js";
 import { DATA_OTP_DIGITS } from "../../constants.js";
 import { DATA_OTP_PERIOD } from "../../constants.js";
+import { DATA_OTP_TYPE_HOTP } from "../../constants.js";
 import { DATA_OTP_TYPE_TOTP } from "../../constants.js";
 
-/** Parses manual setup form fields into account fields. */
 function dataParseManual({ name, secret, email, type }) {
   try {
     const sanitizedName = dataRecordBuildIssuer(name);

@@ -1,4 +1,3 @@
-﻿/** Loads a screenshot data URL into an Image element. */
 function contentScreenshotLoad(dataUrl) {
   const img = new Image();
 

@@ -1,13 +1,12 @@
 import { dataRecordSanitizeName } from "../record/sanitize/name.js";
 import { dataRecordSanitizeSecret } from "../record/sanitize/secret.js";
 
-import { DATA_OTP_ALGORITHM_DEFAULT } from "../../constants.js";
 import { DATA_HOTP_COUNTER_DEFAULT } from "../../constants.js";
-import { DATA_OTP_TYPE_HOTP } from "../../constants.js";
+import { DATA_OTP_ALGORITHM_DEFAULT } from "../../constants.js";
 import { DATA_OTP_DIGITS } from "../../constants.js";
 import { DATA_OTP_PERIOD } from "../../constants.js";
+import { DATA_OTP_TYPE_HOTP } from "../../constants.js";
 
-/** Parses a scanned QR otpauth URI into account fields. */
 function dataParseQr(uri) {
   try {
     let raw = String(uri).trim();

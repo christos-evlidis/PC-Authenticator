@@ -1,4 +1,3 @@
-﻿/** Resolves the browser tab to scan (not the extension popup). */
 async function workerTabResolve() {
   try {
     let detectedUrl = "(no tab found)";

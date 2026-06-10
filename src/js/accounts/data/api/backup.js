@@ -1,6 +1,5 @@
 import { AUTH_API_BASE_URL } from "../../constants.js";
 
-/** Uploads an encrypted accounts blob, replacing any previous backup. */
 async function dataApiBackup(authNumber, encryptedAccounts) {
   try {
     const response = await fetch(`${AUTH_API_BASE_URL}/backup-accounts`, {

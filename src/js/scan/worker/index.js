@@ -1,14 +1,14 @@
-﻿import { MESSAGES } from "../constants.js";
-import { UNSUPPORTED_PAGE_ERROR } from "../constants.js";
-import { workerStoragePendingClear } from "./storage/pending/clear.js";
-import { workerStoragePendingGet } from "./storage/pending/get.js";
 import { workerHandleAbort } from "./handle/abort.js";
 import { workerHandleCapture } from "./handle/capture.js";
-import { workerHandleTarget } from "./handle/target.js";
 import { workerHandleSelection } from "./handle/selection.js";
 import { workerHandleStart } from "./handle/start.js";
+import { workerHandleTarget } from "./handle/target.js";
+import { workerStoragePendingClear } from "./storage/pending/clear.js";
+import { workerStoragePendingGet } from "./storage/pending/get.js";
 
-/** Registers background worker runtime message routing. */
+import { MESSAGES } from "../constants.js";
+import { UNSUPPORTED_PAGE_ERROR } from "../constants.js";
+
 function workerScriptInit() {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     const { action } = message;
@@ -55,8 +55,3 @@ function workerScriptInit() {
 workerScriptInit();
 
 export { workerScriptInit };
-export { workerHandleTarget } from "./handle/target.js";
-export { workerHandleStart } from "./handle/start.js";
-export { workerHandleCapture } from "./handle/capture.js";
-export { workerHandleSelection } from "./handle/selection.js";
-export { workerHandleAbort } from "./handle/abort.js";

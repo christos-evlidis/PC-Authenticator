@@ -5,7 +5,6 @@ import { dataRecordSanitizeList } from "../record/sanitize/list.js";
 import { dataStorageRestoredClear } from "../storage/restored/clear.js";
 import { dataStorageRestoredSet } from "../storage/restored/set.js";
 
-/** Fetches cloud backup, decrypts when needed, and caches under restored. */
 async function dataHandleRestore(authNumber) {
   let result;
   try {

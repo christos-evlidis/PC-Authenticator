@@ -1,6 +1,5 @@
-﻿import { CONTENT_INDEX_PATH } from "../../constants.js";
+import { CONTENT_INDEX_PATH } from "../../constants.js";
 
-/** Injects scan content modules and registers listeners when a scan starts. */
 async function workerTabInject(tabId) {
   try {
     const [result] = await chrome.scripting.executeScript({

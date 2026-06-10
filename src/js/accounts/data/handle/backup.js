@@ -1,10 +1,9 @@
 import { dataApiBackup } from "../api/backup.js";
 import { dataCryptoEncrypt } from "../crypto/encrypt.js";
 import { dataRecordSanitizeList } from "../record/sanitize/list.js";
-import { dataStorageReadySet } from "../storage/ready/set.js";
 import { dataStorageMergedGet } from "../storage/merged/get.js";
+import { dataStorageReadySet } from "../storage/ready/set.js";
 
-/** Encrypts merged, uploads to cloud, then saves the decrypted list to dataReady. */
 async function dataHandleBackup(authNumber) {
   try {
     const merged = dataRecordSanitizeList(

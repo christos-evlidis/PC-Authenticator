@@ -4,8 +4,8 @@ export const AUTH_NUMBER_LENGTH = 24;
 
 export const DATA_KEY_FINAL = "dataReady";
 export const DATA_KEY_PENDING = "dataPending";
-export const DATA_KEY_RESTORED = "restored";
-export const DATA_KEY_MERGED = "merged";
+export const dataRestored = "dataRestored";
+export const dataMerged = "dataMerged";
 
 export const DATA_KEY_LEGACY = [
   "dataManual",

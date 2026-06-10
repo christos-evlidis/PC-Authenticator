@@ -10,6 +10,15 @@
     --qr-setup-slide-ms: 250ms;
     --qr-setup-animation-timeout-buffer-ms: 32ms;
     --qr-setup-close-btn-accent-ms: 250ms;
+    --qr-setup-resume-fade-ms: 250ms;
+    --qr-setup-resume-expand-up-ms: 250ms;
+    --qr-setup-resume-expand-full-ms: 150ms;
+    --qr-setup-resume-dots-fade-in-ms: 250ms;
+    --qr-setup-resume-dots-run-ms: 2000ms;
+    --qr-setup-resume-dots-fade-out-ms: 250ms;
+    --qr-setup-resume-result-draw-ms: 1000ms;
+    --qr-setup-resume-result-fade-out-ms: 250ms;
+    --login-check-draw-duration: var(--qr-setup-resume-result-draw-ms);
 }
 
 .qr-setup {
@@ -234,4 +243,81 @@ body.is-auth-flow-locked .qr-setup.is-panel-open .qr-setup__backdrop {
 .app-header__scan-qr-btn.is-qr-setup-btn-active {
     background: var(--header-accent-hover);
     color: var(--header-icon-hover);
+}
+
+.qr-setup__header,
+.qr-setup__guide {
+    transition:
+        opacity var(--qr-setup-resume-fade-ms, 250ms) ease,
+        visibility var(--qr-setup-resume-fade-ms, 250ms) ease;
+}
+
+.qr-setup__panel:is(.is-resume-fade) .qr-setup__header,
+.qr-setup__panel:is(.is-resume-fade) .qr-setup__guide {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity var(--qr-setup-resume-fade-ms, 250ms) ease !important;
+}
+
+.qr-setup__panel.is-resume-running:not(.is-resume-fade) .qr-setup__header,
+.qr-setup__panel.is-resume-running:not(.is-resume-fade) .qr-setup__guide {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.qr-setup__status .login-status:is(.is-resume-dots-fade-in) {
+    visibility: visible;
+    animation: loginStatusFadeIn var(--qr-setup-resume-dots-fade-in-ms) ease forwards;
+}
+
+.qr-setup__status .login-status:is(.is-resume-dots-fade-out) {
+    visibility: visible;
+    opacity: 1;
+    animation: loginStatusFadeOut var(--qr-setup-resume-dots-fade-out-ms) ease forwards;
+}
+
+.qr-setup__status .login-status:is(.is-resume-dots-run) {
+    visibility: visible;
+    opacity: 1;
+}
+
+.qr-setup__status .login-status:is(.is-resume-result-draw) {
+    visibility: visible;
+    opacity: 1;
+}
+
+.qr-setup__status .login-status:is(.is-resume-result-fade-out) {
+    animation: loginStatusFadeOut var(--qr-setup-resume-result-fade-out-ms) ease forwards;
+}
+
+.qr-setup__content.is-resume-absolute {
+    position: absolute;
+    top: var(--sign-in-origin-top);
+    left: var(--sign-in-origin-left);
+    width: var(--sign-in-origin-width);
+    height: var(--sign-in-origin-height);
+    z-index: 2;
+    margin: 0;
+}
+
+.qr-setup__content.is-resume-expand-up {
+    animation: signInExpandUp var(--qr-setup-resume-expand-up-ms, 250ms) ease forwards;
+}
+
+.qr-setup__content.is-resume-expand-full {
+    animation: signInExpandFull var(--qr-setup-resume-expand-full-ms, 150ms) ease forwards;
+}
+
+.qr-setup__panel.is-resume-running {
+    overflow: visible;
+}
+
+.qr-setup__panel.is-resume-running .qr-setup__content {
+    overflow: hidden;
+}
+
+.qr-setup.is-resume-locked .qr-setup__backdrop {
+    pointer-events: auto;
+    cursor: default;
 }

@@ -1,4 +1,4 @@
-﻿export const MESSAGES = {
+export const MESSAGES = {
   PING: "ping",
   START_OVERLAY: "startQRScan",
   CANCEL_OVERLAY: "cancelQRScan",

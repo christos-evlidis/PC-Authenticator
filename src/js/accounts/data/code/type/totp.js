@@ -1,6 +1,5 @@
 import { DATA_OTP_TYPE_TOTP } from "../../../constants.js";
 
-/** Returns whether the account uses TOTP (time-based). */
 function dataCodeTypeTotp(account) {
   try {
     return account.type === DATA_OTP_TYPE_TOTP;

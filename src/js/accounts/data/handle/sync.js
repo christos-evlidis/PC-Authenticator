@@ -1,15 +1,14 @@
-import { dataRecordSanitizeList } from "../record/sanitize/list.js";
-import { dataStorageReadyGet } from "../storage/ready/get.js";
-import { dataStorageReadySet } from "../storage/ready/set.js";
-import { dataStoragePendingClear } from "../storage/pending/clear.js";
-import { dataStoragePendingGet } from "../storage/pending/get.js";
-import { dataStorageMergedClear } from "../storage/merged/clear.js";
-import { dataStorageRestoredClear } from "../storage/restored/clear.js";
-import { dataStorageRestoredGet } from "../storage/restored/get.js";
 import { dataHandleMerge } from "./merge.js";
 import { dataHandleRestore } from "./restore.js";
+import { dataRecordSanitizeList } from "../record/sanitize/list.js";
+import { dataStorageMergedClear } from "../storage/merged/clear.js";
+import { dataStoragePendingClear } from "../storage/pending/clear.js";
+import { dataStoragePendingGet } from "../storage/pending/get.js";
+import { dataStorageReadyGet } from "../storage/ready/get.js";
+import { dataStorageReadySet } from "../storage/ready/set.js";
+import { dataStorageRestoredClear } from "../storage/restored/clear.js";
+import { dataStorageRestoredGet } from "../storage/restored/get.js";
 
-/** Restores from cloud, merges pending adds when present, and refreshes dataReady. */
 async function dataHandleSync(authNumber) {
   try {
     const result = await dataHandleRestore(authNumber);

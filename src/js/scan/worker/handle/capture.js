@@ -1,8 +1,8 @@
-﻿import { START_FAILED_ERROR } from "../../constants.js";
 import { workerTabCapture } from "../tab/capture.js";
 import { workerTabResolve } from "../tab/resolve.js";
 
-/** Captures the visible tab for content-script cropping. */
+import { START_FAILED_ERROR } from "../../constants.js";
+
 async function workerHandleCapture() {
   try {
     const { tab, error } = await workerTabResolve();

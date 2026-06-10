@@ -1,6 +1,5 @@
 import { AUTH_API_BASE_URL } from "../../constants.js";
 
-/** Confirms that an account number exists on the server. */
 async function authApiVerify(authNumber) {
   try {
     const response = await fetch(`${AUTH_API_BASE_URL}/verify-account`, {

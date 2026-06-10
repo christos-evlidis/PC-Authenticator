@@ -1,9 +1,8 @@
-import { DATA_KEY_MERGED } from "../../../constants.js";
+import { dataMerged } from "../../../constants.js";
 
-/** Writes the merged (unencrypted) account list. */
 async function dataStorageMergedSet(accounts) {
   try {
-    await chrome.storage.local.set({ [DATA_KEY_MERGED]: accounts });
+    await chrome.storage.local.set({ [dataMerged]: accounts });
   } catch (error) {
     console.warn("[data-storage] dataStorageMergedSet failed", error);
     throw error;

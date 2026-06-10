@@ -1,4 +1,3 @@
-﻿/** Crops a region from a screenshot image using device-pixel coordinates. */
 function contentScreenshotCrop(img, selection) {
   const dpr = window.devicePixelRatio || 1;
   const sx = Math.round(selection.x * dpr);

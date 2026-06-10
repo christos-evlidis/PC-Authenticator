@@ -1,6 +1,5 @@
 import { workerStoragePendingSet } from "../pending/set.js";
 
-/** Stores a scan error and reopens the extension popup. */
 async function workerStorageStoreFailure(message) {
   try {
     await workerStoragePendingSet({

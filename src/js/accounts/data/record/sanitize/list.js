@@ -1,4 +1,3 @@
-/** Coerces backup/pending/restore payloads into an account array. */
 function dataRecordSanitizeList(value) {
   try {
     if (value == null) {

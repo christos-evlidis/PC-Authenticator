@@ -1,10 +1,10 @@
-﻿import { MESSAGES } from "../../constants.js";
-import { START_FAILED_ERROR } from "../../constants.js";
-import { messageContent } from "../../message/index.js";
+import { messageContent } from "../../message/content.js";
 import { workerTabInject } from "../tab/inject.js";
 import { workerTabResolve } from "../tab/resolve.js";
 
-/** Starts the overlay selection flow on the active tab. */
+import { MESSAGES } from "../../constants.js";
+import { START_FAILED_ERROR } from "../../constants.js";
+
 async function workerHandleStart() {
   try {
     const { tab, error } = await workerTabResolve();

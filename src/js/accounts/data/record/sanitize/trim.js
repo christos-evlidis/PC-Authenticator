@@ -1,4 +1,3 @@
-/** Trims control characters and caps display names at 64 characters. */
 function dataRecordSanitizeTrim(name) {
   try {
     const trimmed = String(name)

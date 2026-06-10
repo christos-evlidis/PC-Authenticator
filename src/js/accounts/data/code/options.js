@@ -1,6 +1,5 @@
 import { DATA_OTP_TYPE_HOTP } from "../../constants.js";
 
-/** Builds the option object passed into code generation for a stored account. */
 function dataCodeOptions(account) {
   try {
     const options = {

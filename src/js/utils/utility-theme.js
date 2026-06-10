@@ -1,4 +1,4 @@
-﻿import { animDelay } from "./utility-animation.js";
+import { animDelay } from "./utility-animation.js";
 
 const THEME_LIGHT = "light";
 const THEME_DARK = "dark";
@@ -181,16 +181,15 @@ function themeStartupApply() {
   themeApply(themeGet(), { instant: true });
 }
 
-export { themeGet };
 export { themeApply };
-export { themePersist };
 export { themeChromeStorageSync };
+export { themeGet };
+export { themePersist };
 export { themeStartupApply };
-
-export { THEME_LIGHT };
 export { THEME_DARK };
-export { THEME_STORAGE_KEY };
-export { THEME_TRANSITION_MS };
+export { THEME_ICON_SIZE_128 };
 export { THEME_ICON_SIZE_16 };
 export { THEME_ICON_SIZE_48 };
-export { THEME_ICON_SIZE_128 };
+export { THEME_LIGHT };
+export { THEME_STORAGE_KEY };
+export { THEME_TRANSITION_MS };

@@ -1,11 +1,10 @@
-import { DATA_OTP_ALGORITHM_DEFAULT } from "../../../constants.js";
 import { DATA_HOTP_COUNTER_DEFAULT } from "../../../constants.js";
-import { DATA_OTP_TYPE_HOTP } from "../../../constants.js";
+import { DATA_OTP_ALGORITHM_DEFAULT } from "../../../constants.js";
 import { DATA_OTP_DIGITS } from "../../../constants.js";
 import { DATA_OTP_PERIOD } from "../../../constants.js";
+import { DATA_OTP_TYPE_HOTP } from "../../../constants.js";
 import { DATA_OTP_TYPE_TOTP } from "../../../constants.js";
 
-/** Turns parsed OTP fields into a storable account object. */
 function dataRecordBuildFinal({
   name,
   secret,

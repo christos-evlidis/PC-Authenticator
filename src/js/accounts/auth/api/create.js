@@ -1,6 +1,5 @@
 import { AUTH_API_BASE_URL } from "../../constants.js";
 
-/** Creates a new user account and returns its 24-digit account number. */
 async function authApiCreate() {
   try {
     const response = await fetch(`${AUTH_API_BASE_URL}/create-account`, {

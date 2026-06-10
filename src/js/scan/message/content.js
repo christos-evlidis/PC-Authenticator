@@ -1,4 +1,3 @@
-/** Sends an action message from the service worker to a tab content script. */
 async function messageContent(tabId, action) {
   try {
     const response = await chrome.tabs.sendMessage(tabId, { action });

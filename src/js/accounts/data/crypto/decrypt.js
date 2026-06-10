@@ -1,4 +1,3 @@
-﻿/** Decrypts a dataBackup blob and parses the account list inside. */
 function dataCryptoDecrypt(encryptedData, authNumber) {
   try {
     const decrypted = CryptoJS.AES.decrypt(encryptedData, authNumber);

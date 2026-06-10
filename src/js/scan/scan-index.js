@@ -1,8 +1,8 @@
-﻿import { MESSAGES } from "./constants.js";
-import { UNSUPPORTED_PAGE_ERROR } from "./constants.js";
-import { messageWorker } from "./message/index.js";
+import { messageWorker } from "./message/worker.js";
 
-/** Starts the QR scan overlay on the active tab. */
+import { MESSAGES } from "./constants.js";
+import { UNSUPPORTED_PAGE_ERROR } from "./constants.js";
+
 async function scanStart() {
   try {
     return await messageWorker({ action: MESSAGES.START });
@@ -45,9 +45,7 @@ async function scanPendingClear() {
   }
 }
 
-export { scanStart };
 export { scanCancel };
-export { scanPendingGet };
 export { scanPendingClear };
-export { UNSUPPORTED_PAGE_ERROR } from "./constants.js";
-export { MESSAGES } from "./constants.js";
+export { scanPendingGet };
+export { scanStart };

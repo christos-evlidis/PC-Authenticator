@@ -1,8 +1,8 @@
-﻿import { MESSAGES } from "../constants.js";
 import { contentOverlayRemove } from "./overlay/remove.js";
 import { contentOverlayStart } from "./overlay/start.js";
 
-/** Registers scan listeners when content is injected on a tab. */
+import { MESSAGES } from "../constants.js";
+
 function contentScriptInit() {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (message.action === MESSAGES.PING) {
@@ -27,5 +27,3 @@ function contentScriptInit() {
 }
 
 export { contentScriptInit };
-export { contentOverlayStart } from "./overlay/start.js";
-export { contentOverlayRemove } from "./overlay/remove.js";

@@ -2,14 +2,13 @@ import { dataHandleBackup } from "../handle/backup.js";
 import { dataHandleRestore } from "../handle/restore.js";
 import { dataHandleSync } from "../handle/sync.js";
 import { dataRecordSanitizeList } from "../record/sanitize/list.js";
-import { dataStorageReadyGet } from "../storage/ready/get.js";
+import { dataStorageMergedClear } from "../storage/merged/clear.js";
 import { dataStorageMergedSet } from "../storage/merged/set.js";
 import { dataStoragePendingClear } from "../storage/pending/clear.js";
-import { dataStorageMergedClear } from "../storage/merged/clear.js";
-import { dataStorageRestoredGet } from "../storage/restored/get.js";
+import { dataStorageReadyGet } from "../storage/ready/get.js";
 import { dataStorageRestoredClear } from "../storage/restored/clear.js";
+import { dataStorageRestoredGet } from "../storage/restored/get.js";
 
-/** Deletes an account from dataBackup and refreshes the local active list. */
 async function dataActionRemove(authNumber, accountId) {
   try {
     const deleteId = String(accountId);
