@@ -3,6 +3,7 @@ import { workerTabResolve } from "../tab/resolve.js";
 
 import { START_FAILED_ERROR } from "../../scan-const.js";
 
+/** Captures a screenshot of the resolved scan target tab. */
 async function workerHandleCapture() {
   try {
     const { tab, error } = await workerTabResolve();

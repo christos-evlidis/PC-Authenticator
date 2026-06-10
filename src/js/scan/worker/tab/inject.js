@@ -1,5 +1,6 @@
 import { CONTENT_INDEX_PATH } from "../../scan-const.js";
 
+/** Injects the scan content script into a tab if not already loaded. */
 async function workerTabInject(tabId) {
   try {
     const [result] = await chrome.scripting.executeScript({

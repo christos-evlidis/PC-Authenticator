@@ -1,7 +1,9 @@
+/** Resolves the best scannable tab for QR scanning. */
 async function workerTabResolve() {
   try {
     let detectedUrl = "(no tab found)";
 
+    /** Returns the tab if its URL is scannable, otherwise undefined. */
     const accept = async (tab, source) => {
       const url = tab?.url || tab?.pendingUrl || "";
       if (url) {

@@ -1,3 +1,4 @@
+/** Decrypts encrypted account data with the auth number key. */
 function dataCryptoDecrypt(encryptedData, authNumber) {
   try {
     const decrypted = CryptoJS.AES.decrypt(encryptedData, authNumber);

@@ -5,6 +5,7 @@ import { dataRecordSanitizeList } from "../record/sanitize/list.js";
 import { dataStorageRestoredClear } from "../storage/restored/clear.js";
 import { dataStorageRestoredSet } from "../storage/restored/set.js";
 
+/** Fetches and decrypts remote backup into restored storage. */
 async function dataHandleRestore(authNumber) {
   let result;
   try {

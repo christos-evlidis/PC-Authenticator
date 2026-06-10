@@ -1,5 +1,6 @@
 import { dataRestored } from "../../../accounts-const.js";
 
+/** Reads restored accounts from local storage. */
 async function dataStorageRestoredGet() {
   try {
     const stored = await chrome.storage.local.get([dataRestored]);

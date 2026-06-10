@@ -19,6 +19,7 @@ import { MANUAL_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../manual-setup-co
 import { MANUAL_SETUP_VAR_BLUR_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SLIDE_MS } from "../manual-setup-const.js";
 
+/** Plays the manual-setup panel close animation. */
 async function manualSetupAnimationClose() {
   const runId = MANUAL_SETUP_PANEL_ANIMATION_RUN_ID.value + 1;
   MANUAL_SETUP_PANEL_ANIMATION_RUN_ID.value = runId;

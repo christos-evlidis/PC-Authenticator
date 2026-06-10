@@ -1,9 +1,10 @@
-import { messageContent } from "../../message/message-index.js";
 import { workerStoragePendingClear } from "../storage/pending/clear.js";
 import { workerTabResolve } from "../tab/resolve.js";
 
 import { MESSAGES } from "../../scan-const.js";
+import { messageContent } from "../../message/message-index.js";
 
+/** Aborts an in-progress scan and clears pending storage. */
 async function workerHandleAbort(options = {}) {
   try {
     const { removeTabOverlay = false } = options;

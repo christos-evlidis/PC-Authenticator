@@ -7,6 +7,7 @@ import { DATA_OTP_DIGITS } from "../../accounts-const.js";
 import { DATA_OTP_PERIOD } from "../../accounts-const.js";
 import { DATA_OTP_TYPE_HOTP } from "../../accounts-const.js";
 
+/** Parses an otpauth URI into a normalized account object. */
 function dataParseQr(uri) {
   try {
     let raw = String(uri).trim();

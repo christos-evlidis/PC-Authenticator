@@ -1,19 +1,21 @@
 import { authStorageGet } from "../../../../../accounts/accounts-index.js";
 import { dataActionAddManual } from "../../../../../accounts/accounts-index.js";
+import { codesActionAdd } from "../../../../shell/codes/codes-index.js";
 import { authChromeApply } from "../../../../../utils/utility-auth.js";
-import { codesActionsAdd } from "../../../../shell/codes/codes-index.js";
-import { manualSetupActionsFormEnable } from "./enable.js";
-import { manualSetupActionsFormReset } from "./reset.js";
-import { manualSetupActionsPanelClose } from "../panel/close.js";
+
+import { manualSetupActionFormEnable } from "./enable.js";
+import { manualSetupActionFormReset } from "./reset.js";
+import { manualSetupActionPanelClose } from "../panel/close.js";
+import { manualSetupAnimationSubmitFinish } from "../../animation/finish.js";
 import { manualSetupAnimationSubmit } from "../../animation/submit.js";
-import { manualSetupAnimationSubmitFinish } from "../../animation/submit-finish.js";
 import { manualSetupStateGet } from "../../state/get.js";
 
 import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../manual-setup-const.js";
 import { MANUAL_SETUP_ROOT_SELECTOR } from "../../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMITTING_CLASS } from "../../manual-setup-const.js";
 
-async function manualSetupActionsFormSubmit(event) {
+/** Validates and adds a manual account with submit animation. */
+async function manualSetupActionFormSubmit(event) {
   event.preventDefault();
 
   if (manualSetupStateGet().isSubmitting) {
@@ -54,10 +56,10 @@ async function manualSetupActionsFormSubmit(event) {
   });
 
   if (isSuccess) {
-    manualSetupActionsFormReset(form);
+    manualSetupActionFormReset(form);
 
     if (addedAccount) {
-      await codesActionsAdd(addedAccount);
+      await codesActionAdd(addedAccount);
       await authChromeApply({
         isSignedIn: true,
         hasAccounts: true,
@@ -66,11 +68,11 @@ async function manualSetupActionsFormSubmit(event) {
     }
   }
 
-  manualSetupActionsFormEnable(form);
-  await manualSetupActionsPanelClose();
+  manualSetupActionFormEnable(form);
+  await manualSetupActionPanelClose();
   manualSetupAnimationSubmitFinish();
 
   document.querySelector(MANUAL_SETUP_ROOT_SELECTOR)?.classList.remove(MANUAL_SETUP_SUBMITTING_CLASS);
 }
 
-export { manualSetupActionsFormSubmit };
+export { manualSetupActionFormSubmit };

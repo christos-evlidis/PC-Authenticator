@@ -2,7 +2,7 @@ import { HEADER_BUTTON_SELECTOR } from "../../header-const.js";
 import { HEADER_DISABLED_CLASS } from "../../header-const.js";
 import { HEADER_ROOT_SELECTOR } from "../../header-const.js";
 
-function headerActionsIconsDisable() {
+function headerActionIconsDisable() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
 
   if (header) {
@@ -15,4 +15,4 @@ function headerActionsIconsDisable() {
   });
 }
 
-export { headerActionsIconsDisable };
+export { headerActionIconsDisable };

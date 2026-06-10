@@ -19,6 +19,7 @@ import { QR_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../qr-code-setup-co
 import { QR_SETUP_VAR_BLUR_MS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_VAR_SLIDE_MS } from "../../qr-code-setup-const.js";
 
+/** Plays the QR panel close slide and backdrop fade. */
 async function qrSetupAnimationPanelClose() {
   const runId = QR_SETUP_PANEL_ANIMATION_RUN_ID.value + 1;
   QR_SETUP_PANEL_ANIMATION_RUN_ID.value = runId;

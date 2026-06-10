@@ -4,6 +4,7 @@ import { dataStoragePendingGet } from "../storage/pending/get.js";
 import { dataStorageReadyGet } from "../storage/ready/get.js";
 import { dataStorageRestoredGet } from "../storage/restored/get.js";
 
+/** Merges restored, ready, and pending account lists by ID. */
 async function dataHandleMerge(authNumber, options = {}) {
   try {
     const restored = dataRecordSanitizeList(

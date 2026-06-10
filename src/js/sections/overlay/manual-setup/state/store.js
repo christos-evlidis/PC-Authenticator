@@ -1,6 +1,4 @@
-const manualSetupStateStore = {
+export const manualSetupStateStore = {
   isOpen: false,
   isSubmitting: false,
 };
-
-export { manualSetupStateStore };

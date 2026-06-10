@@ -1,5 +1,6 @@
 import { AUTH_NUMBER_KEY } from "../../accounts-const.js";
 
+/** Persists the auth number to local storage. */
 async function authStorageSet(authNumber) {
   try {
     await chrome.storage.local.set({

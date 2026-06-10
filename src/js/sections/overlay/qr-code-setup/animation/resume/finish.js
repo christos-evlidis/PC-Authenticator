@@ -18,6 +18,7 @@ import { QR_SETUP_STATUS_ERROR_SELECTOR } from "../../qr-code-setup-const.js";
 import { QR_SETUP_STATUS_LOADING_SELECTOR } from "../../qr-code-setup-const.js";
 import { QR_SETUP_STATUS_SUCCESS_SELECTOR } from "../../qr-code-setup-const.js";
 
+/** Tears down resume animation state after panel close. */
 function qrSetupAnimationResumeFinish() {
   const root = document.querySelector(QR_SETUP_ROOT_SELECTOR);
   const panel = document.querySelector(QR_SETUP_PANEL_SELECTOR);

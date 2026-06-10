@@ -9,6 +9,7 @@ import { workerStoragePendingGet } from "./storage/pending/get.js";
 import { MESSAGES } from "../scan-const.js";
 import { UNSUPPORTED_PAGE_ERROR } from "../scan-const.js";
 
+/** Registers service-worker listeners for scan messages. */
 function workerScriptInit() {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     const { action } = message;
@@ -18,7 +19,7 @@ function workerScriptInit() {
       return false;
     }
 
-    const asyncActions = {
+    const asyncAction = {
       [MESSAGES.START]: () => workerHandleStart(),
       [MESSAGES.GET_SCAN_TARGET]: () => workerHandleTarget(),
       [MESSAGES.CAPTURE_TAB]: () => workerHandleCapture(),
@@ -31,7 +32,7 @@ function workerScriptInit() {
       [MESSAGES.CANCEL]: () => workerHandleAbort({ removeTabOverlay: true }),
     };
 
-    const run = asyncActions[action];
+    const run = asyncAction[action];
 
     if (!run) {
       return false;

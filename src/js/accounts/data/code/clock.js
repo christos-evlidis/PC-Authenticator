@@ -1,3 +1,4 @@
+/** Computes TOTP timing state for the current epoch second. */
 function dataCodeClock(options) {
   try {
     const period = options.period;

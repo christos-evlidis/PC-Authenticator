@@ -1,6 +1,6 @@
-import { qrSetupActionsPanelClose } from "./action/panel/close.js";
-import { qrSetupActionsPanelOpen } from "./action/panel/open.js";
-import { qrSetupActionsScanStart } from "./action/scan/start.js";
+import { qrSetupActionPanelClose } from "./action/panel/close.js";
+import { qrSetupActionPanelOpen } from "./action/panel/open.js";
+import { qrSetupActionScanStart } from "./action/scan/start.js";
 import { qrSetupHandleCancel } from "./handle/cancel.js";
 import { qrSetupStateGet } from "./state/get.js";
 
@@ -9,6 +9,7 @@ import { QR_SETUP_CLOSE_BTN_SELECTOR } from "./qr-code-setup-const.js";
 import { QR_SETUP_OPEN_BTN_SELECTOR } from "./qr-code-setup-const.js";
 import { QR_SETUP_PANEL_SELECTOR } from "./qr-code-setup-const.js";
 
+/** Registers QR setup panel listeners and escape/backdrop handlers. */
 function qrSetupInit() {
   chrome.runtime.onMessage.addListener((message) => {
     if (message.action === "qrScanCancelled") {
@@ -22,11 +23,11 @@ function qrSetupInit() {
       event.stopPropagation();
 
       if (qrSetupStateGet().isOpen) {
-        void qrSetupActionsPanelClose();
+        void qrSetupActionPanelClose();
         return;
       }
 
-      void qrSetupActionsScanStart();
+      void qrSetupActionScanStart();
     });
   });
 
@@ -34,13 +35,13 @@ function qrSetupInit() {
     .querySelector(QR_SETUP_CLOSE_BTN_SELECTOR)
     ?.addEventListener("click", (event) => {
       event.stopPropagation();
-      void qrSetupActionsPanelClose();
+      void qrSetupActionPanelClose();
     });
 
   document
     .querySelector(QR_SETUP_BACKDROP_SELECTOR)
     ?.addEventListener("click", () => {
-      void qrSetupActionsPanelClose();
+      void qrSetupActionPanelClose();
     });
 
   document
@@ -62,7 +63,7 @@ function qrSetupInit() {
 
       event.preventDefault();
       event.stopPropagation();
-      void qrSetupActionsPanelClose();
+      void qrSetupActionPanelClose();
     },
     true,
   );
@@ -70,15 +71,15 @@ function qrSetupInit() {
 
 export { qrSetupInit };
 
-export { qrSetupActionsAdd } from "./action/add.js";
-export { qrSetupActionsInstant } from "./action/instant.js";
-export { qrSetupActionsLockClear } from "./action/lock/clear.js";
-export { qrSetupActionsLockSet } from "./action/lock/set.js";
-export { qrSetupActionsPanelClose } from "./action/panel/close.js";
-export { qrSetupActionsPanelOpen } from "./action/panel/open.js";
-export { qrSetupActionsScanCancel } from "./action/scan/cancel.js";
-export { qrSetupActionsScanError } from "./action/scan/error.js";
-export { qrSetupActionsScanStart } from "./action/scan/start.js";
+export { qrSetupActionAdd } from "./action/add.js";
+export { qrSetupActionInstant } from "./action/instant.js";
+export { qrSetupActionLockClear } from "./action/lock/clear.js";
+export { qrSetupActionLockSet } from "./action/lock/set.js";
+export { qrSetupActionPanelClose } from "./action/panel/close.js";
+export { qrSetupActionPanelOpen } from "./action/panel/open.js";
+export { qrSetupActionScanCancel } from "./action/scan/cancel.js";
+export { qrSetupActionScanError } from "./action/scan/error.js";
+export { qrSetupActionScanStart } from "./action/scan/start.js";
 export { qrSetupAnimationPanelClose } from "./animation/panel/close.js";
 export { qrSetupAnimationPanelOpen } from "./animation/panel/open.js";
 export { qrSetupAnimationResumeFinish } from "./animation/resume/finish.js";

@@ -1,5 +1,6 @@
 import { DATA_KEY_FINAL } from "../../../accounts-const.js";
 
+/** Removes ready accounts from local storage. */
 async function dataStorageReadyClear() {
   try {
     await chrome.storage.local.remove([DATA_KEY_FINAL]);

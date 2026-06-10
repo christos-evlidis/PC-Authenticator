@@ -1,5 +1,6 @@
 import { UNSUPPORTED_PAGE_ERROR } from "../scan-const.js";
 
+/** Sends a scan payload to the extension service worker. */
 function messageWorker(payload, { orError = true } = {}) {
   return new Promise((resolve) => {
     if (!chrome?.runtime?.sendMessage) {

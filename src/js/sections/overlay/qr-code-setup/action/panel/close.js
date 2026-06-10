@@ -1,23 +1,24 @@
-import { qrSetupActionsLockClear } from "../lock/clear.js";
-import { qrSetupActionsScanCancel } from "../scan/cancel.js";
+import { qrSetupActionLockClear } from "../lock/clear.js";
+import { qrSetupActionScanCancel } from "../scan/cancel.js";
 import { qrSetupAnimationPanelClose } from "../../animation/panel/close.js";
 import { qrSetupStateGet } from "../../state/get.js";
 import { qrSetupStateSet } from "../../state/set.js";
 
-async function qrSetupActionsPanelClose() {
+/** Cancels scan, resets state, and closes the QR panel. */
+async function qrSetupActionPanelClose() {
   if (!qrSetupStateGet().isOpen) {
     return;
   }
 
-  await qrSetupActionsScanCancel();
+  await qrSetupActionScanCancel();
 
   qrSetupStateSet({
     isOpen: false,
     isBusy: false,
     isAwaitingPageSelection: false,
   });
-  qrSetupActionsLockClear();
+  qrSetupActionLockClear();
   await qrSetupAnimationPanelClose();
 }
 
-export { qrSetupActionsPanelClose };
+export { qrSetupActionPanelClose };

@@ -8,7 +8,8 @@ import { QR_SETUP_OPEN_CLASS } from "../qr-code-setup-const.js";
 import { QR_SETUP_PANEL_OPEN_CLASS } from "../qr-code-setup-const.js";
 import { QR_SETUP_ROOT_SELECTOR } from "../qr-code-setup-const.js";
 
-function qrSetupActionsInstant() {
+/** Opens the QR panel instantly without animation. */
+function qrSetupActionInstant() {
   const root = document.querySelector(QR_SETUP_ROOT_SELECTOR);
 
   if (!root || qrSetupStateGet().isOpen) {
@@ -24,4 +25,4 @@ function qrSetupActionsInstant() {
   return true;
 }
 
-export { qrSetupActionsInstant };
+export { qrSetupActionInstant };

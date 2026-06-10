@@ -1,6 +1,7 @@
 import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../manual-setup-const.js";
 
-function manualSetupActionsFormEnable(form) {
+/** Re-enables manual-setup form controls after submit. */
+function manualSetupActionFormEnable(form) {
   const submit = form.querySelector(".manual-setup__submit");
 
   if (submit) {
@@ -12,4 +13,4 @@ function manualSetupActionsFormEnable(form) {
   });
 }
 
-export { manualSetupActionsFormEnable };
+export { manualSetupActionFormEnable };

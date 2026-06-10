@@ -1,3 +1,4 @@
+/** Normalizes a Base32 secret string for OTP use. */
 function dataRecordSanitizeSecret(raw) {
   try {
     return String(raw)

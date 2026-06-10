@@ -1,5 +1,6 @@
 import { workerTabResolve } from "../tab/resolve.js";
 
+/** Returns metadata for the tab that should be used for scanning. */
 async function workerHandleTarget() {
   try {
     const { tab, error, detectedUrl } = await workerTabResolve();

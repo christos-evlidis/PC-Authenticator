@@ -4,7 +4,8 @@ import { MANUAL_SETUP_FORM_SELECTOR } from "../../manual-setup-const.js";
 import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../manual-setup-const.js";
 import { MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR } from "../../manual-setup-const.js";
 
-function manualSetupActionsTypeSwitch(otpType) {
+/** Switches the manual-setup form between TOTP and HOTP. */
+function manualSetupActionTypeSwitch(otpType) {
   if (manualSetupStateGet().isSubmitting) {
     return;
   }
@@ -31,4 +32,4 @@ function manualSetupActionsTypeSwitch(otpType) {
   });
 }
 
-export { manualSetupActionsTypeSwitch };
+export { manualSetupActionTypeSwitch };

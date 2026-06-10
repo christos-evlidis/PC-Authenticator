@@ -1,15 +1,17 @@
 import { authStorageGet } from "../../../../accounts/accounts-index.js";
 import { dataActionAddQr } from "../../../../accounts/accounts-index.js";
 import { authChromeApply } from "../../../../utils/utility-auth.js";
-import { qrSetupActionsPanelClose } from "../action/panel/close.js";
-import { codesActionsAdd } from "../../../shell/codes/codes-index.js";
+import { codesActionAdd } from "../../../shell/codes/codes-index.js";
+import { scanPendingClear } from "../../../../scan/scan-index.js";
+import { scanPendingGet } from "../../../../scan/scan-index.js";
+
+import { qrSetupActionPanelClose } from "../action/panel/close.js";
 import { qrSetupAnimationResumeFinish } from "../animation/resume/finish.js";
 import { qrSetupAnimationResumeStart } from "../animation/resume/start.js";
 import { qrSetupStateGet } from "../state/get.js";
 import { qrSetupStateSet } from "../state/set.js";
-import { scanPendingClear } from "../../../../scan/scan-index.js";
-import { scanPendingGet } from "../../../../scan/scan-index.js";
 
+/** Resolves a pending scan result and adds the account. */
 async function qrSetupHandlePending() {
   if (qrSetupStateGet().isBusy) {
     return;
@@ -41,13 +43,13 @@ async function qrSetupHandlePending() {
     return false;
   });
 
-  await qrSetupActionsPanelClose();
+  await qrSetupActionPanelClose();
   qrSetupAnimationResumeFinish();
 
   const authNumber = await authStorageGet();
 
   if (authNumber && addedAccount) {
-    await codesActionsAdd(addedAccount);
+    await codesActionAdd(addedAccount);
     await authChromeApply({
       authNumber,
       isSignedIn: true,

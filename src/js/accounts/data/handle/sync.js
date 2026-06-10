@@ -1,5 +1,6 @@
 import { dataHandleMerge } from "./merge.js";
 import { dataHandleRestore } from "./restore.js";
+
 import { dataRecordSanitizeList } from "../record/sanitize/list.js";
 import { dataStorageMergedClear } from "../storage/merged/clear.js";
 import { dataStoragePendingClear } from "../storage/pending/clear.js";
@@ -9,6 +10,7 @@ import { dataStorageReadySet } from "../storage/ready/set.js";
 import { dataStorageRestoredClear } from "../storage/restored/clear.js";
 import { dataStorageRestoredGet } from "../storage/restored/get.js";
 
+/** Syncs local accounts with remote restore and pending merge state. */
 async function dataHandleSync(authNumber) {
   try {
     const result = await dataHandleRestore(authNumber);

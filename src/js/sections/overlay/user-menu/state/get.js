@@ -1,5 +1,6 @@
 import { userMenuStateStore } from "./store.js";
 
+/** Returns a snapshot of the current user menu state. */
 function userMenuStateGet() {
   return {
     isOpen: userMenuStateStore.isOpen,

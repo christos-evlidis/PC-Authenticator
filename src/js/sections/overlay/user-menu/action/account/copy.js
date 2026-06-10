@@ -1,7 +1,8 @@
 import { userMenuAnimationAccountCopy } from "../../animation/account/copy.js";
 import { userMenuStateGet } from "../../state/get.js";
 
-async function userMenuActionsAccountCopy() {
+/** Copies the signed-in account number with confirmation animation. */
+async function userMenuActionAccountCopy() {
   const { authNumber } = userMenuStateGet();
 
   if (!authNumber) {
@@ -12,4 +13,4 @@ async function userMenuActionsAccountCopy() {
   await userMenuAnimationAccountCopy();
 }
 
-export { userMenuActionsAccountCopy };
+export { userMenuActionAccountCopy };

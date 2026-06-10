@@ -1,12 +1,15 @@
-import { qrSetupStateSet } from "../../state/set.js";
 import { scanCancel } from "../../../../../scan/scan-index.js";
 
-export let qrSetupScanCancelGeneration = 0;
+import { qrSetupStateSet } from "../../state/set.js";
 
-async function qrSetupActionsScanCancel() {
+let qrSetupScanCancelGeneration = 0;
+
+/** Bumps cancel generation and stops an active page scan. */
+async function qrSetupActionScanCancel() {
   qrSetupScanCancelGeneration += 1;
   qrSetupStateSet({ isAwaitingPageSelection: false });
   await scanCancel();
 }
 
-export { qrSetupActionsScanCancel };
+export { qrSetupActionScanCancel };
+export { qrSetupScanCancelGeneration };

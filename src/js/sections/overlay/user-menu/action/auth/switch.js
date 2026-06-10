@@ -10,7 +10,8 @@ import { USER_MENU_HIDDEN_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_SIGN_IN_VIEW_SELECTOR } from "../../user-menu-const.js";
 import { USER_MENU_SIGN_UP_VIEW_SELECTOR } from "../../user-menu-const.js";
 
-function userMenuActionsAuthSwitch(authView) {
+/** Switches between sign-in and sign-up auth views. */
+function userMenuActionAuthSwitch(authView) {
   if (userMenuStateGet().isSignInRunning) {
     return;
   }
@@ -43,4 +44,4 @@ function userMenuActionsAuthSwitch(authView) {
   void userMenuAnimationAuthSwitch(nextView);
 }
 
-export { userMenuActionsAuthSwitch };
+export { userMenuActionAuthSwitch };

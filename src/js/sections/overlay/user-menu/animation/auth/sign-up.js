@@ -3,6 +3,7 @@ import { animCssMsGet } from "../../../../../utils/utility-animation.js";
 import { animDelay } from "../../../../../utils/utility-animation.js";
 import { animFrameWait } from "../../../../../utils/utility-animation.js";
 import { animPhaseReset } from "../../../../../utils/utility-animation.js";
+
 import { userMenuStateSet } from "../../state/set.js";
 
 import { USER_MENU_AUTH_BAR_SELECTOR } from "../../user-menu-const.js";
@@ -64,6 +65,7 @@ import { USER_MENU_VAR_SIGN_UP_RESULT_FADE_OUT_MS } from "../../user-menu-const.
 import { USER_MENU_VAR_SIGN_UP_SHRINK_DOWN_MS } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_SHRINK_FULL_MS } from "../../user-menu-const.js";
 
+/** Runs the full-panel sign-up loading and result animation. */
 async function userMenuAnimationAuthSignUp(resultIsSuccess, onPreRestore) {
   const runId = USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value + 1;
   USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value = runId;

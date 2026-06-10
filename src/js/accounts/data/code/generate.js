@@ -1,6 +1,8 @@
 import { dataCodeCounter } from "./counter.js";
+
 import { dataRecordSanitizeSecret } from "../record/sanitize/secret.js";
 
+/** Generates an OTP code from a secret and options. */
 function dataCodeGenerate(secret, options) {
   try {
     const sanitized = dataRecordSanitizeSecret(secret);

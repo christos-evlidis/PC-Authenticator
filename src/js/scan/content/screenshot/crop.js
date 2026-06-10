@@ -1,3 +1,4 @@
+/** Crops an image to the selection rectangle at device pixel ratio. */
 function contentScreenshotCrop(img, selection) {
   const dpr = window.devicePixelRatio || 1;
   const sx = Math.round(selection.x * dpr);

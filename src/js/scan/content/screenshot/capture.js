@@ -4,6 +4,7 @@ import { contentScreenshotLoad } from "./load.js";
 import { MESSAGES } from "../../scan-const.js";
 import { UNSUPPORTED_PAGE_ERROR } from "../../scan-const.js";
 
+/** Captures the visible tab and crops it to the given selection. */
 async function contentScreenshotCapture(selection) {
   try {
     const response = await chrome.runtime.sendMessage({

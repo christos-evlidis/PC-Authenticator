@@ -1,5 +1,6 @@
 import { DATA_OTP_TYPE_HOTP } from "../../accounts-const.js";
 
+/** Builds OTP generation options from an account record. */
 function dataCodeOptions(account) {
   try {
     const options = {

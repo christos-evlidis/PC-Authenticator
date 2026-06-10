@@ -1,7 +1,7 @@
-import { manualSetupActionsFormSubmit } from "./action/form/submit.js";
-import { manualSetupActionsPanelClose } from "./action/panel/close.js";
-import { manualSetupActionsPanelOpen } from "./action/panel/open.js";
-import { manualSetupActionsTypeSwitch } from "./action/type/switch.js";
+import { manualSetupActionFormSubmit } from "./action/form/submit.js";
+import { manualSetupActionPanelClose } from "./action/panel/close.js";
+import { manualSetupActionPanelOpen } from "./action/panel/open.js";
+import { manualSetupActionTypeSwitch } from "./action/type/switch.js";
 
 import { MANUAL_SETUP_BACKDROP_SELECTOR } from "./manual-setup-const.js";
 import { MANUAL_SETUP_CLOSE_BTN_SELECTOR } from "./manual-setup-const.js";
@@ -11,20 +11,21 @@ import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "./manual-setup-const.js";
 import { MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR } from "./manual-setup-const.js";
 import { MANUAL_SETUP_PANEL_SELECTOR } from "./manual-setup-const.js";
 
+/** Registers manual-setup panel listeners and form handlers. */
 function manualSetupInit() {
   document.querySelectorAll(MANUAL_SETUP_OPEN_BTN_SELECTOR).forEach((button) => {
     button.addEventListener("click", () => {
-      void manualSetupActionsPanelOpen();
+      void manualSetupActionPanelOpen();
     });
   });
 
   document
     .querySelector(MANUAL_SETUP_CLOSE_BTN_SELECTOR)
-    ?.addEventListener("click", manualSetupActionsPanelClose);
+    ?.addEventListener("click", manualSetupActionPanelClose);
 
   document
     .querySelector(MANUAL_SETUP_BACKDROP_SELECTOR)
-    ?.addEventListener("click", manualSetupActionsPanelClose);
+    ?.addEventListener("click", manualSetupActionPanelClose);
 
   document
     .querySelector(MANUAL_SETUP_PANEL_SELECTOR)
@@ -33,7 +34,7 @@ function manualSetupInit() {
     });
 
   document.querySelector(MANUAL_SETUP_FORM_SELECTOR)?.addEventListener("submit", (event) => {
-    void manualSetupActionsFormSubmit(event);
+    void manualSetupActionFormSubmit(event);
   });
 
   const form = document.querySelector(MANUAL_SETUP_FORM_SELECTOR);
@@ -51,7 +52,7 @@ function manualSetupInit() {
       button.classList.toggle("is-active", button.dataset.otpType !== "hotp");
       button.addEventListener("click", (event) => {
         event.preventDefault();
-        manualSetupActionsTypeSwitch(button.dataset.otpType);
+        manualSetupActionTypeSwitch(button.dataset.otpType);
       });
     });
   }
@@ -59,16 +60,16 @@ function manualSetupInit() {
 
 export { manualSetupInit };
 
-export { manualSetupActionsFormEnable } from "./action/form/enable.js";
-export { manualSetupActionsFormReset } from "./action/form/reset.js";
-export { manualSetupActionsFormSubmit } from "./action/form/submit.js";
-export { manualSetupActionsPanelClose } from "./action/panel/close.js";
-export { manualSetupActionsPanelOpen } from "./action/panel/open.js";
-export { manualSetupActionsTypeSwitch } from "./action/type/switch.js";
+export { manualSetupActionFormEnable } from "./action/form/enable.js";
+export { manualSetupActionFormReset } from "./action/form/reset.js";
+export { manualSetupActionFormSubmit } from "./action/form/submit.js";
+export { manualSetupActionPanelClose } from "./action/panel/close.js";
+export { manualSetupActionPanelOpen } from "./action/panel/open.js";
+export { manualSetupActionTypeSwitch } from "./action/type/switch.js";
 export { manualSetupAnimationClose } from "./animation/close.js";
 export { manualSetupAnimationOpen } from "./animation/open.js";
 export { manualSetupAnimationSubmit } from "./animation/submit.js";
-export { manualSetupAnimationSubmitFinish } from "./animation/submit-finish.js";
+export { manualSetupAnimationSubmitFinish } from "./animation/finish.js";
 export { manualSetupStateGet } from "./state/get.js";
 export { manualSetupStateSet } from "./state/set.js";
 export { manualSetupStateStore } from "./state/store.js";

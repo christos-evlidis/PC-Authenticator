@@ -1,5 +1,6 @@
 import { AUTH_NUMBER_KEY } from "../../accounts-const.js";
 
+/** Removes the stored auth number from local storage. */
 async function authStorageClear() {
   try {
     await chrome.storage.local.remove([AUTH_NUMBER_KEY]);

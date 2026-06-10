@@ -6,6 +6,7 @@ import { OVERLAY_INSTRUCTION_CLASS } from "../../scan-const.js";
 import { OVERLAY_INSTRUCTION_TEXT } from "../../scan-const.js";
 import { OVERLAY_SELECTION_CLASS } from "../../scan-const.js";
 
+/** Creates and mounts the QR scan overlay in the page DOM. */
 function contentOverlayCreate() {
   if (!document.getElementById(OVERLAY_HOST_STYLE_ID)) {
     const link = document.createElement("link");

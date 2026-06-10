@@ -1,5 +1,6 @@
 import { PENDING_KEY } from "../../../scan-const.js";
 
+/** Writes the pending QR scan payload to session storage. */
 async function workerStoragePendingSet(payload) {
   try {
     await chrome.storage.session.set({ [PENDING_KEY]: payload });

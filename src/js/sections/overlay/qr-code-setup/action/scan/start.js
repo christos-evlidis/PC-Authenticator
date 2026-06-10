@@ -1,16 +1,18 @@
 import { authStorageGet } from "../../../../../accounts/accounts-index.js";
-import { qrSetupActionsPanelOpen } from "../panel/open.js";
-import { qrSetupActionsScanError } from "./error.js";
-import { qrSetupScanCancelGeneration } from "./cancel.js";
-import { qrSetupStateGet } from "../../state/get.js";
-import { qrSetupStateSet } from "../../state/set.js";
 import { scanCancel } from "../../../../../scan/scan-index.js";
 import { scanStart } from "../../../../../scan/scan-index.js";
 
+import { qrSetupScanCancelGeneration } from "./cancel.js";
+import { qrSetupActionScanError } from "./error.js";
+import { qrSetupActionPanelOpen } from "../panel/open.js";
+import { qrSetupStateGet } from "../../state/get.js";
+import { qrSetupStateSet } from "../../state/set.js";
+
 import { UNSUPPORTED_PAGE_ERROR } from "../../../../../scan/scan-const.js";
 
-async function qrSetupActionsScanStart(options = {}) {
-  const onScanError = options.onScanError ?? qrSetupActionsScanError;
+/** Verifies auth and starts QR page selection scan. */
+async function qrSetupActionScanStart(options = {}) {
+  const onScanError = options.onScanError ?? qrSetupActionScanError;
 
   if (qrSetupStateGet().isBusy) {
     return;
@@ -25,7 +27,7 @@ async function qrSetupActionsScanStart(options = {}) {
     return;
   }
 
-  await qrSetupActionsPanelOpen();
+  await qrSetupActionPanelOpen();
 
   const startGeneration = qrSetupScanCancelGeneration;
 
@@ -50,4 +52,4 @@ async function qrSetupActionsScanStart(options = {}) {
   }
 }
 
-export { qrSetupActionsScanStart };
+export { qrSetupActionScanStart };

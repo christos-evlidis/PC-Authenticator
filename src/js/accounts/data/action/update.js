@@ -9,6 +9,7 @@ import { dataStorageReadyGet } from "../storage/ready/get.js";
 import { dataStorageRestoredClear } from "../storage/restored/clear.js";
 import { dataStorageRestoredGet } from "../storage/restored/get.js";
 
+/** Applies patch fields to an account and syncs the updated list. */
 async function dataActionUpdate(authNumber, accountId, patch) {
   try {
     const updateId = String(accountId);

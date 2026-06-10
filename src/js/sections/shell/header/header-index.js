@@ -12,8 +12,8 @@ function headerInit(isSignedIn) {
 
 export { headerInit };
 
-export { headerActionsIconsDisable } from "./action/icons/disable.js";
-export { headerActionsIconsEnable } from "./action/icons/enable.js";
+export { headerActionIconsDisable } from "./action/icons/disable.js";
+export { headerActionIconsEnable } from "./action/icons/enable.js";
 export { headerAnimationFinish } from "./animation/finish.js";
 export { headerAnimationInstant } from "./animation/instant.js";
 export { headerAnimationReset } from "./animation/reset.js";

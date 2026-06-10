@@ -1,3 +1,4 @@
+/** Sends a scan action message to the content script in a tab. */
 async function messageContent(tabId, action) {
   try {
     const response = await chrome.tabs.sendMessage(tabId, { action });

@@ -1,5 +1,6 @@
 import { AUTH_API_BASE_URL } from "../../accounts-const.js";
 
+/** Fetches account backup from the remote restore API. */
 async function dataApiRestore(authNumber) {
   try {
     const response = await fetch(`${AUTH_API_BASE_URL}/restore-accounts`, {

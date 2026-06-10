@@ -1,5 +1,6 @@
 import { PENDING_KEY } from "../../../scan-const.js";
 
+/** Removes the pending QR scan entry from session storage. */
 async function workerStoragePendingClear() {
   try {
     await chrome.storage.session.remove([PENDING_KEY]);

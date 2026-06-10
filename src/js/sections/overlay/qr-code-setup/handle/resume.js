@@ -1,8 +1,9 @@
-import { authChromeApply } from "../../../../utils/utility-auth.js";
 import { authStorageGet } from "../../../../accounts/accounts-index.js";
 import { dataStorageReadyGet } from "../../../../accounts/accounts-index.js";
+import { authChromeApply } from "../../../../utils/utility-auth.js";
 import { scanPendingGet } from "../../../../scan/scan-index.js";
 
+/** Restores signed-in chrome when a pending scan exists on load. */
 async function qrSetupHandleResume() {
   try {
     const pending = await scanPendingGet();

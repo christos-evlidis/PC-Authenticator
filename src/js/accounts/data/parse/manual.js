@@ -8,6 +8,7 @@ import { DATA_OTP_PERIOD } from "../../accounts-const.js";
 import { DATA_OTP_TYPE_HOTP } from "../../accounts-const.js";
 import { DATA_OTP_TYPE_TOTP } from "../../accounts-const.js";
 
+/** Parses manual form fields into a normalized account object. */
 function dataParseManual({ name, secret, email, type }) {
   try {
     const sanitizedName = dataRecordBuildIssuer(name);

@@ -3,6 +3,7 @@ import { animCssMsGet } from "../../../../utils/utility-animation.js";
 import { animDelay } from "../../../../utils/utility-animation.js";
 import { animFrameWait } from "../../../../utils/utility-animation.js";
 import { animPhaseReset } from "../../../../utils/utility-animation.js";
+
 import { manualSetupStateSet } from "../state/set.js";
 
 import { MANUAL_SETUP_CONTENT_SELECTOR } from "../manual-setup-const.js";
@@ -58,6 +59,7 @@ import { MANUAL_SETUP_VAR_SUBMIT_RESULT_DRAW_MS } from "../manual-setup-const.js
 import { MANUAL_SETUP_VAR_SUBMIT_RESULT_FADE_OUT_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_SHRINK_FULL_MS } from "../manual-setup-const.js";
 
+/** Runs the manual-setup submit loading and result animation. */
 async function manualSetupAnimationSubmit(resolveSubmit) {
   const runId = MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID.value + 1;
   MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID.value = runId;

@@ -1,5 +1,6 @@
 import { workerStoragePendingSet } from "../pending/set.js";
 
+/** Stores a successful scan URI and opens the extension popup. */
 async function workerStorageStoreSuccess(uri) {
   try {
     await workerStoragePendingSet({

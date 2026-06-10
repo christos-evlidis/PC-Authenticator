@@ -1,8 +1,8 @@
 import { dataCodeTypeHotp } from "../../../../accounts/accounts-index.js";
 
-import { codesActionsCopy } from "../actions/copy.js";
-import { codesActionsDelete } from "../actions/delete.js";
-import { codesActionsEdit } from "../actions/edit.js";
+import { codesActionCopy } from "../action/copy.js";
+import { codesActionDelete } from "../action/delete.js";
+import { codesActionEdit } from "../action/edit.js";
 import { codesStateStore } from "../state/store.js";
 import { codesUtilContactDisplay } from "../util/contact.js";
 import { codesUtilHotpCounterDisplay } from "../util/hotp.js";
@@ -43,19 +43,19 @@ function codesCardBind(card, account) {
   card.title = "Copy code";
 
   const onCardClick = () => {
-    void codesActionsCopy(card, els.code?.textContent ?? "");
+    void codesActionCopy(card, els.code?.textContent ?? "");
   };
 
   const editBtn = card.querySelector(".edit-button");
   editBtn?.addEventListener("click", (event) => {
     event.stopPropagation();
-    codesActionsEdit(card, account, els, onCardClick);
+    codesActionEdit(card, account, els, onCardClick);
   });
 
   const deleteBtn = card.querySelector(".delete-button");
   deleteBtn?.addEventListener("click", (event) => {
     event.stopPropagation();
-    codesActionsDelete(account, card, deleteBtn);
+    codesActionDelete(account, card, deleteBtn);
   });
 
   card.addEventListener("click", onCardClick);

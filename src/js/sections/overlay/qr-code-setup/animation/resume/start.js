@@ -1,9 +1,10 @@
 import { animAnimationEndWait } from "../../../../../utils/utility-animation.js";
 import { animCssMsGet } from "../../../../../utils/utility-animation.js";
 import { animDelay } from "../../../../../utils/utility-animation.js";
-import { qrSetupActionsLockSet } from "../../action/lock/set.js";
-import { qrSetupStateSet } from "../../state/set.js";
+
+import { qrSetupActionLockSet } from "../../action/lock/set.js";
 import { qrSetupResumeLayout } from "./prepare.js";
+import { qrSetupStateSet } from "../../state/set.js";
 
 import { QR_SETUP_CONTENT_SELECTOR } from "../../qr-code-setup-const.js";
 import { QR_SETUP_HIDDEN_CLASS } from "../../qr-code-setup-const.js";
@@ -32,6 +33,7 @@ import { QR_SETUP_VAR_RESUME_RESULT_DRAW_MS } from "../../qr-code-setup-const.js
 import { QR_SETUP_VAR_RESUME_RESULT_FADE_OUT_MS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_VAR_RESUME_SHRINK_FULL_MS } from "../../qr-code-setup-const.js";
 
+/** Runs loading dots, result draw, and shrink resume animation. */
 async function qrSetupAnimationResumeStart(resolveWork) {
   const runId = QR_SETUP_RESUME_ANIMATION_RUN_ID.value + 1;
   QR_SETUP_RESUME_ANIMATION_RUN_ID.value = runId;
@@ -53,7 +55,7 @@ async function qrSetupAnimationResumeStart(resolveWork) {
 
   qrSetupStateSet({ isBusy: true });
   root.classList.toggle(QR_SETUP_RESUME_LOCKED_CLASS, true);
-  qrSetupActionsLockSet(true);
+  qrSetupActionLockSet(true);
 
   const workPromise = (async () => {
     try {
@@ -175,7 +177,7 @@ async function qrSetupAnimationResumeStart(resolveWork) {
     if (runId === QR_SETUP_RESUME_ANIMATION_RUN_ID.value) {
       qrSetupStateSet({ isBusy: false, isAwaitingPageSelection: false });
       root.classList.toggle(QR_SETUP_RESUME_LOCKED_CLASS, false);
-      qrSetupActionsLockSet(false);
+      qrSetupActionLockSet(false);
     }
   }
 }

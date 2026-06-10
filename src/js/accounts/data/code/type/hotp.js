@@ -1,5 +1,6 @@
 import { DATA_OTP_TYPE_HOTP } from "../../../accounts-const.js";
 
+/** Returns whether the account uses HOTP. */
 function dataCodeTypeHotp(account) {
   try {
     return account.type === DATA_OTP_TYPE_HOTP;

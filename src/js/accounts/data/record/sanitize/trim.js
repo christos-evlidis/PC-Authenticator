@@ -1,3 +1,4 @@
+/** Trims and limits account name text to 64 characters. */
 function dataRecordSanitizeTrim(name) {
   try {
     const trimmed = String(name)

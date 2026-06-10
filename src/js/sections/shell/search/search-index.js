@@ -2,8 +2,8 @@ import { animCssMsGet } from "../../../utils/utility-animation.js";
 import { animDelay } from "../../../utils/utility-animation.js";
 import { searchAnimationFadeIn } from "./animation/fade-in.js";
 import { searchAnimationFinish } from "./animation/finish.js";
-import { searchActionsFilter } from "./action/filter.js";
-import { searchActionsReset } from "./action/reset.js";
+import { searchActionFilter } from "./action/filter.js";
+import { searchActionReset } from "./action/reset.js";
 
 import { SEARCH_ANIMATION_PENDING_CLASS } from "./search-const.js";
 import { SEARCH_HIDDEN_CLASS } from "./search-const.js";
@@ -13,7 +13,7 @@ import { SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "./search-const.js";
 
 function searchInit() {
   document.querySelector(SEARCH_INPUT_SELECTOR)?.addEventListener("input", () => {
-    searchActionsFilter();
+    searchActionFilter();
   });
 }
 
@@ -27,7 +27,7 @@ function searchApply(isAuthVisible) {
   }
 
   if (!isAuthVisible) {
-    searchActionsReset();
+    searchActionReset();
     return;
   }
 
@@ -75,8 +75,8 @@ export { searchAnimationRun };
 export { searchApply };
 export { searchInit };
 
-export { searchActionsFilter } from "./action/filter.js";
-export { searchActionsReset } from "./action/reset.js";
+export { searchActionFilter } from "./action/filter.js";
+export { searchActionReset } from "./action/reset.js";
 export { searchAnimationFadeIn } from "./animation/fade-in.js";
 export { searchAnimationFinish } from "./animation/finish.js";
 export { searchAnimationInstant } from "./animation/instant.js";

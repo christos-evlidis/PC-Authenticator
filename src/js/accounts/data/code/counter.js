@@ -1,6 +1,7 @@
 import { DATA_OTP_PERIOD } from "../../accounts-const.js";
 import { DATA_OTP_TYPE_HOTP } from "../../accounts-const.js";
 
+/** Returns the HOTP counter or TOTP time step for code generation. */
 function dataCodeCounter(options) {
   try {
     if (options.type === DATA_OTP_TYPE_HOTP) {

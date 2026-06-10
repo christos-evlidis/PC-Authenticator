@@ -1,5 +1,6 @@
 import { AUTH_API_BASE_URL } from "../../accounts-const.js";
 
+/** Creates a new account via the auth API and returns the account number. */
 async function authApiCreate() {
   try {
     const response = await fetch(`${AUTH_API_BASE_URL}/create-account`, {

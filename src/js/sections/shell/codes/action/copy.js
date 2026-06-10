@@ -11,7 +11,7 @@ import { codesUtilHotpCounterDisplay } from "../util/hotp.js";
 import { codesUtilHotpCounterValue } from "../util/hotp.js";
 
 /** Copies a valid OTP to the clipboard and plays copy feedback. */
-async function codesActionsCopy(card, codeText) {
+async function codesActionCopy(card, codeText) {
   const raw = String(codeText ?? "").replace(/\s+/g, "");
   const root = codesStateStore.cardRoots.find((item) => item.card === card);
   const expectedDigits = root
@@ -74,4 +74,4 @@ async function codesActionsCopy(card, codeText) {
   }
 }
 
-export { codesActionsCopy };
+export { codesActionCopy };

@@ -10,7 +10,7 @@ import { codesTickerStart } from "../ticker/run.js";
 import { codesElementsGet } from "../util/elements.js";
 
 /** Inserts a newly added account card with intro animation. */
-async function codesActionsAdd(account) {
+async function codesActionAdd(account) {
   const { empty, list, template } = codesElementsGet();
 
   if (!list || !template || !account?.secret) {
@@ -56,4 +56,4 @@ async function codesActionsAdd(account) {
   await codesAnimationIntroInstant(card);
 }
 
-export { codesActionsAdd };
+export { codesActionAdd };

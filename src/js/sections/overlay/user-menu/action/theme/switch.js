@@ -1,14 +1,15 @@
+import { THEME_DARK } from "../../../../../utils/utility-theme.js";
+import { THEME_LIGHT } from "../../../../../utils/utility-theme.js";
 import { themePersist } from "../../../../../utils/utility-theme.js";
 import { userMenuAnimationThemeSwitch } from "../../animation/theme/switch.js";
 import { userMenuStateGet } from "../../state/get.js";
 import { userMenuStateSet } from "../../state/set.js";
 
-import { THEME_DARK } from "../../../../../utils/utility-theme.js";
-import { THEME_LIGHT } from "../../../../../utils/utility-theme.js";
 import { USER_MENU_ACTIVE_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_THEME_BTN_SELECTOR } from "../../user-menu-const.js";
 
-async function userMenuActionsThemeSwitch(theme) {
+/** Persists and animates a light or dark theme change. */
+async function userMenuActionThemeSwitch(theme) {
   const nextTheme = theme === THEME_DARK ? THEME_DARK : THEME_LIGHT;
 
   if (userMenuStateGet().theme === nextTheme) {
@@ -25,4 +26,4 @@ async function userMenuActionsThemeSwitch(theme) {
   void userMenuAnimationThemeSwitch(nextTheme);
 }
 
-export { userMenuActionsThemeSwitch };
+export { userMenuActionThemeSwitch };

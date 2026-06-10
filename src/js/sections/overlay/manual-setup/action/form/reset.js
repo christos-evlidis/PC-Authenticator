@@ -1,7 +1,8 @@
 import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../manual-setup-const.js";
 import { MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR } from "../../manual-setup-const.js";
 
-function manualSetupActionsFormReset(form) {
+/** Resets manual-setup form fields and OTP type UI. */
+function manualSetupActionFormReset(form) {
   form.reset();
 
   const typeInput = form.querySelector('[name="type"]');
@@ -17,4 +18,4 @@ function manualSetupActionsFormReset(form) {
   });
 }
 
-export { manualSetupActionsFormReset };
+export { manualSetupActionFormReset };

@@ -1,7 +1,8 @@
 import { userMenuAnimationAccountDownload } from "../../animation/account/download.js";
 import { userMenuStateGet } from "../../state/get.js";
 
-async function userMenuActionsAccountDownload() {
+/** Downloads the account number as a text file with confirmation animation. */
+async function userMenuActionAccountDownload() {
   const { authNumber } = userMenuStateGet();
 
   if (!authNumber) {
@@ -20,4 +21,4 @@ async function userMenuActionsAccountDownload() {
   await userMenuAnimationAccountDownload();
 }
 
-export { userMenuActionsAccountDownload };
+export { userMenuActionAccountDownload };

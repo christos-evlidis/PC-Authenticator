@@ -5,7 +5,7 @@ const CODES_WHEEL_CARD_SELECTOR =
   ".account-block:not(.account-block--manual-add-spacer):not(.account-block--exit-spacer)";
 
 /** Snaps list scroll to one card per wheel tick. */
-function codesActionsWheel() {
+function codesActionWheel() {
   const list = document.querySelector(CODES_LIST_SELECTOR);
 
   if (!list || list.dataset.wheelSnapBound === "1") {
@@ -94,4 +94,4 @@ function codesActionsWheel() {
   );
 }
 
-export { codesActionsWheel };
+export { codesActionWheel };

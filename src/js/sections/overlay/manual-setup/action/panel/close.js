@@ -2,7 +2,8 @@ import { manualSetupAnimationClose } from "../../animation/close.js";
 import { manualSetupStateGet } from "../../state/get.js";
 import { manualSetupStateSet } from "../../state/set.js";
 
-async function manualSetupActionsPanelClose() {
+/** Closes the manual-setup panel when allowed. */
+async function manualSetupActionPanelClose() {
   if (!manualSetupStateGet().isOpen || manualSetupStateGet().isSubmitting) {
     return;
   }
@@ -11,4 +12,4 @@ async function manualSetupActionsPanelClose() {
   await manualSetupAnimationClose();
 }
 
-export { manualSetupActionsPanelClose };
+export { manualSetupActionPanelClose };

@@ -1,6 +1,7 @@
 import { dataRecordBuildIssuer } from "../build/issuer.js";
 import { dataRecordSanitizeTrim } from "./trim.js";
 
+/** Derives display name and email from issuer and label. */
 function dataRecordSanitizeName(issuer, label) {
   try {
     const issuerText = dataRecordBuildIssuer(issuer);

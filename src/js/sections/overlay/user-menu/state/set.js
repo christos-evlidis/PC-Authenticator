@@ -1,5 +1,6 @@
 import { userMenuStateStore } from "./store.js";
 
+/** Updates user menu state fields when provided values are valid. */
 function userMenuStateSet(next) {
   if (typeof next.isOpen === "boolean") {
     userMenuStateStore.isOpen = next.isOpen;

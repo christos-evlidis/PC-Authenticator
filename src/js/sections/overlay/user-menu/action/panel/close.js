@@ -2,7 +2,8 @@ import { userMenuAnimationPanelClose } from "../../animation/panel/close.js";
 import { userMenuStateGet } from "../../state/get.js";
 import { userMenuStateSet } from "../../state/set.js";
 
-async function userMenuActionsPanelClose() {
+/** Closes the user menu panel when open and auth is not running. */
+async function userMenuActionPanelClose() {
   if (!userMenuStateGet().isOpen || userMenuStateGet().isSignInRunning) {
     return;
   }
@@ -11,4 +12,4 @@ async function userMenuActionsPanelClose() {
   await userMenuAnimationPanelClose();
 }
 
-export { userMenuActionsPanelClose };
+export { userMenuActionPanelClose };

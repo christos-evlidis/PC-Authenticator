@@ -1,5 +1,6 @@
 import jsQR from "../../../../libs/jsqr.esm.js";
 
+/** Decodes QR code pixel data using jsQR and returns the result or null. */
 function workerCodexDecode(imageData, width, height) {
   try {
     const pixels = new Uint8ClampedArray(imageData);

@@ -1,15 +1,15 @@
+import { AUTH_NUMBER_LENGTH } from "../../../../../accounts/accounts-const.js";
 import { authApiCreate } from "../../../../../accounts/accounts-index.js";
 import { authSanitizeNumber } from "../../../../../accounts/accounts-index.js";
 import { authStorageSet } from "../../../../../accounts/accounts-index.js";
-import { authChromeApply } from "../../../../../utils/utility-auth.js";
 import { bodyAnimationFinish } from "../../../../shell/body/body-index.js";
 import { codesLoadStart } from "../../../../shell/codes/codes-index.js";
+import { authChromeApply } from "../../../../../utils/utility-auth.js";
+import { THEME_DARK } from "../../../../../utils/utility-theme.js";
 import { themeGet } from "../../../../../utils/utility-theme.js";
 import { userMenuAnimationAuthSignUp } from "../../animation/auth/sign-up.js";
 import { userMenuStateGet } from "../../state/get.js";
 
-import { AUTH_NUMBER_LENGTH } from "../../../../../accounts/accounts-const.js";
-import { THEME_DARK } from "../../../../../utils/utility-theme.js";
 import { USER_MENU_ACTIVE_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_AUTH_BTN_SELECTOR } from "../../user-menu-const.js";
 import { USER_MENU_AUTH_SIGN_IN_CLASS } from "../../user-menu-const.js";
@@ -25,7 +25,8 @@ import { USER_MENU_THEME_DARK_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_THEME_LIGHT_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_THEME_TRACK_SELECTOR } from "../../user-menu-const.js";
 
-async function userMenuActionsAuthSignUp() {
+/** Creates a new account and runs the sign-up animation sequence. */
+async function userMenuActionAuthSignUp() {
   if (userMenuStateGet().isSignInRunning) {
     return false;
   }
@@ -96,4 +97,4 @@ async function userMenuActionsAuthSignUp() {
   });
 }
 
-export { userMenuActionsAuthSignUp };
+export { userMenuActionAuthSignUp };

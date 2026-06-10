@@ -1,5 +1,6 @@
 import { dataRecordSanitizeTrim } from "../sanitize/trim.js";
 
+/** Title-cases and sanitizes an issuer name string. */
 function dataRecordBuildIssuer(issuer) {
   try {
     const sanitized = dataRecordSanitizeTrim(issuer);

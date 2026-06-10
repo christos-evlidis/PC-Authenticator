@@ -1,5 +1,6 @@
 import { DATA_KEY_PENDING } from "../../../accounts-const.js";
 
+/** Reads pending accounts from local storage. */
 async function dataStoragePendingGet() {
   try {
     const stored = await chrome.storage.local.get([DATA_KEY_PENDING]);

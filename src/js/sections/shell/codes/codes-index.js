@@ -1,4 +1,4 @@
-import { codesActionsWheel } from "./actions/wheel.js";
+import { codesActionWheel } from "./action/wheel.js";
 import { codesLoadClear } from "./load/sync.js";
 import { codesUtilTimerPreferenceLoad } from "./util/timer-preference.js";
 
@@ -7,7 +7,7 @@ import { CODES_ROOT_SELECTOR } from "./codes-const.js";
 
 /** Registers codes section listeners and loads timer preference. */
 function codesInit() {
-  codesActionsWheel();
+  codesActionWheel();
   void codesUtilTimerPreferenceLoad();
 }
 
@@ -28,7 +28,7 @@ function codesApply(isSignedIn) {
 
 export { codesApply };
 export { codesInit };
-export { codesActionsAdd } from "./actions/add.js";
+export { codesActionAdd } from "./action/add.js";
 export { codesCardRender } from "./card/render.js";
 export { codesLoadStart } from "./load/start.js";
 export { codesLoadClear } from "./load/sync.js";

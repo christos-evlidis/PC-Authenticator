@@ -27,8 +27,9 @@ import { QR_SETUP_VAR_RESUME_RESTORE_LEFT } from "../../qr-code-setup-const.js";
 import { QR_SETUP_VAR_RESUME_RESTORE_TOP } from "../../qr-code-setup-const.js";
 import { QR_SETUP_VAR_RESUME_RESTORE_WIDTH } from "../../qr-code-setup-const.js";
 
-export let qrSetupResumeLayout = null;
+let qrSetupResumeLayout = null;
 
+/** Captures layout vars and starts resume loading dots. */
 function qrSetupAnimationResumePrepare() {
   const root = document.querySelector(QR_SETUP_ROOT_SELECTOR);
   const panel = document.querySelector(QR_SETUP_PANEL_SELECTOR);
@@ -103,3 +104,4 @@ function qrSetupAnimationResumePrepare() {
 }
 
 export { qrSetupAnimationResumePrepare };
+export { qrSetupResumeLayout };

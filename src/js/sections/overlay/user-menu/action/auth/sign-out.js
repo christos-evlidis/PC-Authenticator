@@ -1,7 +1,7 @@
 import { authStorageClear } from "../../../../../accounts/accounts-index.js";
 import { dataStoragePurge } from "../../../../../accounts/accounts-index.js";
-import { authChromeApply } from "../../../../../utils/utility-auth.js";
 import { bodyAnimationFinish } from "../../../../shell/body/body-index.js";
+import { authChromeApply } from "../../../../../utils/utility-auth.js";
 import { userMenuAnimationAuthSignOut } from "../../animation/auth/sign-out.js";
 import { userMenuStateGet } from "../../state/get.js";
 
@@ -16,7 +16,8 @@ import { USER_MENU_SIGN_IN_INPUT_SELECTOR } from "../../user-menu-const.js";
 import { USER_MENU_SIGN_IN_VIEW_SELECTOR } from "../../user-menu-const.js";
 import { USER_MENU_SIGN_UP_VIEW_SELECTOR } from "../../user-menu-const.js";
 
-async function userMenuActionsAuthSignOut() {
+/** Clears auth storage and runs the sign-out animation sequence. */
+async function userMenuActionAuthSignOut() {
   if (userMenuStateGet().isSignInRunning) {
     return false;
   }
@@ -55,4 +56,4 @@ async function userMenuActionsAuthSignOut() {
   });
 }
 
-export { userMenuActionsAuthSignOut };
+export { userMenuActionAuthSignOut };

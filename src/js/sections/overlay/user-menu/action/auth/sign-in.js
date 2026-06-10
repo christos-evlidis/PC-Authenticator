@@ -1,17 +1,17 @@
+import { AUTH_NUMBER_LENGTH } from "../../../../../accounts/accounts-const.js";
 import { authApiVerify } from "../../../../../accounts/accounts-index.js";
 import { authSanitizeNumber } from "../../../../../accounts/accounts-index.js";
 import { authStorageGet } from "../../../../../accounts/accounts-index.js";
 import { authStorageSet } from "../../../../../accounts/accounts-index.js";
 import { dataHandleSync } from "../../../../../accounts/accounts-index.js";
-import { authChromeApply } from "../../../../../utils/utility-auth.js";
 import { bodyAnimationFinish } from "../../../../shell/body/body-index.js";
 import { codesLoadStart } from "../../../../shell/codes/codes-index.js";
+import { authChromeApply } from "../../../../../utils/utility-auth.js";
+import { THEME_DARK } from "../../../../../utils/utility-theme.js";
 import { themeGet } from "../../../../../utils/utility-theme.js";
 import { userMenuAnimationAuthSignIn } from "../../animation/auth/sign-in.js";
 import { userMenuStateGet } from "../../state/get.js";
 
-import { AUTH_NUMBER_LENGTH } from "../../../../../accounts/accounts-const.js";
-import { THEME_DARK } from "../../../../../utils/utility-theme.js";
 import { USER_MENU_ACTIVE_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_AUTH_BTN_SELECTOR } from "../../user-menu-const.js";
 import { USER_MENU_AUTH_SIGN_IN_CLASS } from "../../user-menu-const.js";
@@ -27,7 +27,8 @@ import { USER_MENU_THEME_DARK_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_THEME_LIGHT_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_THEME_TRACK_SELECTOR } from "../../user-menu-const.js";
 
-async function userMenuActionsAuthSignIn(input) {
+/** Verifies an auth number and runs the sign-in animation sequence. */
+async function userMenuActionAuthSignIn(input) {
   if (userMenuStateGet().isSignInRunning) {
     return false;
   }
@@ -105,4 +106,4 @@ async function userMenuActionsAuthSignIn(input) {
   });
 }
 
-export { userMenuActionsAuthSignIn };
+export { userMenuActionAuthSignIn };

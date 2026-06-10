@@ -5,6 +5,7 @@ import { DATA_OTP_PERIOD } from "../../../accounts-const.js";
 import { DATA_OTP_TYPE_HOTP } from "../../../accounts-const.js";
 import { DATA_OTP_TYPE_TOTP } from "../../../accounts-const.js";
 
+/** Assigns ID and defaults to build a final account record. */
 function dataRecordBuildFinal({
   name,
   secret,

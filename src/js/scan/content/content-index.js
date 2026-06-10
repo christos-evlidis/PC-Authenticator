@@ -3,6 +3,7 @@ import { contentOverlayStart } from "./overlay/start.js";
 
 import { MESSAGES } from "../scan-const.js";
 
+/** Registers content-script listeners for scan overlay messages. */
 function contentScriptInit() {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (message.action === MESSAGES.PING) {

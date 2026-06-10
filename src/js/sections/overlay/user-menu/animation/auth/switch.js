@@ -9,6 +9,7 @@ import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../../user-menu-const.js";
 import { USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../user-menu-const.js";
 import { USER_MENU_VAR_AUTH_THUMB_MS } from "../../user-menu-const.js";
 
+/** Animates the auth view switch thumb to sign-in or sign-up. */
 async function userMenuAnimationAuthSwitch(authView) {
   const track = document.querySelector(USER_MENU_AUTH_TRACK_SELECTOR);
   const thumb = document.querySelector(USER_MENU_AUTH_THUMB_SELECTOR);

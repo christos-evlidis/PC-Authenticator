@@ -1,3 +1,4 @@
+/** Normalizes varied storage shapes into an account array. */
 function dataRecordSanitizeList(value) {
   try {
     if (value == null) {

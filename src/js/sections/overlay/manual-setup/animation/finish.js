@@ -20,6 +20,7 @@ import { MANUAL_SETUP_SUBMIT_RESULT_FADE_OUT_CLASS } from "../manual-setup-const
 import { MANUAL_SETUP_SUBMIT_RESTORE_FADE_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_RUNNING_CLASS } from "../manual-setup-const.js";
 
+/** Resets manual-setup submit animation classes and layout. */
 function manualSetupAnimationSubmitFinish() {
   const root = document.querySelector(MANUAL_SETUP_ROOT_SELECTOR);
   const panel = document.querySelector(MANUAL_SETUP_PANEL_SELECTOR);

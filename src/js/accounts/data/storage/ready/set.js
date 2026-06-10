@@ -1,5 +1,6 @@
 import { DATA_KEY_FINAL } from "../../../accounts-const.js";
 
+/** Persists ready accounts to local storage. */
 async function dataStorageReadySet(accounts) {
   try {
     await chrome.storage.local.set({ [DATA_KEY_FINAL]: accounts });

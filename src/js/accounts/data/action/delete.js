@@ -9,6 +9,7 @@ import { dataStorageReadyGet } from "../storage/ready/get.js";
 import { dataStorageRestoredClear } from "../storage/restored/clear.js";
 import { dataStorageRestoredGet } from "../storage/restored/get.js";
 
+/** Removes an account by ID and syncs the updated list. */
 async function dataActionRemove(authNumber, accountId) {
   try {
     const deleteId = String(accountId);

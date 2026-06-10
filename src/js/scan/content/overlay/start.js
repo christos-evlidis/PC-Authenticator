@@ -1,8 +1,8 @@
 import { contentOverlayCreate } from "./create.js";
 import { contentOverlayRemove } from "./remove.js";
 import { contentOverlayStateStore } from "./state/store.js";
-import { contentScreenshotCapture } from "../screenshot/capture.js";
 
+import { contentScreenshotCapture } from "../screenshot/capture.js";
 import { MESSAGES } from "../../scan-const.js";
 import { OVERLAY_CLASS } from "../../scan-const.js";
 import { OVERLAY_DIMMED_CLASS } from "../../scan-const.js";
@@ -11,6 +11,7 @@ import { OVERLAY_SELECTING_CLASS } from "../../scan-const.js";
 import { OVERLAY_SELECTION_CLASS } from "../../scan-const.js";
 import { UNSUPPORTED_PAGE_ERROR } from "../../scan-const.js";
 
+/** Starts the QR scan overlay and handles selection pointer events. */
 function contentOverlayStart() {
   contentOverlayRemove();
 
@@ -20,8 +21,10 @@ function contentOverlayStart() {
   let startY = 0;
   let isSelecting = false;
 
+  /** Cancels the overlay and notifies the service worker. */
   const onCancel = () => contentOverlayRemove({ notifyCancel: true });
 
+  /** Captures the selected region and sends it for QR decoding. */
   const onComplete = async (selection) => {
     try {
       const cropped = await contentScreenshotCapture(selection);
@@ -47,6 +50,7 @@ function contentOverlayStart() {
     contentOverlayRemove();
   };
 
+  /** Begins a drag selection on pointer down. */
   const onPointerDown = (event) => {
     if (event.button !== 0) {
       return;
@@ -86,6 +90,7 @@ function contentOverlayStart() {
     overlay.setPointerCapture(event.pointerId);
   };
 
+  /** Updates the selection box and dimmed clip path while dragging. */
   const onPointerMove = (event) => {
     if (!isSelecting) {
       return;
@@ -144,6 +149,7 @@ function contentOverlayStart() {
     `;
   };
 
+  /** Finishes the selection and triggers capture on pointer up. */
   const onPointerUp = async (event) => {
     if (!isSelecting) {
       return;
@@ -168,6 +174,7 @@ function contentOverlayStart() {
     });
   };
 
+  /** Cancels the overlay when the user presses Escape. */
   const onKeyDown = (event) => {
     if (event.key !== "Escape") {
       return;
@@ -184,6 +191,7 @@ function contentOverlayStart() {
   overlay.addEventListener("pointercancel", onPointerUp);
   window.addEventListener("keydown", onKeyDown, true);
 
+  /** Removes overlay event listeners and dynamic selection styles. */
   contentOverlayStateStore.teardown = () => {
     overlay.removeEventListener("pointerdown", onPointerDown);
     overlay.removeEventListener("pointermove", onPointerMove);

@@ -8,6 +8,7 @@ import { dataStoragePendingAppend } from "../../storage/pending/append.js";
 import { dataStoragePendingClear } from "../../storage/pending/clear.js";
 import { dataStorageRestoredClear } from "../../storage/restored/clear.js";
 
+/** Adds a manually entered account through parse, merge, and backup. */
 async function dataActionAddManual(authNumber, formData) {
   try {
     const parsed = dataParseManual(formData);

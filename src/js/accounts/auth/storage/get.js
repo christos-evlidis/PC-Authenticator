@@ -1,5 +1,6 @@
 import { AUTH_NUMBER_KEY } from "../../accounts-const.js";
 
+/** Reads the stored auth number from local storage. */
 async function authStorageGet() {
   try {
     const stored = await chrome.storage.local.get([AUTH_NUMBER_KEY]);

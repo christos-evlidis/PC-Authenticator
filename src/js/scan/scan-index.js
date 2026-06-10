@@ -3,6 +3,7 @@ import { messageWorker } from "./message/message-index.js";
 import { MESSAGES } from "./scan-const.js";
 import { UNSUPPORTED_PAGE_ERROR } from "./scan-const.js";
 
+/** Starts a QR scan on the active tab via the service worker. */
 async function scanStart() {
   try {
     return await messageWorker({ action: MESSAGES.START });

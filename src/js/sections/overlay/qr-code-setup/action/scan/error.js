@@ -1,14 +1,15 @@
-import { qrSetupActionsInstant } from "../instant.js";
-import { qrSetupActionsPanelOpen } from "../panel/open.js";
+import { qrSetupActionInstant } from "../instant.js";
+import { qrSetupActionPanelOpen } from "../panel/open.js";
 
-async function qrSetupActionsScanError(options = {}) {
+/** Opens the QR panel after a scan failure. */
+async function qrSetupActionScanError(options = {}) {
   const { instantOpen = false } = options;
 
   if (instantOpen) {
-    qrSetupActionsInstant();
+    qrSetupActionInstant();
   } else {
-    await qrSetupActionsPanelOpen();
+    await qrSetupActionPanelOpen();
   }
 }
 
-export { qrSetupActionsScanError };
+export { qrSetupActionScanError };

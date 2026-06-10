@@ -1,13 +1,13 @@
 import { themeGet } from "../../../utils/utility-theme.js";
-import { userMenuActionsAccountCopy } from "./action/account/copy.js";
-import { userMenuActionsAccountDownload } from "./action/account/download.js";
-import { userMenuActionsAuthSignIn } from "./action/auth/sign-in.js";
-import { userMenuActionsAuthSignOut } from "./action/auth/sign-out.js";
-import { userMenuActionsAuthSignUp } from "./action/auth/sign-up.js";
-import { userMenuActionsAuthSwitch } from "./action/auth/switch.js";
-import { userMenuActionsPanelClose } from "./action/panel/close.js";
-import { userMenuActionsPanelOpen } from "./action/panel/open.js";
-import { userMenuActionsThemeSwitch } from "./action/theme/switch.js";
+import { userMenuActionAccountCopy } from "./action/account/copy.js";
+import { userMenuActionAccountDownload } from "./action/account/download.js";
+import { userMenuActionAuthSignIn } from "./action/auth/sign-in.js";
+import { userMenuActionAuthSignOut } from "./action/auth/sign-out.js";
+import { userMenuActionAuthSignUp } from "./action/auth/sign-up.js";
+import { userMenuActionAuthSwitch } from "./action/auth/switch.js";
+import { userMenuActionPanelClose } from "./action/panel/close.js";
+import { userMenuActionPanelOpen } from "./action/panel/open.js";
+import { userMenuActionThemeSwitch } from "./action/theme/switch.js";
 import { userMenuStateSet } from "./state/set.js";
 
 import { THEME_DARK } from "../../../utils/utility-theme.js";
@@ -41,26 +41,26 @@ let listenersReady = false;
 function userMenuInit(isSignedIn, authNumber) {
   if (!listenersReady) {
     document.querySelectorAll(USER_MENU_OPEN_BTN_SELECTOR).forEach((button) => {
-      button.addEventListener("click", userMenuActionsPanelOpen);
+      button.addEventListener("click", userMenuActionPanelOpen);
     });
 
     document
       .querySelector(USER_MENU_CLOSE_BTN_SELECTOR)
-      ?.addEventListener("click", userMenuActionsPanelClose);
+      ?.addEventListener("click", userMenuActionPanelClose);
 
     document
       .querySelector(USER_MENU_BACKDROP_SELECTOR)
-      ?.addEventListener("click", userMenuActionsPanelClose);
+      ?.addEventListener("click", userMenuActionPanelClose);
 
     document.querySelectorAll(USER_MENU_AUTH_BTN_SELECTOR).forEach((button) => {
       button.addEventListener("click", () => {
-        userMenuActionsAuthSwitch(button.dataset.view);
+        userMenuActionAuthSwitch(button.dataset.view);
       });
     });
 
     document.querySelectorAll(USER_MENU_THEME_BTN_SELECTOR).forEach((button) => {
       button.addEventListener("click", () => {
-        void userMenuActionsThemeSwitch(button.dataset.theme);
+        void userMenuActionThemeSwitch(button.dataset.theme);
       });
     });
 
@@ -70,31 +70,31 @@ function userMenuInit(isSignedIn, authNumber) {
         event.preventDefault();
 
         const input = document.querySelector(USER_MENU_SIGN_IN_INPUT_SELECTOR);
-        void userMenuActionsAuthSignIn(input?.value);
+        void userMenuActionAuthSignIn(input?.value);
       });
 
     document
       .querySelector(USER_MENU_SIGN_UP_BTN_SELECTOR)
       ?.addEventListener("click", () => {
-        void userMenuActionsAuthSignUp();
+        void userMenuActionAuthSignUp();
       });
 
     document
       .querySelector(USER_MENU_LOGOUT_BTN_SELECTOR)
       ?.addEventListener("click", () => {
-        void userMenuActionsAuthSignOut();
+        void userMenuActionAuthSignOut();
       });
 
     document
       .querySelector(USER_MENU_ACCOUNT_COPY_BTN_SELECTOR)
       ?.addEventListener("click", () => {
-        void userMenuActionsAccountCopy();
+        void userMenuActionAccountCopy();
       });
 
     document
       .querySelector(USER_MENU_ACCOUNT_DOWNLOAD_BTN_SELECTOR)
       ?.addEventListener("click", () => {
-        void userMenuActionsAccountDownload();
+        void userMenuActionAccountDownload();
       });
 
     const theme = themeGet();
@@ -144,15 +144,15 @@ function userMenuInit(isSignedIn, authNumber) {
 
 export { userMenuInit };
 
-export { userMenuActionsAccountCopy } from "./action/account/copy.js";
-export { userMenuActionsAccountDownload } from "./action/account/download.js";
-export { userMenuActionsAuthSignIn } from "./action/auth/sign-in.js";
-export { userMenuActionsAuthSignOut } from "./action/auth/sign-out.js";
-export { userMenuActionsAuthSignUp } from "./action/auth/sign-up.js";
-export { userMenuActionsAuthSwitch } from "./action/auth/switch.js";
-export { userMenuActionsPanelClose } from "./action/panel/close.js";
-export { userMenuActionsPanelOpen } from "./action/panel/open.js";
-export { userMenuActionsThemeSwitch } from "./action/theme/switch.js";
+export { userMenuActionAccountCopy } from "./action/account/copy.js";
+export { userMenuActionAccountDownload } from "./action/account/download.js";
+export { userMenuActionAuthSignIn } from "./action/auth/sign-in.js";
+export { userMenuActionAuthSignOut } from "./action/auth/sign-out.js";
+export { userMenuActionAuthSignUp } from "./action/auth/sign-up.js";
+export { userMenuActionAuthSwitch } from "./action/auth/switch.js";
+export { userMenuActionPanelClose } from "./action/panel/close.js";
+export { userMenuActionPanelOpen } from "./action/panel/open.js";
+export { userMenuActionThemeSwitch } from "./action/theme/switch.js";
 export { userMenuAnimationAccountCopy } from "./animation/account/copy.js";
 export { userMenuAnimationAccountDownload } from "./animation/account/download.js";
 export { userMenuAnimationAuthSignIn } from "./animation/auth/sign-in.js";

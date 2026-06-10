@@ -1,5 +1,6 @@
 import { dataMerged } from "../../../accounts-const.js";
 
+/** Removes merged accounts from local storage. */
 async function dataStorageMergedClear() {
   try {
     await chrome.storage.local.remove([dataMerged]);

@@ -1,5 +1,6 @@
 import { dataMerged } from "../../../accounts-const.js";
 
+/** Reads merged accounts from local storage. */
 async function dataStorageMergedGet() {
   try {
     const stored = await chrome.storage.local.get([dataMerged]);

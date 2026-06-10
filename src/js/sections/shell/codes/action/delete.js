@@ -1,14 +1,14 @@
 import { authStorageGet } from "../../../../accounts/accounts-index.js";
 import { dataActionRemove } from "../../../../accounts/accounts-index.js";
 
-import { headerActionsIconsDisable } from "../../header/header-index.js";
-import { headerActionsIconsEnable } from "../../header/header-index.js";
+import { headerActionIconsDisable } from "../../header/header-index.js";
+import { headerActionIconsEnable } from "../../header/header-index.js";
 
 import { codesAnimationDeleteStart } from "../animation/delete/start.js";
 import { codesStateStore } from "../state/store.js";
 
 /** Confirms and removes an account from storage with exit animation. */
-function codesActionsDelete(account, card, deleteBtn) {
+function codesActionDelete(account, card, deleteBtn) {
   const dismiss = () => {
     document.querySelectorAll(".delete-confirmation").forEach((dialog) => {
       dialog.remove();
@@ -20,9 +20,9 @@ function codesActionsDelete(account, card, deleteBtn) {
     codesStateStore.headerLockedForDelete = false;
 
     if (codesStateStore.headerLockedForEdit || codesStateStore.headerLockedForDelete) {
-      headerActionsIconsDisable();
+      headerActionIconsDisable();
     } else {
-      headerActionsIconsEnable();
+      headerActionIconsEnable();
     }
   };
 
@@ -86,22 +86,22 @@ function codesActionsDelete(account, card, deleteBtn) {
     })();
   });
 
-  const actions = card.querySelector(".account-block__actions");
+  const Action = card.querySelector(".account-block__Action");
 
-  if (!actions) {
+  if (!Action) {
     dismiss();
     return;
   }
 
-  actions.append(dialog);
+  Action.append(dialog);
 
   codesStateStore.headerLockedForDelete = true;
 
   if (codesStateStore.headerLockedForEdit || codesStateStore.headerLockedForDelete) {
-    headerActionsIconsDisable();
+    headerActionIconsDisable();
   } else {
-    headerActionsIconsEnable();
+    headerActionIconsEnable();
   }
 }
 
-export { codesActionsDelete };
+export { codesActionDelete };

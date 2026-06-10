@@ -8,6 +8,7 @@ import { dataStoragePendingAppend } from "../../storage/pending/append.js";
 import { dataStoragePendingClear } from "../../storage/pending/clear.js";
 import { dataStorageRestoredClear } from "../../storage/restored/clear.js";
 
+/** Adds an account from a QR otpauth URI through merge and backup. */
 async function dataActionAddQr(authNumber, otpauthUri) {
   try {
     const parsed = dataParseQr(otpauthUri);

@@ -5,6 +5,7 @@ import { dataStorageRestoredClear } from "./restored/clear.js";
 
 import { DATA_KEY_LEGACY } from "../../accounts-const.js";
 
+/** Clears all account storage keys including legacy entries. */
 async function dataStoragePurge() {
   try {
     await dataStorageReadyClear();

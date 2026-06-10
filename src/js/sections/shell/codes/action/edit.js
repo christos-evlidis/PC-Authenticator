@@ -2,8 +2,8 @@ import { authStorageGet } from "../../../../accounts/accounts-index.js";
 import { dataActionUpdate } from "../../../../accounts/accounts-index.js";
 import { dataCodeTypeHotp } from "../../../../accounts/accounts-index.js";
 
-import { headerActionsIconsDisable } from "../../header/header-index.js";
-import { headerActionsIconsEnable } from "../../header/header-index.js";
+import { headerActionIconsDisable } from "../../header/header-index.js";
+import { headerActionIconsEnable } from "../../header/header-index.js";
 
 import { codesStateStore } from "../state/store.js";
 import { codesTickerAccountCodeUpdate } from "../ticker/run.js";
@@ -17,12 +17,12 @@ import { codesUtilHotpCounterParse } from "../util/hotp.js";
 import { CODES_HIDDEN_CLASS } from "../codes-const.js";
 
 /** Enters inline edit mode for an account card. */
-function codesActionsEdit(card, account, els, onCardClick) {
+function codesActionEdit(card, account, els, onCardClick) {
   const editBtn = card.querySelector(".edit-button");
   const deleteBtn = card.querySelector(".delete-button");
-  const actions = card.querySelector(".account-block__actions");
+  const Action = card.querySelector(".account-block__Action");
 
-  if (!editBtn || !deleteBtn || !actions) {
+  if (!editBtn || !deleteBtn || !Action) {
     return;
   }
 
@@ -46,9 +46,9 @@ function codesActionsEdit(card, account, els, onCardClick) {
     codesStateStore.headerLockedForEdit = false;
 
     if (codesStateStore.headerLockedForEdit || codesStateStore.headerLockedForDelete) {
-      headerActionsIconsDisable();
+      headerActionIconsDisable();
     } else {
-      headerActionsIconsEnable();
+      headerActionIconsEnable();
     }
   };
 
@@ -72,9 +72,9 @@ function codesActionsEdit(card, account, els, onCardClick) {
   codesStateStore.headerLockedForEdit = true;
 
   if (codesStateStore.headerLockedForEdit || codesStateStore.headerLockedForDelete) {
-    headerActionsIconsDisable();
+    headerActionIconsDisable();
   } else {
-    headerActionsIconsEnable();
+    headerActionIconsEnable();
   }
 
   const snapshot = {
@@ -98,7 +98,7 @@ function codesActionsEdit(card, account, els, onCardClick) {
   cancelButton.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
 
   buttonContainer.append(saveButton, cancelButton);
-  actions.append(buttonContainer);
+  Action.append(buttonContainer);
 
   saveButton.addEventListener("click", (event) => {
     event.stopPropagation();
@@ -226,4 +226,4 @@ function codesActionsEdit(card, account, els, onCardClick) {
   });
 }
 
-export { codesActionsEdit };
+export { codesActionEdit };

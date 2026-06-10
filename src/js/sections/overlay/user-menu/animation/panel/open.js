@@ -17,6 +17,7 @@ import { USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../user-menu-const
 import { USER_MENU_VAR_BLUR_MS } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SLIDE_MS } from "../../user-menu-const.js";
 
+/** Animates panel slide-in and backdrop when opening. */
 async function userMenuAnimationPanelOpen() {
   const runId = USER_MENU_PANEL_ANIMATION_RUN_ID.value + 1;
   USER_MENU_PANEL_ANIMATION_RUN_ID.value = runId;

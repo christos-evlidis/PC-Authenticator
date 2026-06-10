@@ -1,5 +1,6 @@
 import { qrSetupStateStore } from "./store.js";
 
+/** Updates one or more QR setup UI state flags. */
 function qrSetupStateSet(next) {
   if (typeof next.isOpen === "boolean") {
     qrSetupStateStore.isOpen = next.isOpen;
