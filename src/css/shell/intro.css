@@ -39,7 +39,7 @@
     width: 128px;
     height: 128px;
     opacity: 1;
-    transition: opacity var(--intro-shrink-frame-ms) ease;
+    transition: opacity var(--slide-ms) ease;
 }
 
 .app-intro__logo--dark {
@@ -63,19 +63,19 @@ body.theme-dark .app-intro__logo--dark {
 }
 
 .app-intro__overlay.is-intro-shrink-frame {
-    animation: introShrinkFrame var(--intro-shrink-frame-ms) ease forwards;
+    animation: introShrinkFrame var(--slide-ms) ease forwards;
 }
 
 .app-intro__overlay.is-intro-shrink-header {
-    animation: introShrinkHeader var(--intro-shrink-header-ms) ease forwards;
+    animation: introShrinkHeader var(--slide-ms) ease forwards;
 }
 
 .app-intro__overlay.is-intro-shrink-search {
-    animation: introShrinkSearch var(--intro-shrink-search-ms) ease forwards;
+    animation: introShrinkSearch var(--slide-ms) ease forwards;
 }
 
 .app-intro__overlay.is-intro-shrink-body {
-    animation: introShrinkBody var(--intro-shrink-body-ms) ease forwards;
+    animation: introShrinkBody var(--slide-ms) ease forwards;
 }
 
 @keyframes introShrinkFrame {

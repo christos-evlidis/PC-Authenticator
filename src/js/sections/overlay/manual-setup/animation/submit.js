@@ -239,7 +239,7 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
     loadingStatus.classList.add(MANUAL_SETUP_SUBMIT_DOTS_FADE_IN_CLASS);
     await animAnimationEndWait(
       loadingStatus,
-      "loginStatusFadeIn",
+      "manualSetupStatusFadeIn",
       dotsFadeInMs + timeoutBufferMs,
     );
     loadingStatus.classList.remove(MANUAL_SETUP_SUBMIT_DOTS_FADE_IN_CLASS);
@@ -262,7 +262,7 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
     loadingStatus.classList.add(MANUAL_SETUP_SUBMIT_DOTS_FADE_OUT_CLASS);
     await animAnimationEndWait(
       loadingStatus,
-      "loginStatusFadeOut",
+      "manualSetupStatusFadeOut",
       dotsFadeOutMs + timeoutBufferMs,
     );
     loadingStatus.classList.remove(MANUAL_SETUP_SUBMIT_DOTS_FADE_OUT_CLASS);
@@ -284,7 +284,7 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
     if (circle) {
       await animAnimationEndWait(
         circle,
-        "loginStatusCircleDraw",
+        "manualSetupStatusCircleDraw",
         circleDuration + timeoutBufferMs,
       );
     }
@@ -295,7 +295,7 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
 
     await Promise.all(
       marks.map((mark) =>
-        animAnimationEndWait(mark, "loginStatusMarkDraw", markDuration + timeoutBufferMs),
+        animAnimationEndWait(mark, "manualSetupStatusMarkDraw", markDuration + timeoutBufferMs),
       ),
     );
 
@@ -309,7 +309,7 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
     resultStatus.classList.add(MANUAL_SETUP_SUBMIT_RESULT_FADE_OUT_CLASS);
     await animAnimationEndWait(
       resultStatus,
-      "loginStatusFadeOut",
+      "manualSetupStatusFadeOut",
       resultFadeOutMs + timeoutBufferMs,
     );
     resultStatus.classList.remove(

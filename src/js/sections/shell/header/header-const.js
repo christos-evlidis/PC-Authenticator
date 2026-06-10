@@ -1,3 +1,11 @@
+import {
+  VAR_BUFFER_MS,
+  VAR_FADE_MS,
+  VAR_POP_MS,
+  VAR_STAGGER_MS,
+  VAR_TYPE_MS,
+} from "../../../utils/motion-const.js";
+
 export const HEADER_ROOT_SELECTOR = ".app-header";
 export const HEADER_SHELL_SELECTOR = ".app-header__shell";
 export const HEADER_INTRO_CONTENT_SELECTOR = ".app-header__intro-content";
@@ -21,10 +29,10 @@ export const HEADER_TITLE_TYPING_CLASS = "is-header-title-typing";
 export const HEADER_ICON_POP_PENDING_CLASS = "is-header-pop-pending";
 export const HEADER_ICON_POP_REVEALED_CLASS = "is-header-pop-revealed";
 
-export const HEADER_VAR_INTRO_FADE_MS = "--header-intro-fade-ms";
-export const HEADER_VAR_TITLE_TYPE_MS = "--header-title-type-ms";
-export const HEADER_VAR_ICON_POP_MS = "--header-icon-pop-ms";
-export const HEADER_VAR_ICON_POP_STAGGER_MS = "--header-icon-pop-stagger-ms";
-export const HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--buffer-ms";
+export const HEADER_VAR_INTRO_FADE_MS = VAR_FADE_MS;
+export const HEADER_VAR_TITLE_TYPE_MS = VAR_TYPE_MS;
+export const HEADER_VAR_ICON_POP_MS = VAR_POP_MS;
+export const HEADER_VAR_ICON_POP_STAGGER_MS = VAR_STAGGER_MS;
+export const HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS = VAR_BUFFER_MS;
 
 export const HEADER_TITLE_TEXT = "PC Authenticator";

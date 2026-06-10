@@ -1,6 +1,5 @@
 import { BODY_ACTIVE_CLASS } from "../body-const.js";
 import { BODY_ANIMATION_PENDING_CLASS } from "../body-const.js";
-import { BODY_CONTENT_FADE_PENDING_CLASS } from "../body-const.js";
 import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "../body-const.js";
 import { BODY_CONTENT_SIGNED_OUT_SELECTOR } from "../body-const.js";
 import { BODY_HIDDEN_CLASS } from "../body-const.js";
@@ -33,7 +32,6 @@ function bodyAnimationFinish() {
   }
 
   body.classList.remove(BODY_ANIMATION_PENDING_CLASS);
-  content?.classList.remove(BODY_CONTENT_FADE_PENDING_CLASS);
 
   if (!content) {
     return;

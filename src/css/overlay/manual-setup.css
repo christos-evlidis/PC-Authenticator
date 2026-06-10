@@ -1,5 +1,5 @@
-/* Login status indicators */
-.login-status {
+/* Manual setup flow status */
+.manual-setup-status {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -10,41 +10,42 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity var(--login-status-fade-ms) ease, visibility var(--login-status-fade-ms) ease;
+    transition: opacity var(--fade-ms) ease, visibility var(--fade-ms) ease;
 }
 
-.login-status.is-hidden {
+.manual-setup-status.is-hidden {
+    display: none;
     opacity: 0;
     visibility: hidden;
 }
 
-.login-status.is-shown {
+.manual-setup-status.is-shown {
     opacity: 1;
     visibility: visible;
 }
 
-.login-status--loading {
+.manual-setup-status--loading {
     gap: var(--gap-md);
 }
 
-.login-status__dot {
+.manual-setup-status__dot {
     display: block;
     width: 10px;
     height: 10px;
     border-radius: var(--radius-circle);
     background: var(--color-brand);
-    animation: login-dot-bounce var(--login-dot-bounce-duration) ease-in-out infinite;
+    animation: manualSetupStatusDotBounce var(--dots-bounce-ms) ease-in-out infinite;
 }
 
-.login-status__dot:nth-child(2) {
-    animation-delay: var(--login-dot-bounce-delay-2);
+.manual-setup-status__dot:nth-child(2) {
+    animation-delay: var(--dots-bounce-delay-2-ms);
 }
 
-.login-status__dot:nth-child(3) {
-    animation-delay: var(--login-dot-bounce-delay-3);
+.manual-setup-status__dot:nth-child(3) {
+    animation-delay: var(--dots-bounce-delay-3-ms);
 }
 
-@keyframes login-dot-bounce {
+@keyframes manualSetupStatusDotBounce {
     0%,
     80%,
     100% {
@@ -58,18 +59,18 @@
     }
 }
 
-.login-status__icon {
+.manual-setup-status__icon {
     width: 52px;
     height: 52px;
 }
 
-.login-status__icon-circle {
+.manual-setup-status__icon-circle {
     stroke-width: 2;
     stroke-dasharray: 151;
     stroke-dashoffset: 151;
 }
 
-.login-status__icon-mark {
+.manual-setup-status__icon-mark {
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -77,44 +78,44 @@
     stroke-dashoffset: 36;
 }
 
-.login-status--success .login-status__icon-circle,
-.login-status--success .login-status__icon-mark,
-.login-status--error .login-status__icon-circle,
-.login-status--error .login-status__icon-mark {
+.manual-setup-status--success .manual-setup-status__icon-circle,
+.manual-setup-status--success .manual-setup-status__icon-mark,
+.manual-setup-status--error .manual-setup-status__icon-circle,
+.manual-setup-status--error .manual-setup-status__icon-mark {
     stroke: var(--color-brand);
 }
 
-.login-status--success.is-animating .login-status__icon-circle,
-.login-status--error.is-animating .login-status__icon-circle {
-    animation: loginStatusCircleDraw calc(var(--login-check-draw-duration) * 0.45) ease forwards;
+.manual-setup-status--success.is-animating .manual-setup-status__icon-circle,
+.manual-setup-status--error.is-animating .manual-setup-status__icon-circle {
+    animation: manualSetupStatusCircleDraw calc(var(--result-main-draw-ms) * 0.45) ease forwards;
 }
 
-.login-status--success.is-animating .login-status__icon-mark,
-.login-status--error.is-animating .login-status__icon-mark {
-    animation: loginStatusMarkDraw calc(var(--login-check-draw-duration) * 0.55) ease forwards;
-    animation-delay: calc(var(--login-check-draw-duration) * 0.45);
+.manual-setup-status--success.is-animating .manual-setup-status__icon-mark,
+.manual-setup-status--error.is-animating .manual-setup-status__icon-mark {
+    animation: manualSetupStatusMarkDraw calc(var(--result-main-draw-ms) * 0.55) ease forwards;
+    animation-delay: calc(var(--result-main-draw-ms) * 0.45);
 }
 
-@keyframes loginStatusCircleDraw {
+@keyframes manualSetupStatusCircleDraw {
     to {
         stroke-dashoffset: 0;
     }
 }
 
-@keyframes loginStatusMarkDraw {
+@keyframes manualSetupStatusMarkDraw {
     to {
         stroke-dashoffset: 0;
     }
 }
 
-.login-status--success.is-drawn .login-status__icon-circle,
-.login-status--error.is-drawn .login-status__icon-circle,
-.login-status--success.is-hiding .login-status__icon-circle,
-.login-status--error.is-hiding .login-status__icon-circle,
-.login-status--success.is-drawn .login-status__icon-mark,
-.login-status--error.is-drawn .login-status__icon-mark,
-.login-status--success.is-hiding .login-status__icon-mark,
-.login-status--error.is-hiding .login-status__icon-mark {
+.manual-setup-status--success.is-drawn .manual-setup-status__icon-circle,
+.manual-setup-status--error.is-drawn .manual-setup-status__icon-circle,
+.manual-setup-status--success.is-hiding .manual-setup-status__icon-circle,
+.manual-setup-status--error.is-hiding .manual-setup-status__icon-circle,
+.manual-setup-status--success.is-drawn .manual-setup-status__icon-mark,
+.manual-setup-status--error.is-drawn .manual-setup-status__icon-mark,
+.manual-setup-status--success.is-hiding .manual-setup-status__icon-mark,
+.manual-setup-status--error.is-hiding .manual-setup-status__icon-mark {
     stroke-dashoffset: 0;
 }
 
@@ -178,7 +179,7 @@
     background: var(--color-surface-primary);
     overflow: hidden;
     transform: translateY(100%);
-    transition: transform var(--manual-setup-slide-ms) ease;
+    transition: transform var(--slide-ms) ease;
 }
 
 .manual-setup__content {
@@ -240,8 +241,8 @@
     color: var(--color-icon-primary);
     cursor: pointer;
     transition:
-        background-color var(--manual-setup-close-btn-accent-ms) ease,
-        color var(--manual-setup-close-btn-accent-ms) ease;
+        background-color var(--hover-ms) ease,
+        color var(--hover-ms) ease;
 }
 
 .manual-setup__btn:hover {
@@ -455,15 +456,15 @@
 .manual-setup__header,
 .manual-setup__form {
     transition:
-        opacity var(--manual-setup-submit-fade-ms, 250ms) ease,
-        visibility var(--manual-setup-submit-fade-ms, 250ms) ease;
+        opacity var(--fade-ms) ease,
+        visibility var(--fade-ms) ease;
 }
 
 .manual-setup__panel:is(.is-submit-fade) .manual-setup__header,
 .manual-setup__panel:is(.is-submit-fade) .manual-setup__form {
     opacity: 0 !important;
     pointer-events: none !important;
-    transition: opacity var(--manual-setup-submit-fade-ms, 250ms) ease !important;
+    transition: opacity var(--fade-ms) ease !important;
 }
 
 .manual-setup__panel.is-submit-running:not(:is(.is-submit-fade, .is-submit-restore-fade)) .manual-setup__header,
@@ -477,7 +478,7 @@
 .manual-setup__panel:is(.is-submit-restore-fade) .manual-setup__form {
     visibility: visible;
     pointer-events: none;
-    animation: manualSetupRestoreFade var(--manual-setup-submit-restore-fade-ms, 250ms) ease forwards;
+    animation: manualSetupRestoreFade var(--fade-ms) ease forwards;
 }
 
 @keyframes manualSetupRestoreFade {
@@ -491,29 +492,49 @@
     }
 }
 
-.manual-setup__status .login-status:is(.is-submit-dots-fade-in) {
-    visibility: visible;
-    animation: loginStatusFadeIn var(--manual-setup-submit-dots-fade-in-ms) ease forwards;
+@keyframes manualSetupStatusFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-.manual-setup__status .login-status:is(.is-submit-dots-fade-out) {
+@keyframes manualSetupStatusFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.manual-setup__status .manual-setup-status:is(.is-submit-dots-fade-in) {
+    visibility: visible;
+    animation: manualSetupStatusFadeIn var(--fade-ms) ease forwards;
+}
+
+.manual-setup__status .manual-setup-status:is(.is-submit-dots-fade-out) {
     visibility: visible;
     opacity: 1;
-    animation: loginStatusFadeOut var(--manual-setup-submit-dots-fade-out-ms) ease forwards;
+    animation: manualSetupStatusFadeOut var(--fade-ms) ease forwards;
 }
 
-.manual-setup__status .login-status:is(.is-submit-dots-run) {
+.manual-setup__status .manual-setup-status:is(.is-submit-dots-run) {
     visibility: visible;
     opacity: 1;
 }
 
-.manual-setup__status .login-status:is(.is-submit-result-draw) {
+.manual-setup__status .manual-setup-status:is(.is-submit-result-draw) {
     visibility: visible;
     opacity: 1;
 }
 
-.manual-setup__status .login-status:is(.is-submit-result-fade-out) {
-    animation: loginStatusFadeOut var(--manual-setup-submit-result-fade-out-ms) ease forwards;
+.manual-setup__status .manual-setup-status:is(.is-submit-result-fade-out) {
+    animation: manualSetupStatusFadeOut var(--fade-ms) ease forwards;
 }
 
 .manual-setup__content.is-submit-absolute {
@@ -527,17 +548,17 @@
 }
 
 .manual-setup__content.is-submit-expand-up {
-    animation: signInExpandUp var(--manual-setup-submit-expand-up-ms, 250ms) ease forwards;
+    animation: signInExpandUp var(--expand-up-ms) ease forwards;
 }
 
 .manual-setup__content.is-submit-expand-full {
-    animation: signInExpandFull var(--manual-setup-submit-expand-full-ms, 150ms) ease forwards;
+    animation: signInExpandFull var(--expand-full-ms) ease forwards;
 }
 
 .manual-setup__content.is-submit-shrink-full {
-    animation: signInShrinkFull var(--manual-setup-submit-shrink-full-ms, 150ms) ease forwards;
+    animation: signInShrinkFull var(--shrink-full-ms) ease forwards;
 }
 
 .manual-setup__content.is-submit-shrink-down {
-    animation: signInShrinkDown var(--manual-setup-submit-shrink-down-ms, 250ms) ease forwards;
+    animation: signInShrinkDown var(--shrink-down-ms) ease forwards;
 }

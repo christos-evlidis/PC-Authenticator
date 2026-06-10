@@ -1,4 +1,16 @@
 import { HEADER_SCAN_QR_BTN_SELECTOR } from "../../shell/header/header-const.js";
+import {
+  VAR_BLUR_MS,
+  VAR_BUFFER_MS,
+  VAR_DOTS_RUN_MS,
+  VAR_EXPAND_FULL_MS,
+  VAR_EXPAND_UP_MS,
+  VAR_FADE_MS,
+  VAR_RESULT_MAIN_DRAW_MS,
+  VAR_SHRINK_DOWN_MS,
+  VAR_SHRINK_FULL_MS,
+  VAR_SLIDE_MS,
+} from "../../../utils/motion-const.js";
 
 export const QR_SETUP_ROOT_SELECTOR = ".qr-setup";
 export const QR_SETUP_BACKDROP_SELECTOR = ".qr-setup__backdrop";
@@ -25,21 +37,21 @@ export const QR_SETUP_HEADER_BTN_ACTIVE_CLASS = "is-qr-setup-btn-active";
 export const QR_SETUP_BUSY_CLASS = "is-busy";
 export const BODY_AUTH_FLOW_LOCK_CLASS = "is-auth-flow-locked";
 
-export const QR_SETUP_VAR_BLUR_MS = "--blur-ms";
-export const QR_SETUP_VAR_SLIDE_MS = "--qr-setup-slide-ms";
-export const QR_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--buffer-ms";
+export const QR_SETUP_VAR_BLUR_MS = VAR_BLUR_MS;
+export const QR_SETUP_VAR_SLIDE_MS = VAR_SLIDE_MS;
+export const QR_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS = VAR_BUFFER_MS;
 
 export const QR_SETUP_PANEL_ANIMATION_RUN_ID = { value: 0 };
 export const QR_SETUP_RESUME_ANIMATION_RUN_ID = { value: 0 };
 
 export const QR_SETUP_STATUS_LOADING_SELECTOR =
-  ".qr-setup__status .login-status--loading";
+  ".qr-setup__status .qr-setup-status--loading";
 export const QR_SETUP_STATUS_SUCCESS_SELECTOR =
-  ".qr-setup__status .login-status--success";
+  ".qr-setup__status .qr-setup-status--success";
 export const QR_SETUP_STATUS_ERROR_SELECTOR =
-  ".qr-setup__status .login-status--error";
-export const QR_SETUP_STATUS_ICON_CIRCLE_SELECTOR = ".login-status__icon-circle";
-export const QR_SETUP_STATUS_ICON_MARK_SELECTOR = ".login-status__icon-mark";
+  ".qr-setup__status .qr-setup-status--error";
+export const QR_SETUP_STATUS_ICON_CIRCLE_SELECTOR = ".qr-setup-status__icon-circle";
+export const QR_SETUP_STATUS_ICON_MARK_SELECTOR = ".qr-setup-status__icon-mark";
 
 export const QR_SETUP_RESUME_RUNNING_CLASS = "is-resume-running";
 export const QR_SETUP_RESUME_LOCKED_CLASS = "is-resume-locked";
@@ -55,16 +67,16 @@ export const QR_SETUP_RESUME_RESULT_FADE_OUT_CLASS = "is-resume-result-fade-out"
 export const QR_SETUP_RESUME_SHRINK_FULL_CLASS = "is-resume-shrink-full";
 export const QR_SETUP_RESUME_SHRINK_DOWN_CLASS = "is-resume-shrink-down";
 
-export const QR_SETUP_VAR_RESUME_FADE_MS = "--qr-setup-resume-fade-ms";
-export const QR_SETUP_VAR_RESUME_EXPAND_UP_MS = "--qr-setup-resume-expand-up-ms";
-export const QR_SETUP_VAR_RESUME_EXPAND_FULL_MS = "--qr-setup-resume-expand-full-ms";
-export const QR_SETUP_VAR_RESUME_DOTS_FADE_IN_MS = "--qr-setup-resume-dots-fade-in-ms";
-export const QR_SETUP_VAR_RESUME_DOTS_RUN_MS = "--qr-setup-resume-dots-run-ms";
-export const QR_SETUP_VAR_RESUME_DOTS_FADE_OUT_MS = "--qr-setup-resume-dots-fade-out-ms";
-export const QR_SETUP_VAR_RESUME_RESULT_DRAW_MS = "--qr-setup-resume-result-draw-ms";
-export const QR_SETUP_VAR_RESUME_RESULT_FADE_OUT_MS = "--qr-setup-resume-result-fade-out-ms";
-export const QR_SETUP_VAR_RESUME_SHRINK_FULL_MS = "--qr-setup-resume-shrink-full-ms";
-export const QR_SETUP_VAR_RESUME_SHRINK_DOWN_MS = "--qr-setup-resume-shrink-down-ms";
+export const QR_SETUP_VAR_RESUME_FADE_MS = VAR_FADE_MS;
+export const QR_SETUP_VAR_RESUME_EXPAND_UP_MS = VAR_EXPAND_UP_MS;
+export const QR_SETUP_VAR_RESUME_EXPAND_FULL_MS = VAR_EXPAND_FULL_MS;
+export const QR_SETUP_VAR_RESUME_DOTS_FADE_IN_MS = VAR_FADE_MS;
+export const QR_SETUP_VAR_RESUME_DOTS_RUN_MS = VAR_DOTS_RUN_MS;
+export const QR_SETUP_VAR_RESUME_DOTS_FADE_OUT_MS = VAR_FADE_MS;
+export const QR_SETUP_VAR_RESUME_RESULT_DRAW_MS = VAR_RESULT_MAIN_DRAW_MS;
+export const QR_SETUP_VAR_RESUME_RESULT_FADE_OUT_MS = VAR_FADE_MS;
+export const QR_SETUP_VAR_RESUME_SHRINK_FULL_MS = VAR_SHRINK_FULL_MS;
+export const QR_SETUP_VAR_RESUME_SHRINK_DOWN_MS = VAR_SHRINK_DOWN_MS;
 
 export const QR_SETUP_VAR_RESUME_ORIGIN_TOP = "--sign-in-origin-top";
 export const QR_SETUP_VAR_RESUME_ORIGIN_LEFT = "--sign-in-origin-left";

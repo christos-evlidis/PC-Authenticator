@@ -1,4 +1,16 @@
 import { HEADER_MANUAL_SETUP_BTN_SELECTOR } from "../../shell/header/header-const.js";
+import {
+  VAR_BLUR_MS,
+  VAR_BUFFER_MS,
+  VAR_DOTS_RUN_MS,
+  VAR_EXPAND_FULL_MS,
+  VAR_EXPAND_UP_MS,
+  VAR_FADE_MS,
+  VAR_RESULT_MAIN_DRAW_MS,
+  VAR_SHRINK_DOWN_MS,
+  VAR_SHRINK_FULL_MS,
+  VAR_SLIDE_MS,
+} from "../../../utils/motion-const.js";
 
 export const MANUAL_SETUP_ROOT_SELECTOR = ".manual-setup";
 export const MANUAL_SETUP_BACKDROP_SELECTOR = ".manual-setup__backdrop";
@@ -25,21 +37,21 @@ export const MANUAL_SETUP_PANEL_BACKDROP_CLOSING_CLASS = "is-panel-backdrop-clos
 
 export const MANUAL_SETUP_HEADER_BTN_ACTIVE_CLASS = "is-manual-setup-btn-active";
 
-export const MANUAL_SETUP_VAR_BLUR_MS = "--blur-ms";
-export const MANUAL_SETUP_VAR_SLIDE_MS = "--manual-setup-slide-ms";
-export const MANUAL_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--buffer-ms";
+export const MANUAL_SETUP_VAR_BLUR_MS = VAR_BLUR_MS;
+export const MANUAL_SETUP_VAR_SLIDE_MS = VAR_SLIDE_MS;
+export const MANUAL_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS = VAR_BUFFER_MS;
 
 export const MANUAL_SETUP_PANEL_ANIMATION_RUN_ID = { value: 0 };
 export const MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID = { value: 0 };
 
 export const MANUAL_SETUP_STATUS_LOADING_SELECTOR =
-  ".manual-setup__status .login-status--loading";
+  ".manual-setup__status .manual-setup-status--loading";
 export const MANUAL_SETUP_STATUS_SUCCESS_SELECTOR =
-  ".manual-setup__status .login-status--success";
+  ".manual-setup__status .manual-setup-status--success";
 export const MANUAL_SETUP_STATUS_ERROR_SELECTOR =
-  ".manual-setup__status .login-status--error";
-export const MANUAL_SETUP_STATUS_ICON_CIRCLE_SELECTOR = ".login-status__icon-circle";
-export const MANUAL_SETUP_STATUS_ICON_MARK_SELECTOR = ".login-status__icon-mark";
+  ".manual-setup__status .manual-setup-status--error";
+export const MANUAL_SETUP_STATUS_ICON_CIRCLE_SELECTOR = ".manual-setup-status__icon-circle";
+export const MANUAL_SETUP_STATUS_ICON_MARK_SELECTOR = ".manual-setup-status__icon-mark";
 
 export const MANUAL_SETUP_SUBMIT_RUNNING_CLASS = "is-submit-running";
 export const MANUAL_SETUP_SUBMIT_LOCKED_CLASS = "is-submit-locked";
@@ -56,17 +68,17 @@ export const MANUAL_SETUP_SUBMIT_SHRINK_FULL_CLASS = "is-submit-shrink-full";
 export const MANUAL_SETUP_SUBMIT_SHRINK_DOWN_CLASS = "is-submit-shrink-down";
 export const MANUAL_SETUP_SUBMIT_RESTORE_FADE_CLASS = "is-submit-restore-fade";
 
-export const MANUAL_SETUP_VAR_SUBMIT_FADE_MS = "--manual-setup-submit-fade-ms";
-export const MANUAL_SETUP_VAR_SUBMIT_EXPAND_UP_MS = "--manual-setup-submit-expand-up-ms";
-export const MANUAL_SETUP_VAR_SUBMIT_EXPAND_FULL_MS = "--manual-setup-submit-expand-full-ms";
-export const MANUAL_SETUP_VAR_SUBMIT_DOTS_FADE_IN_MS = "--manual-setup-submit-dots-fade-in-ms";
-export const MANUAL_SETUP_VAR_SUBMIT_DOTS_RUN_MS = "--manual-setup-submit-dots-run-ms";
-export const MANUAL_SETUP_VAR_SUBMIT_DOTS_FADE_OUT_MS = "--manual-setup-submit-dots-fade-out-ms";
-export const MANUAL_SETUP_VAR_SUBMIT_RESULT_DRAW_MS = "--manual-setup-submit-result-draw-ms";
-export const MANUAL_SETUP_VAR_SUBMIT_RESULT_FADE_OUT_MS = "--manual-setup-submit-result-fade-out-ms";
-export const MANUAL_SETUP_VAR_SUBMIT_SHRINK_FULL_MS = "--manual-setup-submit-shrink-full-ms";
-export const MANUAL_SETUP_VAR_SUBMIT_SHRINK_DOWN_MS = "--manual-setup-submit-shrink-down-ms";
-export const MANUAL_SETUP_VAR_SUBMIT_RESTORE_FADE_MS = "--manual-setup-submit-restore-fade-ms";
+export const MANUAL_SETUP_VAR_SUBMIT_FADE_MS = VAR_FADE_MS;
+export const MANUAL_SETUP_VAR_SUBMIT_EXPAND_UP_MS = VAR_EXPAND_UP_MS;
+export const MANUAL_SETUP_VAR_SUBMIT_EXPAND_FULL_MS = VAR_EXPAND_FULL_MS;
+export const MANUAL_SETUP_VAR_SUBMIT_DOTS_FADE_IN_MS = VAR_FADE_MS;
+export const MANUAL_SETUP_VAR_SUBMIT_DOTS_RUN_MS = VAR_DOTS_RUN_MS;
+export const MANUAL_SETUP_VAR_SUBMIT_DOTS_FADE_OUT_MS = VAR_FADE_MS;
+export const MANUAL_SETUP_VAR_SUBMIT_RESULT_DRAW_MS = VAR_RESULT_MAIN_DRAW_MS;
+export const MANUAL_SETUP_VAR_SUBMIT_RESULT_FADE_OUT_MS = VAR_FADE_MS;
+export const MANUAL_SETUP_VAR_SUBMIT_SHRINK_FULL_MS = VAR_SHRINK_FULL_MS;
+export const MANUAL_SETUP_VAR_SUBMIT_SHRINK_DOWN_MS = VAR_SHRINK_DOWN_MS;
+export const MANUAL_SETUP_VAR_SUBMIT_RESTORE_FADE_MS = VAR_FADE_MS;
 
 export const MANUAL_SETUP_VAR_SUBMIT_ORIGIN_TOP = "--sign-in-origin-top";
 export const MANUAL_SETUP_VAR_SUBMIT_ORIGIN_LEFT = "--sign-in-origin-left";

@@ -1,6 +1,6 @@
 /* Extension layout tokens */
 :root {
-    /* foundation/reset.css — popup dimensions and frame inset */
+    /* foundation/frame.css — popup dimensions and frame inset */
     --extension-width: 350px;
     --extension-height: 600px;
     --frame-padding: 12px;

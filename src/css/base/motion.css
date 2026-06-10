@@ -1,151 +1,32 @@
 /* Motion and animation timing tokens */
 :root {
-    /* Global */
-    --theme-transition-ms: 220ms;
+    /* Infrastructure */
+    --theme-transition-ms: 250ms;
     --blur-ms: 250ms;
     --buffer-ms: 50ms;
+    --stagger-ms: 50ms;
 
-    /* shell/header.css */
-    --header-btn-hover-ms: 250ms;
-    --header-intro-fade-ms: 250ms;
-    --header-title-type-ms: 750ms;
-    --header-icon-pop-ms: 200ms;
-    --header-icon-pop-stagger-ms: 50ms;
+    /* Core motion types */
+    --slide-ms: 250ms;
+    --fade-ms: 250ms;
+    --type-ms: 750ms;
+    --expand-up-ms: 150ms;
+    --expand-full-ms: 150ms;
+    --shrink-down-ms: 150ms;
+    --shrink-full-ms: 150ms;
 
-    /* shell/body.css */
-    --body-transition-ms: 220ms;
-    --body-auth-fade-ms: 500ms;
-    --body-icon-pop-ms: 200ms;
-    --body-message-type-ms: 750ms;
-
-    /* shell/search.css */
-    --search-intro-fade-ms: 250ms;
-
-    /* shell/intro.css */
-    --intro-logo-hold-ms: 500ms;
-    --intro-shrink-frame-ms: 350ms;
-    --intro-shrink-header-ms: 250ms;
-    --intro-shrink-search-ms: 250ms;
-    --intro-shrink-body-ms: 250ms;
-
-    /* shell/codes.css */
-    --codes-delete-slide-ms: 280ms;
-    --codes-delete-collapse-ms: 280ms;
-    --codes-card-slide-ms: 150ms;
-    --codes-intro-slide-ms: 250ms;
-    --codes-intro-stagger-ms: 225ms;
-    --codes-list-wheel-cooldown-ms: 380ms;
-    --copy-fill-expand-ms: 1000ms;
-    --copy-fill-contract-ms: 480ms;
-    --copy-fade-ms: 250ms;
-    --copy-check-draw-ms: 280ms;
-
-    /* overlay/user-menu.css */
-    --user-menu-sign-in-fade-ms: 250ms;
-    --user-menu-sign-in-restore-fade-ms: 250ms;
-    --user-menu-sign-in-expand-up-ms: 250ms;
-    --user-menu-sign-in-expand-full-ms: 150ms;
-    --user-menu-sign-in-shrink-full-ms: 150ms;
-    --user-menu-sign-in-shrink-down-ms: 250ms;
-    --user-menu-sign-in-dots-fade-in-ms: 250ms;
-    --user-menu-sign-in-dots-run-ms: 2000ms;
-    --user-menu-sign-in-dots-fade-out-ms: 250ms;
-    --user-menu-sign-in-result-draw-ms: 1000ms;
-    --user-menu-sign-in-result-fade-out-ms: 250ms;
-    --user-menu-sign-up-fade-ms: 250ms;
-    --user-menu-sign-up-restore-fade-ms: 250ms;
-    --user-menu-sign-up-expand-up-ms: 250ms;
-    --user-menu-sign-up-expand-full-ms: 150ms;
-    --user-menu-sign-up-shrink-full-ms: 150ms;
-    --user-menu-sign-up-shrink-down-ms: 250ms;
-    --user-menu-sign-up-dots-fade-in-ms: 250ms;
-    --user-menu-sign-up-dots-run-ms: 2000ms;
-    --user-menu-sign-up-dots-fade-out-ms: 250ms;
-    --user-menu-sign-up-result-draw-ms: 1000ms;
-    --user-menu-sign-up-result-fade-out-ms: 250ms;
-    --user-menu-sign-out-fade-ms: 250ms;
-    --user-menu-sign-out-restore-fade-ms: 250ms;
-    --user-menu-sign-out-expand-up-ms: 250ms;
-    --user-menu-sign-out-expand-full-ms: 150ms;
-    --user-menu-sign-out-shrink-full-ms: 150ms;
-    --user-menu-sign-out-shrink-down-ms: 250ms;
-    --user-menu-sign-out-dots-fade-in-ms: 250ms;
-    --user-menu-sign-out-dots-run-ms: 2000ms;
-    --user-menu-sign-out-dots-fade-out-ms: 250ms;
-    --user-menu-sign-out-result-draw-ms: 1000ms;
-    --user-menu-sign-out-result-fade-out-ms: 250ms;
-    --user-menu-slide-ms: 250ms;
-    --user-menu-auth-thumb-ms: 250ms;
-    --user-menu-theme-thumb-ms: 250ms;
-    --user-menu-close-btn-accent-ms: 250ms;
-    --user-menu-account-action-btn-accent-ms: 250ms;
-    --user-menu-account-action-confirm-ms: 500ms;
-    --user-menu-login-status-fade-ms: 200ms;
-    --user-menu-login-dot-bounce-duration: 0.9s;
-    --user-menu-login-dot-bounce-delay-2: 0.15s;
-    --user-menu-login-dot-bounce-delay-3: 0.3s;
-
-    /* overlay/manual-setup.css */
-    --manual-setup-slide-ms: 250ms;
-    --manual-setup-close-btn-accent-ms: 250ms;
-    --manual-setup-submit-fade-ms: 250ms;
-    --manual-setup-submit-restore-fade-ms: 250ms;
-    --manual-setup-submit-expand-up-ms: 250ms;
-    --manual-setup-submit-expand-full-ms: 150ms;
-    --manual-setup-submit-shrink-full-ms: 150ms;
-    --manual-setup-submit-shrink-down-ms: 250ms;
-    --manual-setup-submit-dots-fade-in-ms: 250ms;
-    --manual-setup-submit-dots-run-ms: 2000ms;
-    --manual-setup-submit-dots-fade-out-ms: 250ms;
-    --manual-setup-submit-result-draw-ms: 1000ms;
-    --manual-setup-submit-result-fade-out-ms: 250ms;
-    --manual-setup-login-status-fade-ms: 200ms;
-    --manual-setup-login-dot-bounce-duration: 0.9s;
-    --manual-setup-login-dot-bounce-delay-2: 0.15s;
-    --manual-setup-login-dot-bounce-delay-3: 0.3s;
-
-    /* overlay/qr-setup.css */
-    --qr-setup-slide-ms: 250ms;
-    --qr-setup-close-btn-accent-ms: 250ms;
-    --qr-setup-resume-fade-ms: 250ms;
-    --qr-setup-resume-expand-up-ms: 250ms;
-    --qr-setup-resume-expand-full-ms: 150ms;
-    --qr-setup-resume-dots-fade-in-ms: 250ms;
-    --qr-setup-resume-dots-run-ms: 2000ms;
-    --qr-setup-resume-dots-fade-out-ms: 250ms;
-    --qr-setup-resume-result-draw-ms: 1000ms;
-    --qr-setup-resume-result-fade-out-ms: 250ms;
-    --qr-setup-resume-shrink-full-ms: 150ms;
-    --qr-setup-resume-shrink-down-ms: 250ms;
-    --qr-setup-login-status-fade-ms: 200ms;
-    --qr-setup-login-dot-bounce-duration: 0.9s;
-    --qr-setup-login-dot-bounce-delay-2: 0.15s;
-    --qr-setup-login-dot-bounce-delay-3: 0.3s;
-}
-
-/* Overlay login-status aliases */
-.app-user-menu {
-    --login-check-draw-duration: var(--user-menu-sign-in-result-draw-ms);
-    --login-status-fade-ms: var(--user-menu-login-status-fade-ms);
-    --login-dot-bounce-duration: var(--user-menu-login-dot-bounce-duration);
-    --login-dot-bounce-delay-2: var(--user-menu-login-dot-bounce-delay-2);
-    --login-dot-bounce-delay-3: var(--user-menu-login-dot-bounce-delay-3);
-}
-
-.manual-setup {
-    --login-check-draw-duration: var(--manual-setup-submit-result-draw-ms);
-    --login-status-fade-ms: var(--manual-setup-login-status-fade-ms);
-    --login-dot-bounce-duration: var(--manual-setup-login-dot-bounce-duration);
-    --login-dot-bounce-delay-2: var(--manual-setup-login-dot-bounce-delay-2);
-    --login-dot-bounce-delay-3: var(--manual-setup-login-dot-bounce-delay-3);
-}
-
-.qr-setup {
-    --login-check-draw-duration: var(--qr-setup-resume-result-draw-ms);
-    --login-status-fade-ms: var(--qr-setup-login-status-fade-ms);
-    --login-dot-bounce-duration: var(--qr-setup-login-dot-bounce-duration);
-    --login-dot-bounce-delay-2: var(--qr-setup-login-dot-bounce-delay-2);
-    --login-dot-bounce-delay-3: var(--qr-setup-login-dot-bounce-delay-3);
+    /* Secondary globals */
+    --dots-run-ms: 2000ms;
+    --dots-bounce-ms: 1000ms;
+    --dots-bounce-delay-2-ms: 150ms;
+    --dots-bounce-delay-3-ms: 300ms;
+    --result-main-draw-ms: 1000ms;
+    --result-copy-draw-ms: 250ms;
+    --pop-ms: 250ms;
+    --hold-ms: 500ms;
+    --hover-ms: 250ms;
+    --fill-expand-ms: 1000ms;
+    --fill-contract-ms: 500ms;
 }
 
 /* Theme switch — one duration for all themed properties */

@@ -1,4 +1,5 @@
-import { CODES_DELETE_SLIDE_MS } from "../../codes-const.js";
+import { animCssMsGet } from "../../../../../utils/utility-animation.js";
+import { CODES_VAR_SLIDE_MS } from "../../codes-const.js";
 
 const CODES_ADD_ENTER_TRANSITION_PROPERTIES = new Set([
   "height",
@@ -12,7 +13,9 @@ const CODES_ADD_ENTER_TRANSITION_PROPERTIES = new Set([
 ]);
 
 /** Expands a new card from the top and pushes existing cards down. */
-function codesAnimationAddStart(card, durationMs = CODES_DELETE_SLIDE_MS) {
+function codesAnimationAddStart(card, durationMs) {
+  const slideMs = durationMs ?? animCssMsGet(card, CODES_VAR_SLIDE_MS);
+
   return new Promise((resolve) => {
     let settled = false;
 
@@ -28,7 +31,7 @@ function codesAnimationAddStart(card, durationMs = CODES_DELETE_SLIDE_MS) {
       resolve();
     };
 
-    const fallbackId = window.setTimeout(finish, durationMs + 60);
+    const fallbackId = window.setTimeout(finish, slideMs + 60);
 
     const onTransitionEnd = (event) => {
       if (event.target !== card) {

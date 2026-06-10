@@ -3,8 +3,7 @@
 @import url("base/color.css");
 @import url("base/motion.css");
 
-@import url("foundation/reset.css");
-@import url("foundation/utilities.css");
+@import url("foundation/frame.css");
 
 @import url("shell/header.css");
 @import url("shell/body.css");

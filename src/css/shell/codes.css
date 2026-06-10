@@ -11,6 +11,10 @@
     overflow: hidden;
 }
 
+.codes-section.is-hidden {
+    display: none;
+}
+
 .codes-section__list {
     flex: 1;
     min-height: 0;
@@ -45,9 +49,7 @@
     flex-shrink: 0;
     scroll-snap-align: start;
     scroll-snap-stop: always;
-    transition:
-        background-color var(--theme-transition-ms) ease,
-        transform 0.2s ease;
+    transition: transform var(--hover-ms) ease;
     cursor: pointer;
 }
 
@@ -71,7 +73,7 @@
 }
 
 .codes-section__list .account-block.is-slide-active {
-    animation: account-block-slide-in 250ms ease-out forwards;
+    animation: account-block-slide-in var(--slide-ms) ease-out forwards;
     pointer-events: auto;
     transition: none;
 }
@@ -100,14 +102,13 @@
     pointer-events: none;
     transform: translateY(calc(-1 * (var(--codes-card-height) + var(--codes-card-gap))));
     transition:
-        height var(--codes-delete-slide-ms) ease-out,
-        max-height var(--codes-delete-slide-ms) ease-out,
-        min-height var(--codes-delete-slide-ms) ease-out,
-        margin-bottom var(--codes-delete-slide-ms) ease-out,
-        padding var(--codes-delete-slide-ms) ease-out,
-        opacity 220ms ease-out,
-        transform var(--codes-delete-slide-ms) ease-out,
-        background-color var(--theme-transition-ms) ease;
+        height var(--slide-ms) ease-out,
+        max-height var(--slide-ms) ease-out,
+        min-height var(--slide-ms) ease-out,
+        margin-bottom var(--slide-ms) ease-out,
+        padding var(--slide-ms) ease-out,
+        opacity var(--fade-ms) ease-out,
+        transform var(--slide-ms) ease-out;
 }
 
 .codes-section__list .account-block.is-manual-add-enter-active {
@@ -135,10 +136,10 @@
 
 .codes-section__list .account-block.account-block--exit-spacer.is-collapsing {
     transition:
-        height var(--codes-delete-collapse-ms) ease-out,
-        min-height var(--codes-delete-collapse-ms) ease-out,
-        max-height var(--codes-delete-collapse-ms) ease-out,
-        margin-bottom var(--codes-delete-collapse-ms) ease-out !important;
+        height var(--slide-ms) ease-out,
+        min-height var(--slide-ms) ease-out,
+        max-height var(--slide-ms) ease-out,
+        margin-bottom var(--slide-ms) ease-out !important;
 }
 
 .codes-section__list .account-block.account-block--exit-spacer.is-collapsing.is-collapsed {
@@ -162,16 +163,15 @@
     flex-direction: column;
     gap: var(--gap-sm);
     will-change: transform;
-    transition: background-color var(--theme-transition-ms) ease;
 }
 
 .codes-section__list .account-block__exit-layer--dash-left {
-    transition: transform 150ms ease-out;
+    transition: transform var(--slide-ms) ease-out;
     transform: translate3d(-130%, 0, 0);
 }
 
 .codes-section__list .account-block__exit-layer--dash-right {
-    transition: transform 150ms ease-out;
+    transition: transform var(--slide-ms) ease-out;
     transform: translate3d(130%, 0, 0);
 }
 
@@ -205,16 +205,15 @@
     background: var(--color-surface-tertiary);
     clip-path: circle(0px at 50% 50%);
     will-change: clip-path;
-    transition: background-color var(--theme-transition-ms) ease;
 }
 
 .codes-section__list .account-block__copy-fill.is-expanding {
-    animation: copy-fill-expand var(--copy-fill-expand-ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: copy-fill-expand var(--fill-expand-ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .codes-section__list .account-block__copy-fill.is-contracting {
     clip-path: circle(150% at 50% 50%);
-    animation: copy-fill-contract var(--copy-fill-contract-ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: copy-fill-contract var(--fill-contract-ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes copy-fill-expand {
@@ -249,11 +248,11 @@
 
 .codes-section__list .account-block__copy-check.is-visible {
     opacity: 1;
-    transition: opacity 80ms ease;
+    transition: opacity var(--fade-ms) ease;
 }
 
 .codes-section__list .account-block__copy-check.is-hiding {
-    animation: copy-check-fade var(--copy-fade-ms) ease forwards;
+    animation: copy-check-fade var(--fade-ms) ease forwards;
 }
 
 @keyframes copy-check-fade {
@@ -284,12 +283,12 @@
 }
 
 .codes-section__list .account-block__copy-check.is-animating .copy-check__circle {
-    animation: copy-check-circle-draw var(--copy-check-draw-ms) ease-out forwards;
+    animation: copy-check-circle-draw var(--result-copy-draw-ms) ease-out forwards;
 }
 
 .codes-section__list .account-block__copy-check.is-animating .copy-check__mark {
-    animation: copy-check-mark-draw var(--copy-check-draw-ms) ease-out forwards;
-    animation-delay: calc(var(--copy-check-draw-ms) * 0.2);
+    animation: copy-check-mark-draw var(--result-copy-draw-ms) ease-out forwards;
+    animation-delay: calc(var(--result-copy-draw-ms) * 0.2);
 }
 
 .codes-section__list .account-block__copy-check.is-drawn .copy-check__circle,
@@ -377,7 +376,6 @@
     font-size: 18px;
     line-height: 1.15;
     color: var(--color-text-primary);
-    transition: color var(--theme-transition-ms) ease;
     display: block;
     width: 100%;
     white-space: nowrap;
@@ -389,7 +387,6 @@
     font-size: 12px;
     line-height: 1.15;
     color: var(--color-text-secondary);
-    transition: color var(--theme-transition-ms) ease;
     display: block;
     width: 100%;
     white-space: nowrap;
@@ -420,7 +417,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    transition: color var(--theme-transition-ms) ease;
 }
 
 .codes-section__list .account-hotp-counter.is-hidden {
@@ -440,7 +436,6 @@
     font-weight: bold;
     letter-spacing: 2px;
     color: var(--color-brand);
-    transition: color var(--theme-transition-ms) ease;
 }
 
 .codes-section__list .edit-button,
@@ -457,7 +452,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+    transition: color var(--hover-ms) ease, background-color var(--hover-ms) ease, opacity var(--hover-ms) ease;
     flex-shrink: 0;
 }
 
@@ -506,7 +501,7 @@
     align-items: center;
     justify-content: center;
     line-height: 1;
-    transition: color 0.2s ease, background-color 0.2s ease;
+    transition: color var(--hover-ms) ease, background-color var(--hover-ms) ease;
 }
 
 .codes-section__list .save-edit-button {
@@ -663,22 +658,6 @@
     display: none;
 }
 
-.codes-section__list .account-block.highlight {
-    animation: account-block-highlight 4s ease-out forwards;
-}
-
-@keyframes account-block-highlight {
-    0% {
-        outline: 2px solid var(--color-brand-focus);
-        outline-offset: 0;
-    }
-
-    100% {
-        outline: 2px solid transparent;
-        outline-offset: 0;
-    }
-}
-
 .delete-confirmation {
     position: absolute;
     top: calc(100% + 4px);
@@ -686,12 +665,11 @@
     background-color: var(--color-surface-secondary);
     padding: 8px 12px;
     border-radius: var(--radius-sm);
-    transition: background-color var(--theme-transition-ms) ease;
     display: flex;
     gap: var(--gap-md);
     align-items: center;
     z-index: 1000;
-    animation: delete-confirmation-fade-in 0.2s ease-out;
+    animation: delete-confirmation-fade-in var(--fade-ms) ease-out;
     pointer-events: auto;
 }
 
@@ -711,7 +689,6 @@
     font-size: 14px;
     color: var(--color-text-secondary);
     white-space: nowrap;
-    transition: color var(--theme-transition-ms) ease;
 }
 
 .delete-confirmation-button {
@@ -721,7 +698,7 @@
     padding: 4px 8px;
     border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color var(--hover-ms) ease, color var(--hover-ms) ease;
 }
 
 .delete-confirmation-button.confirm {

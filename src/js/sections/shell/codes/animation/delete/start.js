@@ -1,3 +1,4 @@
+import { animCssMsGet } from "../../../../../utils/utility-animation.js";
 import { authChromeApply } from "../../../../../utils/utility-auth.js";
 import { bodyAnimationReset } from "../../../body/body-index.js";
 import { bodyAnimationStart } from "../../../body/body-index.js";
@@ -6,14 +7,14 @@ import { codesStateStore } from "../../state/store.js";
 import { codesTickerStop } from "../../ticker/run.js";
 import { codesElementsGet } from "../../util/elements.js";
 
-import { CODES_CARD_SLIDE_MS } from "../../codes-const.js";
-import { CODES_DELETE_SLIDE_MS } from "../../codes-const.js";
 import { CODES_HIDDEN_CLASS } from "../../codes-const.js";
+import { CODES_VAR_SLIDE_MS } from "../../codes-const.js";
 
 /** Runs full delete exit animation and updates signed-in chrome. */
 async function codesAnimationDeleteStart(card, remainingAccounts) {
   const { list } = codesElementsGet();
   const direction = Math.random() < 0.5 ? "left" : "right";
+  const slideMs = animCssMsGet(card, CODES_VAR_SLIDE_MS);
 
   card.classList.remove("account-block--delete-pending");
 
@@ -48,7 +49,7 @@ async function codesAnimationDeleteStart(card, remainingAccounts) {
           resolve();
         };
 
-        const fallbackId = window.setTimeout(done, CODES_CARD_SLIDE_MS + 40);
+        const fallbackId = window.setTimeout(done, slideMs + 40);
 
         layer.addEventListener(
           "transitionend",
@@ -82,7 +83,7 @@ async function codesAnimationDeleteStart(card, remainingAccounts) {
       resolve();
     };
 
-    const fallbackId = window.setTimeout(finish, CODES_DELETE_SLIDE_MS + 60);
+    const fallbackId = window.setTimeout(finish, slideMs + 60);
 
     const onTransitionEnd = (event) => {
       if (event.target !== card) {

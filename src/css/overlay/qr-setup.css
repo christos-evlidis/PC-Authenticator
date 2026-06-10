@@ -1,5 +1,5 @@
-/* Login status indicators */
-.login-status {
+/* QR setup flow status */
+.qr-setup-status {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -10,41 +10,42 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity var(--login-status-fade-ms) ease, visibility var(--login-status-fade-ms) ease;
+    transition: opacity var(--fade-ms) ease, visibility var(--fade-ms) ease;
 }
 
-.login-status.is-hidden {
+.qr-setup-status.is-hidden {
+    display: none;
     opacity: 0;
     visibility: hidden;
 }
 
-.login-status.is-shown {
+.qr-setup-status.is-shown {
     opacity: 1;
     visibility: visible;
 }
 
-.login-status--loading {
+.qr-setup-status--loading {
     gap: var(--gap-md);
 }
 
-.login-status__dot {
+.qr-setup-status__dot {
     display: block;
     width: 10px;
     height: 10px;
     border-radius: var(--radius-circle);
     background: var(--color-brand);
-    animation: login-dot-bounce var(--login-dot-bounce-duration) ease-in-out infinite;
+    animation: qrSetupStatusDotBounce var(--dots-bounce-ms) ease-in-out infinite;
 }
 
-.login-status__dot:nth-child(2) {
-    animation-delay: var(--login-dot-bounce-delay-2);
+.qr-setup-status__dot:nth-child(2) {
+    animation-delay: var(--dots-bounce-delay-2-ms);
 }
 
-.login-status__dot:nth-child(3) {
-    animation-delay: var(--login-dot-bounce-delay-3);
+.qr-setup-status__dot:nth-child(3) {
+    animation-delay: var(--dots-bounce-delay-3-ms);
 }
 
-@keyframes login-dot-bounce {
+@keyframes qrSetupStatusDotBounce {
     0%,
     80%,
     100% {
@@ -58,18 +59,18 @@
     }
 }
 
-.login-status__icon {
+.qr-setup-status__icon {
     width: 52px;
     height: 52px;
 }
 
-.login-status__icon-circle {
+.qr-setup-status__icon-circle {
     stroke-width: 2;
     stroke-dasharray: 151;
     stroke-dashoffset: 151;
 }
 
-.login-status__icon-mark {
+.qr-setup-status__icon-mark {
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -77,44 +78,44 @@
     stroke-dashoffset: 36;
 }
 
-.login-status--success .login-status__icon-circle,
-.login-status--success .login-status__icon-mark,
-.login-status--error .login-status__icon-circle,
-.login-status--error .login-status__icon-mark {
+.qr-setup-status--success .qr-setup-status__icon-circle,
+.qr-setup-status--success .qr-setup-status__icon-mark,
+.qr-setup-status--error .qr-setup-status__icon-circle,
+.qr-setup-status--error .qr-setup-status__icon-mark {
     stroke: var(--color-brand);
 }
 
-.login-status--success.is-animating .login-status__icon-circle,
-.login-status--error.is-animating .login-status__icon-circle {
-    animation: loginStatusCircleDraw calc(var(--login-check-draw-duration) * 0.45) ease forwards;
+.qr-setup-status--success.is-animating .qr-setup-status__icon-circle,
+.qr-setup-status--error.is-animating .qr-setup-status__icon-circle {
+    animation: qrSetupStatusCircleDraw calc(var(--result-main-draw-ms) * 0.45) ease forwards;
 }
 
-.login-status--success.is-animating .login-status__icon-mark,
-.login-status--error.is-animating .login-status__icon-mark {
-    animation: loginStatusMarkDraw calc(var(--login-check-draw-duration) * 0.55) ease forwards;
-    animation-delay: calc(var(--login-check-draw-duration) * 0.45);
+.qr-setup-status--success.is-animating .qr-setup-status__icon-mark,
+.qr-setup-status--error.is-animating .qr-setup-status__icon-mark {
+    animation: qrSetupStatusMarkDraw calc(var(--result-main-draw-ms) * 0.55) ease forwards;
+    animation-delay: calc(var(--result-main-draw-ms) * 0.45);
 }
 
-@keyframes loginStatusCircleDraw {
+@keyframes qrSetupStatusCircleDraw {
     to {
         stroke-dashoffset: 0;
     }
 }
 
-@keyframes loginStatusMarkDraw {
+@keyframes qrSetupStatusMarkDraw {
     to {
         stroke-dashoffset: 0;
     }
 }
 
-.login-status--success.is-drawn .login-status__icon-circle,
-.login-status--error.is-drawn .login-status__icon-circle,
-.login-status--success.is-hiding .login-status__icon-circle,
-.login-status--error.is-hiding .login-status__icon-circle,
-.login-status--success.is-drawn .login-status__icon-mark,
-.login-status--error.is-drawn .login-status__icon-mark,
-.login-status--success.is-hiding .login-status__icon-mark,
-.login-status--error.is-hiding .login-status__icon-mark {
+.qr-setup-status--success.is-drawn .qr-setup-status__icon-circle,
+.qr-setup-status--error.is-drawn .qr-setup-status__icon-circle,
+.qr-setup-status--success.is-hiding .qr-setup-status__icon-circle,
+.qr-setup-status--error.is-hiding .qr-setup-status__icon-circle,
+.qr-setup-status--success.is-drawn .qr-setup-status__icon-mark,
+.qr-setup-status--error.is-drawn .qr-setup-status__icon-mark,
+.qr-setup-status--success.is-hiding .qr-setup-status__icon-mark,
+.qr-setup-status--error.is-hiding .qr-setup-status__icon-mark {
     stroke-dashoffset: 0;
 }
 
@@ -178,7 +179,7 @@
     background: var(--color-surface-primary);
     overflow: hidden;
     transform: translateY(100%);
-    transition: transform var(--qr-setup-slide-ms) ease;
+    transition: transform var(--slide-ms) ease;
 }
 
 .qr-setup__content {
@@ -242,8 +243,8 @@
     color: var(--color-icon-primary);
     cursor: pointer;
     transition:
-        background-color var(--qr-setup-close-btn-accent-ms) ease,
-        color var(--qr-setup-close-btn-accent-ms) ease;
+        background-color var(--hover-ms) ease,
+        color var(--hover-ms) ease;
 }
 
 .qr-setup__btn:hover {
@@ -352,15 +353,15 @@ body.is-auth-flow-locked .qr-setup.is-panel-open .qr-setup__backdrop {
 .qr-setup__header,
 .qr-setup__guide {
     transition:
-        opacity var(--qr-setup-resume-fade-ms, 250ms) ease,
-        visibility var(--qr-setup-resume-fade-ms, 250ms) ease;
+        opacity var(--fade-ms) ease,
+        visibility var(--fade-ms) ease;
 }
 
 .qr-setup__panel:is(.is-resume-fade) .qr-setup__header,
 .qr-setup__panel:is(.is-resume-fade) .qr-setup__guide {
     opacity: 0 !important;
     pointer-events: none !important;
-    transition: opacity var(--qr-setup-resume-fade-ms, 250ms) ease !important;
+    transition: opacity var(--fade-ms) ease !important;
 }
 
 .qr-setup__panel.is-resume-running:not(.is-resume-fade) .qr-setup__header,
@@ -370,29 +371,49 @@ body.is-auth-flow-locked .qr-setup.is-panel-open .qr-setup__backdrop {
     pointer-events: none;
 }
 
-.qr-setup__status .login-status:is(.is-resume-dots-fade-in) {
-    visibility: visible;
-    animation: loginStatusFadeIn var(--qr-setup-resume-dots-fade-in-ms) ease forwards;
+@keyframes qrSetupStatusFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-.qr-setup__status .login-status:is(.is-resume-dots-fade-out) {
+@keyframes qrSetupStatusFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.qr-setup__status .qr-setup-status:is(.is-resume-dots-fade-in) {
+    visibility: visible;
+    animation: qrSetupStatusFadeIn var(--fade-ms) ease forwards;
+}
+
+.qr-setup__status .qr-setup-status:is(.is-resume-dots-fade-out) {
     visibility: visible;
     opacity: 1;
-    animation: loginStatusFadeOut var(--qr-setup-resume-dots-fade-out-ms) ease forwards;
+    animation: qrSetupStatusFadeOut var(--fade-ms) ease forwards;
 }
 
-.qr-setup__status .login-status:is(.is-resume-dots-run) {
+.qr-setup__status .qr-setup-status:is(.is-resume-dots-run) {
     visibility: visible;
     opacity: 1;
 }
 
-.qr-setup__status .login-status:is(.is-resume-result-draw) {
+.qr-setup__status .qr-setup-status:is(.is-resume-result-draw) {
     visibility: visible;
     opacity: 1;
 }
 
-.qr-setup__status .login-status:is(.is-resume-result-fade-out) {
-    animation: loginStatusFadeOut var(--qr-setup-resume-result-fade-out-ms) ease forwards;
+.qr-setup__status .qr-setup-status:is(.is-resume-result-fade-out) {
+    animation: qrSetupStatusFadeOut var(--fade-ms) ease forwards;
 }
 
 .qr-setup__content.is-resume-absolute {
@@ -406,19 +427,19 @@ body.is-auth-flow-locked .qr-setup.is-panel-open .qr-setup__backdrop {
 }
 
 .qr-setup__content.is-resume-expand-up {
-    animation: signInExpandUp var(--qr-setup-resume-expand-up-ms, 250ms) ease forwards;
+    animation: signInExpandUp var(--expand-up-ms) ease forwards;
 }
 
 .qr-setup__content.is-resume-expand-full {
-    animation: signInExpandFull var(--qr-setup-resume-expand-full-ms, 150ms) ease forwards;
+    animation: signInExpandFull var(--expand-full-ms) ease forwards;
 }
 
 .qr-setup__content.is-resume-shrink-full {
-    animation: signInShrinkFull var(--qr-setup-resume-shrink-full-ms, 150ms) ease forwards;
+    animation: signInShrinkFull var(--shrink-full-ms) ease forwards;
 }
 
 .qr-setup__content.is-resume-shrink-down {
-    animation: signInShrinkDown var(--qr-setup-resume-shrink-down-ms, 250ms) ease forwards;
+    animation: signInShrinkDown var(--shrink-down-ms) ease forwards;
 }
 
 .qr-setup__panel.is-resume-running {

@@ -1,5 +1,5 @@
-/* Login status indicators */
-.login-status {
+/* User menu flow status */
+.user-menu-status {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -10,41 +10,42 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity var(--login-status-fade-ms) ease, visibility var(--login-status-fade-ms) ease;
+    transition: opacity var(--fade-ms) ease, visibility var(--fade-ms) ease;
 }
 
-.login-status.is-hidden {
+.user-menu-status.is-hidden {
+    display: none;
     opacity: 0;
     visibility: hidden;
 }
 
-.login-status.is-shown {
+.user-menu-status.is-shown {
     opacity: 1;
     visibility: visible;
 }
 
-.login-status--loading {
+.user-menu-status--loading {
     gap: var(--gap-md);
 }
 
-.login-status__dot {
+.user-menu-status__dot {
     display: block;
     width: 10px;
     height: 10px;
     border-radius: var(--radius-circle);
     background: var(--color-brand);
-    animation: login-dot-bounce var(--login-dot-bounce-duration) ease-in-out infinite;
+    animation: userMenuStatusDotBounce var(--dots-bounce-ms) ease-in-out infinite;
 }
 
-.login-status__dot:nth-child(2) {
-    animation-delay: var(--login-dot-bounce-delay-2);
+.user-menu-status__dot:nth-child(2) {
+    animation-delay: var(--dots-bounce-delay-2-ms);
 }
 
-.login-status__dot:nth-child(3) {
-    animation-delay: var(--login-dot-bounce-delay-3);
+.user-menu-status__dot:nth-child(3) {
+    animation-delay: var(--dots-bounce-delay-3-ms);
 }
 
-@keyframes login-dot-bounce {
+@keyframes userMenuStatusDotBounce {
     0%,
     80%,
     100% {
@@ -58,18 +59,18 @@
     }
 }
 
-.login-status__icon {
+.user-menu-status__icon {
     width: 52px;
     height: 52px;
 }
 
-.login-status__icon-circle {
+.user-menu-status__icon-circle {
     stroke-width: 2;
     stroke-dasharray: 151;
     stroke-dashoffset: 151;
 }
 
-.login-status__icon-mark {
+.user-menu-status__icon-mark {
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -77,44 +78,44 @@
     stroke-dashoffset: 36;
 }
 
-.login-status--success .login-status__icon-circle,
-.login-status--success .login-status__icon-mark,
-.login-status--error .login-status__icon-circle,
-.login-status--error .login-status__icon-mark {
+.user-menu-status--success .user-menu-status__icon-circle,
+.user-menu-status--success .user-menu-status__icon-mark,
+.user-menu-status--error .user-menu-status__icon-circle,
+.user-menu-status--error .user-menu-status__icon-mark {
     stroke: var(--color-brand);
 }
 
-.login-status--success.is-animating .login-status__icon-circle,
-.login-status--error.is-animating .login-status__icon-circle {
-    animation: loginStatusCircleDraw calc(var(--login-check-draw-duration) * 0.45) ease forwards;
+.user-menu-status--success.is-animating .user-menu-status__icon-circle,
+.user-menu-status--error.is-animating .user-menu-status__icon-circle {
+    animation: userMenuStatusCircleDraw calc(var(--result-main-draw-ms) * 0.45) ease forwards;
 }
 
-.login-status--success.is-animating .login-status__icon-mark,
-.login-status--error.is-animating .login-status__icon-mark {
-    animation: loginStatusMarkDraw calc(var(--login-check-draw-duration) * 0.55) ease forwards;
-    animation-delay: calc(var(--login-check-draw-duration) * 0.45);
+.user-menu-status--success.is-animating .user-menu-status__icon-mark,
+.user-menu-status--error.is-animating .user-menu-status__icon-mark {
+    animation: userMenuStatusMarkDraw calc(var(--result-main-draw-ms) * 0.55) ease forwards;
+    animation-delay: calc(var(--result-main-draw-ms) * 0.45);
 }
 
-@keyframes loginStatusCircleDraw {
+@keyframes userMenuStatusCircleDraw {
     to {
         stroke-dashoffset: 0;
     }
 }
 
-@keyframes loginStatusMarkDraw {
+@keyframes userMenuStatusMarkDraw {
     to {
         stroke-dashoffset: 0;
     }
 }
 
-.login-status--success.is-drawn .login-status__icon-circle,
-.login-status--error.is-drawn .login-status__icon-circle,
-.login-status--success.is-hiding .login-status__icon-circle,
-.login-status--error.is-hiding .login-status__icon-circle,
-.login-status--success.is-drawn .login-status__icon-mark,
-.login-status--error.is-drawn .login-status__icon-mark,
-.login-status--success.is-hiding .login-status__icon-mark,
-.login-status--error.is-hiding .login-status__icon-mark {
+.user-menu-status--success.is-drawn .user-menu-status__icon-circle,
+.user-menu-status--error.is-drawn .user-menu-status__icon-circle,
+.user-menu-status--success.is-hiding .user-menu-status__icon-circle,
+.user-menu-status--error.is-hiding .user-menu-status__icon-circle,
+.user-menu-status--success.is-drawn .user-menu-status__icon-mark,
+.user-menu-status--error.is-drawn .user-menu-status__icon-mark,
+.user-menu-status--success.is-hiding .user-menu-status__icon-mark,
+.user-menu-status--error.is-hiding .user-menu-status__icon-mark {
     stroke-dashoffset: 0;
 }
 
@@ -193,7 +194,7 @@
     background: var(--color-surface-primary);
     overflow: hidden;
     transform: translateY(100%);
-    transition: transform var(--user-menu-slide-ms) ease;
+    transition: transform var(--slide-ms) ease;
 }
 
 .app-user-menu__content {
@@ -262,8 +263,8 @@
     color: var(--color-icon-primary);
     cursor: pointer;
     transition:
-        background-color var(--user-menu-close-btn-accent-ms) ease,
-        color var(--user-menu-close-btn-accent-ms) ease;
+        background-color var(--hover-ms) ease,
+        color var(--hover-ms) ease;
 }
 
 .app-user-menu__btn:hover,
@@ -328,7 +329,7 @@
     border-radius: var(--radius-md);
     background: var(--color-brand-hover);
     pointer-events: none;
-    transition: transform var(--user-menu-auth-thumb-ms) ease;
+    transition: transform var(--slide-ms) ease;
 }
 
 .app-user-menu__auth-switch-track.is-sign-up .app-user-menu__auth-switch-thumb,
@@ -453,8 +454,8 @@
 .app-user-menu__view--signed-out,
 .app-user-menu__view--signed-in {
     transition:
-        opacity var(--user-menu-sign-in-fade-ms, 250ms) ease,
-        visibility var(--user-menu-sign-in-fade-ms, 250ms) ease;
+        opacity var(--fade-ms) ease,
+        visibility var(--fade-ms) ease;
 }
 
 .app-user-menu__panel:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade) .app-user-menu__header,
@@ -464,7 +465,7 @@
 .app-user-menu__panel:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade) .app-user-menu__view--signed-in {
     opacity: 0 !important;
     pointer-events: none !important;
-    transition: opacity var(--user-menu-sign-in-fade-ms, 250ms) ease !important;
+    transition: opacity var(--fade-ms) ease !important;
 }
 
 .app-user-menu__panel.is-sign-up-fade .app-user-menu__header,
@@ -472,7 +473,7 @@
 .app-user-menu__panel.is-sign-up-fade .app-user-menu__theme-bar,
 .app-user-menu__panel.is-sign-up-fade .app-user-menu__view--signed-out,
 .app-user-menu__panel.is-sign-up-fade .app-user-menu__view--signed-in {
-    transition: opacity var(--user-menu-sign-up-fade-ms, 250ms) ease !important;
+    transition: opacity var(--fade-ms) ease !important;
 }
 
 .app-user-menu__panel.is-sign-out-fade .app-user-menu__header,
@@ -480,7 +481,7 @@
 .app-user-menu__panel.is-sign-out-fade .app-user-menu__theme-bar,
 .app-user-menu__panel.is-sign-out-fade .app-user-menu__view--signed-out,
 .app-user-menu__panel.is-sign-out-fade .app-user-menu__view--signed-in {
-    transition: opacity var(--user-menu-sign-out-fade-ms, 250ms) ease !important;
+    transition: opacity var(--fade-ms) ease !important;
 }
 
 .app-user-menu__panel.is-sign-in-running:not(:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade, .is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade)) .app-user-menu__header,
@@ -500,7 +501,7 @@
 .app-user-menu__panel:is(.is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade) .app-user-menu__view--signed-in:not(.is-hidden) {
     visibility: visible;
     pointer-events: none;
-    animation: userMenuRestoreFade var(--user-menu-sign-in-restore-fade-ms, 250ms) ease forwards;
+    animation: userMenuRestoreFade var(--fade-ms) ease forwards;
 }
 
 .app-user-menu__panel.is-sign-up-restore-fade .app-user-menu__header,
@@ -508,7 +509,7 @@
 .app-user-menu__panel.is-sign-up-restore-fade .app-user-menu__theme-bar:not(.is-hidden),
 .app-user-menu__panel.is-sign-up-restore-fade .app-user-menu__view--signed-out:not(.is-hidden),
 .app-user-menu__panel.is-sign-up-restore-fade .app-user-menu__view--signed-in:not(.is-hidden) {
-    animation-duration: var(--user-menu-sign-up-restore-fade-ms, 250ms);
+    animation-duration: var(--fade-ms);
 }
 
 .app-user-menu__panel.is-sign-out-restore-fade .app-user-menu__header,
@@ -516,7 +517,7 @@
 .app-user-menu__panel.is-sign-out-restore-fade .app-user-menu__theme-bar:not(.is-hidden),
 .app-user-menu__panel.is-sign-out-restore-fade .app-user-menu__view--signed-out:not(.is-hidden),
 .app-user-menu__panel.is-sign-out-restore-fade .app-user-menu__view--signed-in:not(.is-hidden) {
-    animation-duration: var(--user-menu-sign-out-restore-fade-ms, 250ms);
+    animation-duration: var(--fade-ms);
 }
 
 @keyframes userMenuRestoreFade {
@@ -578,51 +579,51 @@
 }
 
 .app-user-menu__content.is-sign-in-expand-up {
-    animation: signInExpandUp var(--user-menu-sign-in-expand-up-ms, 250ms) ease forwards;
+    animation: signInExpandUp var(--expand-up-ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-in-expand-full {
-    animation: signInExpandFull var(--user-menu-sign-in-expand-full-ms, 150ms) ease forwards;
+    animation: signInExpandFull var(--expand-full-ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-in-shrink-full {
-    animation: signInShrinkFull var(--user-menu-sign-in-shrink-full-ms, 150ms) ease forwards;
+    animation: signInShrinkFull var(--shrink-full-ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-in-shrink-down {
-    animation: signInShrinkDown var(--user-menu-sign-in-shrink-down-ms, 250ms) ease forwards;
+    animation: signInShrinkDown var(--shrink-down-ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-up-expand-up {
-    animation: signInExpandUp var(--user-menu-sign-up-expand-up-ms, 250ms) ease forwards;
+    animation: signInExpandUp var(--expand-up-ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-up-expand-full {
-    animation: signInExpandFull var(--user-menu-sign-up-expand-full-ms, 150ms) ease forwards;
+    animation: signInExpandFull var(--expand-full-ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-up-shrink-full {
-    animation: signInShrinkFull var(--user-menu-sign-up-shrink-full-ms, 150ms) ease forwards;
+    animation: signInShrinkFull var(--shrink-full-ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-up-shrink-down {
-    animation: signInShrinkDown var(--user-menu-sign-up-shrink-down-ms, 250ms) ease forwards;
+    animation: signInShrinkDown var(--shrink-down-ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-out-expand-up {
-    animation: signInExpandUp var(--user-menu-sign-out-expand-up-ms, 250ms) ease forwards;
+    animation: signInExpandUp var(--expand-up-ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-out-expand-full {
-    animation: signInExpandFull var(--user-menu-sign-out-expand-full-ms, 150ms) ease forwards;
+    animation: signInExpandFull var(--expand-full-ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-out-shrink-full {
-    animation: signInShrinkFull var(--user-menu-sign-out-shrink-full-ms, 150ms) ease forwards;
+    animation: signInShrinkFull var(--shrink-full-ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-out-shrink-down {
-    animation: signInShrinkDown var(--user-menu-sign-out-shrink-down-ms, 250ms) ease forwards;
+    animation: signInShrinkDown var(--shrink-down-ms) ease forwards;
 }
 
 @keyframes signInExpandUp {
@@ -725,7 +726,7 @@
     z-index: 2;
 }
 
-@keyframes loginStatusFadeIn {
+@keyframes userMenuStatusFadeIn {
     from {
         opacity: 0;
     }
@@ -735,7 +736,7 @@
     }
 }
 
-@keyframes loginStatusFadeOut {
+@keyframes userMenuStatusFadeOut {
     from {
         opacity: 1;
     }
@@ -745,51 +746,51 @@
     }
 }
 
-.app-user-menu__status .login-status:is(.is-sign-in-dots-fade-in, .is-sign-up-dots-fade-in, .is-sign-out-dots-fade-in) {
+.app-user-menu__status .user-menu-status:is(.is-sign-in-dots-fade-in, .is-sign-up-dots-fade-in, .is-sign-out-dots-fade-in) {
     visibility: visible;
-    animation: loginStatusFadeIn var(--user-menu-sign-in-dots-fade-in-ms) ease forwards;
+    animation: userMenuStatusFadeIn var(--fade-ms) ease forwards;
 }
 
-.app-user-menu__status .login-status.is-sign-up-dots-fade-in {
-    animation-duration: var(--user-menu-sign-up-dots-fade-in-ms);
+.app-user-menu__status .user-menu-status.is-sign-up-dots-fade-in {
+    animation-duration: var(--fade-ms);
 }
 
-.app-user-menu__status .login-status.is-sign-out-dots-fade-in {
-    animation-duration: var(--user-menu-sign-out-dots-fade-in-ms);
+.app-user-menu__status .user-menu-status.is-sign-out-dots-fade-in {
+    animation-duration: var(--fade-ms);
 }
 
-.app-user-menu__status .login-status:is(.is-sign-in-dots-fade-out, .is-sign-up-dots-fade-out, .is-sign-out-dots-fade-out) {
-    visibility: visible;
-    opacity: 1;
-    animation: loginStatusFadeOut var(--user-menu-sign-in-dots-fade-out-ms) ease forwards;
-}
-
-.app-user-menu__status .login-status.is-sign-up-dots-fade-out {
-    animation-duration: var(--user-menu-sign-up-dots-fade-out-ms);
-}
-
-.app-user-menu__status .login-status.is-sign-out-dots-fade-out {
-    animation-duration: var(--user-menu-sign-out-dots-fade-out-ms);
-}
-
-.app-user-menu__status .login-status:is(.is-sign-in-dots-run, .is-sign-up-dots-run, .is-sign-out-dots-run) {
+.app-user-menu__status .user-menu-status:is(.is-sign-in-dots-fade-out, .is-sign-up-dots-fade-out, .is-sign-out-dots-fade-out) {
     visibility: visible;
     opacity: 1;
+    animation: userMenuStatusFadeOut var(--fade-ms) ease forwards;
 }
 
-.app-user-menu__status .login-status:is(.is-sign-in-result-draw, .is-sign-up-result-draw, .is-sign-out-result-draw) {
+.app-user-menu__status .user-menu-status.is-sign-up-dots-fade-out {
+    animation-duration: var(--fade-ms);
+}
+
+.app-user-menu__status .user-menu-status.is-sign-out-dots-fade-out {
+    animation-duration: var(--fade-ms);
+}
+
+.app-user-menu__status .user-menu-status:is(.is-sign-in-dots-run, .is-sign-up-dots-run, .is-sign-out-dots-run) {
     visibility: visible;
     opacity: 1;
 }
 
-.app-user-menu__status .login-status:is(.is-sign-in-result-fade-out, .is-sign-up-result-fade-out, .is-sign-out-result-fade-out) {
-    animation: loginStatusFadeOut var(--user-menu-sign-in-result-fade-out-ms) ease forwards;
+.app-user-menu__status .user-menu-status:is(.is-sign-in-result-draw, .is-sign-up-result-draw, .is-sign-out-result-draw) {
+    visibility: visible;
+    opacity: 1;
 }
 
-.app-user-menu__status .login-status.is-sign-up-result-fade-out {
-    animation-duration: var(--user-menu-sign-up-result-fade-out-ms);
+.app-user-menu__status .user-menu-status:is(.is-sign-in-result-fade-out, .is-sign-up-result-fade-out, .is-sign-out-result-fade-out) {
+    animation: userMenuStatusFadeOut var(--fade-ms) ease forwards;
 }
 
-.app-user-menu__status .login-status.is-sign-out-result-fade-out {
-    animation-duration: var(--user-menu-sign-out-result-fade-out-ms);
+.app-user-menu__status .user-menu-status.is-sign-up-result-fade-out {
+    animation-duration: var(--fade-ms);
+}
+
+.app-user-menu__status .user-menu-status.is-sign-out-result-fade-out {
+    animation-duration: var(--fade-ms);
 }

@@ -32,7 +32,7 @@
     justify-content: space-between;
     gap: var(--gap-l);
     width: 100%;
-    transition: opacity var(--header-intro-fade-ms) ease !important;
+    transition: opacity var(--fade-ms) ease !important;
 }
 
 .app-header.is-header-content-pending .app-header__intro-content {
@@ -47,7 +47,7 @@
 
 .app-header.is-header-fade-in {
     opacity: 1;
-    transition: opacity var(--header-intro-fade-ms) ease;
+    transition: opacity var(--fade-ms) ease;
 }
 
 .app-header__view {
@@ -127,10 +127,10 @@
     cursor: pointer;
     transform-origin: center center;
     transition:
-        background-color var(--header-btn-hover-ms) ease,
-        color var(--header-btn-hover-ms) ease,
-        opacity var(--header-icon-pop-ms) ease,
-        transform var(--header-icon-pop-ms) ease;
+        background-color var(--hover-ms) ease,
+        color var(--hover-ms) ease,
+        opacity var(--pop-ms) ease,
+        transform var(--pop-ms) ease;
 }
 
 .app-header__btn.is-header-pop-pending {

@@ -13,7 +13,7 @@
 
 .codes-search.is-search-fade-in {
     opacity: 1;
-    transition: opacity var(--search-intro-fade-ms) ease;
+    transition: opacity var(--fade-ms) ease;
 }
 
 .codes-search.is-hidden {

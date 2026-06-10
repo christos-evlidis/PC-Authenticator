@@ -1,5 +1,4 @@
 import { CODES_LIST_SELECTOR } from "../codes-const.js";
-import { CODES_LIST_WHEEL_COOLDOWN_MS } from "../codes-const.js";
 
 const CODES_WHEEL_CARD_SELECTOR =
   ".account-block:not(.account-block--manual-add-spacer):not(.account-block--exit-spacer)";
@@ -88,7 +87,6 @@ function codesActionWheel() {
       event.preventDefault();
       snapLocked = true;
       scrollToCard(nextIndex);
-      window.setTimeout(releaseSnapLock, CODES_LIST_WHEEL_COOLDOWN_MS);
     },
     { passive: false },
   );

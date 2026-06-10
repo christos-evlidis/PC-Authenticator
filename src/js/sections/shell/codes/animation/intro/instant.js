@@ -1,5 +1,5 @@
-import { CODES_CARD_SLIDE_MS } from "../../codes-const.js";
-import { CODES_INTRO_SLIDE_MS } from "../../codes-const.js";
+import { animCssMsGet } from "../../../../../utils/utility-animation.js";
+import { CODES_VAR_SLIDE_MS } from "../../codes-const.js";
 
 /** Plays slide-in animation for a single account card. */
 function codesAnimationIntroInstant(card) {
@@ -38,9 +38,7 @@ function codesAnimationIntroInstant(card) {
       { once: true },
     );
 
-    const slideMs = card.classList.contains("is-manual-add-slide")
-      ? CODES_CARD_SLIDE_MS
-      : CODES_INTRO_SLIDE_MS;
+    const slideMs = animCssMsGet(card, CODES_VAR_SLIDE_MS);
 
     window.setTimeout(finish, slideMs + 32);
   });

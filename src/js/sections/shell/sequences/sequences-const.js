@@ -1,3 +1,5 @@
+import { VAR_BUFFER_MS, VAR_HOLD_MS, VAR_SLIDE_MS } from "../../../utils/motion-const.js";
+
 // Overlay shell.
 export const INTRO_ROOT_SELECTOR = ".app-intro";
 export const INTRO_OVERLAY_SELECTOR = ".app-intro__overlay";
@@ -21,12 +23,12 @@ export const INTRO_SHRINK_SEARCH_CLASS = "is-intro-shrink-search";
 export const INTRO_SHRINK_BODY_CLASS = "is-intro-shrink-body";
 
 // Shared timing vars (defined on .app-intro; read via animCssMsGet).
-export const INTRO_VAR_LOGO_HOLD_MS = "--intro-logo-hold-ms";
-export const INTRO_VAR_SHRINK_FRAME_MS = "--intro-shrink-frame-ms";
-export const INTRO_VAR_SHRINK_HEADER_MS = "--intro-shrink-header-ms";
-export const INTRO_VAR_SHRINK_SEARCH_MS = "--intro-shrink-search-ms";
-export const INTRO_VAR_SHRINK_BODY_MS = "--intro-shrink-body-ms";
-export const INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--buffer-ms";
+export const INTRO_VAR_LOGO_HOLD_MS = VAR_HOLD_MS;
+export const INTRO_VAR_SHRINK_FRAME_MS = VAR_SLIDE_MS;
+export const INTRO_VAR_SHRINK_HEADER_MS = VAR_SLIDE_MS;
+export const INTRO_VAR_SHRINK_SEARCH_MS = VAR_SLIDE_MS;
+export const INTRO_VAR_SHRINK_BODY_MS = VAR_SLIDE_MS;
+export const INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS = VAR_BUFFER_MS;
 
 // Layout vars (from / to positions for shrink keyframes).
 export const INTRO_VAR_FROM_TOP = "--intro-from-top";

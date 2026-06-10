@@ -1,3 +1,5 @@
+import { VAR_BUFFER_MS, VAR_FADE_MS } from "../../../utils/motion-const.js";
+
 export const SEARCH_ROOT_SELECTOR = ".codes-search";
 export const SEARCH_INPUT_SELECTOR = ".codes-search__input";
 export const SEARCH_FILTER_CARD_SELECTOR =
@@ -8,5 +10,5 @@ export const SEARCH_HIDDEN_CLASS = "is-hidden";
 export const SEARCH_ANIMATION_PENDING_CLASS = "is-search-animation-pending";
 export const SEARCH_FADE_IN_CLASS = "is-search-fade-in";
 
-export const SEARCH_VAR_INTRO_FADE_MS = "--search-intro-fade-ms";
-export const SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--buffer-ms";
+export const SEARCH_VAR_INTRO_FADE_MS = VAR_FADE_MS;
+export const SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS = VAR_BUFFER_MS;

@@ -240,7 +240,7 @@ async function userMenuAnimationAuthSignIn(resultIsSuccess, onPreRestore) {
     loadingStatus.classList.add(USER_MENU_SIGN_IN_DOTS_FADE_IN_CLASS);
     await animAnimationEndWait(
       loadingStatus,
-      "loginStatusFadeIn",
+      "userMenuStatusFadeIn",
       dotsFadeInMs + timeoutBufferMs,
     );
     loadingStatus.classList.remove(USER_MENU_SIGN_IN_DOTS_FADE_IN_CLASS);
@@ -260,7 +260,7 @@ async function userMenuAnimationAuthSignIn(resultIsSuccess, onPreRestore) {
     loadingStatus.classList.add(USER_MENU_SIGN_IN_DOTS_FADE_OUT_CLASS);
     await animAnimationEndWait(
       loadingStatus,
-      "loginStatusFadeOut",
+      "userMenuStatusFadeOut",
       dotsFadeOutMs + timeoutBufferMs,
     );
     loadingStatus.classList.remove(USER_MENU_SIGN_IN_DOTS_FADE_OUT_CLASS);
@@ -282,7 +282,7 @@ async function userMenuAnimationAuthSignIn(resultIsSuccess, onPreRestore) {
     if (circle) {
       await animAnimationEndWait(
         circle,
-        "loginStatusCircleDraw",
+        "userMenuStatusCircleDraw",
         circleDuration + timeoutBufferMs,
       );
     }
@@ -293,7 +293,7 @@ async function userMenuAnimationAuthSignIn(resultIsSuccess, onPreRestore) {
 
     await Promise.all(
       marks.map((mark) =>
-        animAnimationEndWait(mark, "loginStatusMarkDraw", markDuration + timeoutBufferMs),
+        animAnimationEndWait(mark, "userMenuStatusMarkDraw", markDuration + timeoutBufferMs),
       ),
     );
 
@@ -307,7 +307,7 @@ async function userMenuAnimationAuthSignIn(resultIsSuccess, onPreRestore) {
     resultStatus.classList.add(USER_MENU_SIGN_IN_RESULT_FADE_OUT_CLASS);
     await animAnimationEndWait(
       resultStatus,
-      "loginStatusFadeOut",
+      "userMenuStatusFadeOut",
       resultFadeOutMs + timeoutBufferMs,
     );
     resultStatus.classList.remove(

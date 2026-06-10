@@ -1,8 +1,6 @@
 import { BODY_ACTIVE_CLASS } from "./body-const.js";
-import { BODY_CONTENT_FADE_PENDING_CLASS } from "./body-const.js";
 import { BODY_CONTENT_HIDDEN_CLASS } from "./body-const.js";
 import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "./body-const.js";
-import { BODY_CONTENT_SIGNED_OUT_SELECTOR } from "./body-const.js";
 import { BODY_HIDDEN_CLASS } from "./body-const.js";
 import { BODY_ROOT_SELECTOR } from "./body-const.js";
 import { BODY_SIGNED_IN_VIEW_SELECTOR } from "./body-const.js";
@@ -29,12 +27,6 @@ function bodyInit(isSignedIn, options = {}) {
 
   if (isSignedIn) {
     bodySignedInAccountsApply(options.hasAccounts === true);
-  }
-
-  if (isSignedIn) {
-    document
-      .querySelector(BODY_CONTENT_SIGNED_OUT_SELECTOR)
-      ?.classList.remove(BODY_CONTENT_FADE_PENDING_CLASS);
   }
 
   if (isSignedIn) {

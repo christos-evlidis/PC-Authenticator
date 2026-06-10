@@ -1,9 +1,10 @@
+import { animCssMsGet } from "./utility-animation.js";
 import { animDelay } from "./utility-animation.js";
+import { VAR_BUFFER_MS, VAR_THEME_TRANSITION_MS } from "./motion-const.js";
 
 const THEME_LIGHT = "light";
 const THEME_DARK = "dark";
 const THEME_STORAGE_KEY = "pca-theme";
-const THEME_TRANSITION_MS = 220;
 const THEME_ICON_SIZE_16 = 16;
 const THEME_ICON_SIZE_48 = 48;
 const THEME_ICON_SIZE_128 = 128;
@@ -83,7 +84,9 @@ async function themeLayersAnimate(isDark) {
 
   themeLayersSet(isDark);
 
-  await animDelay(THEME_TRANSITION_MS + 24);
+  const themeTransitionMs = animCssMsGet(document.body, VAR_THEME_TRANSITION_MS);
+  const timeoutBufferMs = animCssMsGet(document.body, VAR_BUFFER_MS);
+  await animDelay(themeTransitionMs + timeoutBufferMs);
   document.body.classList.remove(THEME_TRANSITION_CLASS);
 }
 
@@ -176,4 +179,3 @@ export { THEME_ICON_SIZE_16 };
 export { THEME_ICON_SIZE_48 };
 export { THEME_LIGHT };
 export { THEME_STORAGE_KEY };
-export { THEME_TRANSITION_MS };

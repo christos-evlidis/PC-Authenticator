@@ -1,12 +1,12 @@
+import { animCssMsGet } from "../../../../../utils/utility-animation.js";
+import {
+  VAR_FADE_MS,
+  VAR_FILL_CONTRACT_MS,
+  VAR_FILL_EXPAND_MS,
+  VAR_RESULT_COPY_DRAW_MS,
+} from "../../../../../utils/motion-const.js";
 import { codesAnimationCopyFinish } from "./finish.js";
 import { codesAnimationCopyReset } from "./reset.js";
-
-const COPY_FILL_EXPAND_MS = 1000;
-const COPY_FILL_CONTRACT_MS = 480;
-const COPY_CHECK_DRAW_MS = 280;
-const COPY_CHECK_LEAD_MS = 320;
-const COPY_CHECK_HOLD_MS = 180;
-const COPY_FADE_MS = 250;
 
 /** Plays the copy fill and checkmark feedback on a card. */
 async function codesAnimationCopyStart(card, options = {}) {
@@ -22,10 +22,10 @@ async function codesAnimationCopyStart(card, options = {}) {
     return;
   }
 
-  const delay = (ms) =>
-    new Promise((resolve) => {
-      window.setTimeout(resolve, ms);
-    });
+  const fillExpandMs = animCssMsGet(card, VAR_FILL_EXPAND_MS);
+  const fillContractMs = animCssMsGet(card, VAR_FILL_CONTRACT_MS);
+  const checkDrawMs = animCssMsGet(card, VAR_RESULT_COPY_DRAW_MS);
+  const fadeMs = animCssMsGet(card, VAR_FADE_MS);
 
   const wait = (element, animationName, timeoutMs) =>
     new Promise((resolve) => {
@@ -53,28 +53,24 @@ async function codesAnimationCopyStart(card, options = {}) {
   codesAnimationCopyReset(fill, check);
 
   fill.classList.add("is-expanding");
-  const expandDone = wait(fill, "copy-fill-expand", COPY_FILL_EXPAND_MS + 40);
+  await wait(fill, "copy-fill-expand", fillExpandMs + 40);
 
-  await delay(Math.max(0, COPY_FILL_EXPAND_MS - COPY_CHECK_LEAD_MS));
   check.classList.add("is-visible", "is-animating");
   onCheckmarkStart?.();
 
   await Promise.all([
-    expandDone,
-    wait(check.querySelector(".copy-check__mark"), "copy-check-mark-draw", COPY_CHECK_DRAW_MS + 60),
+    wait(check.querySelector(".copy-check__circle"), "copy-check-circle-draw", checkDrawMs + 60),
+    wait(check.querySelector(".copy-check__mark"), "copy-check-mark-draw", checkDrawMs + 60),
   ]);
 
   check.classList.remove("is-animating");
-  check.classList.add("is-drawn");
-  await delay(COPY_CHECK_HOLD_MS);
-
-  check.classList.add("is-hiding");
+  check.classList.add("is-drawn", "is-hiding");
   fill.classList.remove("is-expanding");
   fill.classList.add("is-contracting");
 
   await Promise.all([
-    wait(fill, "copy-fill-contract", COPY_FILL_CONTRACT_MS + 40),
-    wait(check, "copy-check-fade", COPY_FADE_MS + 40),
+    wait(fill, "copy-fill-contract", fillContractMs + 40),
+    wait(check, "copy-check-fade", fadeMs + 40),
   ]);
 
   codesAnimationCopyFinish(card, fill, check);

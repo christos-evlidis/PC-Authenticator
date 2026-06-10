@@ -97,7 +97,7 @@ async function qrSetupAnimationResumeStart(resolveWork) {
     loadingStatus.classList.add(QR_SETUP_RESUME_DOTS_FADE_OUT_CLASS);
     await animAnimationEndWait(
       loadingStatus,
-      "loginStatusFadeOut",
+      "qrSetupStatusFadeOut",
       dotsFadeOutMs + timeoutBufferMs,
     );
     loadingStatus.classList.remove(QR_SETUP_RESUME_DOTS_FADE_OUT_CLASS);
@@ -119,7 +119,7 @@ async function qrSetupAnimationResumeStart(resolveWork) {
     if (circle) {
       await animAnimationEndWait(
         circle,
-        "loginStatusCircleDraw",
+        "qrSetupStatusCircleDraw",
         circleDuration + timeoutBufferMs,
       );
     }
@@ -130,7 +130,7 @@ async function qrSetupAnimationResumeStart(resolveWork) {
 
     await Promise.all(
       marks.map((mark) =>
-        animAnimationEndWait(mark, "loginStatusMarkDraw", markDuration + timeoutBufferMs),
+        animAnimationEndWait(mark, "qrSetupStatusMarkDraw", markDuration + timeoutBufferMs),
       ),
     );
 
@@ -145,7 +145,7 @@ async function qrSetupAnimationResumeStart(resolveWork) {
       resultStatus.classList.add(QR_SETUP_RESUME_RESULT_FADE_OUT_CLASS);
       await animAnimationEndWait(
         resultStatus,
-        "loginStatusFadeOut",
+        "qrSetupStatusFadeOut",
         resultFadeOutMs + timeoutBufferMs,
       );
       resultStatus.classList.remove(

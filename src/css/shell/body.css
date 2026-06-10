@@ -23,7 +23,6 @@
     padding: var(--body-padding-block) var(--body-padding-inline);
     border-radius: var(--radius-l);
     background: var(--color-surface-secondary);
-    transition: background-color var(--body-transition-ms) ease;
     overflow: hidden;
 }
 
@@ -62,12 +61,6 @@
     padding: var(--body-content-padding-block) var(--body-content-padding-inline);
     color: var(--color-text-secondary);
     text-align: center;
-    transition: opacity var(--body-auth-fade-ms) ease !important;
-}
-
-.app-body__content.is-body-content-fade-pending {
-    opacity: 0 !important;
-    pointer-events: none;
 }
 
 .app-body__icon {
@@ -80,10 +73,10 @@
     color: var(--color-icon-tertiary);
     transform-origin: center center;
     transition:
-        opacity var(--body-icon-pop-ms) ease,
-        transform var(--body-icon-pop-ms) ease,
-        max-height var(--body-icon-pop-ms) ease,
-        margin-bottom var(--body-icon-pop-ms) ease;
+        opacity var(--pop-ms) ease,
+        transform var(--pop-ms) ease,
+        max-height var(--pop-ms) ease,
+        margin-bottom var(--pop-ms) ease;
 }
 
 .app-body__icon.is-body-pop-pending {
