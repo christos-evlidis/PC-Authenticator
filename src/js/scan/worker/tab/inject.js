@@ -1,4 +1,4 @@
-import { CONTENT_INDEX_PATH } from "../../constants.js";
+import { CONTENT_INDEX_PATH } from "../../scan-const.js";
 
 async function workerTabInject(tabId) {
   try {

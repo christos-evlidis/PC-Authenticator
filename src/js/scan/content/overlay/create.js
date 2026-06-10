@@ -1,10 +1,10 @@
-import { OVERLAY_CLASS } from "../../constants.js";
-import { OVERLAY_CSS_PATH } from "../../constants.js";
-import { OVERLAY_HOST_CLASS } from "../../constants.js";
-import { OVERLAY_HOST_STYLE_ID } from "../../constants.js";
-import { OVERLAY_INSTRUCTION_CLASS } from "../../constants.js";
-import { OVERLAY_INSTRUCTION_TEXT } from "../../constants.js";
-import { OVERLAY_SELECTION_CLASS } from "../../constants.js";
+import { OVERLAY_CLASS } from "../../scan-const.js";
+import { OVERLAY_CSS_PATH } from "../../scan-const.js";
+import { OVERLAY_HOST_CLASS } from "../../scan-const.js";
+import { OVERLAY_HOST_STYLE_ID } from "../../scan-const.js";
+import { OVERLAY_INSTRUCTION_CLASS } from "../../scan-const.js";
+import { OVERLAY_INSTRUCTION_TEXT } from "../../scan-const.js";
+import { OVERLAY_SELECTION_CLASS } from "../../scan-const.js";
 
 function contentOverlayCreate() {
   if (!document.getElementById(OVERLAY_HOST_STYLE_ID)) {

@@ -1,4 +1,4 @@
-import { AUTH_NUMBER_LENGTH } from "../../constants.js";
+import { AUTH_NUMBER_LENGTH } from "../../accounts-const.js";
 
 function authSanitizeNumber(value) {
   return String(value ?? "")

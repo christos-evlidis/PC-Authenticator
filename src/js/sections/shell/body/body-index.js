@@ -1,12 +1,12 @@
-import { BODY_ACTIVE_CLASS } from "./constants.js";
-import { BODY_CONTENT_FADE_PENDING_CLASS } from "./constants.js";
-import { BODY_CONTENT_HIDDEN_CLASS } from "./constants.js";
-import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "./constants.js";
-import { BODY_CONTENT_SIGNED_OUT_SELECTOR } from "./constants.js";
-import { BODY_HIDDEN_CLASS } from "./constants.js";
-import { BODY_ROOT_SELECTOR } from "./constants.js";
-import { BODY_SIGNED_IN_VIEW_SELECTOR } from "./constants.js";
-import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "./constants.js";
+import { BODY_ACTIVE_CLASS } from "./body-const.js";
+import { BODY_CONTENT_FADE_PENDING_CLASS } from "./body-const.js";
+import { BODY_CONTENT_HIDDEN_CLASS } from "./body-const.js";
+import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "./body-const.js";
+import { BODY_CONTENT_SIGNED_OUT_SELECTOR } from "./body-const.js";
+import { BODY_HIDDEN_CLASS } from "./body-const.js";
+import { BODY_ROOT_SELECTOR } from "./body-const.js";
+import { BODY_SIGNED_IN_VIEW_SELECTOR } from "./body-const.js";
+import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "./body-const.js";
 
 function bodyInit(isSignedIn, options = {}) {
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
@@ -30,3 +30,8 @@ function bodyInit(isSignedIn, options = {}) {
 }
 
 export { bodyInit };
+
+export { bodyAnimationFinish } from "./animation/finish.js";
+export { bodyAnimationInstant } from "./animation/instant.js";
+export { bodyAnimationReset } from "./animation/reset.js";
+export { bodyAnimationStart } from "./animation/start.js";

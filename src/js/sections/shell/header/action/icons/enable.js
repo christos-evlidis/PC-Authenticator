@@ -1,6 +1,6 @@
-import { HEADER_BUTTON_SELECTOR } from "../../constants.js";
-import { HEADER_DISABLED_CLASS } from "../../constants.js";
-import { HEADER_ROOT_SELECTOR } from "../../constants.js";
+import { HEADER_BUTTON_SELECTOR } from "../../header-const.js";
+import { HEADER_DISABLED_CLASS } from "../../header-const.js";
+import { HEADER_ROOT_SELECTOR } from "../../header-const.js";
 
 function headerActionsIconsEnable() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);

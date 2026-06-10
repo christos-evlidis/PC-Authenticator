@@ -1,6 +1,6 @@
-import { SEARCH_ANIMATION_PENDING_CLASS } from "../constants.js";
-import { SEARCH_FADE_IN_CLASS } from "../constants.js";
-import { SEARCH_ROOT_SELECTOR } from "../constants.js";
+import { SEARCH_ANIMATION_PENDING_CLASS } from "../search-const.js";
+import { SEARCH_FADE_IN_CLASS } from "../search-const.js";
+import { SEARCH_ROOT_SELECTOR } from "../search-const.js";
 
 function searchAnimationFinish() {
   const search = document.querySelector(SEARCH_ROOT_SELECTOR);

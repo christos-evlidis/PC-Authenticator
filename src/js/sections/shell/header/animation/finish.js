@@ -1,13 +1,13 @@
-import { HEADER_ANIMATION_PENDING_CLASS } from "../constants.js";
-import { HEADER_CONTENT_PENDING_CLASS } from "../constants.js";
-import { HEADER_FADE_IN_CLASS } from "../constants.js";
-import { HEADER_ICON_POP_PENDING_CLASS } from "../constants.js";
-import { HEADER_ICON_POP_REVEALED_CLASS } from "../constants.js";
-import { HEADER_ROOT_SELECTOR } from "../constants.js";
-import { HEADER_TITLE_DISPLAY_SELECTOR } from "../constants.js";
-import { HEADER_TITLE_SELECTOR } from "../constants.js";
-import { HEADER_TITLE_TEXT } from "../constants.js";
-import { HEADER_TITLE_TYPING_CLASS } from "../constants.js";
+import { HEADER_ANIMATION_PENDING_CLASS } from "../header-const.js";
+import { HEADER_CONTENT_PENDING_CLASS } from "../header-const.js";
+import { HEADER_FADE_IN_CLASS } from "../header-const.js";
+import { HEADER_ICON_POP_PENDING_CLASS } from "../header-const.js";
+import { HEADER_ICON_POP_REVEALED_CLASS } from "../header-const.js";
+import { HEADER_ROOT_SELECTOR } from "../header-const.js";
+import { HEADER_TITLE_DISPLAY_SELECTOR } from "../header-const.js";
+import { HEADER_TITLE_SELECTOR } from "../header-const.js";
+import { HEADER_TITLE_TEXT } from "../header-const.js";
+import { HEADER_TITLE_TYPING_CLASS } from "../header-const.js";
 
 function headerAnimationFinish() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);

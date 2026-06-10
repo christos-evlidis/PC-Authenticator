@@ -5,8 +5,8 @@ import { userMenuStateSet } from "../../state/set.js";
 
 import { THEME_DARK } from "../../../../../utils/utility-theme.js";
 import { THEME_LIGHT } from "../../../../../utils/utility-theme.js";
-import { USER_MENU_ACTIVE_CLASS } from "../../constants.js";
-import { USER_MENU_THEME_BTN_SELECTOR } from "../../constants.js";
+import { USER_MENU_ACTIVE_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_THEME_BTN_SELECTOR } from "../../user-menu-const.js";
 
 async function userMenuActionsThemeSwitch(theme) {
   const nextTheme = theme === THEME_DARK ? THEME_DARK : THEME_LIGHT;

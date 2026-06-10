@@ -1,5 +1,5 @@
-import { authStorageGet } from "../../../../accounts/auth/storage/get.js";
-import { dataActionAddQr } from "../../../../accounts/data/action/add/qr.js";
+import { authStorageGet } from "../../../../accounts/accounts-index.js";
+import { dataActionAddQr } from "../../../../accounts/accounts-index.js";
 import { qrSetupActionsInstant } from "./instant.js";
 import { qrSetupActionsLockSet } from "./lock/set.js";
 import { qrSetupActionsPanelOpen } from "./panel/open.js";
@@ -7,8 +7,8 @@ import { qrSetupStateGet } from "../state/get.js";
 import { qrSetupStateSet } from "../state/set.js";
 import { scanStart } from "../../../../scan/scan-index.js";
 
-import { QR_SETUP_BUSY_CLASS } from "../constants.js";
-import { QR_SETUP_ROOT_SELECTOR } from "../constants.js";
+import { QR_SETUP_BUSY_CLASS } from "../qr-code-setup-const.js";
+import { QR_SETUP_ROOT_SELECTOR } from "../qr-code-setup-const.js";
 
 async function qrSetupActionsAdd(otpauthUri, options = {}) {
   const { instantOpen = false } = options;

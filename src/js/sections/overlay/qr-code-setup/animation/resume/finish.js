@@ -1,21 +1,21 @@
 import { animPhaseReset } from "../../../../../utils/utility-animation.js";
 
-import { QR_SETUP_CONTENT_SELECTOR } from "../../constants.js";
-import { QR_SETUP_HIDDEN_CLASS } from "../../constants.js";
-import { QR_SETUP_PANEL_SELECTOR } from "../../constants.js";
-import { QR_SETUP_RESUME_CONTENT_PHASE_CLASSES } from "../../constants.js";
-import { QR_SETUP_RESUME_DOTS_FADE_OUT_CLASS } from "../../constants.js";
-import { QR_SETUP_RESUME_DOTS_RUN_CLASS } from "../../constants.js";
-import { QR_SETUP_RESUME_FADE_CLASS } from "../../constants.js";
-import { QR_SETUP_RESUME_FADE_SELECTORS } from "../../constants.js";
-import { QR_SETUP_RESUME_LAYOUT_VARS } from "../../constants.js";
-import { QR_SETUP_RESUME_LOCKED_CLASS } from "../../constants.js";
-import { QR_SETUP_RESUME_RESULT_DRAW_CLASS } from "../../constants.js";
-import { QR_SETUP_RESUME_RUNNING_CLASS } from "../../constants.js";
-import { QR_SETUP_ROOT_SELECTOR } from "../../constants.js";
-import { QR_SETUP_STATUS_ERROR_SELECTOR } from "../../constants.js";
-import { QR_SETUP_STATUS_LOADING_SELECTOR } from "../../constants.js";
-import { QR_SETUP_STATUS_SUCCESS_SELECTOR } from "../../constants.js";
+import { QR_SETUP_CONTENT_SELECTOR } from "../../qr-code-setup-const.js";
+import { QR_SETUP_HIDDEN_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_PANEL_SELECTOR } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_CONTENT_PHASE_CLASSES } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_DOTS_FADE_OUT_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_DOTS_RUN_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_FADE_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_FADE_SELECTORS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_LAYOUT_VARS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_LOCKED_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_RESULT_DRAW_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_RUNNING_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_ROOT_SELECTOR } from "../../qr-code-setup-const.js";
+import { QR_SETUP_STATUS_ERROR_SELECTOR } from "../../qr-code-setup-const.js";
+import { QR_SETUP_STATUS_LOADING_SELECTOR } from "../../qr-code-setup-const.js";
+import { QR_SETUP_STATUS_SUCCESS_SELECTOR } from "../../qr-code-setup-const.js";
 
 function qrSetupAnimationResumeFinish() {
   const root = document.querySelector(QR_SETUP_ROOT_SELECTOR);

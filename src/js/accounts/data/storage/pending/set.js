@@ -1,4 +1,4 @@
-import { DATA_KEY_PENDING } from "../../../constants.js";
+import { DATA_KEY_PENDING } from "../../../accounts-const.js";
 
 async function dataStoragePendingSet(accounts) {
   try {

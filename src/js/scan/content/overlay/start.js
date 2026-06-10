@@ -3,13 +3,13 @@ import { contentOverlayRemove } from "./remove.js";
 import { contentOverlayStateStore } from "./state/store.js";
 import { contentScreenshotCapture } from "../screenshot/capture.js";
 
-import { MESSAGES } from "../../constants.js";
-import { OVERLAY_CLASS } from "../../constants.js";
-import { OVERLAY_DIMMED_CLASS } from "../../constants.js";
-import { OVERLAY_DYNAMIC_STYLE_ID } from "../../constants.js";
-import { OVERLAY_SELECTING_CLASS } from "../../constants.js";
-import { OVERLAY_SELECTION_CLASS } from "../../constants.js";
-import { UNSUPPORTED_PAGE_ERROR } from "../../constants.js";
+import { MESSAGES } from "../../scan-const.js";
+import { OVERLAY_CLASS } from "../../scan-const.js";
+import { OVERLAY_DIMMED_CLASS } from "../../scan-const.js";
+import { OVERLAY_DYNAMIC_STYLE_ID } from "../../scan-const.js";
+import { OVERLAY_SELECTING_CLASS } from "../../scan-const.js";
+import { OVERLAY_SELECTION_CLASS } from "../../scan-const.js";
+import { UNSUPPORTED_PAGE_ERROR } from "../../scan-const.js";
 
 function contentOverlayStart() {
   contentOverlayRemove();

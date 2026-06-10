@@ -2,20 +2,20 @@ import { animCssMsGet } from "../../../../../utils/utility-animation.js";
 import { animFrameWait } from "../../../../../utils/utility-animation.js";
 import { animTransitionEndWait } from "../../../../../utils/utility-animation.js";
 
-import { USER_MENU_ACTIVE_CLASS } from "../../constants.js";
-import { USER_MENU_HEADER_BTN_ACTIVE_CLASS } from "../../constants.js";
-import { USER_MENU_OPEN_BTN_SELECTOR } from "../../constants.js";
-import { USER_MENU_OPEN_CLASS } from "../../constants.js";
-import { USER_MENU_PANEL_ANIMATION_RUN_ID } from "../../constants.js";
-import { USER_MENU_PANEL_BACKDROP_CLOSING_CLASS } from "../../constants.js";
-import { USER_MENU_PANEL_CLOSING_CLASS } from "../../constants.js";
-import { USER_MENU_PANEL_OPENING_CLASS } from "../../constants.js";
-import { USER_MENU_PANEL_OPEN_CLASS } from "../../constants.js";
-import { USER_MENU_PANEL_SELECTOR } from "../../constants.js";
-import { USER_MENU_ROOT_SELECTOR } from "../../constants.js";
-import { USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../constants.js";
-import { USER_MENU_VAR_BLUR_MS } from "../../constants.js";
-import { USER_MENU_VAR_SLIDE_MS } from "../../constants.js";
+import { USER_MENU_ACTIVE_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_HEADER_BTN_ACTIVE_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_OPEN_BTN_SELECTOR } from "../../user-menu-const.js";
+import { USER_MENU_OPEN_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_PANEL_ANIMATION_RUN_ID } from "../../user-menu-const.js";
+import { USER_MENU_PANEL_BACKDROP_CLOSING_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_PANEL_CLOSING_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_PANEL_OPENING_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_PANEL_OPEN_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_PANEL_SELECTOR } from "../../user-menu-const.js";
+import { USER_MENU_ROOT_SELECTOR } from "../../user-menu-const.js";
+import { USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../user-menu-const.js";
+import { USER_MENU_VAR_BLUR_MS } from "../../user-menu-const.js";
+import { USER_MENU_VAR_SLIDE_MS } from "../../user-menu-const.js";
 
 async function userMenuAnimationPanelOpen() {
   const runId = USER_MENU_PANEL_ANIMATION_RUN_ID.value + 1;

@@ -1,5 +1,5 @@
-import { authStorageGet } from "../../../../accounts/auth/storage/get.js";
-import { dataActionAddQr } from "../../../../accounts/data/action/add/qr.js";
+import { authStorageGet } from "../../../../accounts/accounts-index.js";
+import { dataActionAddQr } from "../../../../accounts/accounts-index.js";
 import { qrSetupActionsPanelClose } from "../action/panel/close.js";
 import { qrSetupAnimationResumeFinish } from "../animation/resume/finish.js";
 import { qrSetupAnimationResumeStart } from "../animation/resume/start.js";

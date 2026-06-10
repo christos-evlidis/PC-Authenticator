@@ -1,11 +1,12 @@
-import { authStorageGet } from "../accounts/auth/storage/get.js";
-import { bodyInit } from "../sections/shell/body/index.js";
-import { headerInit } from "../sections/shell/header/index.js";
-import { searchApply } from "../sections/shell/search/index.js";
-import { userMenuInit } from "../sections/overlay/user-menu/index.js";
+import { authStorageGet } from "../accounts/accounts-index.js";
+import { bodyInit } from "../sections/shell/body/body-index.js";
+import { headerInit } from "../sections/shell/header/header-index.js";
+import { searchApply } from "../sections/shell/search/search-index.js";
+import { userMenuInit } from "../sections/overlay/user-menu/user-menu-index.js";
 
 /** Returns whether a stored auth number exists in local storage. */
-async function authSignedInIs() {  return Boolean(await authStorageGet());
+async function authSignedInIs() {
+  return Boolean(await authStorageGet());
 }
 
 /** Applies signed-in/out chrome from storage or explicit bootstrap values. */

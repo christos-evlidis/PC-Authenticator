@@ -1,4 +1,4 @@
-import { PENDING_KEY } from "../../../constants.js";
+import { PENDING_KEY } from "../../../scan-const.js";
 
 async function workerStoragePendingClear() {
   try {

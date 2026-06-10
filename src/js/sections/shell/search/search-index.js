@@ -5,11 +5,11 @@ import { searchAnimationFinish } from "./animation/finish.js";
 import { searchFilterApply } from "./action/filter.js";
 import { searchReset } from "./action/reset.js";
 
-import { SEARCH_ANIMATION_PENDING_CLASS } from "./constants.js";
-import { SEARCH_HIDDEN_CLASS } from "./constants.js";
-import { SEARCH_INPUT_SELECTOR } from "./constants.js";
-import { SEARCH_ROOT_SELECTOR } from "./constants.js";
-import { SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "./constants.js";
+import { SEARCH_ANIMATION_PENDING_CLASS } from "./search-const.js";
+import { SEARCH_HIDDEN_CLASS } from "./search-const.js";
+import { SEARCH_INPUT_SELECTOR } from "./search-const.js";
+import { SEARCH_ROOT_SELECTOR } from "./search-const.js";
+import { SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "./search-const.js";
 
 function searchInit() {
   document.querySelector(SEARCH_INPUT_SELECTOR)?.addEventListener("input", () => {
@@ -74,3 +74,10 @@ export { searchAnimationPrepare };
 export { searchAnimationRun };
 export { searchApply };
 export { searchInit };
+
+export { searchFilterApply } from "./action/filter.js";
+export { searchFilterReset } from "./action/filter.js";
+export { searchReset } from "./action/reset.js";
+export { searchAnimationFadeIn } from "./animation/fade-in.js";
+export { searchAnimationFinish } from "./animation/finish.js";
+export { searchAnimationInstant } from "./animation/instant.js";

@@ -1,7 +1,7 @@
 import { contentOverlayStateStore } from "./state/store.js";
 
-import { MESSAGES } from "../../constants.js";
-import { OVERLAY_HOST_CLASS } from "../../constants.js";
+import { MESSAGES } from "../../scan-const.js";
+import { OVERLAY_HOST_CLASS } from "../../scan-const.js";
 
 function contentOverlayRemove({ notifyCancel = false } = {}) {
   contentOverlayStateStore.teardown?.();

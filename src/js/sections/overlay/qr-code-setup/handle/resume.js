@@ -1,6 +1,6 @@
 import { authChromeApply } from "../../../../utils/utility-auth.js";
-import { authStorageGet } from "../../../../accounts/auth/storage/get.js";
-import { dataStorageReadyGet } from "../../../../accounts/data/storage/ready/get.js";
+import { authStorageGet } from "../../../../accounts/accounts-index.js";
+import { dataStorageReadyGet } from "../../../../accounts/accounts-index.js";
 import { scanPendingGet } from "../../../../scan/scan-index.js";
 
 async function qrSetupHandleResume() {

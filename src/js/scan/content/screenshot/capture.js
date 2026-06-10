@@ -1,8 +1,8 @@
 import { contentScreenshotCrop } from "./crop.js";
 import { contentScreenshotLoad } from "./load.js";
 
-import { MESSAGES } from "../../constants.js";
-import { UNSUPPORTED_PAGE_ERROR } from "../../constants.js";
+import { MESSAGES } from "../../scan-const.js";
+import { UNSUPPORTED_PAGE_ERROR } from "../../scan-const.js";
 
 async function contentScreenshotCapture(selection) {
   try {

@@ -1,5 +1,5 @@
-import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../constants.js";
-import { MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR } from "../../constants.js";
+import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../manual-setup-const.js";
+import { MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR } from "../../manual-setup-const.js";
 
 function manualSetupActionsFormReset(form) {
   form.reset();

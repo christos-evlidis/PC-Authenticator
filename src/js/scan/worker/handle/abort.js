@@ -1,8 +1,8 @@
-import { messageContent } from "../../message/content.js";
+import { messageContent } from "../../message/message-index.js";
 import { workerStoragePendingClear } from "../storage/pending/clear.js";
 import { workerTabResolve } from "../tab/resolve.js";
 
-import { MESSAGES } from "../../constants.js";
+import { MESSAGES } from "../../scan-const.js";
 
 async function workerHandleAbort(options = {}) {
   try {

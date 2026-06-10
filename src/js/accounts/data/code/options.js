@@ -1,4 +1,4 @@
-import { DATA_OTP_TYPE_HOTP } from "../../constants.js";
+import { DATA_OTP_TYPE_HOTP } from "../../accounts-const.js";
 
 function dataCodeOptions(account) {
   try {

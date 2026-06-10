@@ -1,4 +1,4 @@
-import { DATA_OTP_TYPE_TOTP } from "../../../constants.js";
+import { DATA_OTP_TYPE_TOTP } from "../../../accounts-const.js";
 
 function dataCodeTypeTotp(account) {
   try {

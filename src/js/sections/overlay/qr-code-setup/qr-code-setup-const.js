@@ -1,4 +1,4 @@
-ï»¿import { HEADER_SCAN_QR_BTN_SELECTOR } from "../header/constants.js";
+import { HEADER_SCAN_QR_BTN_SELECTOR } from "../../shell/header/header-const.js";
 
 export const QR_SETUP_ROOT_SELECTOR = ".qr-setup";
 export const QR_SETUP_BACKDROP_SELECTOR = ".qr-setup__backdrop";

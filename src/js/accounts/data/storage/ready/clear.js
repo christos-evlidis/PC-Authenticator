@@ -1,4 +1,4 @@
-import { DATA_KEY_FINAL } from "../../../constants.js";
+import { DATA_KEY_FINAL } from "../../../accounts-const.js";
 
 async function dataStorageReadyClear() {
   try {

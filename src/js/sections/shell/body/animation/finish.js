@@ -1,20 +1,20 @@
-import { BODY_ACTIVE_CLASS } from "../constants.js";
-import { BODY_ANIMATION_PENDING_CLASS } from "../constants.js";
-import { BODY_CONTENT_FADE_PENDING_CLASS } from "../constants.js";
-import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "../constants.js";
-import { BODY_CONTENT_SIGNED_OUT_SELECTOR } from "../constants.js";
-import { BODY_HIDDEN_CLASS } from "../constants.js";
-import { BODY_ICON_POP_PENDING_CLASS } from "../constants.js";
-import { BODY_ICON_POP_REVEALED_CLASS } from "../constants.js";
-import { BODY_ICON_SELECTOR } from "../constants.js";
-import { BODY_MESSAGE_DISPLAY_SELECTOR } from "../constants.js";
-import { BODY_MESSAGE_STACK_SELECTOR } from "../constants.js";
-import { BODY_MESSAGE_TYPING_CLASS } from "../constants.js";
-import { BODY_ROOT_SELECTOR } from "../constants.js";
-import { BODY_SIGNED_IN_EMPTY_MESSAGE_TEXT } from "../constants.js";
-import { BODY_SIGNED_IN_VIEW_SELECTOR } from "../constants.js";
-import { BODY_SIGNED_OUT_MESSAGE_TEXT } from "../constants.js";
-import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "../constants.js";
+import { BODY_ACTIVE_CLASS } from "../body-const.js";
+import { BODY_ANIMATION_PENDING_CLASS } from "../body-const.js";
+import { BODY_CONTENT_FADE_PENDING_CLASS } from "../body-const.js";
+import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "../body-const.js";
+import { BODY_CONTENT_SIGNED_OUT_SELECTOR } from "../body-const.js";
+import { BODY_HIDDEN_CLASS } from "../body-const.js";
+import { BODY_ICON_POP_PENDING_CLASS } from "../body-const.js";
+import { BODY_ICON_POP_REVEALED_CLASS } from "../body-const.js";
+import { BODY_ICON_SELECTOR } from "../body-const.js";
+import { BODY_MESSAGE_DISPLAY_SELECTOR } from "../body-const.js";
+import { BODY_MESSAGE_STACK_SELECTOR } from "../body-const.js";
+import { BODY_MESSAGE_TYPING_CLASS } from "../body-const.js";
+import { BODY_ROOT_SELECTOR } from "../body-const.js";
+import { BODY_SIGNED_IN_EMPTY_MESSAGE_TEXT } from "../body-const.js";
+import { BODY_SIGNED_IN_VIEW_SELECTOR } from "../body-const.js";
+import { BODY_SIGNED_OUT_MESSAGE_TEXT } from "../body-const.js";
+import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "../body-const.js";
 
 function bodyAnimationFinish() {
   const body = document.querySelector(BODY_ROOT_SELECTOR);

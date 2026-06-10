@@ -2,13 +2,13 @@ import { userMenuAnimationAuthSwitch } from "../../animation/auth/switch.js";
 import { userMenuStateGet } from "../../state/get.js";
 import { userMenuStateSet } from "../../state/set.js";
 
-import { USER_MENU_ACTIVE_CLASS } from "../../constants.js";
-import { USER_MENU_AUTH_BTN_SELECTOR } from "../../constants.js";
-import { USER_MENU_AUTH_VIEW_SIGN_IN } from "../../constants.js";
-import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../../constants.js";
-import { USER_MENU_HIDDEN_CLASS } from "../../constants.js";
-import { USER_MENU_SIGN_IN_VIEW_SELECTOR } from "../../constants.js";
-import { USER_MENU_SIGN_UP_VIEW_SELECTOR } from "../../constants.js";
+import { USER_MENU_ACTIVE_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_AUTH_BTN_SELECTOR } from "../../user-menu-const.js";
+import { USER_MENU_AUTH_VIEW_SIGN_IN } from "../../user-menu-const.js";
+import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../../user-menu-const.js";
+import { USER_MENU_HIDDEN_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_SIGN_IN_VIEW_SELECTOR } from "../../user-menu-const.js";
+import { USER_MENU_SIGN_UP_VIEW_SELECTOR } from "../../user-menu-const.js";
 
 function userMenuActionsAuthSwitch(authView) {
   if (userMenuStateGet().isSignInRunning) {

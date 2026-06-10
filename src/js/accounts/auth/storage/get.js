@@ -1,4 +1,4 @@
-import { AUTH_NUMBER_KEY } from "../../constants.js";
+import { AUTH_NUMBER_KEY } from "../../accounts-const.js";
 
 async function authStorageGet() {
   try {

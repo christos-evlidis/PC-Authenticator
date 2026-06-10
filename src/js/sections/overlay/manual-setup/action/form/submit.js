@@ -1,13 +1,13 @@
-import { authStorageGet } from "../../../../../accounts/auth/storage/get.js";
-import { dataActionAddManual } from "../../../../../accounts/data/action/add/manual.js";
+import { authStorageGet } from "../../../../../accounts/accounts-index.js";
+import { dataActionAddManual } from "../../../../../accounts/accounts-index.js";
 import { manualSetupActionsFormEnable } from "./enable.js";
 import { manualSetupActionsFormReset } from "./reset.js";
 import { manualSetupAnimationSubmit } from "../../animation/submit.js";
 import { manualSetupStateGet } from "../../state/get.js";
 
-import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../constants.js";
-import { MANUAL_SETUP_ROOT_SELECTOR } from "../../constants.js";
-import { MANUAL_SETUP_SUBMITTING_CLASS } from "../../constants.js";
+import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../manual-setup-const.js";
+import { MANUAL_SETUP_ROOT_SELECTOR } from "../../manual-setup-const.js";
+import { MANUAL_SETUP_SUBMITTING_CLASS } from "../../manual-setup-const.js";
 
 async function manualSetupActionsFormSubmit(event) {
   event.preventDefault();

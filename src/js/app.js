@@ -1,13 +1,13 @@
-import { authApiVerify } from "./accounts/auth/api/verify.js";
+import { authApiVerify } from "./accounts/accounts-index.js";
+import { authStorageGet } from "./accounts/accounts-index.js";
+import { dataHandleSync } from "./accounts/accounts-index.js";
+import { initSectionModules } from "./sections/sections-index.js";
+import { loadAnimationRun } from "./sections/shell/sequences/sequences-index.js";
+import { qrSetupActionsInstant } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
+import { qrSetupAnimationResumePrepare } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
+import { qrSetupHandlePending } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
+import { qrSetupHandleResume } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
 import { authChromeApply } from "./utils/utility-auth.js";
-import { authStorageGet } from "./accounts/auth/storage/get.js";
-import { dataHandleSync } from "./accounts/data/handle/sync.js";
-import { initSectionModules } from "./sections/section-index.js";
-import { loadAnimationRun } from "./sections/shell/sequences/load/index.js";
-import { qrSetupActionsInstant } from "./sections/overlay/qr-code-setup/action/instant.js";
-import { qrSetupAnimationResumePrepare } from "./sections/overlay/qr-code-setup/animation/resume/prepare.js";
-import { qrSetupHandlePending } from "./sections/overlay/qr-code-setup/handle/pending.js";
-import { qrSetupHandleResume } from "./sections/overlay/qr-code-setup/handle/resume.js";
 import { themeChromeStorageSync } from "./utils/utility-theme.js";
 
 void startExtension();

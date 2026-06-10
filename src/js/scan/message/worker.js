@@ -1,4 +1,4 @@
-import { UNSUPPORTED_PAGE_ERROR } from "../constants.js";
+import { UNSUPPORTED_PAGE_ERROR } from "../scan-const.js";
 
 function messageWorker(payload, { orError = true } = {}) {
   return new Promise((resolve) => {

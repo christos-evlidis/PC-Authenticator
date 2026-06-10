@@ -1,7 +1,7 @@
 import { themeGet } from "../../../../utils/utility-theme.js";
 
 import { THEME_LIGHT } from "../../../../utils/utility-theme.js";
-import { USER_MENU_AUTH_VIEW_SIGN_IN } from "../constants.js";
+import { USER_MENU_AUTH_VIEW_SIGN_IN } from "../user-menu-const.js";
 
 const userMenuStateStore = {
   isOpen: false,

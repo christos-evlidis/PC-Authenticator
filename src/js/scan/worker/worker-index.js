@@ -6,8 +6,8 @@ import { workerHandleTarget } from "./handle/target.js";
 import { workerStoragePendingClear } from "./storage/pending/clear.js";
 import { workerStoragePendingGet } from "./storage/pending/get.js";
 
-import { MESSAGES } from "../constants.js";
-import { UNSUPPORTED_PAGE_ERROR } from "../constants.js";
+import { MESSAGES } from "../scan-const.js";
+import { UNSUPPORTED_PAGE_ERROR } from "../scan-const.js";
 
 function workerScriptInit() {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
@@ -55,3 +55,18 @@ function workerScriptInit() {
 workerScriptInit();
 
 export { workerScriptInit };
+
+export { workerCodexDecode } from "./codex/decode.js";
+export { workerHandleAbort } from "./handle/abort.js";
+export { workerHandleCapture } from "./handle/capture.js";
+export { workerHandleSelection } from "./handle/selection.js";
+export { workerHandleStart } from "./handle/start.js";
+export { workerHandleTarget } from "./handle/target.js";
+export { workerStoragePendingClear } from "./storage/pending/clear.js";
+export { workerStoragePendingGet } from "./storage/pending/get.js";
+export { workerStoragePendingSet } from "./storage/pending/set.js";
+export { workerStorageStoreFailure } from "./storage/store/failure.js";
+export { workerStorageStoreSuccess } from "./storage/store/success.js";
+export { workerTabCapture } from "./tab/capture.js";
+export { workerTabInject } from "./tab/inject.js";
+export { workerTabResolve } from "./tab/resolve.js";

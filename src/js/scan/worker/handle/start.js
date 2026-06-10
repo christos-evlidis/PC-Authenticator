@@ -1,9 +1,9 @@
-import { messageContent } from "../../message/content.js";
+import { messageContent } from "../../message/message-index.js";
 import { workerTabInject } from "../tab/inject.js";
 import { workerTabResolve } from "../tab/resolve.js";
 
-import { MESSAGES } from "../../constants.js";
-import { START_FAILED_ERROR } from "../../constants.js";
+import { MESSAGES } from "../../scan-const.js";
+import { START_FAILED_ERROR } from "../../scan-const.js";
 
 async function workerHandleStart() {
   try {

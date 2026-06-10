@@ -1,4 +1,4 @@
-ï»¿import { HEADER_MANUAL_SETUP_BTN_SELECTOR } from "../header/constants.js";
+import { HEADER_MANUAL_SETUP_BTN_SELECTOR } from "../../shell/header/header-const.js";
 
 export const MANUAL_SETUP_ROOT_SELECTOR = ".manual-setup";
 export const MANUAL_SETUP_BACKDROP_SELECTOR = ".manual-setup__backdrop";

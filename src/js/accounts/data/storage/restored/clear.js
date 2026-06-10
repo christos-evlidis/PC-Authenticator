@@ -1,4 +1,4 @@
-import { dataRestored } from "../../../constants.js";
+import { dataRestored } from "../../../accounts-const.js";
 
 async function dataStorageRestoredClear() {
   try {

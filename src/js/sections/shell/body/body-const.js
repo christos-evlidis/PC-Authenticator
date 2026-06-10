@@ -1,4 +1,4 @@
-ï»¿export const EXTENSION_FRAME_SELECTOR = ".extension-frame";
+export const EXTENSION_FRAME_SELECTOR = ".extension-frame";
 export const BODY_ROOT_SELECTOR = ".app-body";
 export const BODY_VIEW_SELECTOR = ".app-body__view";
 export const BODY_SIGNED_OUT_VIEW_SELECTOR = ".app-body__view--signed-out";

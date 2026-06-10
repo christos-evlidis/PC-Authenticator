@@ -1,4 +1,4 @@
-import { dataMerged } from "../../../constants.js";
+import { dataMerged } from "../../../accounts-const.js";
 
 async function dataStorageMergedClear() {
   try {

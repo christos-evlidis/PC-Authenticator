@@ -1,23 +1,23 @@
 import { qrSetupAnimationResumeReset } from "./reset.js";
 
-import { QR_SETUP_CONTENT_SELECTOR } from "../../constants.js";
-import { QR_SETUP_HIDDEN_CLASS } from "../../constants.js";
-import { QR_SETUP_PANEL_SELECTOR } from "../../constants.js";
-import { QR_SETUP_RESUME_ABSOLUTE_CLASS } from "../../constants.js";
-import { QR_SETUP_RESUME_DOTS_RUN_CLASS } from "../../constants.js";
-import { QR_SETUP_RESUME_RUNNING_CLASS } from "../../constants.js";
-import { QR_SETUP_ROOT_SELECTOR } from "../../constants.js";
-import { QR_SETUP_STATUS_ERROR_SELECTOR } from "../../constants.js";
-import { QR_SETUP_STATUS_LOADING_SELECTOR } from "../../constants.js";
-import { QR_SETUP_STATUS_SUCCESS_SELECTOR } from "../../constants.js";
-import { QR_SETUP_VAR_RESUME_FULL_HEIGHT } from "../../constants.js";
-import { QR_SETUP_VAR_RESUME_FULL_LEFT } from "../../constants.js";
-import { QR_SETUP_VAR_RESUME_FULL_TOP } from "../../constants.js";
-import { QR_SETUP_VAR_RESUME_FULL_WIDTH } from "../../constants.js";
-import { QR_SETUP_VAR_RESUME_ORIGIN_HEIGHT } from "../../constants.js";
-import { QR_SETUP_VAR_RESUME_ORIGIN_LEFT } from "../../constants.js";
-import { QR_SETUP_VAR_RESUME_ORIGIN_TOP } from "../../constants.js";
-import { QR_SETUP_VAR_RESUME_ORIGIN_WIDTH } from "../../constants.js";
+import { QR_SETUP_CONTENT_SELECTOR } from "../../qr-code-setup-const.js";
+import { QR_SETUP_HIDDEN_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_PANEL_SELECTOR } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_ABSOLUTE_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_DOTS_RUN_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_RUNNING_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_ROOT_SELECTOR } from "../../qr-code-setup-const.js";
+import { QR_SETUP_STATUS_ERROR_SELECTOR } from "../../qr-code-setup-const.js";
+import { QR_SETUP_STATUS_LOADING_SELECTOR } from "../../qr-code-setup-const.js";
+import { QR_SETUP_STATUS_SUCCESS_SELECTOR } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_FULL_HEIGHT } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_FULL_LEFT } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_FULL_TOP } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_FULL_WIDTH } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_ORIGIN_HEIGHT } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_ORIGIN_LEFT } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_ORIGIN_TOP } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_ORIGIN_WIDTH } from "../../qr-code-setup-const.js";
 
 function qrSetupAnimationResumePrepare() {
   const root = document.querySelector(QR_SETUP_ROOT_SELECTOR);

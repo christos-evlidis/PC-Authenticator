@@ -1,4 +1,4 @@
-import { AUTH_API_BASE_URL } from "../../constants.js";
+import { AUTH_API_BASE_URL } from "../../accounts-const.js";
 
 async function authApiCreate() {
   try {

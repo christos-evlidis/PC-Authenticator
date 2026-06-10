@@ -1,13 +1,13 @@
 import { animCssMsGet } from "../../../../../utils/utility-animation.js";
 import { animTransitionEndWait } from "../../../../../utils/utility-animation.js";
 
-import { USER_MENU_AUTH_SIGN_IN_CLASS } from "../../constants.js";
-import { USER_MENU_AUTH_SIGN_UP_CLASS } from "../../constants.js";
-import { USER_MENU_AUTH_THUMB_SELECTOR } from "../../constants.js";
-import { USER_MENU_AUTH_TRACK_SELECTOR } from "../../constants.js";
-import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../../constants.js";
-import { USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../constants.js";
-import { USER_MENU_VAR_AUTH_THUMB_MS } from "../../constants.js";
+import { USER_MENU_AUTH_SIGN_IN_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_AUTH_SIGN_UP_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_AUTH_THUMB_SELECTOR } from "../../user-menu-const.js";
+import { USER_MENU_AUTH_TRACK_SELECTOR } from "../../user-menu-const.js";
+import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../../user-menu-const.js";
+import { USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../user-menu-const.js";
+import { USER_MENU_VAR_AUTH_THUMB_MS } from "../../user-menu-const.js";
 
 async function userMenuAnimationAuthSwitch(authView) {
   const track = document.querySelector(USER_MENU_AUTH_TRACK_SELECTOR);

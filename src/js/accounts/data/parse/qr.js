@@ -1,11 +1,11 @@
 import { dataRecordSanitizeName } from "../record/sanitize/name.js";
 import { dataRecordSanitizeSecret } from "../record/sanitize/secret.js";
 
-import { DATA_HOTP_COUNTER_DEFAULT } from "../../constants.js";
-import { DATA_OTP_ALGORITHM_DEFAULT } from "../../constants.js";
-import { DATA_OTP_DIGITS } from "../../constants.js";
-import { DATA_OTP_PERIOD } from "../../constants.js";
-import { DATA_OTP_TYPE_HOTP } from "../../constants.js";
+import { DATA_HOTP_COUNTER_DEFAULT } from "../../accounts-const.js";
+import { DATA_OTP_ALGORITHM_DEFAULT } from "../../accounts-const.js";
+import { DATA_OTP_DIGITS } from "../../accounts-const.js";
+import { DATA_OTP_PERIOD } from "../../accounts-const.js";
+import { DATA_OTP_TYPE_HOTP } from "../../accounts-const.js";
 
 function dataParseQr(uri) {
   try {
