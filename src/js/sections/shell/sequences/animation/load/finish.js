@@ -4,7 +4,7 @@ import { INTRO_STYLESHEET_HREF } from "../../sequences-const.js";
 const LOAD_OVERLAY_ROOT_SELECTORS = [
   ".app-user-menu",
   ".manual-setup",
-  ".qr-setup"
+  ".qr-setup",
 ];
 
 /** Reveals overlay roots and removes load intro markup from the document. */
@@ -15,9 +15,7 @@ function loadAnimationFinish() {
 
   document.querySelector(INTRO_ROOT_SELECTOR)?.remove();
 
-  document
-    .querySelector(`link[href="${INTRO_STYLESHEET_HREF}"]`)
-    ?.remove();
+  document.querySelector(`link[href="${INTRO_STYLESHEET_HREF}"]`)?.remove();
 }
 
 export { loadAnimationFinish };

@@ -68,6 +68,7 @@ export { manualSetupActionsTypeSwitch } from "./action/type/switch.js";
 export { manualSetupAnimationClose } from "./animation/close.js";
 export { manualSetupAnimationOpen } from "./animation/open.js";
 export { manualSetupAnimationSubmit } from "./animation/submit.js";
+export { manualSetupAnimationSubmitFinish } from "./animation/submit-finish.js";
 export { manualSetupStateGet } from "./state/get.js";
 export { manualSetupStateSet } from "./state/set.js";
 export { manualSetupStateStore } from "./state/store.js";

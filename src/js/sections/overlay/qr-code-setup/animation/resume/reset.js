@@ -11,6 +11,7 @@ import { QR_SETUP_RESUME_FADE_SELECTORS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_RESUME_LAYOUT_VARS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_RESUME_LOCKED_CLASS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_RESUME_RESULT_DRAW_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_RESULT_FADE_OUT_CLASS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_RESUME_RUNNING_CLASS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_ROOT_SELECTOR } from "../../qr-code-setup-const.js";
 import { QR_SETUP_STATUS_ERROR_SELECTOR } from "../../qr-code-setup-const.js";
@@ -50,6 +51,7 @@ function qrSetupAnimationResumeReset() {
       QR_SETUP_RESUME_DOTS_RUN_CLASS,
       QR_SETUP_RESUME_DOTS_FADE_OUT_CLASS,
       QR_SETUP_RESUME_RESULT_DRAW_CLASS,
+      QR_SETUP_RESUME_RESULT_FADE_OUT_CLASS,
       "is-animating",
       "is-drawn",
     );

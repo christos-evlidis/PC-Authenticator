@@ -30,6 +30,90 @@ export const QR_SETUP_VAR_SLIDE_MS = "--qr-setup-slide-ms";
 export const QR_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--qr-setup-animation-timeout-buffer-ms";
 
 export const QR_SETUP_PANEL_ANIMATION_RUN_ID = { value: 0 };
+export const QR_SETUP_RESUME_ANIMATION_RUN_ID = { value: 0 };
+
+export const QR_SETUP_STATUS_LOADING_SELECTOR =
+  ".qr-setup__status .login-status--loading";
+export const QR_SETUP_STATUS_SUCCESS_SELECTOR =
+  ".qr-setup__status .login-status--success";
+export const QR_SETUP_STATUS_ERROR_SELECTOR =
+  ".qr-setup__status .login-status--error";
+export const QR_SETUP_STATUS_ICON_CIRCLE_SELECTOR = ".login-status__icon-circle";
+export const QR_SETUP_STATUS_ICON_MARK_SELECTOR = ".login-status__icon-mark";
+
+export const QR_SETUP_RESUME_RUNNING_CLASS = "is-resume-running";
+export const QR_SETUP_RESUME_LOCKED_CLASS = "is-resume-locked";
+export const QR_SETUP_RESUME_ABSOLUTE_CLASS = "is-resume-absolute";
+export const QR_SETUP_RESUME_FADE_CLASS = "is-resume-fade";
+export const QR_SETUP_RESUME_EXPAND_UP_CLASS = "is-resume-expand-up";
+export const QR_SETUP_RESUME_EXPAND_FULL_CLASS = "is-resume-expand-full";
+export const QR_SETUP_RESUME_DOTS_FADE_IN_CLASS = "is-resume-dots-fade-in";
+export const QR_SETUP_RESUME_DOTS_RUN_CLASS = "is-resume-dots-run";
+export const QR_SETUP_RESUME_DOTS_FADE_OUT_CLASS = "is-resume-dots-fade-out";
+export const QR_SETUP_RESUME_RESULT_DRAW_CLASS = "is-resume-result-draw";
+export const QR_SETUP_RESUME_RESULT_FADE_OUT_CLASS = "is-resume-result-fade-out";
+export const QR_SETUP_RESUME_SHRINK_FULL_CLASS = "is-resume-shrink-full";
+export const QR_SETUP_RESUME_SHRINK_DOWN_CLASS = "is-resume-shrink-down";
+
+export const QR_SETUP_VAR_RESUME_FADE_MS = "--qr-setup-resume-fade-ms";
+export const QR_SETUP_VAR_RESUME_EXPAND_UP_MS = "--qr-setup-resume-expand-up-ms";
+export const QR_SETUP_VAR_RESUME_EXPAND_FULL_MS = "--qr-setup-resume-expand-full-ms";
+export const QR_SETUP_VAR_RESUME_DOTS_FADE_IN_MS = "--qr-setup-resume-dots-fade-in-ms";
+export const QR_SETUP_VAR_RESUME_DOTS_RUN_MS = "--qr-setup-resume-dots-run-ms";
+export const QR_SETUP_VAR_RESUME_DOTS_FADE_OUT_MS = "--qr-setup-resume-dots-fade-out-ms";
+export const QR_SETUP_VAR_RESUME_RESULT_DRAW_MS = "--qr-setup-resume-result-draw-ms";
+export const QR_SETUP_VAR_RESUME_RESULT_FADE_OUT_MS = "--qr-setup-resume-result-fade-out-ms";
+export const QR_SETUP_VAR_RESUME_SHRINK_FULL_MS = "--qr-setup-resume-shrink-full-ms";
+export const QR_SETUP_VAR_RESUME_SHRINK_DOWN_MS = "--qr-setup-resume-shrink-down-ms";
+
+export const QR_SETUP_VAR_RESUME_ORIGIN_TOP = "--sign-in-origin-top";
+export const QR_SETUP_VAR_RESUME_ORIGIN_LEFT = "--sign-in-origin-left";
+export const QR_SETUP_VAR_RESUME_ORIGIN_WIDTH = "--sign-in-origin-width";
+export const QR_SETUP_VAR_RESUME_ORIGIN_HEIGHT = "--sign-in-origin-height";
+export const QR_SETUP_VAR_RESUME_EXPAND_TOP = "--sign-in-expand-top";
+export const QR_SETUP_VAR_RESUME_EXPAND_LEFT = "--sign-in-expand-left";
+export const QR_SETUP_VAR_RESUME_EXPAND_WIDTH = "--sign-in-expand-width";
+export const QR_SETUP_VAR_RESUME_EXPAND_HEIGHT = "--sign-in-expand-height";
+export const QR_SETUP_VAR_RESUME_FULL_TOP = "--sign-in-full-top";
+export const QR_SETUP_VAR_RESUME_FULL_LEFT = "--sign-in-full-left";
+export const QR_SETUP_VAR_RESUME_FULL_WIDTH = "--sign-in-full-width";
+export const QR_SETUP_VAR_RESUME_FULL_HEIGHT = "--sign-in-full-height";
+export const QR_SETUP_VAR_RESUME_RESTORE_TOP = "--sign-in-restore-top";
+export const QR_SETUP_VAR_RESUME_RESTORE_LEFT = "--sign-in-restore-left";
+export const QR_SETUP_VAR_RESUME_RESTORE_WIDTH = "--sign-in-restore-width";
+export const QR_SETUP_VAR_RESUME_RESTORE_HEIGHT = "--sign-in-restore-height";
+
+export const QR_SETUP_RESUME_FADE_SELECTORS = [
+  QR_SETUP_HEADER_SELECTOR,
+  QR_SETUP_GUIDE_SELECTOR,
+].join(", ");
+
+export const QR_SETUP_RESUME_LAYOUT_VARS = [
+  QR_SETUP_VAR_RESUME_ORIGIN_TOP,
+  QR_SETUP_VAR_RESUME_ORIGIN_LEFT,
+  QR_SETUP_VAR_RESUME_ORIGIN_WIDTH,
+  QR_SETUP_VAR_RESUME_ORIGIN_HEIGHT,
+  QR_SETUP_VAR_RESUME_EXPAND_TOP,
+  QR_SETUP_VAR_RESUME_EXPAND_LEFT,
+  QR_SETUP_VAR_RESUME_EXPAND_WIDTH,
+  QR_SETUP_VAR_RESUME_EXPAND_HEIGHT,
+  QR_SETUP_VAR_RESUME_FULL_TOP,
+  QR_SETUP_VAR_RESUME_FULL_LEFT,
+  QR_SETUP_VAR_RESUME_FULL_WIDTH,
+  QR_SETUP_VAR_RESUME_FULL_HEIGHT,
+  QR_SETUP_VAR_RESUME_RESTORE_TOP,
+  QR_SETUP_VAR_RESUME_RESTORE_LEFT,
+  QR_SETUP_VAR_RESUME_RESTORE_WIDTH,
+  QR_SETUP_VAR_RESUME_RESTORE_HEIGHT,
+];
+
+export const QR_SETUP_RESUME_CONTENT_PHASE_CLASSES = [
+  QR_SETUP_RESUME_ABSOLUTE_CLASS,
+  QR_SETUP_RESUME_EXPAND_UP_CLASS,
+  QR_SETUP_RESUME_EXPAND_FULL_CLASS,
+  QR_SETUP_RESUME_SHRINK_FULL_CLASS,
+  QR_SETUP_RESUME_SHRINK_DOWN_CLASS,
+];
 
 export const QR_SETUP_GUIDE_SELECTION_TEXT =
   "Drag your mouse over the QR code to select and scan it.";

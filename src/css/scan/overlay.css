@@ -30,10 +30,11 @@
 .pc-auth-qr-scan-selection {
     position: absolute;
     display: none;
-    border: 2px solid #4285f4;
+    box-sizing: border-box;
+    border: transparent;
     background: transparent;
-    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.15);
     pointer-events: none;
+    z-index: 1;
 }
 
 .pc-auth-qr-scan-instruction {

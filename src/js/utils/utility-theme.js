@@ -57,7 +57,7 @@ function themeIconPrefixGet(theme) {
 
 /** Returns an extension-root icon path for a theme and size. */
 function themeIconPathGet(theme, size) {
-  return `icons/${themeIconPrefixGet(theme)}-icon${size}.png`;
+  return `icons/${themeIconPrefixGet(theme)}/icon${size}.png`;
 }
 
 /** Updates the Chrome toolbar icon set to match the theme. */

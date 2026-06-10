@@ -3,7 +3,9 @@ import { animCssMsGet } from "../../../../../utils/utility-animation.js";
 import { animDelay } from "../../../../../utils/utility-animation.js";
 import { qrSetupActionsLockSet } from "../../action/lock/set.js";
 import { qrSetupStateSet } from "../../state/set.js";
+import { qrSetupResumeLayout } from "./prepare.js";
 
+import { QR_SETUP_CONTENT_SELECTOR } from "../../qr-code-setup-const.js";
 import { QR_SETUP_HIDDEN_CLASS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_PANEL_SELECTOR } from "../../qr-code-setup-const.js";
 import { QR_SETUP_RESUME_ANIMATION_RUN_ID } from "../../qr-code-setup-const.js";
@@ -11,6 +13,8 @@ import { QR_SETUP_RESUME_DOTS_FADE_OUT_CLASS } from "../../qr-code-setup-const.j
 import { QR_SETUP_RESUME_DOTS_RUN_CLASS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_RESUME_LOCKED_CLASS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_RESUME_RESULT_DRAW_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_RESULT_FADE_OUT_CLASS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_SHRINK_FULL_CLASS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_ROOT_SELECTOR } from "../../qr-code-setup-const.js";
 import { QR_SETUP_STATUS_ERROR_SELECTOR } from "../../qr-code-setup-const.js";
 import { QR_SETUP_STATUS_ICON_CIRCLE_SELECTOR } from "../../qr-code-setup-const.js";
@@ -20,7 +24,13 @@ import { QR_SETUP_STATUS_SUCCESS_SELECTOR } from "../../qr-code-setup-const.js";
 import { QR_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_VAR_RESUME_DOTS_FADE_OUT_MS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_VAR_RESUME_DOTS_RUN_MS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_ORIGIN_HEIGHT } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_ORIGIN_LEFT } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_ORIGIN_TOP } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_ORIGIN_WIDTH } from "../../qr-code-setup-const.js";
 import { QR_SETUP_VAR_RESUME_RESULT_DRAW_MS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_RESULT_FADE_OUT_MS } from "../../qr-code-setup-const.js";
+import { QR_SETUP_VAR_RESUME_SHRINK_FULL_MS } from "../../qr-code-setup-const.js";
 
 async function qrSetupAnimationResumeStart(resolveWork) {
   const runId = QR_SETUP_RESUME_ANIMATION_RUN_ID.value + 1;
@@ -28,6 +38,7 @@ async function qrSetupAnimationResumeStart(resolveWork) {
 
   const root = document.querySelector(QR_SETUP_ROOT_SELECTOR);
   const panel = document.querySelector(QR_SETUP_PANEL_SELECTOR);
+  const content = document.querySelector(QR_SETUP_CONTENT_SELECTOR);
   const loadingStatus = document.querySelector(QR_SETUP_STATUS_LOADING_SELECTOR);
   const successStatus = document.querySelector(QR_SETUP_STATUS_SUCCESS_SELECTOR);
   const errorStatus = document.querySelector(QR_SETUP_STATUS_ERROR_SELECTOR);
@@ -56,12 +67,15 @@ async function qrSetupAnimationResumeStart(resolveWork) {
     const dotsRunMs = animCssMsGet(panel, QR_SETUP_VAR_RESUME_DOTS_RUN_MS);
     const dotsFadeOutMs = animCssMsGet(panel, QR_SETUP_VAR_RESUME_DOTS_FADE_OUT_MS);
     const resultDrawMs = animCssMsGet(panel, QR_SETUP_VAR_RESUME_RESULT_DRAW_MS);
+    const resultFadeOutMs = animCssMsGet(panel, QR_SETUP_VAR_RESUME_RESULT_FADE_OUT_MS);
+    const shrinkFullMs = animCssMsGet(panel, QR_SETUP_VAR_RESUME_SHRINK_FULL_MS);
     const timeoutBufferMs = animCssMsGet(
       panel,
       QR_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS,
     );
     const circleDuration = Math.round(resultDrawMs * 0.45);
     const markDuration = resultDrawMs - circleDuration;
+    const layout = qrSetupResumeLayout;
 
     if (!loadingStatus.classList.contains(QR_SETUP_RESUME_DOTS_RUN_CLASS)) {
       loadingStatus.classList.remove(QR_SETUP_HIDDEN_CLASS);
@@ -124,6 +138,37 @@ async function qrSetupAnimationResumeStart(resolveWork) {
 
     resultStatus.classList.remove("is-animating");
     resultStatus.classList.add("is-drawn");
+
+    if (content && layout) {
+      resultStatus.classList.add(QR_SETUP_RESUME_RESULT_FADE_OUT_CLASS);
+      await animAnimationEndWait(
+        resultStatus,
+        "loginStatusFadeOut",
+        resultFadeOutMs + timeoutBufferMs,
+      );
+      resultStatus.classList.remove(
+        QR_SETUP_RESUME_RESULT_DRAW_CLASS,
+        QR_SETUP_RESUME_RESULT_FADE_OUT_CLASS,
+        "is-drawn",
+      );
+      resultStatus.classList.add(QR_SETUP_HIDDEN_CLASS);
+
+      if (runId !== QR_SETUP_RESUME_ANIMATION_RUN_ID.value) {
+        return false;
+      }
+
+      content.classList.add(QR_SETUP_RESUME_SHRINK_FULL_CLASS);
+      await animAnimationEndWait(
+        content,
+        "signInShrinkFull",
+        shrinkFullMs + timeoutBufferMs,
+      );
+      content.style.setProperty(QR_SETUP_VAR_RESUME_ORIGIN_TOP, `${layout.expandUpTop}px`);
+      content.style.setProperty(QR_SETUP_VAR_RESUME_ORIGIN_LEFT, `${layout.expandUpLeft}px`);
+      content.style.setProperty(QR_SETUP_VAR_RESUME_ORIGIN_WIDTH, `${layout.expandUpWidth}px`);
+      content.style.setProperty(QR_SETUP_VAR_RESUME_ORIGIN_HEIGHT, `${layout.expandUpHeight}px`);
+      content.classList.remove(QR_SETUP_RESUME_SHRINK_FULL_CLASS);
+    }
 
     return resultIsSuccess;
   } finally {

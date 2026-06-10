@@ -2,7 +2,7 @@ import { authApiVerify } from "./accounts/accounts-index.js";
 import { authStorageGet } from "./accounts/accounts-index.js";
 import { dataHandleSync } from "./accounts/accounts-index.js";
 import { initSectionModules } from "./sections/sections-index.js";
-import { loadAnimationRun } from "./sections/shell/sequences/sequences-index.js";
+import { loadAnimationStart } from "./sections/shell/sequences/sequences-index.js";
 import { qrSetupActionsInstant } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
 import { qrSetupAnimationResumePrepare } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
 import { qrSetupHandlePending } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
@@ -20,7 +20,7 @@ async function startExtension() {
   const resume = await qrSetupHandleResume();
 
   if (resume) {
-    await loadAnimationRun(true, { skipIntro: true });
+    await loadAnimationStart(true, { skipIntro: true });
     qrSetupActionsInstant();
     qrSetupAnimationResumePrepare();
     await qrSetupHandlePending();
@@ -51,5 +51,5 @@ async function startExtension() {
     return;
   }
 
-  await loadAnimationRun(isSignedIn);
+  await loadAnimationStart(isSignedIn);
 }

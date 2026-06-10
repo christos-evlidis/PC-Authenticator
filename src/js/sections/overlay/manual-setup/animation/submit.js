@@ -6,7 +6,6 @@ import { animPhaseReset } from "../../../../utils/utility-animation.js";
 import { manualSetupStateSet } from "../state/set.js";
 
 import { MANUAL_SETUP_CONTENT_SELECTOR } from "../manual-setup-const.js";
-import { MANUAL_SETUP_HEADER_SELECTOR } from "../manual-setup-const.js";
 import { MANUAL_SETUP_HIDDEN_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_PANEL_SELECTOR } from "../manual-setup-const.js";
 import { MANUAL_SETUP_ROOT_SELECTOR } from "../manual-setup-const.js";
@@ -27,11 +26,10 @@ import { MANUAL_SETUP_SUBMIT_FADE_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_FADE_SELECTORS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_LAYOUT_VARS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_LOCKED_CLASS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_RESTORE_FADE_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_RESULT_DRAW_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_RESULT_FADE_OUT_CLASS } from "../manual-setup-const.js";
+import { MANUAL_SETUP_SUBMIT_RESTORE_FADE_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_RUNNING_CLASS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_SHRINK_DOWN_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_SHRINK_FULL_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_DOTS_FADE_IN_MS } from "../manual-setup-const.js";
@@ -52,23 +50,20 @@ import { MANUAL_SETUP_VAR_SUBMIT_ORIGIN_HEIGHT } from "../manual-setup-const.js"
 import { MANUAL_SETUP_VAR_SUBMIT_ORIGIN_LEFT } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_ORIGIN_TOP } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_ORIGIN_WIDTH } from "../manual-setup-const.js";
-import { MANUAL_SETUP_VAR_SUBMIT_RESTORE_FADE_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_RESTORE_HEIGHT } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_RESTORE_LEFT } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_RESTORE_TOP } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_RESTORE_WIDTH } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_RESULT_DRAW_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_RESULT_FADE_OUT_MS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_VAR_SUBMIT_SHRINK_DOWN_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_SHRINK_FULL_MS } from "../manual-setup-const.js";
 
-async function manualSetupAnimationSubmit(resolveSubmit, onPreRestore) {
+async function manualSetupAnimationSubmit(resolveSubmit) {
   const runId = MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID.value + 1;
   MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID.value = runId;
 
   const root = document.querySelector(MANUAL_SETUP_ROOT_SELECTOR);
   const panel = document.querySelector(MANUAL_SETUP_PANEL_SELECTOR);
-  const header = document.querySelector(MANUAL_SETUP_HEADER_SELECTOR);
   const content = document.querySelector(MANUAL_SETUP_CONTENT_SELECTOR);
   const loadingStatus = document.querySelector(MANUAL_SETUP_STATUS_LOADING_SELECTOR);
   const successStatus = document.querySelector(MANUAL_SETUP_STATUS_SUCCESS_SELECTOR);
@@ -77,7 +72,6 @@ async function manualSetupAnimationSubmit(resolveSubmit, onPreRestore) {
   if (
     !root ||
     !panel ||
-    !header ||
     !content ||
     !loadingStatus ||
     !successStatus ||
@@ -154,8 +148,6 @@ async function manualSetupAnimationSubmit(resolveSubmit, onPreRestore) {
     const resultDrawMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_RESULT_DRAW_MS);
     const resultFadeOutMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_RESULT_FADE_OUT_MS);
     const shrinkFullMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_SHRINK_FULL_MS);
-    const shrinkDownMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_SHRINK_DOWN_MS);
-    const restoreFadeMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_RESTORE_FADE_MS);
     const timeoutBufferMs = animCssMsGet(panel, MANUAL_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS);
     const circleDuration = Math.round(resultDrawMs * 0.45);
     const markDuration = resultDrawMs - circleDuration;
@@ -341,61 +333,6 @@ async function manualSetupAnimationSubmit(resolveSubmit, onPreRestore) {
     content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_WIDTH, `${layout.expandUpWidth}px`);
     content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_HEIGHT, `${layout.expandUpHeight}px`);
     content.classList.remove(MANUAL_SETUP_SUBMIT_SHRINK_FULL_CLASS);
-
-    if (runId !== MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID.value) {
-      return false;
-    }
-
-    await animFrameWait();
-
-    content.classList.add(MANUAL_SETUP_SUBMIT_SHRINK_DOWN_CLASS);
-    await animAnimationEndWait(
-      content,
-      "signInShrinkDown",
-      shrinkDownMs + timeoutBufferMs,
-    );
-    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_TOP, `${layout.originTop}px`);
-    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_LEFT, `${layout.originLeft}px`);
-    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_WIDTH, `${layout.originWidth}px`);
-    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_HEIGHT, `${layout.originHeight}px`);
-    content.classList.remove(MANUAL_SETUP_SUBMIT_SHRINK_DOWN_CLASS);
-
-    if (runId !== MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID.value) {
-      return false;
-    }
-
-    animPhaseReset(content, ...MANUAL_SETUP_SUBMIT_CONTENT_PHASE_CLASSES);
-
-    MANUAL_SETUP_SUBMIT_LAYOUT_VARS.forEach((layoutVar) => {
-      content.style.removeProperty(layoutVar);
-    });
-
-    if (onPreRestore) {
-      await onPreRestore(resultIsSuccess);
-    }
-
-    await animFrameWait();
-    panel.classList.add(MANUAL_SETUP_SUBMIT_RESTORE_FADE_CLASS);
-    await animAnimationEndWait(
-      header,
-      "manualSetupRestoreFade",
-      restoreFadeMs + timeoutBufferMs,
-    );
-
-    if (panel) {
-      panel.classList.remove(
-        MANUAL_SETUP_SUBMIT_FADE_CLASS,
-        MANUAL_SETUP_SUBMIT_RESTORE_FADE_CLASS,
-        MANUAL_SETUP_SUBMIT_RUNNING_CLASS,
-      );
-      panel.style.removeProperty("position");
-
-      panel.querySelectorAll(MANUAL_SETUP_SUBMIT_FADE_SELECTORS).forEach((element) => {
-        element.style.removeProperty("opacity");
-        element.style.removeProperty("visibility");
-        element.style.removeProperty("pointer-events");
-      });
-    }
 
     return resultIsSuccess;
   } finally {

@@ -18,6 +18,8 @@
     --qr-setup-resume-dots-fade-out-ms: 250ms;
     --qr-setup-resume-result-draw-ms: 1000ms;
     --qr-setup-resume-result-fade-out-ms: 250ms;
+    --qr-setup-resume-shrink-full-ms: 150ms;
+    --qr-setup-resume-shrink-down-ms: 250ms;
     --login-check-draw-duration: var(--qr-setup-resume-result-draw-ms);
 }
 
@@ -307,6 +309,14 @@ body.is-auth-flow-locked .qr-setup.is-panel-open .qr-setup__backdrop {
 
 .qr-setup__content.is-resume-expand-full {
     animation: signInExpandFull var(--qr-setup-resume-expand-full-ms, 150ms) ease forwards;
+}
+
+.qr-setup__content.is-resume-shrink-full {
+    animation: signInShrinkFull var(--qr-setup-resume-shrink-full-ms, 150ms) ease forwards;
+}
+
+.qr-setup__content.is-resume-shrink-down {
+    animation: signInShrinkDown var(--qr-setup-resume-shrink-down-ms, 250ms) ease forwards;
 }
 
 .qr-setup__panel.is-resume-running {
