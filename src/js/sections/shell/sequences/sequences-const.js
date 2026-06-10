@@ -1,7 +1,7 @@
 // Overlay shell.
 export const INTRO_ROOT_SELECTOR = ".app-intro";
 export const INTRO_OVERLAY_SELECTOR = ".app-intro__overlay";
-export const INTRO_STYLESHEET_HREF = "../css/sections/intro.css";
+export const INTRO_STYLESHEET_HREF = "../css/shell/intro.css";
 
 // Shared state classes.
 export const INTRO_ACTIVE_CLASS = "is-active";
@@ -26,7 +26,7 @@ export const INTRO_VAR_SHRINK_FRAME_MS = "--intro-shrink-frame-ms";
 export const INTRO_VAR_SHRINK_HEADER_MS = "--intro-shrink-header-ms";
 export const INTRO_VAR_SHRINK_SEARCH_MS = "--intro-shrink-search-ms";
 export const INTRO_VAR_SHRINK_BODY_MS = "--intro-shrink-body-ms";
-export const INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--intro-animation-timeout-buffer-ms";
+export const INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--buffer-ms";
 
 // Layout vars (from / to positions for shrink keyframes).
 export const INTRO_VAR_FROM_TOP = "--intro-from-top";

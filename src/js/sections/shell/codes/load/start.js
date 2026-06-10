@@ -1,6 +1,6 @@
 import { codesAnimationIntroFinish } from "../animation/intro/finish.js";
 import { codesAnimationIntroStart } from "../animation/intro/start.js";
-import { codesCardRender } from "../card/render.js";
+import { codesCardRender } from "./render.js";
 import { codesStateStore } from "../state/store.js";
 import { codesUtilTimerPreferenceLoad } from "../util/timer-preference.js";
 

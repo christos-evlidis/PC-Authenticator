@@ -8,6 +8,7 @@ const THEME_ICON_SIZE_16 = 16;
 const THEME_ICON_SIZE_48 = 48;
 const THEME_ICON_SIZE_128 = 128;
 
+const THEME_WHITE_CLASS = "theme-white";
 const THEME_DARK_CLASS = "theme-dark";
 const THEME_TRANSITION_CLASS = "theme-transition-active";
 const THEME_ICON_SIZES = [
@@ -15,25 +16,10 @@ const THEME_ICON_SIZES = [
   THEME_ICON_SIZE_48,
   THEME_ICON_SIZE_128,
 ];
-const THEME_LAYER_SELECTORS = [
-  "body",
-  ".extension-frame",
-  ".app-header",
-  ".codes-search",
-  ".app-body",
-  ".app-user-menu",
-];
 
 /** Coerces any stored or requested value to light or dark. */
 function themeNormalize(theme) {
   return theme === THEME_DARK ? THEME_DARK : THEME_LIGHT;
-}
-
-/** Returns DOM nodes that receive theme-dark in sync. */
-function themeLayersGet() {
-  return THEME_LAYER_SELECTORS.map((selector) => document.querySelector(selector)).filter(
-    Boolean,
-  );
 }
 
 /** Writes the resolved theme to localStorage when available. */
@@ -80,13 +66,12 @@ function themeExtensionIconSet(theme) {
   }
 }
 
-/** Toggles theme-dark on every layer and syncs toolbar icons. */
+/** Toggles theme-white / theme-dark on body and syncs toolbar icons. */
 function themeLayersSet(isDark) {
   const theme = isDark ? THEME_DARK : THEME_LIGHT;
 
-  themeLayersGet().forEach((element) => {
-    element.classList.toggle(THEME_DARK_CLASS, isDark);
-  });
+  document.body.classList.toggle(THEME_WHITE_CLASS, !isDark);
+  document.body.classList.toggle(THEME_DARK_CLASS, isDark);
 
   themeExtensionIconSet(theme);
 }

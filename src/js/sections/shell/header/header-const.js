@@ -25,6 +25,6 @@ export const HEADER_VAR_INTRO_FADE_MS = "--header-intro-fade-ms";
 export const HEADER_VAR_TITLE_TYPE_MS = "--header-title-type-ms";
 export const HEADER_VAR_ICON_POP_MS = "--header-icon-pop-ms";
 export const HEADER_VAR_ICON_POP_STAGGER_MS = "--header-icon-pop-stagger-ms";
-export const HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--header-animation-timeout-buffer-ms";
+export const HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--buffer-ms";
 
 export const HEADER_TITLE_TEXT = "PC Authenticator";

@@ -11,17 +11,10 @@ function codesInit() {
   void codesUtilTimerPreferenceLoad();
 }
 
-/** Shows or hides the codes section and clears cards on sign-out. */
+/** Shows or hides the codes section on sign-out and clears cards. */
 function codesApply(isSignedIn) {
-  const section = document.querySelector(CODES_ROOT_SELECTOR);
-
-  if (!section) {
-    return;
-  }
-
-  section.classList.toggle(CODES_HIDDEN_CLASS, !isSignedIn);
-
   if (!isSignedIn) {
+    document.querySelector(CODES_ROOT_SELECTOR)?.classList.add(CODES_HIDDEN_CLASS);
     codesLoadClear();
   }
 }
@@ -29,7 +22,7 @@ function codesApply(isSignedIn) {
 export { codesApply };
 export { codesInit };
 export { codesActionAdd } from "./action/add.js";
-export { codesCardRender } from "./card/render.js";
+export { codesCardRender } from "./load/render.js";
 export { codesLoadStart } from "./load/start.js";
 export { codesLoadClear } from "./load/sync.js";
 export { codesLoadRestore } from "./load/sync.js";

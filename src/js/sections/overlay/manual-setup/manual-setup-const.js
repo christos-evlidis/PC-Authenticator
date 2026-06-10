@@ -25,9 +25,9 @@ export const MANUAL_SETUP_PANEL_BACKDROP_CLOSING_CLASS = "is-panel-backdrop-clos
 
 export const MANUAL_SETUP_HEADER_BTN_ACTIVE_CLASS = "is-manual-setup-btn-active";
 
-export const MANUAL_SETUP_VAR_BLUR_MS = "--manual-setup-blur-ms";
+export const MANUAL_SETUP_VAR_BLUR_MS = "--blur-ms";
 export const MANUAL_SETUP_VAR_SLIDE_MS = "--manual-setup-slide-ms";
-export const MANUAL_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--manual-setup-animation-timeout-buffer-ms";
+export const MANUAL_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--buffer-ms";
 
 export const MANUAL_SETUP_PANEL_ANIMATION_RUN_ID = { value: 0 };
 export const MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID = { value: 0 };

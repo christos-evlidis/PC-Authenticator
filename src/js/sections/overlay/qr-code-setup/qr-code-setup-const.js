@@ -25,9 +25,9 @@ export const QR_SETUP_HEADER_BTN_ACTIVE_CLASS = "is-qr-setup-btn-active";
 export const QR_SETUP_BUSY_CLASS = "is-busy";
 export const BODY_AUTH_FLOW_LOCK_CLASS = "is-auth-flow-locked";
 
-export const QR_SETUP_VAR_BLUR_MS = "--qr-setup-blur-ms";
+export const QR_SETUP_VAR_BLUR_MS = "--blur-ms";
 export const QR_SETUP_VAR_SLIDE_MS = "--qr-setup-slide-ms";
-export const QR_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--qr-setup-animation-timeout-buffer-ms";
+export const QR_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--buffer-ms";
 
 export const QR_SETUP_PANEL_ANIMATION_RUN_ID = { value: 0 };
 export const QR_SETUP_RESUME_ANIMATION_RUN_ID = { value: 0 };

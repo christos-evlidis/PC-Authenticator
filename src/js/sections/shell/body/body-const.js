@@ -23,7 +23,7 @@ export const BODY_MESSAGE_TYPING_CLASS = "is-body-message-typing";
 export const BODY_VAR_AUTH_FADE_MS = "--body-auth-fade-ms";
 export const BODY_VAR_ICON_POP_MS = "--body-icon-pop-ms";
 export const BODY_VAR_MESSAGE_TYPE_MS = "--body-message-type-ms";
-export const BODY_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--body-animation-timeout-buffer-ms";
+export const BODY_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--buffer-ms";
 
 export const BODY_SIGNED_OUT_MESSAGE_TEXT = "To use the authenticator\nsign in or sign up.";
 export const BODY_SIGNED_IN_EMPTY_MESSAGE_TEXT = "Use + or scan a QR code\nto get started.";

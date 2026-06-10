@@ -1,21 +1,11 @@
 .app-body {
-    --body-border-radius: 12px;
-    --body-surface: #ffffff;
-    --body-text: #5f6368;
-    --body-muted: #9aa0a6;
     --body-padding-block: 12px;
     --body-padding-inline: 14px;
-    --body-transition-ms: 220ms;
-    --body-blur-duration: 250ms;
     --body-icon-size: 56px;
     --body-message-max-width: 220px;
     --body-message-size: 14px;
     --body-content-padding-block: 24px;
     --body-content-padding-inline: 20px;
-    --body-auth-fade-ms: 500ms;
-    --body-icon-pop-ms: 250ms;
-    --body-message-type-ms: 1000ms;
-    --body-animation-timeout-buffer-ms: 50ms;
 }
 
 .app-body {
@@ -31,8 +21,8 @@
     display: flex;
     flex-direction: column;
     padding: var(--body-padding-block) var(--body-padding-inline);
-    border-radius: var(--body-border-radius);
-    background: var(--body-surface);
+    border-radius: var(--radius-l);
+    background: var(--color-surface-secondary);
     transition: background-color var(--body-transition-ms) ease;
     overflow: hidden;
 }
@@ -44,6 +34,11 @@
 .app-body__view--signed-in .app-body__content {
     flex: 1;
     min-height: 0;
+    color: var(--color-text-secondary);
+}
+
+.app-body__view--signed-in .app-body__icon {
+    color: var(--color-icon-tertiary);
 }
 
 .app-body__view--signed-in .codes-section {
@@ -65,7 +60,7 @@
     align-items: center;
     justify-content: center;
     padding: var(--body-content-padding-block) var(--body-content-padding-inline);
-    color: var(--body-text);
+    color: var(--color-text-secondary);
     text-align: center;
     transition: opacity var(--body-auth-fade-ms) ease !important;
 }
@@ -82,7 +77,7 @@
     margin-bottom: 16px;
     font-size: var(--body-icon-size);
     line-height: 1;
-    color: var(--body-muted);
+    color: var(--color-icon-tertiary);
     transform-origin: center center;
     transition:
         opacity var(--body-icon-pop-ms) ease,
@@ -147,5 +142,5 @@
 
 body.is-frame-blurred .app-body {
     filter: blur(5px);
-    transition: filter var(--body-blur-duration) ease;
+    transition: filter var(--blur-ms) ease;
 }

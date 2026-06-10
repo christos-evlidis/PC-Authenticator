@@ -3,7 +3,7 @@ import { dataHandleSync } from "../../../../accounts/accounts-index.js";
 import { dataRecordSanitizeList } from "../../../../accounts/accounts-index.js";
 import { dataStorageReadyGet } from "../../../../accounts/accounts-index.js";
 
-import { codesCardRender } from "../card/render.js";
+import { codesCardRender } from "./render.js";
 import { codesTickerStop } from "../ticker/run.js";
 import { codesUtilTimerPreferenceLoad } from "../util/timer-preference.js";
 

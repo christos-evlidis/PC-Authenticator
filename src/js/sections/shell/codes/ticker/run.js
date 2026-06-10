@@ -67,7 +67,7 @@ function codesTickerPeriodRollover(clock) {
 
 /** Regenerates and displays the OTP code for a card. */
 function codesTickerAccountCodeUpdate(root) {
-  const { account, els, card } = root;
+  const { account, els } = root;
   const otpOptions = dataCodeOptions(account);
   const otp = dataCodeGenerate(account.secret, otpOptions);
   const digits = otpOptions.digits;
@@ -75,7 +75,6 @@ function codesTickerAccountCodeUpdate(root) {
   if (els.code) {
     els.code.textContent =
       otp && otp.length === digits ? otp : "-".repeat(digits);
-    card.classList.toggle("account-block--invalid", !otp);
   }
 }
 

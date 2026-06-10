@@ -1,14 +1,4 @@
 .app-intro {
-    --intro-surface: #ffffff;
-    --intro-logo-hold-ms: 500ms;
-    --intro-shrink-frame-ms: 350ms;
-    --intro-shrink-header-ms: 250ms;
-    --intro-shrink-search-ms: 250ms;
-    --intro-shrink-body-ms: 250ms;
-    --intro-animation-timeout-buffer-ms: 32ms;
-}
-
-.app-intro {
     position: absolute;
     inset: 0;
     z-index: 50;
@@ -32,7 +22,7 @@
     width: var(--intro-width, 100%);
     height: var(--intro-height, 100%);
     border-radius: 0;
-    background: var(--intro-surface);
+    background: var(--color-surface-secondary);
     overflow: hidden;
 }
 
@@ -56,10 +46,6 @@
     display: none;
 }
 
-body.theme-dark .app-intro {
-    --intro-surface: #1e1e1e;
-}
-
 body.theme-dark .app-intro__logo--light {
     display: none;
 }
@@ -73,7 +59,7 @@ body.theme-dark .app-intro__logo--dark {
 }
 
 .app-intro__overlay.is-intro-rounded {
-    border-radius: var(--header-radius);
+    border-radius: var(--radius-l);
 }
 
 .app-intro__overlay.is-intro-shrink-frame {
@@ -106,7 +92,7 @@ body.theme-dark .app-intro__logo--dark {
         left: var(--intro-to-left);
         width: var(--intro-to-width);
         height: var(--intro-to-height);
-        border-radius: var(--header-radius);
+        border-radius: var(--radius-l);
     }
 }
 

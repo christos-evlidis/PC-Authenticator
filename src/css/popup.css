@@ -1,0 +1,17 @@
+/* Popup stylesheet entry — import order matters */
+@import url("base/layout.css");
+@import url("base/color.css");
+@import url("base/motion.css");
+
+@import url("foundation/reset.css");
+@import url("foundation/utilities.css");
+
+@import url("shell/header.css");
+@import url("shell/body.css");
+@import url("shell/search.css");
+@import url("shell/codes.css");
+@import url("shell/intro.css");
+
+@import url("overlay/user-menu.css");
+@import url("overlay/manual-setup.css");
+@import url("overlay/qr-setup.css");

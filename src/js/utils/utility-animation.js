@@ -34,20 +34,17 @@ function animCssPxGet(element, varName) {
 /** Reads extension frame padding and gap from root CSS custom properties. */
 function animFrameMetricsGet(frame) {
   const root = document.documentElement;
-  const padTop = animCssPxGet(root, "--frame-padding-top");
-  const padRight = animCssPxGet(root, "--frame-padding-right");
-  const padBottom = animCssPxGet(root, "--frame-padding-bottom");
-  const padLeft = animCssPxGet(root, "--frame-padding-left");
-  const gap = animCssPxGet(root, "--frame-gap");
+  const pad = animCssPxGet(root, "--frame-padding");
+  const gap = animCssPxGet(root, "--gap-l");
 
   return {
-    padTop,
-    padRight,
-    padBottom,
-    padLeft,
+    padTop: pad,
+    padRight: pad,
+    padBottom: pad,
+    padLeft: pad,
     gap,
-    bottomAnchor: frame ? frame.offsetHeight - padBottom : 0,
-    insetWidth: frame ? frame.offsetWidth - padLeft - padRight : 0,
+    bottomAnchor: frame ? frame.offsetHeight - pad : 0,
+    insetWidth: frame ? frame.offsetWidth - pad * 2 : 0,
   };
 }
 

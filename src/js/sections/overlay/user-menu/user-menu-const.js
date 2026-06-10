@@ -61,12 +61,12 @@ export const USER_MENU_AUTH_SIGN_UP_CLASS = "is-sign-up";
 export const USER_MENU_THEME_LIGHT_CLASS = "is-light";
 export const USER_MENU_THEME_DARK_CLASS = "is-dark";
 
-export const USER_MENU_VAR_BLUR_MS = "--user-menu-blur-ms";
+export const USER_MENU_VAR_BLUR_MS = "--blur-ms";
 export const USER_MENU_VAR_SLIDE_MS = "--user-menu-slide-ms";
 export const USER_MENU_VAR_ACCOUNT_ACTION_CONFIRM_MS = "--user-menu-account-action-confirm-ms";
 export const USER_MENU_VAR_AUTH_THUMB_MS = "--user-menu-auth-thumb-ms";
 export const USER_MENU_VAR_THEME_THUMB_MS = "--user-menu-theme-thumb-ms";
-export const USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--user-menu-animation-timeout-buffer-ms";
+export const USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--buffer-ms";
 
 export const USER_MENU_PANEL_ANIMATION_RUN_ID = { value: 0 };
 export const USER_MENU_SIGN_IN_ANIMATION_RUN_ID = { value: 0 };

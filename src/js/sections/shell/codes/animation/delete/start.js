@@ -12,7 +12,7 @@ import { CODES_HIDDEN_CLASS } from "../../codes-const.js";
 
 /** Runs full delete exit animation and updates signed-in chrome. */
 async function codesAnimationDeleteStart(card, remainingAccounts) {
-  const { empty, list } = codesElementsGet();
+  const { list } = codesElementsGet();
   const direction = Math.random() < 0.5 ? "left" : "right";
 
   card.classList.remove("account-block--delete-pending");
@@ -116,7 +116,6 @@ async function codesAnimationDeleteStart(card, remainingAccounts) {
 
   if (!safeRemaining.length) {
     codesTickerStop();
-    empty?.classList.add(CODES_HIDDEN_CLASS);
     list?.classList.add(CODES_HIDDEN_CLASS);
     await authChromeApply({ isSignedIn: true, hasAccounts: false });
     bodyAnimationReset();

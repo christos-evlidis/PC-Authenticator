@@ -1,5 +1,4 @@
 export const CODES_ROOT_SELECTOR = ".codes-section";
-export const CODES_EMPTY_SELECTOR = ".codes-section__empty";
 export const CODES_LIST_SELECTOR = ".codes-section__list";
 export const CODES_CARD_TEMPLATE_SELECTOR = ".code-card-template";
 
@@ -24,4 +23,4 @@ export const CODES_LIST_WHEEL_COOLDOWN_MS = 380;
 export const CODES_TIMER_INVERTED_KEY = "timerInverted";
 
 export const CODES_PIE_CENTER = 16;
-export const CODES_PIE_ARC_RADIUS = 15;
+export const CODES_PIE_ARC_RADIUS = 16;

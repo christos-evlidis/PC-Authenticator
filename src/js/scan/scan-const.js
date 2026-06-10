@@ -30,6 +30,6 @@ export const OVERLAY_SELECTING_CLASS = "is-selecting";
 export const OVERLAY_DIMMED_CLASS = "is-dimmed";
 export const OVERLAY_INSTRUCTION_TEXT =
   "Drag your mouse over the QR code to select and scan it. Press ESC to cancel.";
-export const OVERLAY_CSS_PATH = "css/scan/overlay.css";
+export const OVERLAY_CSS_PATH = "css/overlay/scan.css";
 
 export const CONTENT_INDEX_PATH = "js/scan/content/content-index.js";

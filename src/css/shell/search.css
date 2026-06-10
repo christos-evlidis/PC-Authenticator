@@ -1,11 +1,9 @@
 .codes-search {
-    --search-intro-fade-ms: 250ms;
-    --search-animation-timeout-buffer-ms: 0ms;
     flex-shrink: 0;
     display: block;
     padding: 8px 14px;
-    border-radius: var(--header-radius);
-    background: var(--color-surface);
+    border-radius: var(--radius-l);
+    background: var(--color-surface-secondary);
 }
 
 .codes-search.is-search-animation-pending {
@@ -25,7 +23,7 @@
 .codes-search__field {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--gap-md);
     min-height: 24px;
 }
 
@@ -44,7 +42,7 @@
     border: none;
     border-radius: 0;
     background: transparent;
-    color: var(--color-text);
+    color: var(--color-text-primary);
     font-family: var(--font-family);
     font-size: 14px;
     line-height: 1.2;
@@ -52,7 +50,7 @@
 }
 
 .codes-search__input::placeholder {
-    color: var(--color-text-placeholder);
+    color: var(--color-text-tertiary);
 }
 
 .codes-search__input::-webkit-search-cancel-button {

@@ -9,4 +9,4 @@ export const SEARCH_ANIMATION_PENDING_CLASS = "is-search-animation-pending";
 export const SEARCH_FADE_IN_CLASS = "is-search-fade-in";
 
 export const SEARCH_VAR_INTRO_FADE_MS = "--search-intro-fade-ms";
-export const SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--search-animation-timeout-buffer-ms";
+export const SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS = "--buffer-ms";

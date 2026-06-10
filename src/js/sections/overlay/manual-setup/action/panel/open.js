@@ -1,6 +1,5 @@
 import { qrSetupActionPanelClose } from "../../../qr-code-setup/action/panel/close.js";
 import { qrSetupStateGet } from "../../../qr-code-setup/state/get.js";
-
 import { manualSetupAnimationOpen } from "../../animation/open.js";
 import { manualSetupStateGet } from "../../state/get.js";
 import { manualSetupStateSet } from "../../state/set.js";
