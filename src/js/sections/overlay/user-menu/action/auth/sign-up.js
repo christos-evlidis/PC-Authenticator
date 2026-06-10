@@ -3,6 +3,7 @@ import { authSanitizeNumber } from "../../../../../accounts/accounts-index.js";
 import { authStorageSet } from "../../../../../accounts/accounts-index.js";
 import { authChromeApply } from "../../../../../utils/utility-auth.js";
 import { bodyAnimationFinish } from "../../../../shell/body/body-index.js";
+import { codesLoadStart } from "../../../../shell/codes/codes-index.js";
 import { themeGet } from "../../../../../utils/utility-theme.js";
 import { userMenuAnimationAuthSignUp } from "../../animation/auth/sign-up.js";
 import { userMenuStateGet } from "../../state/get.js";
@@ -68,6 +69,7 @@ async function userMenuActionsAuthSignUp() {
       return {
         afterFades: async () => {
           await authChromeApply();
+          await codesLoadStart([], { playIntro: false });
           bodyAnimationFinish();
         },
       };

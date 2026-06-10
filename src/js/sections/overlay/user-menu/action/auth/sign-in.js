@@ -1,8 +1,11 @@
 import { authApiVerify } from "../../../../../accounts/accounts-index.js";
 import { authSanitizeNumber } from "../../../../../accounts/accounts-index.js";
+import { authStorageGet } from "../../../../../accounts/accounts-index.js";
 import { authStorageSet } from "../../../../../accounts/accounts-index.js";
+import { dataHandleSync } from "../../../../../accounts/accounts-index.js";
 import { authChromeApply } from "../../../../../utils/utility-auth.js";
 import { bodyAnimationFinish } from "../../../../shell/body/body-index.js";
+import { codesLoadStart } from "../../../../shell/codes/codes-index.js";
 import { themeGet } from "../../../../../utils/utility-theme.js";
 import { userMenuAnimationAuthSignIn } from "../../animation/auth/sign-in.js";
 import { userMenuStateGet } from "../../state/get.js";
@@ -73,6 +76,9 @@ async function userMenuActionsAuthSignIn(input) {
       return {
         afterFades: async () => {
           await authChromeApply();
+          const authNumber = await authStorageGet();
+          const accounts = authNumber ? await dataHandleSync(authNumber) : [];
+          await codesLoadStart(accounts, { playIntro: false });
           bodyAnimationFinish();
         },
       };

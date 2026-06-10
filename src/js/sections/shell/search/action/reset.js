@@ -1,4 +1,4 @@
-import { searchFilterReset } from "./filter.js";
+import { searchActionsFilter } from "./filter.js";
 
 import { SEARCH_ANIMATION_PENDING_CLASS } from "../search-const.js";
 import { SEARCH_FADE_IN_CLASS } from "../search-const.js";
@@ -6,7 +6,8 @@ import { SEARCH_HIDDEN_CLASS } from "../search-const.js";
 import { SEARCH_INPUT_SELECTOR } from "../search-const.js";
 import { SEARCH_ROOT_SELECTOR } from "../search-const.js";
 
-function searchReset() {
+/** Clears search input, hides the bar, and removes card filters. */
+function searchActionsReset() {
   const search = document.querySelector(SEARCH_ROOT_SELECTOR);
   const input = document.querySelector(SEARCH_INPUT_SELECTOR);
 
@@ -16,7 +17,7 @@ function searchReset() {
 
   search?.classList.remove(SEARCH_ANIMATION_PENDING_CLASS, SEARCH_FADE_IN_CLASS);
   search?.classList.add(SEARCH_HIDDEN_CLASS);
-  searchFilterReset();
+  searchActionsFilter();
 }
 
-export { searchReset };
+export { searchActionsReset };

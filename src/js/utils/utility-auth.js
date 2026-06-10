@@ -1,5 +1,6 @@
 import { authStorageGet } from "../accounts/accounts-index.js";
 import { bodyInit } from "../sections/shell/body/body-index.js";
+import { codesApply } from "../sections/shell/codes/codes-index.js";
 import { headerInit } from "../sections/shell/header/header-index.js";
 import { searchApply } from "../sections/shell/search/search-index.js";
 import { userMenuInit } from "../sections/overlay/user-menu/user-menu-index.js";
@@ -33,6 +34,7 @@ async function authChromeApply(options = {}) {
   }
 
   searchApply(isSignedIn);
+  codesApply(isSignedIn);
 }
 
 export { authChromeApply };

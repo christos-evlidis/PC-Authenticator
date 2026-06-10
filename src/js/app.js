@@ -2,6 +2,7 @@ import { authApiVerify } from "./accounts/accounts-index.js";
 import { authStorageGet } from "./accounts/accounts-index.js";
 import { dataHandleSync } from "./accounts/accounts-index.js";
 import { initSectionModules } from "./sections/sections-index.js";
+import { codesLoadStart } from "./sections/shell/codes/codes-index.js";
 import { loadAnimationStart } from "./sections/shell/sequences/sequences-index.js";
 import { qrSetupActionsInstant } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
 import { qrSetupAnimationResumePrepare } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
@@ -20,7 +21,11 @@ async function startExtension() {
   const resume = await qrSetupHandleResume();
 
   if (resume) {
+    const authNumber = await authStorageGet();
+    const accounts = authNumber ? await dataHandleSync(authNumber) : [];
+
     await loadAnimationStart(true, { skipIntro: true });
+    await codesLoadStart(accounts, { playIntro: false });
     qrSetupActionsInstant();
     qrSetupAnimationResumePrepare();
     await qrSetupHandlePending();
@@ -28,6 +33,7 @@ async function startExtension() {
   }
 
   let isSignedIn = false;
+  let accounts = [];
 
   try {
     const authNumber = await authStorageGet();
@@ -41,7 +47,7 @@ async function startExtension() {
         throw new Error("Account verification failed");
       }
 
-      const accounts = await dataHandleSync(authNumber);
+      accounts = await dataHandleSync(authNumber);
       const hasAccounts = accounts.length > 0;
 
       await authChromeApply({ authNumber, isSignedIn: true, hasAccounts });
@@ -52,4 +58,8 @@ async function startExtension() {
   }
 
   await loadAnimationStart(isSignedIn);
+
+  if (isSignedIn) {
+    await codesLoadStart(accounts, { playIntro: true });
+  }
 }

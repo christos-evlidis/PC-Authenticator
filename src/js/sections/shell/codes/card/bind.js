@@ -1,0 +1,75 @@
+import { dataCodeTypeHotp } from "../../../../accounts/accounts-index.js";
+
+import { codesActionsCopy } from "../actions/copy.js";
+import { codesActionsDelete } from "../actions/delete.js";
+import { codesActionsEdit } from "../actions/edit.js";
+import { codesStateStore } from "../state/store.js";
+import { codesUtilContactDisplay } from "../util/contact.js";
+import { codesUtilHotpCounterDisplay } from "../util/hotp.js";
+
+import { CODES_HIDDEN_CLASS } from "../codes-const.js";
+
+/** Wires card DOM, events, and ticker root for an account. */
+function codesCardBind(card, account) {
+  const isHotp = dataCodeTypeHotp(account);
+  const els = {
+    name: card.querySelector(".account-name"),
+    email: card.querySelector(".account-email"),
+    code: card.querySelector(".otp-code"),
+    timer: card.querySelector(".timer-wrapper"),
+    pieFg: card.querySelector(".pie-fg"),
+    counter: card.querySelector(".account-hotp-counter"),
+  };
+
+  if (isHotp) {
+    card.classList.add("account-block--hotp");
+
+    if (els.counter) {
+      els.counter.textContent = codesUtilHotpCounterDisplay(account);
+      els.counter.classList.remove(CODES_HIDDEN_CLASS);
+    }
+  }
+
+  if (els.name) {
+    els.name.textContent = account.name || "Account";
+  }
+
+  if (els.email) {
+    els.email.textContent = codesUtilContactDisplay(account);
+    els.email.classList.remove(CODES_HIDDEN_CLASS);
+  }
+
+  card.dataset.accountId = String(account.id);
+  card.title = "Copy code";
+
+  const onCardClick = () => {
+    void codesActionsCopy(card, els.code?.textContent ?? "");
+  };
+
+  const editBtn = card.querySelector(".edit-button");
+  editBtn?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    codesActionsEdit(card, account, els, onCardClick);
+  });
+
+  const deleteBtn = card.querySelector(".delete-button");
+  deleteBtn?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    codesActionsDelete(account, card, deleteBtn);
+  });
+
+  card.addEventListener("click", onCardClick);
+
+  const root = {
+    account,
+    els,
+    card,
+    lastPiePath: { value: "" },
+  };
+
+  codesStateStore.cardRoots.push(root);
+
+  return root;
+}
+
+export { codesCardBind };

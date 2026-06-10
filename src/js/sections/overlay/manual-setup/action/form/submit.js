@@ -1,5 +1,7 @@
 import { authStorageGet } from "../../../../../accounts/accounts-index.js";
 import { dataActionAddManual } from "../../../../../accounts/accounts-index.js";
+import { authChromeApply } from "../../../../../utils/utility-auth.js";
+import { codesActionsAdd } from "../../../../shell/codes/codes-index.js";
 import { manualSetupActionsFormEnable } from "./enable.js";
 import { manualSetupActionsFormReset } from "./reset.js";
 import { manualSetupActionsPanelClose } from "../panel/close.js";
@@ -44,10 +46,24 @@ async function manualSetupActionsFormSubmit(event) {
     dataActionAddManual(authNumber, snapshot),
   );
 
-  const isSuccess = await manualSetupAnimationSubmit(() => addPromise);
+  let addedAccount = null;
+
+  const isSuccess = await manualSetupAnimationSubmit(async () => {
+    addedAccount = await addPromise;
+    return true;
+  });
 
   if (isSuccess) {
     manualSetupActionsFormReset(form);
+
+    if (addedAccount) {
+      await codesActionsAdd(addedAccount);
+      await authChromeApply({
+        isSignedIn: true,
+        hasAccounts: true,
+        authNumber: await authStorageGet(),
+      });
+    }
   }
 
   manualSetupActionsFormEnable(form);

@@ -88,7 +88,6 @@ function themeLayersSet(isDark) {
     element.classList.toggle(THEME_DARK_CLASS, isDark);
   });
 
-  document.documentElement.style.colorScheme = isDark ? "dark" : "light";
   themeExtensionIconSet(theme);
 }
 
