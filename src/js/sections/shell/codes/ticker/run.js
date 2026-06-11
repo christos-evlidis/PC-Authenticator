@@ -9,17 +9,6 @@ import { codesUtilTimerPreferenceSave } from "../util/timer-preference.js";
 
 import { CODES_HIDDEN_CLASS } from "../codes-const.js";
 
-/** Clears the TOTP pie timer SVG path. */
-function codesTickerPieClear(piePath, lastPathRef) {
-  if (!piePath) {
-    return;
-  }
-
-  lastPathRef.value = "";
-  piePath.setAttribute("d", "");
-  piePath.classList.add(CODES_HIDDEN_CLASS);
-}
-
 /** Updates the TOTP pie timer SVG for the current angle. */
 function codesTickerPieUpdate(piePath, angle, lastPathRef) {
   if (!piePath) {
@@ -53,10 +42,6 @@ function codesTickerPeriodRollover(clock) {
 
   if (clock.period === codesStateStore.globalLastTimerPeriod) {
     return;
-  }
-
-  for (const root of codesStateStore.cardRoots) {
-    codesTickerPieClear(root.els.pieFg, root.lastPiePath);
   }
 
   codesStateStore.globalTimerInverted = !codesStateStore.globalTimerInverted;
@@ -106,11 +91,19 @@ function codesTickerSecondRun() {
     }
 
     codesTickerAccountCodeUpdate(root);
-    codesTickerVisualsUpdate(root, clock);
   }
 
   if (rolloverClock) {
     codesTickerPeriodRollover(rolloverClock);
+  }
+
+  for (const root of codesStateStore.cardRoots) {
+    if (dataCodeTypeHotp(root.account)) {
+      continue;
+    }
+
+    const clock = dataCodeClock(dataCodeOptions(root.account));
+    codesTickerVisualsUpdate(root, clock);
   }
 }
 
@@ -196,6 +189,9 @@ function codesTickerCardPrime(card) {
     return;
   }
 
+  root.els.timer?.classList.toggle("inverted", codesStateStore.globalTimerInverted);
+  root.lastPiePath.value = "";
+
   const clock = dataCodeClock(dataCodeOptions(root.account));
   codesTickerAccountCodeUpdate(root);
   codesTickerVisualsUpdate(root, clock);
@@ -203,5 +199,6 @@ function codesTickerCardPrime(card) {
 
 export { codesTickerAccountCodeUpdate };
 export { codesTickerCardPrime };
+export { codesTickerSecondRun };
 export { codesTickerStart };
 export { codesTickerStop };

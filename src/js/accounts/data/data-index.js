@@ -1,6 +1,6 @@
 export { dataActionAddManual } from "./action/add/manual.js";
 export { dataActionAddQr } from "./action/add/qr.js";
-export { dataActionRemove } from "./action/delete.js";
+export { dataActionDelete } from "./action/delete.js";
 export { dataActionUpdate } from "./action/update.js";
 export { dataApiBackup } from "./api/backup.js";
 export { dataApiRestore } from "./api/restore.js";
@@ -19,7 +19,7 @@ export { dataHandleRestore } from "./handle/restore.js";
 export { dataHandleSync } from "./handle/sync.js";
 export { dataParseManual } from "./parse/manual.js";
 export { dataParseQr } from "./parse/qr.js";
-export { dataRecordBuildFinal } from "./record/build/final.js";
+export { dataRecordBuildAccount } from "./record/build/account.js";
 export { dataRecordBuildIssuer } from "./record/build/issuer.js";
 export { dataRecordSanitizeList } from "./record/sanitize/list.js";
 export { dataRecordSanitizeName } from "./record/sanitize/name.js";

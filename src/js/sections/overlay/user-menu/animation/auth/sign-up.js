@@ -5,7 +5,6 @@ import { animFrameWait } from "../../../../../utils/utility-animation.js";
 import { animPhaseReset } from "../../../../../utils/utility-animation.js";
 
 import { userMenuStateSet } from "../../state/set.js";
-
 import { USER_MENU_AUTH_BAR_SELECTOR } from "../../user-menu-const.js";
 import { USER_MENU_CONTENT_SELECTOR } from "../../user-menu-const.js";
 import { USER_MENU_HEADER_SELECTOR } from "../../user-menu-const.js";
@@ -19,6 +18,7 @@ import { USER_MENU_SIGN_UP_CONTENT_PHASE_CLASSES } from "../../user-menu-const.j
 import { USER_MENU_SIGN_UP_DOTS_FADE_IN_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_SIGN_UP_DOTS_FADE_OUT_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_SIGN_UP_DOTS_RUN_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_SIGN_UP_EXPAND_EXTENSION_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_SIGN_UP_EXPAND_FULL_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_SIGN_UP_EXPAND_UP_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_SIGN_UP_FADE_CLASS } from "../../user-menu-const.js";
@@ -31,6 +31,7 @@ import { USER_MENU_SIGN_UP_RESULT_FADE_OUT_CLASS } from "../../user-menu-const.j
 import { USER_MENU_SIGN_UP_RUNNING_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_SIGN_UP_SHRINK_DOWN_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_SIGN_UP_SHRINK_FULL_CLASS } from "../../user-menu-const.js";
+import { USER_MENU_SIGN_UP_SHRINK_TO_FULL_CLASS } from "../../user-menu-const.js";
 import { USER_MENU_STATUS_ERROR_SELECTOR } from "../../user-menu-const.js";
 import { USER_MENU_STATUS_ICON_CIRCLE_SELECTOR } from "../../user-menu-const.js";
 import { USER_MENU_STATUS_ICON_MARK_SELECTOR } from "../../user-menu-const.js";
@@ -40,12 +41,17 @@ import { USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../user-menu-const
 import { USER_MENU_VAR_SIGN_UP_DOTS_FADE_IN_MS } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_DOTS_FADE_OUT_MS } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_DOTS_RUN_MS } from "../../user-menu-const.js";
+import { USER_MENU_VAR_SIGN_UP_EXPAND_EXTENSION_MS } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_EXPAND_FULL_MS } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_EXPAND_HEIGHT } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_EXPAND_LEFT } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_EXPAND_TOP } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_EXPAND_UP_MS } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_EXPAND_WIDTH } from "../../user-menu-const.js";
+import { USER_MENU_VAR_SIGN_UP_EXTENSION_HEIGHT } from "../../user-menu-const.js";
+import { USER_MENU_VAR_SIGN_UP_EXTENSION_LEFT } from "../../user-menu-const.js";
+import { USER_MENU_VAR_SIGN_UP_EXTENSION_TOP } from "../../user-menu-const.js";
+import { USER_MENU_VAR_SIGN_UP_EXTENSION_WIDTH } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_FADE_MS } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_FULL_HEIGHT } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_FULL_LEFT } from "../../user-menu-const.js";
@@ -64,6 +70,7 @@ import { USER_MENU_VAR_SIGN_UP_RESULT_DRAW_MS } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_RESULT_FADE_OUT_MS } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_SHRINK_DOWN_MS } from "../../user-menu-const.js";
 import { USER_MENU_VAR_SIGN_UP_SHRINK_FULL_MS } from "../../user-menu-const.js";
+import { USER_MENU_VAR_SIGN_UP_SHRINK_TO_FULL_MS } from "../../user-menu-const.js";
 
 /** Runs the full-panel sign-up loading and result animation. */
 async function userMenuAnimationAuthSignUp(resultIsSuccess, onPreRestore) {
@@ -125,6 +132,17 @@ async function userMenuAnimationAuthSignUp(resultIsSuccess, onPreRestore) {
     const contentRect = content.getBoundingClientRect();
     const panelStyles = getComputedStyle(panel);
     const panelPaddingTop = Number.parseFloat(panelStyles.paddingTop) || 12;
+    const overlayRoot = panel.closest(USER_MENU_ROOT_SELECTOR);
+    const overlayRect = overlayRoot?.getBoundingClientRect() ?? panelRect;
+    const overlayStyles = overlayRoot ? getComputedStyle(overlayRoot) : panelStyles;
+    const overlayPaddingTop = Number.parseFloat(overlayStyles.paddingTop) || 0;
+    const overlayPaddingRight = Number.parseFloat(overlayStyles.paddingRight) || 0;
+    const overlayPaddingBottom = Number.parseFloat(overlayStyles.paddingBottom) || 0;
+    const overlayPaddingLeft = Number.parseFloat(overlayStyles.paddingLeft) || 0;
+    const extensionInnerTop = overlayRect.top + overlayPaddingTop;
+    const extensionInnerLeft = overlayRect.left + overlayPaddingLeft;
+    const extensionInnerWidth = overlayRect.width - overlayPaddingLeft - overlayPaddingRight;
+    const extensionInnerHeight = overlayRect.height - overlayPaddingTop - overlayPaddingBottom;
     const layout = {
       originTop: contentRect.top - panelRect.top,
       originLeft: contentRect.left - panelRect.left,
@@ -138,15 +156,21 @@ async function userMenuAnimationAuthSignUp(resultIsSuccess, onPreRestore) {
       fullLeft: 0,
       fullWidth: panel.offsetWidth,
       fullHeight: panel.offsetHeight,
+      extensionTop: extensionInnerTop - panelRect.top,
+      extensionLeft: extensionInnerLeft - panelRect.left,
+      extensionWidth: extensionInnerWidth,
+      extensionHeight: extensionInnerHeight,
     };
     const signUpFadeMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_UP_FADE_MS);
     const expandUpMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_UP_EXPAND_UP_MS);
     const expandFullMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_UP_EXPAND_FULL_MS);
+    const expandExtensionMs = animCssMsGet(panel, USER_MENU_VAR_SIGN_UP_EXPAND_EXTENSION_MS);
     const dotsFadeInMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_UP_DOTS_FADE_IN_MS);
     const dotsRunMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_UP_DOTS_RUN_MS);
     const dotsFadeOutMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_UP_DOTS_FADE_OUT_MS);
     const resultDrawMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_UP_RESULT_DRAW_MS);
     const resultFadeOutMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_UP_RESULT_FADE_OUT_MS);
+    const shrinkToFullMs = animCssMsGet(panel, USER_MENU_VAR_SIGN_UP_SHRINK_TO_FULL_MS);
     const shrinkFullMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_UP_SHRINK_FULL_MS);
     const shrinkDownMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_UP_SHRINK_DOWN_MS);
     const restoreFadeMs = animCssMsGet(panel,USER_MENU_VAR_SIGN_UP_RESTORE_FADE_MS);
@@ -192,6 +216,10 @@ async function userMenuAnimationAuthSignUp(resultIsSuccess, onPreRestore) {
   content.style.setProperty(USER_MENU_VAR_SIGN_UP_FULL_LEFT, `${layout.fullLeft}px`);
   content.style.setProperty(USER_MENU_VAR_SIGN_UP_FULL_WIDTH, `${layout.fullWidth}px`);
   content.style.setProperty(USER_MENU_VAR_SIGN_UP_FULL_HEIGHT, `${layout.fullHeight}px`);
+  content.style.setProperty(USER_MENU_VAR_SIGN_UP_EXTENSION_TOP, `${layout.extensionTop}px`);
+  content.style.setProperty(USER_MENU_VAR_SIGN_UP_EXTENSION_LEFT, `${layout.extensionLeft}px`);
+  content.style.setProperty(USER_MENU_VAR_SIGN_UP_EXTENSION_WIDTH, `${layout.extensionWidth}px`);
+  content.style.setProperty(USER_MENU_VAR_SIGN_UP_EXTENSION_HEIGHT, `${layout.extensionHeight}px`);
   content.style.setProperty(USER_MENU_VAR_SIGN_UP_RESTORE_TOP, `${layout.originTop}px`);
   content.style.setProperty(USER_MENU_VAR_SIGN_UP_RESTORE_LEFT, `${layout.originLeft}px`);
   content.style.setProperty(USER_MENU_VAR_SIGN_UP_RESTORE_WIDTH, `${layout.originWidth}px`);
@@ -229,6 +257,24 @@ async function userMenuAnimationAuthSignUp(resultIsSuccess, onPreRestore) {
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_WIDTH, `${layout.fullWidth}px`);
     content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_HEIGHT, `${layout.fullHeight}px`);
     content.classList.remove(USER_MENU_SIGN_UP_EXPAND_FULL_CLASS);
+
+    if (runId !== USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value) {
+      return false;
+    }
+
+    await animFrameWait();
+
+    content.classList.add(USER_MENU_SIGN_UP_EXPAND_EXTENSION_CLASS);
+    await animAnimationEndWait(
+      content,
+      "signInExpandExtension",
+      expandExtensionMs + timeoutBufferMs,
+    );
+    content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_TOP, `${layout.extensionTop}px`);
+    content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_LEFT, `${layout.extensionLeft}px`);
+    content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_WIDTH, `${layout.extensionWidth}px`);
+    content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_HEIGHT, `${layout.extensionHeight}px`);
+    content.classList.remove(USER_MENU_SIGN_UP_EXPAND_EXTENSION_CLASS);
 
     if (runId !== USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value) {
       return false;
@@ -274,8 +320,22 @@ async function userMenuAnimationAuthSignUp(resultIsSuccess, onPreRestore) {
       ...resultStatus.querySelectorAll(USER_MENU_STATUS_ICON_MARK_SELECTOR),
     ];
 
+    let extensionFades = [];
+    let afterFades = null;
+
     resultStatus.classList.remove(USER_MENU_HIDDEN_CLASS);
     resultStatus.classList.add(USER_MENU_SIGN_UP_RESULT_DRAW_CLASS, "is-animating");
+
+    if (onPreRestore) {
+      const restoreResult = await onPreRestore(resultIsSuccess);
+
+      if (Array.isArray(restoreResult)) {
+        extensionFades = restoreResult;
+      } else {
+        extensionFades = restoreResult?.extensionFades ?? [];
+        afterFades = restoreResult?.afterFades ?? null;
+      }
+    }
 
     if (circle) {
       await animAnimationEndWait(
@@ -318,6 +378,24 @@ async function userMenuAnimationAuthSignUp(resultIsSuccess, onPreRestore) {
       return false;
     }
 
+    content.classList.add(USER_MENU_SIGN_UP_SHRINK_TO_FULL_CLASS);
+    await animAnimationEndWait(
+      content,
+      "signInShrinkToFull",
+      shrinkToFullMs + timeoutBufferMs,
+    );
+    content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_TOP, `${layout.fullTop}px`);
+    content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_LEFT, `${layout.fullLeft}px`);
+    content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_WIDTH, `${layout.fullWidth}px`);
+    content.style.setProperty(USER_MENU_VAR_SIGN_UP_ORIGIN_HEIGHT, `${layout.fullHeight}px`);
+    content.classList.remove(USER_MENU_SIGN_UP_SHRINK_TO_FULL_CLASS);
+
+    if (runId !== USER_MENU_SIGN_UP_ANIMATION_RUN_ID.value) {
+      return false;
+    }
+
+    await animFrameWait();
+
     content.classList.add(USER_MENU_SIGN_UP_SHRINK_FULL_CLASS);
     await animAnimationEndWait(
       content,
@@ -358,20 +436,6 @@ async function userMenuAnimationAuthSignUp(resultIsSuccess, onPreRestore) {
       USER_MENU_SIGN_UP_LAYOUT_VARS.forEach((layoutVar) => {
         content.style.removeProperty(layoutVar);
       });
-    }
-
-    let extensionFades = [];
-    let afterFades = null;
-
-    if (onPreRestore) {
-      const restoreResult = await onPreRestore(resultIsSuccess);
-
-      if (Array.isArray(restoreResult)) {
-        extensionFades = restoreResult;
-      } else {
-        extensionFades = restoreResult?.extensionFades ?? [];
-        afterFades = restoreResult?.afterFades ?? null;
-      }
     }
 
     await animFrameWait();

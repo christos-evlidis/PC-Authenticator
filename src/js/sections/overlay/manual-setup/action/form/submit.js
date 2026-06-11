@@ -56,20 +56,20 @@ async function manualSetupActionFormSubmit(event) {
 
   if (isSuccess) {
     manualSetupActionFormReset(form);
-
-    if (addedAccount) {
-      await codesActionAdd(addedAccount);
-      await authChromeApply({
-        isSignedIn: true,
-        hasAccounts: true,
-        authNumber: await authStorageGet(),
-      });
-    }
   }
 
   manualSetupActionFormEnable(form);
   await manualSetupActionPanelClose();
   manualSetupAnimationSubmitFinish();
+
+  if (isSuccess && addedAccount) {
+    await codesActionAdd(addedAccount);
+    await authChromeApply({
+      isSignedIn: true,
+      hasAccounts: true,
+      authNumber: await authStorageGet(),
+    });
+  }
 
   document.querySelector(MANUAL_SETUP_ROOT_SELECTOR)?.classList.remove(MANUAL_SETUP_SUBMITTING_CLASS);
 }

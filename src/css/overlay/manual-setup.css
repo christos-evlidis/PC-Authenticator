@@ -552,6 +552,14 @@
     animation: signInExpandFull var(--expand-full-ms) ease forwards;
 }
 
+.manual-setup__content.is-submit-expand-extension {
+    animation: signInExpandExtension var(--expand-up-ms) ease forwards;
+}
+
+.manual-setup__content.is-submit-shrink-to-full {
+    animation: signInShrinkToFull var(--shrink-down-ms) ease forwards;
+}
+
 .manual-setup__content.is-submit-shrink-full {
     animation: signInShrinkFull var(--shrink-full-ms) ease forwards;
 }

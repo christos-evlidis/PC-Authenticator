@@ -1,20 +1,9 @@
 import { animCssMsGet } from "../../../../../utils/utility-animation.js";
 import { CODES_VAR_SLIDE_MS } from "../../codes-const.js";
 
-const CODES_ADD_ENTER_TRANSITION_PROPERTIES = new Set([
-  "height",
-  "max-height",
-  "min-height",
-  "margin-bottom",
-  "padding-top",
-  "padding-bottom",
-  "opacity",
-  "transform",
-]);
-
-/** Expands a new card from the top and pushes existing cards down. */
-function codesAnimationAddStart(card, durationMs) {
-  const slideMs = durationMs ?? animCssMsGet(card, CODES_VAR_SLIDE_MS);
+/** Expands the add spacer and pushes existing cards down. */
+function codesAnimationAddStart(spacer, durationMs) {
+  const slideMs = durationMs ?? animCssMsGet(spacer, CODES_VAR_SLIDE_MS);
 
   return new Promise((resolve) => {
     let settled = false;
@@ -26,31 +15,31 @@ function codesAnimationAddStart(card, durationMs) {
 
       settled = true;
       window.clearTimeout(fallbackId);
-      card.removeEventListener("transitionend", onTransitionEnd);
-      card.classList.remove("is-manual-add-enter", "is-manual-add-enter-active");
+      spacer.removeEventListener("transitionend", onTransitionEnd);
       resolve();
     };
 
     const fallbackId = window.setTimeout(finish, slideMs + 60);
 
     const onTransitionEnd = (event) => {
-      if (event.target !== card) {
+      if (event.target !== spacer) {
         return;
       }
 
-      if (!CODES_ADD_ENTER_TRANSITION_PROPERTIES.has(event.propertyName)) {
+      const { propertyName } = event;
+
+      if (propertyName !== "height" && propertyName !== "max-height") {
         return;
       }
 
       finish();
     };
 
-    card.addEventListener("transitionend", onTransitionEnd);
-    card.classList.add("is-manual-add-enter");
+    spacer.addEventListener("transitionend", onTransitionEnd);
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        card.classList.add("is-manual-add-enter-active");
+        spacer.classList.add("is-expanding");
       });
     });
   });

@@ -7,9 +7,9 @@
     --stagger-ms: 50ms;
 
     /* Core motion types */
-    --slide-ms: 250ms;
+    --slide-ms: 150ms;
     --fade-ms: 250ms;
-    --type-ms: 1000ms;
+    --type-ms: 750ms;
     --expand-up-ms: 250ms;
     --expand-full-ms: 250ms;
     --shrink-down-ms: 250ms;
@@ -20,10 +20,10 @@
     --dots-bounce-ms: 1000ms;
     --dots-bounce-delay-2-ms: 150ms;
     --dots-bounce-delay-3-ms: 300ms;
-    --result-main-draw-ms: 1000ms;
+    --result-main-draw-ms: 750ms;
     --result-copy-draw-ms: 250ms;
-    --pop-ms: 250ms;
-    --hold-ms: 500ms;
+    --pop-ms: 150ms;
+    --hold-ms: 250ms;
     --hover-ms: 250ms;
     --fill-expand-ms: 1000ms;
     --fill-contract-ms: 500ms;

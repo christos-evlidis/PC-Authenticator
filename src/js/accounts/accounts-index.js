@@ -7,7 +7,7 @@ export { authStorageSet } from "./auth/auth-index.js";
 
 export { dataActionAddManual } from "./data/data-index.js";
 export { dataActionAddQr } from "./data/data-index.js";
-export { dataActionRemove } from "./data/data-index.js";
+export { dataActionDelete } from "./data/data-index.js";
 export { dataActionUpdate } from "./data/data-index.js";
 export { dataApiBackup } from "./data/data-index.js";
 export { dataApiRestore } from "./data/data-index.js";
@@ -26,7 +26,7 @@ export { dataHandleRestore } from "./data/data-index.js";
 export { dataHandleSync } from "./data/data-index.js";
 export { dataParseManual } from "./data/data-index.js";
 export { dataParseQr } from "./data/data-index.js";
-export { dataRecordBuildFinal } from "./data/data-index.js";
+export { dataRecordBuildAccount } from "./data/data-index.js";
 export { dataRecordBuildIssuer } from "./data/data-index.js";
 export { dataRecordSanitizeList } from "./data/data-index.js";
 export { dataRecordSanitizeName } from "./data/data-index.js";

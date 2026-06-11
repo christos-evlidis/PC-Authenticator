@@ -10,7 +10,7 @@ import { dataStorageRestoredClear } from "../storage/restored/clear.js";
 import { dataStorageRestoredGet } from "../storage/restored/get.js";
 
 /** Removes an account by ID and syncs the updated list. */
-async function dataActionRemove(authNumber, accountId) {
+async function dataActionDelete(authNumber, accountId) {
   try {
     const deleteId = String(accountId);
     await dataHandleRestore(authNumber);
@@ -31,9 +31,9 @@ async function dataActionRemove(authNumber, accountId) {
     await dataStoragePendingClear();
     return dataHandleSync(authNumber);
   } catch (error) {
-    console.warn("[data-action] dataActionRemove failed", error);
+    console.warn("[data-action] dataActionDelete failed", error);
     throw error;
   }
 }
 
-export { dataActionRemove };
+export { dataActionDelete };

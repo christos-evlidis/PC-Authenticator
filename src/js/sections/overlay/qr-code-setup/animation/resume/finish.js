@@ -4,6 +4,7 @@ import { QR_SETUP_CONTENT_SELECTOR } from "../../qr-code-setup-const.js";
 import { QR_SETUP_HIDDEN_CLASS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_PANEL_SELECTOR } from "../../qr-code-setup-const.js";
 import { QR_SETUP_RESUME_CONTENT_PHASE_CLASSES } from "../../qr-code-setup-const.js";
+import { QR_SETUP_RESUME_DOTS_FADE_IN_CLASS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_RESUME_DOTS_FADE_OUT_CLASS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_RESUME_DOTS_RUN_CLASS } from "../../qr-code-setup-const.js";
 import { QR_SETUP_RESUME_FADE_CLASS } from "../../qr-code-setup-const.js";
@@ -48,6 +49,7 @@ function qrSetupAnimationResumeFinish() {
 
     status.classList.add(QR_SETUP_HIDDEN_CLASS);
     status.classList.remove(
+      QR_SETUP_RESUME_DOTS_FADE_IN_CLASS,
       QR_SETUP_RESUME_DOTS_RUN_CLASS,
       QR_SETUP_RESUME_DOTS_FADE_OUT_CLASS,
       QR_SETUP_RESUME_RESULT_DRAW_CLASS,

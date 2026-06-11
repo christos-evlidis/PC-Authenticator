@@ -95,11 +95,13 @@ export const USER_MENU_SIGN_IN_ABSOLUTE_CLASS = "is-sign-in-absolute";
 export const USER_MENU_SIGN_IN_FADE_CLASS = "is-sign-in-fade";
 export const USER_MENU_SIGN_IN_EXPAND_UP_CLASS = "is-sign-in-expand-up";
 export const USER_MENU_SIGN_IN_EXPAND_FULL_CLASS = "is-sign-in-expand-full";
+export const USER_MENU_SIGN_IN_EXPAND_EXTENSION_CLASS = "is-sign-in-expand-extension";
 export const USER_MENU_SIGN_IN_DOTS_FADE_IN_CLASS = "is-sign-in-dots-fade-in";
 export const USER_MENU_SIGN_IN_DOTS_RUN_CLASS = "is-sign-in-dots-run";
 export const USER_MENU_SIGN_IN_DOTS_FADE_OUT_CLASS = "is-sign-in-dots-fade-out";
 export const USER_MENU_SIGN_IN_RESULT_DRAW_CLASS = "is-sign-in-result-draw";
 export const USER_MENU_SIGN_IN_RESULT_FADE_OUT_CLASS = "is-sign-in-result-fade-out";
+export const USER_MENU_SIGN_IN_SHRINK_TO_FULL_CLASS = "is-sign-in-shrink-to-full";
 export const USER_MENU_SIGN_IN_SHRINK_FULL_CLASS = "is-sign-in-shrink-full";
 export const USER_MENU_SIGN_IN_SHRINK_DOWN_CLASS = "is-sign-in-shrink-down";
 export const USER_MENU_SIGN_IN_RESTORE_FADE_CLASS = "is-sign-in-restore-fade";
@@ -107,11 +109,13 @@ export const USER_MENU_SIGN_IN_RESTORE_FADE_CLASS = "is-sign-in-restore-fade";
 export const USER_MENU_VAR_SIGN_IN_FADE_MS = VAR_FADE_MS;
 export const USER_MENU_VAR_SIGN_IN_EXPAND_UP_MS = VAR_EXPAND_UP_MS;
 export const USER_MENU_VAR_SIGN_IN_EXPAND_FULL_MS = VAR_EXPAND_FULL_MS;
+export const USER_MENU_VAR_SIGN_IN_EXPAND_EXTENSION_MS = VAR_EXPAND_UP_MS;
 export const USER_MENU_VAR_SIGN_IN_DOTS_FADE_IN_MS = VAR_FADE_MS;
 export const USER_MENU_VAR_SIGN_IN_DOTS_RUN_MS = VAR_DOTS_RUN_MS;
 export const USER_MENU_VAR_SIGN_IN_DOTS_FADE_OUT_MS = VAR_FADE_MS;
 export const USER_MENU_VAR_SIGN_IN_RESULT_DRAW_MS = VAR_RESULT_MAIN_DRAW_MS;
 export const USER_MENU_VAR_SIGN_IN_RESULT_FADE_OUT_MS = VAR_FADE_MS;
+export const USER_MENU_VAR_SIGN_IN_SHRINK_TO_FULL_MS = VAR_SHRINK_DOWN_MS;
 export const USER_MENU_VAR_SIGN_IN_SHRINK_FULL_MS = VAR_SHRINK_FULL_MS;
 export const USER_MENU_VAR_SIGN_IN_SHRINK_DOWN_MS = VAR_SHRINK_DOWN_MS;
 export const USER_MENU_VAR_SIGN_IN_RESTORE_FADE_MS = VAR_FADE_MS;
@@ -130,6 +134,11 @@ export const USER_MENU_VAR_SIGN_IN_FULL_TOP = "--sign-in-full-top";
 export const USER_MENU_VAR_SIGN_IN_FULL_LEFT = "--sign-in-full-left";
 export const USER_MENU_VAR_SIGN_IN_FULL_WIDTH = "--sign-in-full-width";
 export const USER_MENU_VAR_SIGN_IN_FULL_HEIGHT = "--sign-in-full-height";
+
+export const USER_MENU_VAR_SIGN_IN_EXTENSION_TOP = "--sign-in-extension-top";
+export const USER_MENU_VAR_SIGN_IN_EXTENSION_LEFT = "--sign-in-extension-left";
+export const USER_MENU_VAR_SIGN_IN_EXTENSION_WIDTH = "--sign-in-extension-width";
+export const USER_MENU_VAR_SIGN_IN_EXTENSION_HEIGHT = "--sign-in-extension-height";
 
 export const USER_MENU_VAR_SIGN_IN_RESTORE_TOP = "--sign-in-restore-top";
 export const USER_MENU_VAR_SIGN_IN_RESTORE_LEFT = "--sign-in-restore-left";
@@ -157,6 +166,10 @@ export const USER_MENU_SIGN_IN_LAYOUT_VARS = [
   USER_MENU_VAR_SIGN_IN_FULL_LEFT,
   USER_MENU_VAR_SIGN_IN_FULL_WIDTH,
   USER_MENU_VAR_SIGN_IN_FULL_HEIGHT,
+  USER_MENU_VAR_SIGN_IN_EXTENSION_TOP,
+  USER_MENU_VAR_SIGN_IN_EXTENSION_LEFT,
+  USER_MENU_VAR_SIGN_IN_EXTENSION_WIDTH,
+  USER_MENU_VAR_SIGN_IN_EXTENSION_HEIGHT,
   USER_MENU_VAR_SIGN_IN_RESTORE_TOP,
   USER_MENU_VAR_SIGN_IN_RESTORE_LEFT,
   USER_MENU_VAR_SIGN_IN_RESTORE_WIDTH,
@@ -167,6 +180,8 @@ export const USER_MENU_SIGN_IN_CONTENT_PHASE_CLASSES = [
   USER_MENU_SIGN_IN_ABSOLUTE_CLASS,
   USER_MENU_SIGN_IN_EXPAND_UP_CLASS,
   USER_MENU_SIGN_IN_EXPAND_FULL_CLASS,
+  USER_MENU_SIGN_IN_EXPAND_EXTENSION_CLASS,
+  USER_MENU_SIGN_IN_SHRINK_TO_FULL_CLASS,
   USER_MENU_SIGN_IN_SHRINK_FULL_CLASS,
   USER_MENU_SIGN_IN_SHRINK_DOWN_CLASS,
 ];
@@ -178,11 +193,13 @@ export const USER_MENU_SIGN_UP_ABSOLUTE_CLASS = "is-sign-in-absolute";
 export const USER_MENU_SIGN_UP_FADE_CLASS = "is-sign-up-fade";
 export const USER_MENU_SIGN_UP_EXPAND_UP_CLASS = "is-sign-up-expand-up";
 export const USER_MENU_SIGN_UP_EXPAND_FULL_CLASS = "is-sign-up-expand-full";
+export const USER_MENU_SIGN_UP_EXPAND_EXTENSION_CLASS = "is-sign-up-expand-extension";
 export const USER_MENU_SIGN_UP_DOTS_FADE_IN_CLASS = "is-sign-up-dots-fade-in";
 export const USER_MENU_SIGN_UP_DOTS_RUN_CLASS = "is-sign-up-dots-run";
 export const USER_MENU_SIGN_UP_DOTS_FADE_OUT_CLASS = "is-sign-up-dots-fade-out";
 export const USER_MENU_SIGN_UP_RESULT_DRAW_CLASS = "is-sign-up-result-draw";
 export const USER_MENU_SIGN_UP_RESULT_FADE_OUT_CLASS = "is-sign-up-result-fade-out";
+export const USER_MENU_SIGN_UP_SHRINK_TO_FULL_CLASS = "is-sign-up-shrink-to-full";
 export const USER_MENU_SIGN_UP_SHRINK_FULL_CLASS = "is-sign-up-shrink-full";
 export const USER_MENU_SIGN_UP_SHRINK_DOWN_CLASS = "is-sign-up-shrink-down";
 export const USER_MENU_SIGN_UP_RESTORE_FADE_CLASS = "is-sign-up-restore-fade";
@@ -190,11 +207,13 @@ export const USER_MENU_SIGN_UP_RESTORE_FADE_CLASS = "is-sign-up-restore-fade";
 export const USER_MENU_VAR_SIGN_UP_FADE_MS = VAR_FADE_MS;
 export const USER_MENU_VAR_SIGN_UP_EXPAND_UP_MS = VAR_EXPAND_UP_MS;
 export const USER_MENU_VAR_SIGN_UP_EXPAND_FULL_MS = VAR_EXPAND_FULL_MS;
+export const USER_MENU_VAR_SIGN_UP_EXPAND_EXTENSION_MS = VAR_EXPAND_UP_MS;
 export const USER_MENU_VAR_SIGN_UP_DOTS_FADE_IN_MS = VAR_FADE_MS;
 export const USER_MENU_VAR_SIGN_UP_DOTS_RUN_MS = VAR_DOTS_RUN_MS;
 export const USER_MENU_VAR_SIGN_UP_DOTS_FADE_OUT_MS = VAR_FADE_MS;
 export const USER_MENU_VAR_SIGN_UP_RESULT_DRAW_MS = VAR_RESULT_MAIN_DRAW_MS;
 export const USER_MENU_VAR_SIGN_UP_RESULT_FADE_OUT_MS = VAR_FADE_MS;
+export const USER_MENU_VAR_SIGN_UP_SHRINK_TO_FULL_MS = VAR_SHRINK_DOWN_MS;
 export const USER_MENU_VAR_SIGN_UP_SHRINK_FULL_MS = VAR_SHRINK_FULL_MS;
 export const USER_MENU_VAR_SIGN_UP_SHRINK_DOWN_MS = VAR_SHRINK_DOWN_MS;
 export const USER_MENU_VAR_SIGN_UP_RESTORE_FADE_MS = VAR_FADE_MS;
@@ -213,6 +232,11 @@ export const USER_MENU_VAR_SIGN_UP_FULL_TOP = "--sign-in-full-top";
 export const USER_MENU_VAR_SIGN_UP_FULL_LEFT = "--sign-in-full-left";
 export const USER_MENU_VAR_SIGN_UP_FULL_WIDTH = "--sign-in-full-width";
 export const USER_MENU_VAR_SIGN_UP_FULL_HEIGHT = "--sign-in-full-height";
+
+export const USER_MENU_VAR_SIGN_UP_EXTENSION_TOP = "--sign-in-extension-top";
+export const USER_MENU_VAR_SIGN_UP_EXTENSION_LEFT = "--sign-in-extension-left";
+export const USER_MENU_VAR_SIGN_UP_EXTENSION_WIDTH = "--sign-in-extension-width";
+export const USER_MENU_VAR_SIGN_UP_EXTENSION_HEIGHT = "--sign-in-extension-height";
 
 export const USER_MENU_VAR_SIGN_UP_RESTORE_TOP = "--sign-in-restore-top";
 export const USER_MENU_VAR_SIGN_UP_RESTORE_LEFT = "--sign-in-restore-left";
@@ -240,6 +264,10 @@ export const USER_MENU_SIGN_UP_LAYOUT_VARS = [
   USER_MENU_VAR_SIGN_UP_FULL_LEFT,
   USER_MENU_VAR_SIGN_UP_FULL_WIDTH,
   USER_MENU_VAR_SIGN_UP_FULL_HEIGHT,
+  USER_MENU_VAR_SIGN_UP_EXTENSION_TOP,
+  USER_MENU_VAR_SIGN_UP_EXTENSION_LEFT,
+  USER_MENU_VAR_SIGN_UP_EXTENSION_WIDTH,
+  USER_MENU_VAR_SIGN_UP_EXTENSION_HEIGHT,
   USER_MENU_VAR_SIGN_UP_RESTORE_TOP,
   USER_MENU_VAR_SIGN_UP_RESTORE_LEFT,
   USER_MENU_VAR_SIGN_UP_RESTORE_WIDTH,
@@ -250,6 +278,8 @@ export const USER_MENU_SIGN_UP_CONTENT_PHASE_CLASSES = [
   USER_MENU_SIGN_UP_ABSOLUTE_CLASS,
   USER_MENU_SIGN_UP_EXPAND_UP_CLASS,
   USER_MENU_SIGN_UP_EXPAND_FULL_CLASS,
+  USER_MENU_SIGN_UP_EXPAND_EXTENSION_CLASS,
+  USER_MENU_SIGN_UP_SHRINK_TO_FULL_CLASS,
   USER_MENU_SIGN_UP_SHRINK_FULL_CLASS,
   USER_MENU_SIGN_UP_SHRINK_DOWN_CLASS,
 ];
@@ -261,11 +291,13 @@ export const USER_MENU_SIGN_OUT_ABSOLUTE_CLASS = "is-sign-in-absolute";
 export const USER_MENU_SIGN_OUT_FADE_CLASS = "is-sign-out-fade";
 export const USER_MENU_SIGN_OUT_EXPAND_UP_CLASS = "is-sign-out-expand-up";
 export const USER_MENU_SIGN_OUT_EXPAND_FULL_CLASS = "is-sign-out-expand-full";
+export const USER_MENU_SIGN_OUT_EXPAND_EXTENSION_CLASS = "is-sign-out-expand-extension";
 export const USER_MENU_SIGN_OUT_DOTS_FADE_IN_CLASS = "is-sign-out-dots-fade-in";
 export const USER_MENU_SIGN_OUT_DOTS_RUN_CLASS = "is-sign-out-dots-run";
 export const USER_MENU_SIGN_OUT_DOTS_FADE_OUT_CLASS = "is-sign-out-dots-fade-out";
 export const USER_MENU_SIGN_OUT_RESULT_DRAW_CLASS = "is-sign-out-result-draw";
 export const USER_MENU_SIGN_OUT_RESULT_FADE_OUT_CLASS = "is-sign-out-result-fade-out";
+export const USER_MENU_SIGN_OUT_SHRINK_TO_FULL_CLASS = "is-sign-out-shrink-to-full";
 export const USER_MENU_SIGN_OUT_SHRINK_FULL_CLASS = "is-sign-out-shrink-full";
 export const USER_MENU_SIGN_OUT_SHRINK_DOWN_CLASS = "is-sign-out-shrink-down";
 export const USER_MENU_SIGN_OUT_RESTORE_FADE_CLASS = "is-sign-out-restore-fade";
@@ -273,11 +305,13 @@ export const USER_MENU_SIGN_OUT_RESTORE_FADE_CLASS = "is-sign-out-restore-fade";
 export const USER_MENU_VAR_SIGN_OUT_FADE_MS = VAR_FADE_MS;
 export const USER_MENU_VAR_SIGN_OUT_EXPAND_UP_MS = VAR_EXPAND_UP_MS;
 export const USER_MENU_VAR_SIGN_OUT_EXPAND_FULL_MS = VAR_EXPAND_FULL_MS;
+export const USER_MENU_VAR_SIGN_OUT_EXPAND_EXTENSION_MS = VAR_EXPAND_UP_MS;
 export const USER_MENU_VAR_SIGN_OUT_DOTS_FADE_IN_MS = VAR_FADE_MS;
 export const USER_MENU_VAR_SIGN_OUT_DOTS_RUN_MS = VAR_DOTS_RUN_MS;
 export const USER_MENU_VAR_SIGN_OUT_DOTS_FADE_OUT_MS = VAR_FADE_MS;
 export const USER_MENU_VAR_SIGN_OUT_RESULT_DRAW_MS = VAR_RESULT_MAIN_DRAW_MS;
 export const USER_MENU_VAR_SIGN_OUT_RESULT_FADE_OUT_MS = VAR_FADE_MS;
+export const USER_MENU_VAR_SIGN_OUT_SHRINK_TO_FULL_MS = VAR_SHRINK_DOWN_MS;
 export const USER_MENU_VAR_SIGN_OUT_SHRINK_FULL_MS = VAR_SHRINK_FULL_MS;
 export const USER_MENU_VAR_SIGN_OUT_SHRINK_DOWN_MS = VAR_SHRINK_DOWN_MS;
 export const USER_MENU_VAR_SIGN_OUT_RESTORE_FADE_MS = VAR_FADE_MS;
@@ -296,6 +330,11 @@ export const USER_MENU_VAR_SIGN_OUT_FULL_TOP = "--sign-in-full-top";
 export const USER_MENU_VAR_SIGN_OUT_FULL_LEFT = "--sign-in-full-left";
 export const USER_MENU_VAR_SIGN_OUT_FULL_WIDTH = "--sign-in-full-width";
 export const USER_MENU_VAR_SIGN_OUT_FULL_HEIGHT = "--sign-in-full-height";
+
+export const USER_MENU_VAR_SIGN_OUT_EXTENSION_TOP = "--sign-in-extension-top";
+export const USER_MENU_VAR_SIGN_OUT_EXTENSION_LEFT = "--sign-in-extension-left";
+export const USER_MENU_VAR_SIGN_OUT_EXTENSION_WIDTH = "--sign-in-extension-width";
+export const USER_MENU_VAR_SIGN_OUT_EXTENSION_HEIGHT = "--sign-in-extension-height";
 
 export const USER_MENU_VAR_SIGN_OUT_RESTORE_TOP = "--sign-in-restore-top";
 export const USER_MENU_VAR_SIGN_OUT_RESTORE_LEFT = "--sign-in-restore-left";
@@ -323,6 +362,10 @@ export const USER_MENU_SIGN_OUT_LAYOUT_VARS = [
   USER_MENU_VAR_SIGN_OUT_FULL_LEFT,
   USER_MENU_VAR_SIGN_OUT_FULL_WIDTH,
   USER_MENU_VAR_SIGN_OUT_FULL_HEIGHT,
+  USER_MENU_VAR_SIGN_OUT_EXTENSION_TOP,
+  USER_MENU_VAR_SIGN_OUT_EXTENSION_LEFT,
+  USER_MENU_VAR_SIGN_OUT_EXTENSION_WIDTH,
+  USER_MENU_VAR_SIGN_OUT_EXTENSION_HEIGHT,
   USER_MENU_VAR_SIGN_OUT_RESTORE_TOP,
   USER_MENU_VAR_SIGN_OUT_RESTORE_LEFT,
   USER_MENU_VAR_SIGN_OUT_RESTORE_WIDTH,
@@ -333,6 +376,8 @@ export const USER_MENU_SIGN_OUT_CONTENT_PHASE_CLASSES = [
   USER_MENU_SIGN_OUT_ABSOLUTE_CLASS,
   USER_MENU_SIGN_OUT_EXPAND_UP_CLASS,
   USER_MENU_SIGN_OUT_EXPAND_FULL_CLASS,
+  USER_MENU_SIGN_OUT_EXPAND_EXTENSION_CLASS,
+  USER_MENU_SIGN_OUT_SHRINK_TO_FULL_CLASS,
   USER_MENU_SIGN_OUT_SHRINK_FULL_CLASS,
   USER_MENU_SIGN_OUT_SHRINK_DOWN_CLASS,
 ];

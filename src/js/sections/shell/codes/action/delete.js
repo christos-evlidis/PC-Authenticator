@@ -1,5 +1,5 @@
 import { authStorageGet } from "../../../../accounts/accounts-index.js";
-import { dataActionRemove } from "../../../../accounts/accounts-index.js";
+import { dataActionDelete } from "../../../../accounts/accounts-index.js";
 
 import { headerActionIconsDisable } from "../../header/header-index.js";
 import { headerActionIconsEnable } from "../../header/header-index.js";
@@ -74,7 +74,7 @@ function codesActionDelete(account, card, deleteBtn) {
       }
 
       try {
-        const accounts = await dataActionRemove(authNumber, account.id);
+        const accounts = await dataActionDelete(authNumber, account.id);
         await codesAnimationDeleteStart(card, accounts);
       } catch (error) {
         console.error("Failed to delete account:", error);
@@ -86,14 +86,7 @@ function codesActionDelete(account, card, deleteBtn) {
     })();
   });
 
-  const Action = card.querySelector(".account-block__Action");
-
-  if (!Action) {
-    dismiss();
-    return;
-  }
-
-  Action.append(dialog);
+  card.append(dialog);
 
   codesStateStore.headerLockedForDelete = true;
 

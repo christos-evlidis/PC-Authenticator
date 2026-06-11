@@ -430,6 +430,14 @@ body.is-auth-flow-locked .qr-setup.is-panel-open .qr-setup__backdrop {
     animation: signInExpandFull var(--expand-full-ms) ease forwards;
 }
 
+.qr-setup__content.is-resume-expand-extension {
+    animation: signInExpandExtension var(--expand-up-ms) ease forwards;
+}
+
+.qr-setup__content.is-resume-shrink-to-full {
+    animation: signInShrinkToFull var(--shrink-down-ms) ease forwards;
+}
+
 .qr-setup__content.is-resume-shrink-full {
     animation: signInShrinkFull var(--shrink-full-ms) ease forwards;
 }

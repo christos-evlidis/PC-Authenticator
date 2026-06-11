@@ -1,7 +1,7 @@
 /* Codes section layout */
 .codes-section {
-    --codes-card-height: 103px;
-    --codes-card-gap: 5.3px;
+    --codes-card-height: 104px;
+    --codes-card-gap: 3px;
 
     flex: 1;
     min-height: 0;
@@ -23,7 +23,8 @@
     list-style: none;
     overflow-x: hidden;
     overflow-y: auto;
-    scroll-snap-type: y mandatory;
+    overflow-anchor: none;
+    scroll-behavior: smooth;
 }
 
 .codes-section__list.is-hidden {
@@ -47,9 +48,6 @@
     width: 100%;
     overflow: hidden;
     flex-shrink: 0;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    transition: transform var(--hover-ms) ease;
     cursor: pointer;
 }
 
@@ -90,36 +88,56 @@
     }
 }
 
-.codes-section__list .account-block.is-manual-add-enter {
-    height: auto;
-    max-height: 0;
-    min-height: 0;
-    margin-bottom: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    opacity: 0;
-    overflow: hidden;
+.codes-section__list .account-block.account-block--manual-add-spacer {
+    visibility: hidden;
     pointer-events: none;
-    transform: translateY(calc(-1 * (var(--codes-card-height) + var(--codes-card-gap))));
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: default;
+    overflow: hidden;
+    height: 0;
+    min-height: 0;
+    max-height: 0;
+    margin-bottom: 0;
+    transform: none;
     transition:
         height var(--slide-ms) ease-out,
-        max-height var(--slide-ms) ease-out,
         min-height var(--slide-ms) ease-out,
-        margin-bottom var(--slide-ms) ease-out,
-        padding var(--slide-ms) ease-out,
-        opacity var(--fade-ms) ease-out,
-        transform var(--slide-ms) ease-out;
+        max-height var(--slide-ms) ease-out,
+        margin-bottom var(--slide-ms) ease-out;
 }
 
-.codes-section__list .account-block.is-manual-add-enter-active {
+.codes-section__list .account-block.account-block--manual-add-spacer.is-expanding {
     height: var(--codes-card-height);
-    max-height: var(--codes-card-height);
     min-height: var(--codes-card-height);
+    max-height: var(--codes-card-height);
     margin-bottom: var(--codes-card-gap);
-    padding: 10px 15px;
-    opacity: 1;
+}
+
+.codes-section__list .account-block.is-manual-add-slide.is-manual-add-slide-pending {
+    opacity: 0;
+    transform: translateY(calc(-1 * (var(--codes-card-height) + var(--codes-card-gap))));
+    pointer-events: none;
+    transition: none;
+}
+
+.codes-section__list .account-block.is-manual-add-slide.is-manual-add-slide-active {
+    animation: account-block-slide-in-from-top var(--slide-ms) ease-out forwards;
     pointer-events: auto;
-    transform: translateY(0);
+    transition: none;
+}
+
+@keyframes account-block-slide-in-from-top {
+    from {
+        opacity: 0;
+        transform: translateY(calc(-1 * (var(--codes-card-height) + var(--codes-card-gap))));
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .codes-section__list .account-block--exit-spacer,
@@ -173,10 +191,6 @@
 .codes-section__list .account-block__exit-layer--dash-right {
     transition: transform var(--slide-ms) ease-out;
     transform: translate3d(130%, 0, 0);
-}
-
-.codes-section__list .account-block:hover {
-    transform: translateY(-1px);
 }
 
 .codes-section__list .account-block.is-copy-feedback-active {
@@ -248,7 +262,6 @@
 
 .codes-section__list .account-block__copy-check.is-visible {
     opacity: 1;
-    transition: opacity var(--fade-ms) ease;
 }
 
 .codes-section__list .account-block__copy-check.is-hiding {
@@ -324,6 +337,11 @@
     filter: blur(2px);
 }
 
+.codes-section__list .account-block--delete-pending .edit-button,
+.codes-section__list .account-block--delete-pending .delete-button {
+    visibility: hidden;
+}
+
 .codes-section__list .account-block__header {
     display: flex;
     align-items: flex-start;
@@ -335,7 +353,6 @@
     max-height: 44px;
     overflow: hidden;
     margin: 0;
-    padding-top: 5px;
 }
 
 .codes-section__list .account-block__identity {
@@ -369,6 +386,7 @@
     min-height: 0;
     flex: 1 1 auto;
     overflow: hidden;
+    padding-top: 10px;
 }
 
 .codes-section__list .account-name {
@@ -562,11 +580,11 @@
 }
 
 .codes-section__list .account-name[contenteditable="true"] {
-    line-height: 1.2;
+    line-height: 1.15;
 }
 
 .codes-section__list .account-email[contenteditable="true"] {
-    line-height: 1.25;
+    line-height: 1.15;
 }
 
 .codes-section__list .account-hotp-counter[contenteditable="true"] {
@@ -609,7 +627,7 @@
     width: 30px;
     height: 30px;
     padding: 0;
-    padding-right: 16px;
+    padding-bottom: 5px;
 }
 
 .codes-section__list .pie-timer-svg {
@@ -658,17 +676,18 @@
     display: none;
 }
 
-.delete-confirmation {
+.codes-section__list .account-block--delete-pending .delete-confirmation {
     position: absolute;
-    top: calc(100% + 4px);
-    right: 0;
+    top: 10px;
+    right: 10px;
     background-color: var(--color-surface-secondary);
     padding: 8px 12px;
     border-radius: var(--radius-sm);
     display: flex;
     gap: var(--gap-md);
     align-items: center;
-    z-index: 1000;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.18);
     animation: delete-confirmation-fade-in var(--fade-ms) ease-out;
     pointer-events: auto;
 }

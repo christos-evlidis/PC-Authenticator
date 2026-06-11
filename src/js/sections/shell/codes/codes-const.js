@@ -16,4 +16,4 @@ export const CODES_VAR_STAGGER_MS = VAR_STAGGER_MS;
 export const CODES_TIMER_INVERTED_KEY = "timerInverted";
 
 export const CODES_PIE_CENTER = 16;
-export const CODES_PIE_ARC_RADIUS = 16;
+export const CODES_PIE_ARC_RADIUS = 14.5;

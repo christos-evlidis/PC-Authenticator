@@ -26,6 +26,17 @@ body {
     font-family: var(--font-family);
     background: var(--color-surface-primary);
     color: var(--color-text-primary);
+    user-select: none;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+    user-select: text;
+}
+
+button:focus {
+    outline: none;
 }
 
 .extension-frame {

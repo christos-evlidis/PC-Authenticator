@@ -20,9 +20,9 @@ import { CODES_HIDDEN_CLASS } from "../codes-const.js";
 function codesActionEdit(card, account, els, onCardClick) {
   const editBtn = card.querySelector(".edit-button");
   const deleteBtn = card.querySelector(".delete-button");
-  const Action = card.querySelector(".account-block__Action");
+  const actions = card.querySelector(".account-block__actions");
 
-  if (!editBtn || !deleteBtn || !Action) {
+  if (!editBtn || !deleteBtn || !actions) {
     return;
   }
 
@@ -98,7 +98,7 @@ function codesActionEdit(card, account, els, onCardClick) {
   cancelButton.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
 
   buttonContainer.append(saveButton, cancelButton);
-  Action.append(buttonContainer);
+  actions.append(buttonContainer);
 
   saveButton.addEventListener("click", (event) => {
     event.stopPropagation();

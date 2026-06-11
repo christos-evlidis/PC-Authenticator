@@ -83,7 +83,6 @@ export { qrSetupActionScanStart } from "./action/scan/start.js";
 export { qrSetupAnimationPanelClose } from "./animation/panel/close.js";
 export { qrSetupAnimationPanelOpen } from "./animation/panel/open.js";
 export { qrSetupAnimationResumeFinish } from "./animation/resume/finish.js";
-export { qrSetupAnimationResumePrepare } from "./animation/resume/prepare.js";
 export { qrSetupAnimationResumeReset } from "./animation/resume/reset.js";
 export { qrSetupAnimationResumeStart } from "./animation/resume/start.js";
 export { qrSetupHandleCancel } from "./handle/cancel.js";

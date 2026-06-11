@@ -1,8 +1,11 @@
 import { bodySignedInAccountsApply } from "../../body/body-index.js";
+import { codesAnimationAddInstant } from "../animation/add/instant.js";
+import { codesAnimationAddSlide } from "../animation/add/slide.js";
 import { codesAnimationAddStart } from "../animation/add/start.js";
 import { codesCardCreate } from "../card/create.js";
 import { codesStateStore } from "../state/store.js";
 import { codesTickerCardPrime } from "../ticker/run.js";
+import { codesTickerSecondRun } from "../ticker/run.js";
 import { codesTickerStart } from "../ticker/run.js";
 import { codesElementsGet } from "../util/elements.js";
 
@@ -16,7 +19,9 @@ async function codesActionAdd(account) {
     return;
   }
 
-  const existingCards = [...list.querySelectorAll(".account-block")];
+  const existingCards = [...list.querySelectorAll(".account-block")].filter(
+    (card) => !card.classList.contains("account-block--manual-add-spacer"),
+  );
   const alreadyVisible = existingCards.some(
     (card) => card.dataset.accountId === String(account.id),
   );
@@ -38,9 +43,28 @@ async function codesActionAdd(account) {
     codesTickerStart();
   }
 
+  list.scrollTop = 0;
+
+  if (existingCards.length) {
+    const spacer = codesAnimationAddInstant();
+    list.prepend(spacer);
+    await codesAnimationAddStart(spacer);
+    spacer.replaceWith(card);
+    codesTickerCardPrime(card);
+
+    if (codesStateStore.tickIntervalId) {
+      codesTickerSecondRun();
+    }
+
+    await codesAnimationAddSlide(card);
+    codesTickerCardPrime(card);
+    return;
+  }
+
   list.prepend(card);
   codesTickerCardPrime(card);
-  await codesAnimationAddStart(card);
+  await codesAnimationAddSlide(card);
+  codesTickerCardPrime(card);
 }
 
 export { codesActionAdd };

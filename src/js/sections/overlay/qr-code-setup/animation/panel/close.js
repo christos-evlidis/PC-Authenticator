@@ -35,7 +35,6 @@ async function qrSetupAnimationPanelClose() {
   try {
     document.querySelectorAll(QR_SETUP_OPEN_BTN_SELECTOR).forEach((button) => {
       button.classList.toggle(QR_SETUP_HEADER_BTN_ACTIVE_CLASS, false);
-      button.blur();
     });
 
     root.classList.add(QR_SETUP_PANEL_CLOSING_CLASS);

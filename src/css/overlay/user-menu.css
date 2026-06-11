@@ -582,6 +582,14 @@
     animation: signInExpandFull var(--expand-full-ms) ease forwards;
 }
 
+.app-user-menu__content.is-sign-in-expand-extension {
+    animation: signInExpandExtension var(--expand-up-ms) ease forwards;
+}
+
+.app-user-menu__content.is-sign-in-shrink-to-full {
+    animation: signInShrinkToFull var(--shrink-down-ms) ease forwards;
+}
+
 .app-user-menu__content.is-sign-in-shrink-full {
     animation: signInShrinkFull var(--shrink-full-ms) ease forwards;
 }
@@ -598,6 +606,14 @@
     animation: signInExpandFull var(--expand-full-ms) ease forwards;
 }
 
+.app-user-menu__content.is-sign-up-expand-extension {
+    animation: signInExpandExtension var(--expand-up-ms) ease forwards;
+}
+
+.app-user-menu__content.is-sign-up-shrink-to-full {
+    animation: signInShrinkToFull var(--shrink-down-ms) ease forwards;
+}
+
 .app-user-menu__content.is-sign-up-shrink-full {
     animation: signInShrinkFull var(--shrink-full-ms) ease forwards;
 }
@@ -612,6 +628,14 @@
 
 .app-user-menu__content.is-sign-out-expand-full {
     animation: signInExpandFull var(--expand-full-ms) ease forwards;
+}
+
+.app-user-menu__content.is-sign-out-expand-extension {
+    animation: signInExpandExtension var(--expand-up-ms) ease forwards;
+}
+
+.app-user-menu__content.is-sign-out-shrink-to-full {
+    animation: signInShrinkToFull var(--shrink-down-ms) ease forwards;
 }
 
 .app-user-menu__content.is-sign-out-shrink-full {
@@ -644,6 +668,38 @@
         left: var(--sign-in-expand-left);
         width: var(--sign-in-expand-width);
         height: var(--sign-in-expand-height);
+    }
+
+    to {
+        top: var(--sign-in-full-top);
+        left: var(--sign-in-full-left);
+        width: var(--sign-in-full-width);
+        height: var(--sign-in-full-height);
+    }
+}
+
+@keyframes signInExpandExtension {
+    from {
+        top: var(--sign-in-full-top);
+        left: var(--sign-in-full-left);
+        width: var(--sign-in-full-width);
+        height: var(--sign-in-full-height);
+    }
+
+    to {
+        top: var(--sign-in-extension-top);
+        left: var(--sign-in-extension-left);
+        width: var(--sign-in-extension-width);
+        height: var(--sign-in-extension-height);
+    }
+}
+
+@keyframes signInShrinkToFull {
+    from {
+        top: var(--sign-in-extension-top);
+        left: var(--sign-in-extension-left);
+        width: var(--sign-in-extension-width);
+        height: var(--sign-in-extension-height);
     }
 
     to {

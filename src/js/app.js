@@ -5,7 +5,6 @@ import { initSectionModules } from "./sections/sections-index.js";
 import { codesLoadStart } from "./sections/shell/codes/codes-index.js";
 import { loadAnimationStart } from "./sections/shell/sequences/sequences-index.js";
 import { qrSetupActionInstant } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
-import { qrSetupAnimationResumePrepare } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
 import { qrSetupHandlePending } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
 import { qrSetupHandleResume } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
 import { authChromeApply } from "./utils/utility-auth.js";
@@ -27,7 +26,6 @@ async function startExtension() {
     await loadAnimationStart(true, { skipIntro: true });
     await codesLoadStart(accounts, { playIntro: false });
     qrSetupActionInstant();
-    qrSetupAnimationResumePrepare();
     await qrSetupHandlePending();
     return;
   }

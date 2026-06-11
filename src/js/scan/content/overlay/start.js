@@ -14,33 +14,6 @@ const SCAN_SEL_WIDTH_VAR = "--scan-sel-width";
 const SCAN_SEL_HEIGHT_VAR = "--scan-sel-height";
 const SCAN_CLIP_PATH_VAR = "--scan-clip-path";
 
-/** Updates selection box geometry and optional overlay dimming clip path. */
-function contentOverlaySelectionApply(overlay, selectionBox, left, top, width, height, clipPath) {
-  selectionBox.style.setProperty(SCAN_SEL_LEFT_VAR, `${left}px`);
-  selectionBox.style.setProperty(SCAN_SEL_TOP_VAR, `${top}px`);
-  selectionBox.style.setProperty(SCAN_SEL_WIDTH_VAR, `${width}px`);
-  selectionBox.style.setProperty(SCAN_SEL_HEIGHT_VAR, `${height}px`);
-
-  if (clipPath) {
-    overlay.classList.add(OVERLAY_DIMMED_CLASS);
-    overlay.style.setProperty(SCAN_CLIP_PATH_VAR, clipPath);
-    return;
-  }
-
-  overlay.classList.remove(OVERLAY_DIMMED_CLASS);
-  overlay.style.removeProperty(SCAN_CLIP_PATH_VAR);
-}
-
-/** Clears runtime selection custom properties from the overlay UI. */
-function contentOverlaySelectionReset(overlay, selectionBox) {
-  selectionBox.style.removeProperty(SCAN_SEL_LEFT_VAR);
-  selectionBox.style.removeProperty(SCAN_SEL_TOP_VAR);
-  selectionBox.style.removeProperty(SCAN_SEL_WIDTH_VAR);
-  selectionBox.style.removeProperty(SCAN_SEL_HEIGHT_VAR);
-  overlay.classList.remove(OVERLAY_DIMMED_CLASS);
-  overlay.style.removeProperty(SCAN_CLIP_PATH_VAR);
-}
-
 /** Starts the QR scan overlay and handles selection pointer events. */
 function contentOverlayStart() {
   contentOverlayRemove();
@@ -93,7 +66,12 @@ function contentOverlayStart() {
     startY = event.clientY;
 
     selectionBox.classList.add(OVERLAY_SELECTING_CLASS);
-    contentOverlaySelectionApply(overlay, selectionBox, startX, startY, 0, 0, null);
+    selectionBox.style.setProperty(SCAN_SEL_LEFT_VAR, `${startX}px`);
+    selectionBox.style.setProperty(SCAN_SEL_TOP_VAR, `${startY}px`);
+    selectionBox.style.setProperty(SCAN_SEL_WIDTH_VAR, "0px");
+    selectionBox.style.setProperty(SCAN_SEL_HEIGHT_VAR, "0px");
+    overlay.classList.remove(OVERLAY_DIMMED_CLASS);
+    overlay.style.removeProperty(SCAN_CLIP_PATH_VAR);
     overlay.setPointerCapture(event.pointerId);
   };
 
@@ -112,8 +90,14 @@ function contentOverlayStart() {
     const left = width < 0 ? cursorX : startX;
     const top = height < 0 ? cursorY : startY;
 
+    selectionBox.style.setProperty(SCAN_SEL_LEFT_VAR, `${left}px`);
+    selectionBox.style.setProperty(SCAN_SEL_TOP_VAR, `${top}px`);
+    selectionBox.style.setProperty(SCAN_SEL_WIDTH_VAR, `${absWidth}px`);
+    selectionBox.style.setProperty(SCAN_SEL_HEIGHT_VAR, `${absHeight}px`);
+
     if (absWidth <= 0 || absHeight <= 0) {
-      contentOverlaySelectionApply(overlay, selectionBox, left, top, absWidth, absHeight, null);
+      overlay.classList.remove(OVERLAY_DIMMED_CLASS);
+      overlay.style.removeProperty(SCAN_CLIP_PATH_VAR);
       return;
     }
 
@@ -121,15 +105,8 @@ function contentOverlayStart() {
     const bottom = top + absHeight;
     const clipPath = `polygon(0% 0%, 0% 100%, ${left}px 100%, ${left}px ${top}px, ${right}px ${top}px, ${right}px ${bottom}px, ${left}px ${bottom}px, ${left}px 100%, 100% 100%, 100% 0%)`;
 
-    contentOverlaySelectionApply(
-      overlay,
-      selectionBox,
-      left,
-      top,
-      absWidth,
-      absHeight,
-      clipPath,
-    );
+    overlay.classList.add(OVERLAY_DIMMED_CLASS);
+    overlay.style.setProperty(SCAN_CLIP_PATH_VAR, clipPath);
   };
 
   /** Finishes the selection and triggers capture on pointer up. */
@@ -182,7 +159,12 @@ function contentOverlayStart() {
     overlay.removeEventListener("pointercancel", onPointerUp);
     window.removeEventListener("keydown", onKeyDown, true);
     selectionBox.classList.remove(OVERLAY_SELECTING_CLASS);
-    contentOverlaySelectionReset(overlay, selectionBox);
+    selectionBox.style.removeProperty(SCAN_SEL_LEFT_VAR);
+    selectionBox.style.removeProperty(SCAN_SEL_TOP_VAR);
+    selectionBox.style.removeProperty(SCAN_SEL_WIDTH_VAR);
+    selectionBox.style.removeProperty(SCAN_SEL_HEIGHT_VAR);
+    overlay.classList.remove(OVERLAY_DIMMED_CLASS);
+    overlay.style.removeProperty(SCAN_CLIP_PATH_VAR);
   };
 }
 

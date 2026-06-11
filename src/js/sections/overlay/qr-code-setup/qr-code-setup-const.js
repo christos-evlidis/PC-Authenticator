@@ -59,22 +59,26 @@ export const QR_SETUP_RESUME_ABSOLUTE_CLASS = "is-resume-absolute";
 export const QR_SETUP_RESUME_FADE_CLASS = "is-resume-fade";
 export const QR_SETUP_RESUME_EXPAND_UP_CLASS = "is-resume-expand-up";
 export const QR_SETUP_RESUME_EXPAND_FULL_CLASS = "is-resume-expand-full";
+export const QR_SETUP_RESUME_EXPAND_EXTENSION_CLASS = "is-resume-expand-extension";
 export const QR_SETUP_RESUME_DOTS_FADE_IN_CLASS = "is-resume-dots-fade-in";
 export const QR_SETUP_RESUME_DOTS_RUN_CLASS = "is-resume-dots-run";
 export const QR_SETUP_RESUME_DOTS_FADE_OUT_CLASS = "is-resume-dots-fade-out";
 export const QR_SETUP_RESUME_RESULT_DRAW_CLASS = "is-resume-result-draw";
 export const QR_SETUP_RESUME_RESULT_FADE_OUT_CLASS = "is-resume-result-fade-out";
+export const QR_SETUP_RESUME_SHRINK_TO_FULL_CLASS = "is-resume-shrink-to-full";
 export const QR_SETUP_RESUME_SHRINK_FULL_CLASS = "is-resume-shrink-full";
 export const QR_SETUP_RESUME_SHRINK_DOWN_CLASS = "is-resume-shrink-down";
 
 export const QR_SETUP_VAR_RESUME_FADE_MS = VAR_FADE_MS;
 export const QR_SETUP_VAR_RESUME_EXPAND_UP_MS = VAR_EXPAND_UP_MS;
 export const QR_SETUP_VAR_RESUME_EXPAND_FULL_MS = VAR_EXPAND_FULL_MS;
+export const QR_SETUP_VAR_RESUME_EXPAND_EXTENSION_MS = VAR_EXPAND_UP_MS;
 export const QR_SETUP_VAR_RESUME_DOTS_FADE_IN_MS = VAR_FADE_MS;
 export const QR_SETUP_VAR_RESUME_DOTS_RUN_MS = VAR_DOTS_RUN_MS;
 export const QR_SETUP_VAR_RESUME_DOTS_FADE_OUT_MS = VAR_FADE_MS;
 export const QR_SETUP_VAR_RESUME_RESULT_DRAW_MS = VAR_RESULT_MAIN_DRAW_MS;
 export const QR_SETUP_VAR_RESUME_RESULT_FADE_OUT_MS = VAR_FADE_MS;
+export const QR_SETUP_VAR_RESUME_SHRINK_TO_FULL_MS = VAR_SHRINK_DOWN_MS;
 export const QR_SETUP_VAR_RESUME_SHRINK_FULL_MS = VAR_SHRINK_FULL_MS;
 export const QR_SETUP_VAR_RESUME_SHRINK_DOWN_MS = VAR_SHRINK_DOWN_MS;
 
@@ -90,6 +94,10 @@ export const QR_SETUP_VAR_RESUME_FULL_TOP = "--sign-in-full-top";
 export const QR_SETUP_VAR_RESUME_FULL_LEFT = "--sign-in-full-left";
 export const QR_SETUP_VAR_RESUME_FULL_WIDTH = "--sign-in-full-width";
 export const QR_SETUP_VAR_RESUME_FULL_HEIGHT = "--sign-in-full-height";
+export const QR_SETUP_VAR_RESUME_EXTENSION_TOP = "--sign-in-extension-top";
+export const QR_SETUP_VAR_RESUME_EXTENSION_LEFT = "--sign-in-extension-left";
+export const QR_SETUP_VAR_RESUME_EXTENSION_WIDTH = "--sign-in-extension-width";
+export const QR_SETUP_VAR_RESUME_EXTENSION_HEIGHT = "--sign-in-extension-height";
 export const QR_SETUP_VAR_RESUME_RESTORE_TOP = "--sign-in-restore-top";
 export const QR_SETUP_VAR_RESUME_RESTORE_LEFT = "--sign-in-restore-left";
 export const QR_SETUP_VAR_RESUME_RESTORE_WIDTH = "--sign-in-restore-width";
@@ -113,6 +121,10 @@ export const QR_SETUP_RESUME_LAYOUT_VARS = [
   QR_SETUP_VAR_RESUME_FULL_LEFT,
   QR_SETUP_VAR_RESUME_FULL_WIDTH,
   QR_SETUP_VAR_RESUME_FULL_HEIGHT,
+  QR_SETUP_VAR_RESUME_EXTENSION_TOP,
+  QR_SETUP_VAR_RESUME_EXTENSION_LEFT,
+  QR_SETUP_VAR_RESUME_EXTENSION_WIDTH,
+  QR_SETUP_VAR_RESUME_EXTENSION_HEIGHT,
   QR_SETUP_VAR_RESUME_RESTORE_TOP,
   QR_SETUP_VAR_RESUME_RESTORE_LEFT,
   QR_SETUP_VAR_RESUME_RESTORE_WIDTH,
@@ -123,6 +135,8 @@ export const QR_SETUP_RESUME_CONTENT_PHASE_CLASSES = [
   QR_SETUP_RESUME_ABSOLUTE_CLASS,
   QR_SETUP_RESUME_EXPAND_UP_CLASS,
   QR_SETUP_RESUME_EXPAND_FULL_CLASS,
+  QR_SETUP_RESUME_EXPAND_EXTENSION_CLASS,
+  QR_SETUP_RESUME_SHRINK_TO_FULL_CLASS,
   QR_SETUP_RESUME_SHRINK_FULL_CLASS,
   QR_SETUP_RESUME_SHRINK_DOWN_CLASS,
 ];

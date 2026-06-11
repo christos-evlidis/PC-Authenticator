@@ -20,6 +20,7 @@ import { MANUAL_SETUP_SUBMIT_CONTENT_PHASE_CLASSES } from "../manual-setup-const
 import { MANUAL_SETUP_SUBMIT_DOTS_FADE_IN_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_DOTS_FADE_OUT_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_DOTS_RUN_CLASS } from "../manual-setup-const.js";
+import { MANUAL_SETUP_SUBMIT_EXPAND_EXTENSION_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_EXPAND_FULL_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_EXPAND_UP_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_FADE_CLASS } from "../manual-setup-const.js";
@@ -31,16 +32,22 @@ import { MANUAL_SETUP_SUBMIT_RESULT_FADE_OUT_CLASS } from "../manual-setup-const
 import { MANUAL_SETUP_SUBMIT_RESTORE_FADE_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_RUNNING_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_SUBMIT_SHRINK_FULL_CLASS } from "../manual-setup-const.js";
+import { MANUAL_SETUP_SUBMIT_SHRINK_TO_FULL_CLASS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_DOTS_FADE_IN_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_DOTS_FADE_OUT_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_DOTS_RUN_MS } from "../manual-setup-const.js";
+import { MANUAL_SETUP_VAR_SUBMIT_EXPAND_EXTENSION_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_EXPAND_FULL_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_EXPAND_HEIGHT } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_EXPAND_LEFT } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_EXPAND_TOP } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_EXPAND_UP_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_EXPAND_WIDTH } from "../manual-setup-const.js";
+import { MANUAL_SETUP_VAR_SUBMIT_EXTENSION_HEIGHT } from "../manual-setup-const.js";
+import { MANUAL_SETUP_VAR_SUBMIT_EXTENSION_LEFT } from "../manual-setup-const.js";
+import { MANUAL_SETUP_VAR_SUBMIT_EXTENSION_TOP } from "../manual-setup-const.js";
+import { MANUAL_SETUP_VAR_SUBMIT_EXTENSION_WIDTH } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_FADE_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_FULL_HEIGHT } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_FULL_LEFT } from "../manual-setup-const.js";
@@ -57,6 +64,7 @@ import { MANUAL_SETUP_VAR_SUBMIT_RESTORE_WIDTH } from "../manual-setup-const.js"
 import { MANUAL_SETUP_VAR_SUBMIT_RESULT_DRAW_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_RESULT_FADE_OUT_MS } from "../manual-setup-const.js";
 import { MANUAL_SETUP_VAR_SUBMIT_SHRINK_FULL_MS } from "../manual-setup-const.js";
+import { MANUAL_SETUP_VAR_SUBMIT_SHRINK_TO_FULL_MS } from "../manual-setup-const.js";
 
 /** Runs the manual-setup submit loading and result animation. */
 async function manualSetupAnimationSubmit(resolveSubmit) {
@@ -124,6 +132,17 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
     const contentRect = content.getBoundingClientRect();
     const panelStyles = getComputedStyle(panel);
     const panelPaddingTop = Number.parseFloat(panelStyles.paddingTop) || 12;
+    const overlayRoot = panel.closest(MANUAL_SETUP_ROOT_SELECTOR);
+    const overlayRect = overlayRoot?.getBoundingClientRect() ?? panelRect;
+    const overlayStyles = overlayRoot ? getComputedStyle(overlayRoot) : panelStyles;
+    const overlayPaddingTop = Number.parseFloat(overlayStyles.paddingTop) || 0;
+    const overlayPaddingRight = Number.parseFloat(overlayStyles.paddingRight) || 0;
+    const overlayPaddingBottom = Number.parseFloat(overlayStyles.paddingBottom) || 0;
+    const overlayPaddingLeft = Number.parseFloat(overlayStyles.paddingLeft) || 0;
+    const extensionInnerTop = overlayRect.top + overlayPaddingTop;
+    const extensionInnerLeft = overlayRect.left + overlayPaddingLeft;
+    const extensionInnerWidth = overlayRect.width - overlayPaddingLeft - overlayPaddingRight;
+    const extensionInnerHeight = overlayRect.height - overlayPaddingTop - overlayPaddingBottom;
     const layout = {
       originTop: contentRect.top - panelRect.top,
       originLeft: contentRect.left - panelRect.left,
@@ -137,16 +156,22 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
       fullLeft: 0,
       fullWidth: panel.offsetWidth,
       fullHeight: panel.offsetHeight,
+      extensionTop: extensionInnerTop - panelRect.top,
+      extensionLeft: extensionInnerLeft - panelRect.left,
+      extensionWidth: extensionInnerWidth,
+      extensionHeight: extensionInnerHeight,
     };
 
     const submitFadeMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_FADE_MS);
     const expandUpMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_EXPAND_UP_MS);
     const expandFullMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_EXPAND_FULL_MS);
+    const expandExtensionMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_EXPAND_EXTENSION_MS);
     const dotsFadeInMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_DOTS_FADE_IN_MS);
     const dotsRunMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_DOTS_RUN_MS);
     const dotsFadeOutMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_DOTS_FADE_OUT_MS);
     const resultDrawMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_RESULT_DRAW_MS);
     const resultFadeOutMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_RESULT_FADE_OUT_MS);
+    const shrinkToFullMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_SHRINK_TO_FULL_MS);
     const shrinkFullMs = animCssMsGet(panel, MANUAL_SETUP_VAR_SUBMIT_SHRINK_FULL_MS);
     const timeoutBufferMs = animCssMsGet(panel, MANUAL_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS);
     const circleDuration = Math.round(resultDrawMs * 0.45);
@@ -191,6 +216,10 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
     content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_FULL_LEFT, `${layout.fullLeft}px`);
     content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_FULL_WIDTH, `${layout.fullWidth}px`);
     content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_FULL_HEIGHT, `${layout.fullHeight}px`);
+    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_EXTENSION_TOP, `${layout.extensionTop}px`);
+    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_EXTENSION_LEFT, `${layout.extensionLeft}px`);
+    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_EXTENSION_WIDTH, `${layout.extensionWidth}px`);
+    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_EXTENSION_HEIGHT, `${layout.extensionHeight}px`);
     content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_RESTORE_TOP, `${layout.originTop}px`);
     content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_RESTORE_LEFT, `${layout.originLeft}px`);
     content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_RESTORE_WIDTH, `${layout.originWidth}px`);
@@ -228,6 +257,24 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
     content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_WIDTH, `${layout.fullWidth}px`);
     content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_HEIGHT, `${layout.fullHeight}px`);
     content.classList.remove(MANUAL_SETUP_SUBMIT_EXPAND_FULL_CLASS);
+
+    if (runId !== MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID.value) {
+      return false;
+    }
+
+    await animFrameWait();
+
+    content.classList.add(MANUAL_SETUP_SUBMIT_EXPAND_EXTENSION_CLASS);
+    await animAnimationEndWait(
+      content,
+      "signInExpandExtension",
+      expandExtensionMs + timeoutBufferMs,
+    );
+    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_TOP, `${layout.extensionTop}px`);
+    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_LEFT, `${layout.extensionLeft}px`);
+    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_WIDTH, `${layout.extensionWidth}px`);
+    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_HEIGHT, `${layout.extensionHeight}px`);
+    content.classList.remove(MANUAL_SETUP_SUBMIT_EXPAND_EXTENSION_CLASS);
 
     if (runId !== MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID.value) {
       return false;
@@ -320,6 +367,24 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
     if (runId !== MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID.value) {
       return false;
     }
+
+    content.classList.add(MANUAL_SETUP_SUBMIT_SHRINK_TO_FULL_CLASS);
+    await animAnimationEndWait(
+      content,
+      "signInShrinkToFull",
+      shrinkToFullMs + timeoutBufferMs,
+    );
+    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_TOP, `${layout.fullTop}px`);
+    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_LEFT, `${layout.fullLeft}px`);
+    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_WIDTH, `${layout.fullWidth}px`);
+    content.style.setProperty(MANUAL_SETUP_VAR_SUBMIT_ORIGIN_HEIGHT, `${layout.fullHeight}px`);
+    content.classList.remove(MANUAL_SETUP_SUBMIT_SHRINK_TO_FULL_CLASS);
+
+    if (runId !== MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID.value) {
+      return false;
+    }
+
+    await animFrameWait();
 
     content.classList.add(MANUAL_SETUP_SUBMIT_SHRINK_FULL_CLASS);
     await animAnimationEndWait(
