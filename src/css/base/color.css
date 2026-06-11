@@ -73,7 +73,7 @@ body.theme-dark {
 }
 
 /* overlay/scan.css — fixed palette, not theme-aware */
-.pc-auth-qr-scan-host {
+:root {
     --color-scan-backdrop: #000000b8;
     --color-scan-text: #ffffff;
 }

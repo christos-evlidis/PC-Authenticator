@@ -6,6 +6,7 @@ import { authStorageSet } from "../../../../../accounts/accounts-index.js";
 import { dataHandleSync } from "../../../../../accounts/accounts-index.js";
 import { bodyAnimationFinish } from "../../../../shell/body/body-index.js";
 import { codesLoadStart } from "../../../../shell/codes/codes-index.js";
+import { headerAnimationInstant } from "../../../../shell/header/header-index.js";
 import { authChromeApply } from "../../../../../utils/utility-auth.js";
 import { THEME_DARK } from "../../../../../utils/utility-theme.js";
 import { themeGet } from "../../../../../utils/utility-theme.js";
@@ -54,8 +55,6 @@ async function userMenuActionAuthSignIn(input) {
 
   return userMenuAnimationAuthSignIn(isSuccess, async (resultIsSuccess) => {
     if (resultIsSuccess) {
-      await authChromeApply({ applyExtensionChrome: false });
-
       const signInInput = document.querySelector(USER_MENU_SIGN_IN_INPUT_SELECTOR);
 
       if (signInInput) {
@@ -74,15 +73,14 @@ async function userMenuActionAuthSignIn(input) {
       themeTrack?.classList.toggle(USER_MENU_THEME_LIGHT_CLASS, !isDark);
       themeTrack?.classList.toggle(USER_MENU_THEME_DARK_CLASS, isDark);
 
-      return {
-        afterFades: async () => {
-          await authChromeApply();
-          const authNumber = await authStorageGet();
-          const accounts = authNumber ? await dataHandleSync(authNumber) : [];
-          await codesLoadStart(accounts, { playIntro: false });
-          bodyAnimationFinish();
-        },
-      };
+      const authNumber = await authStorageGet();
+      const accounts = authNumber ? await dataHandleSync(authNumber) : [];
+
+      await authChromeApply({ hasAccounts: accounts.length > 0 });
+      await codesLoadStart(accounts, { playIntro: false });
+      bodyAnimationFinish();
+      headerAnimationInstant();
+      return [];
     }
 
     const signInView = document.querySelector(USER_MENU_SIGN_IN_VIEW_SELECTOR);

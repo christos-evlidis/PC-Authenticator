@@ -110,12 +110,8 @@
 
 .user-menu-status--success.is-drawn .user-menu-status__icon-circle,
 .user-menu-status--error.is-drawn .user-menu-status__icon-circle,
-.user-menu-status--success.is-hiding .user-menu-status__icon-circle,
-.user-menu-status--error.is-hiding .user-menu-status__icon-circle,
 .user-menu-status--success.is-drawn .user-menu-status__icon-mark,
-.user-menu-status--error.is-drawn .user-menu-status__icon-mark,
-.user-menu-status--success.is-hiding .user-menu-status__icon-mark,
-.user-menu-status--error.is-hiding .user-menu-status__icon-mark {
+.user-menu-status--error.is-drawn .user-menu-status__icon-mark {
     stroke-dashoffset: 0;
 }
 
@@ -367,7 +363,7 @@
 .app-user-menu__form {
     display: flex;
     flex-direction: column;
-    gap: var(--gap-l);
+    gap: var(--gap-md);
 }
 
 .app-user-menu__label {
@@ -421,7 +417,7 @@
 .app-user-menu__text {
     margin: 0;
     font-size: var(--user-menu-control-size);
-    line-height: 1.475;
+    line-height: 1.53;
     color: var(--color-text-primary);
 }
 
@@ -696,6 +692,7 @@
 }
 
 .app-user-menu__panel.is-sign-in-running {
+    position: relative;
     overflow: visible;
 }
 
@@ -706,17 +703,6 @@
 .app-header__user-menu-btn.is-user-menu-btn-active {
     background: var(--color-brand-hover);
     color: var(--color-brand-active);
-}
-
-.app-header__user-menu-btn.is-user-menu-btn-disabled {
-    pointer-events: none;
-    opacity: var(--header-actions-disabled-opacity);
-    cursor: default;
-}
-
-.app-header__user-menu-btn.is-user-menu-btn-disabled:hover {
-    background: transparent;
-    color: var(--color-icon-primary);
 }
 
 .app-user-menu__status {

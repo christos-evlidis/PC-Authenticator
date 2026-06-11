@@ -4,19 +4,48 @@ import { contentOverlayStateStore } from "./state/store.js";
 
 import { contentScreenshotCapture } from "../screenshot/capture.js";
 import { MESSAGES } from "../../scan-const.js";
-import { OVERLAY_CLASS } from "../../scan-const.js";
 import { OVERLAY_DIMMED_CLASS } from "../../scan-const.js";
-import { OVERLAY_DYNAMIC_STYLE_ID } from "../../scan-const.js";
 import { OVERLAY_SELECTING_CLASS } from "../../scan-const.js";
-import { OVERLAY_SELECTION_CLASS } from "../../scan-const.js";
 import { UNSUPPORTED_PAGE_ERROR } from "../../scan-const.js";
+
+const SCAN_SEL_LEFT_VAR = "--scan-sel-left";
+const SCAN_SEL_TOP_VAR = "--scan-sel-top";
+const SCAN_SEL_WIDTH_VAR = "--scan-sel-width";
+const SCAN_SEL_HEIGHT_VAR = "--scan-sel-height";
+const SCAN_CLIP_PATH_VAR = "--scan-clip-path";
+
+/** Updates selection box geometry and optional overlay dimming clip path. */
+function contentOverlaySelectionApply(overlay, selectionBox, left, top, width, height, clipPath) {
+  selectionBox.style.setProperty(SCAN_SEL_LEFT_VAR, `${left}px`);
+  selectionBox.style.setProperty(SCAN_SEL_TOP_VAR, `${top}px`);
+  selectionBox.style.setProperty(SCAN_SEL_WIDTH_VAR, `${width}px`);
+  selectionBox.style.setProperty(SCAN_SEL_HEIGHT_VAR, `${height}px`);
+
+  if (clipPath) {
+    overlay.classList.add(OVERLAY_DIMMED_CLASS);
+    overlay.style.setProperty(SCAN_CLIP_PATH_VAR, clipPath);
+    return;
+  }
+
+  overlay.classList.remove(OVERLAY_DIMMED_CLASS);
+  overlay.style.removeProperty(SCAN_CLIP_PATH_VAR);
+}
+
+/** Clears runtime selection custom properties from the overlay UI. */
+function contentOverlaySelectionReset(overlay, selectionBox) {
+  selectionBox.style.removeProperty(SCAN_SEL_LEFT_VAR);
+  selectionBox.style.removeProperty(SCAN_SEL_TOP_VAR);
+  selectionBox.style.removeProperty(SCAN_SEL_WIDTH_VAR);
+  selectionBox.style.removeProperty(SCAN_SEL_HEIGHT_VAR);
+  overlay.classList.remove(OVERLAY_DIMMED_CLASS);
+  overlay.style.removeProperty(SCAN_CLIP_PATH_VAR);
+}
 
 /** Starts the QR scan overlay and handles selection pointer events. */
 function contentOverlayStart() {
   contentOverlayRemove();
 
   const { overlay, selectionBox } = contentOverlayCreate();
-  const shadow = overlay.getRootNode();
   let startX = 0;
   let startY = 0;
   let isSelecting = false;
@@ -64,29 +93,7 @@ function contentOverlayStart() {
     startY = event.clientY;
 
     selectionBox.classList.add(OVERLAY_SELECTING_CLASS);
-    overlay.classList.remove(OVERLAY_DIMMED_CLASS);
-
-    let styleEl = shadow.getElementById(OVERLAY_DYNAMIC_STYLE_ID);
-
-    if (!styleEl) {
-      styleEl = document.createElement("style");
-      styleEl.id = OVERLAY_DYNAMIC_STYLE_ID;
-      shadow.append(styleEl);
-    }
-
-    styleEl.textContent = `
-      .${OVERLAY_SELECTION_CLASS}.${OVERLAY_SELECTING_CLASS} {
-        display: block;
-        left: ${startX}px;
-        top: ${startY}px;
-        width: 0px;
-        height: 0px;
-      }
-      .${OVERLAY_CLASS}.${OVERLAY_DIMMED_CLASS} {
-        clip-path: none;
-      }
-    `;
-
+    contentOverlaySelectionApply(overlay, selectionBox, startX, startY, 0, 0, null);
     overlay.setPointerCapture(event.pointerId);
   };
 
@@ -105,28 +112,8 @@ function contentOverlayStart() {
     const left = width < 0 ? cursorX : startX;
     const top = height < 0 ? cursorY : startY;
 
-    let styleEl = shadow.getElementById(OVERLAY_DYNAMIC_STYLE_ID);
-
-    if (!styleEl) {
-      styleEl = document.createElement("style");
-      styleEl.id = OVERLAY_DYNAMIC_STYLE_ID;
-      shadow.append(styleEl);
-    }
-
     if (absWidth <= 0 || absHeight <= 0) {
-      overlay.classList.remove(OVERLAY_DIMMED_CLASS);
-      styleEl.textContent = `
-        .${OVERLAY_SELECTION_CLASS}.${OVERLAY_SELECTING_CLASS} {
-          display: block;
-          left: ${left}px;
-          top: ${top}px;
-          width: ${absWidth}px;
-          height: ${absHeight}px;
-        }
-        .${OVERLAY_CLASS}.${OVERLAY_DIMMED_CLASS} {
-          clip-path: none;
-        }
-      `;
+      contentOverlaySelectionApply(overlay, selectionBox, left, top, absWidth, absHeight, null);
       return;
     }
 
@@ -134,19 +121,15 @@ function contentOverlayStart() {
     const bottom = top + absHeight;
     const clipPath = `polygon(0% 0%, 0% 100%, ${left}px 100%, ${left}px ${top}px, ${right}px ${top}px, ${right}px ${bottom}px, ${left}px ${bottom}px, ${left}px 100%, 100% 100%, 100% 0%)`;
 
-    overlay.classList.add(OVERLAY_DIMMED_CLASS);
-    styleEl.textContent = `
-      .${OVERLAY_SELECTION_CLASS}.${OVERLAY_SELECTING_CLASS} {
-        display: block;
-        left: ${left}px;
-        top: ${top}px;
-        width: ${absWidth}px;
-        height: ${absHeight}px;
-      }
-      .${OVERLAY_CLASS}.${OVERLAY_DIMMED_CLASS} {
-        clip-path: ${clipPath};
-      }
-    `;
+    contentOverlaySelectionApply(
+      overlay,
+      selectionBox,
+      left,
+      top,
+      absWidth,
+      absHeight,
+      clipPath,
+    );
   };
 
   /** Finishes the selection and triggers capture on pointer up. */
@@ -199,8 +182,7 @@ function contentOverlayStart() {
     overlay.removeEventListener("pointercancel", onPointerUp);
     window.removeEventListener("keydown", onKeyDown, true);
     selectionBox.classList.remove(OVERLAY_SELECTING_CLASS);
-    overlay.classList.remove(OVERLAY_DIMMED_CLASS);
-    shadow.getElementById(OVERLAY_DYNAMIC_STYLE_ID)?.remove();
+    contentOverlaySelectionReset(overlay, selectionBox);
   };
 }
 

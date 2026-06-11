@@ -25,7 +25,6 @@ export const OVERLAY_HOST_STYLE_ID = "pc-auth-qr-scan-host-styles";
 export const OVERLAY_CLASS = "pc-auth-qr-scan-overlay";
 export const OVERLAY_SELECTION_CLASS = "pc-auth-qr-scan-selection";
 export const OVERLAY_INSTRUCTION_CLASS = "pc-auth-qr-scan-instruction";
-export const OVERLAY_DYNAMIC_STYLE_ID = "pc-auth-qr-scan-dynamic-styles";
 export const OVERLAY_SELECTING_CLASS = "is-selecting";
 export const OVERLAY_DIMMED_CLASS = "is-dimmed";
 export const OVERLAY_INSTRUCTION_TEXT =

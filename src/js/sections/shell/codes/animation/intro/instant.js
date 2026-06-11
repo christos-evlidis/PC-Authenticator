@@ -19,19 +19,14 @@ function codesAnimationIntroInstant(card) {
         "is-slide-active",
         "is-slide-from-left",
         "is-slide-from-right",
-        "is-manual-add-slide",
       );
       resolve();
     };
 
-    const slideAnimationName = card.classList.contains("is-manual-add-slide")
-      ? "account-block-slide-in-manual"
-      : "account-block-slide-in";
-
     card.addEventListener(
       "animationend",
       (event) => {
-        if (event.target === card && event.animationName === slideAnimationName) {
+        if (event.target === card && event.animationName === "account-block-slide-in") {
           finish();
         }
       },

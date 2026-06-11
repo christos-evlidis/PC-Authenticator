@@ -132,8 +132,3 @@
 .app-body__message--display {
     align-self: start;
 }
-
-body.is-frame-blurred .app-body {
-    filter: blur(5px);
-    transition: filter var(--blur-ms) ease;
-}

@@ -110,12 +110,8 @@
 
 .manual-setup-status--success.is-drawn .manual-setup-status__icon-circle,
 .manual-setup-status--error.is-drawn .manual-setup-status__icon-circle,
-.manual-setup-status--success.is-hiding .manual-setup-status__icon-circle,
-.manual-setup-status--error.is-hiding .manual-setup-status__icon-circle,
 .manual-setup-status--success.is-drawn .manual-setup-status__icon-mark,
-.manual-setup-status--error.is-drawn .manual-setup-status__icon-mark,
-.manual-setup-status--success.is-hiding .manual-setup-status__icon-mark,
-.manual-setup-status--error.is-hiding .manual-setup-status__icon-mark {
+.manual-setup-status--error.is-drawn .manual-setup-status__icon-mark {
     stroke-dashoffset: 0;
 }
 
@@ -430,6 +426,7 @@
 }
 
 .manual-setup__panel.is-submit-running {
+    position: relative;
     overflow: visible;
 }
 

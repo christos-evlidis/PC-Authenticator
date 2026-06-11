@@ -114,7 +114,6 @@ async function userMenuAnimationAuthSignOut(onPreRestore) {
     }
 
     panel.classList.remove(USER_MENU_SIGN_OUT_RUNNING_CLASS);
-    panel.style.removeProperty("position");
   }
   userMenuStateSet({ isSignInRunning: true });
   document
@@ -156,7 +155,6 @@ async function userMenuAnimationAuthSignOut(onPreRestore) {
     const markDuration = resultDrawMs - circleDuration;
 
     panel.classList.add(USER_MENU_SIGN_OUT_RUNNING_CLASS);
-    panel.style.position = "relative";
     [loadingStatus, successStatus, errorStatus].forEach((status) => {
     if (!status) {
       return;
@@ -398,7 +396,6 @@ async function userMenuAnimationAuthSignOut(onPreRestore) {
         USER_MENU_SIGN_OUT_RESTORE_FADE_CLASS,
         USER_MENU_SIGN_OUT_RUNNING_CLASS,
       );
-      panel.style.removeProperty("position");
 
       panel.querySelectorAll(USER_MENU_SIGN_OUT_FADE_SELECTORS).forEach((element) => {
         element.style.removeProperty("opacity");

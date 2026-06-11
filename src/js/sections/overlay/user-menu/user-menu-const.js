@@ -21,7 +21,6 @@ export const USER_MENU_CLOSE_BTN_SELECTOR = ".app-user-menu__close-btn";
 export const USER_MENU_OPEN_BTN_SELECTOR = ".app-header__user-menu-btn";
 
 export const USER_MENU_HEADER_BTN_ACTIVE_CLASS = "is-user-menu-btn-active";
-export const USER_MENU_HEADER_BTN_DISABLED_CLASS = "is-user-menu-btn-disabled";
 
 export const USER_MENU_SIGNED_OUT_VIEW_SELECTOR = ".app-user-menu__view--signed-out";
 export const USER_MENU_SIGNED_IN_VIEW_SELECTOR = ".app-user-menu__view--signed-in";

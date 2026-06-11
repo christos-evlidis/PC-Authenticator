@@ -57,7 +57,3 @@
     -webkit-appearance: none;
     appearance: none;
 }
-
-body.is-frame-blurred .extension-frame > .codes-search {
-    filter: blur(5px);
-}

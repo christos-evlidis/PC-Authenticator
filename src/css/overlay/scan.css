@@ -1,4 +1,5 @@
 @import url("../base/color.css");
+@import url("../base/layout.css");
 
 .pc-auth-qr-scan-host {
     position: fixed !important;
@@ -25,8 +26,16 @@
     box-sizing: border-box;
 }
 
+.pc-auth-qr-scan-overlay.is-dimmed {
+    clip-path: var(--scan-clip-path);
+}
+
 .pc-auth-qr-scan-selection.is-selecting {
     display: block;
+    left: var(--scan-sel-left);
+    top: var(--scan-sel-top);
+    width: var(--scan-sel-width);
+    height: var(--scan-sel-height);
 }
 
 .pc-auth-qr-scan-selection {

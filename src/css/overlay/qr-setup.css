@@ -110,12 +110,8 @@
 
 .qr-setup-status--success.is-drawn .qr-setup-status__icon-circle,
 .qr-setup-status--error.is-drawn .qr-setup-status__icon-circle,
-.qr-setup-status--success.is-hiding .qr-setup-status__icon-circle,
-.qr-setup-status--error.is-hiding .qr-setup-status__icon-circle,
 .qr-setup-status--success.is-drawn .qr-setup-status__icon-mark,
-.qr-setup-status--error.is-drawn .qr-setup-status__icon-mark,
-.qr-setup-status--success.is-hiding .qr-setup-status__icon-mark,
-.qr-setup-status--error.is-hiding .qr-setup-status__icon-mark {
+.qr-setup-status--error.is-drawn .qr-setup-status__icon-mark {
     stroke-dashoffset: 0;
 }
 
@@ -443,6 +439,7 @@ body.is-auth-flow-locked .qr-setup.is-panel-open .qr-setup__backdrop {
 }
 
 .qr-setup__panel.is-resume-running {
+    position: relative;
     overflow: visible;
 }
 

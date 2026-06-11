@@ -150,12 +150,16 @@
     color: var(--color-brand-active);
 }
 
+.app-header__btn:focus {
+    outline: none;
+}
+
+.app-header__btn:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+}
+
 .app-header__btn i {
     font-size: var(--header-btn-icon-size);
     line-height: 1;
-}
-
-body.is-frame-blurred .app-header {
-    filter: blur(5px);
-    transition: filter var(--blur-ms) ease;
 }

@@ -35,7 +35,6 @@ function qrSetupAnimationResumeReset() {
   }
 
   panel?.classList.remove(QR_SETUP_RESUME_RUNNING_CLASS, QR_SETUP_RESUME_FADE_CLASS);
-  panel?.style.removeProperty("position");
   panel?.querySelectorAll(QR_SETUP_RESUME_FADE_SELECTORS).forEach((element) => {
     element.style.removeProperty("opacity");
     element.style.removeProperty("visibility");

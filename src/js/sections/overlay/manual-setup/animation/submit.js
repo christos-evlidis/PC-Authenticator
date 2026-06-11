@@ -105,7 +105,6 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
     });
 
     panel.classList.remove(MANUAL_SETUP_SUBMIT_RUNNING_CLASS);
-    panel.style.removeProperty("position");
   }
 
   manualSetupStateSet({ isSubmitting: true });
@@ -154,7 +153,6 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
     const markDuration = resultDrawMs - circleDuration;
 
     panel.classList.add(MANUAL_SETUP_SUBMIT_RUNNING_CLASS);
-    panel.style.position = "relative";
 
     [loadingStatus, successStatus, errorStatus].forEach((status) => {
       if (!status) {

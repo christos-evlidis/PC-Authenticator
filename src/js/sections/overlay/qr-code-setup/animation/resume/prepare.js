@@ -74,7 +74,6 @@ function qrSetupAnimationResumePrepare() {
   const layout = qrSetupResumeLayout;
 
   panel.classList.add(QR_SETUP_RESUME_RUNNING_CLASS);
-  panel.style.position = "relative";
 
   content.style.setProperty(QR_SETUP_VAR_RESUME_ORIGIN_TOP, `${layout.originTop}px`);
   content.style.setProperty(QR_SETUP_VAR_RESUME_ORIGIN_LEFT, `${layout.originLeft}px`);

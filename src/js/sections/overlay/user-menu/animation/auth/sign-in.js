@@ -113,7 +113,6 @@ async function userMenuAnimationAuthSignIn(resultIsSuccess, onPreRestore) {
     }
 
     panel.classList.remove(USER_MENU_SIGN_IN_RUNNING_CLASS);
-    panel.style.removeProperty("position");
   }
 
   userMenuStateSet({ isSignInRunning: true });
@@ -156,7 +155,6 @@ async function userMenuAnimationAuthSignIn(resultIsSuccess, onPreRestore) {
     const markDuration = resultDrawMs - circleDuration;
 
     panel.classList.add(USER_MENU_SIGN_IN_RUNNING_CLASS);
-    panel.style.position = "relative";
     [loadingStatus, successStatus, errorStatus].forEach((status) => {
     if (!status) {
       return;
@@ -398,7 +396,6 @@ async function userMenuAnimationAuthSignIn(resultIsSuccess, onPreRestore) {
         USER_MENU_SIGN_IN_RESTORE_FADE_CLASS,
         USER_MENU_SIGN_IN_RUNNING_CLASS,
       );
-      panel.style.removeProperty("position");
 
       panel.querySelectorAll(USER_MENU_SIGN_IN_FADE_SELECTORS).forEach((element) => {
         element.style.removeProperty("opacity");

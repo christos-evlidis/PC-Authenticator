@@ -11,10 +11,6 @@
     pointer-events: auto;
 }
 
-.app-intro:is(.is-sign-in-staged, .is-sign-up-staged) {
-    z-index: 20;
-}
-
 .app-intro__overlay {
     position: absolute;
     top: var(--intro-top, 0);

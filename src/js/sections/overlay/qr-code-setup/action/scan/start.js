@@ -27,7 +27,7 @@ async function qrSetupActionScanStart(options = {}) {
     return;
   }
 
-  await qrSetupActionPanelOpen();
+  void qrSetupActionPanelOpen();
 
   const startGeneration = qrSetupScanCancelGeneration;
 

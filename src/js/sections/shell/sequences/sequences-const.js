@@ -7,8 +7,6 @@ export const INTRO_STYLESHEET_HREF = "../css/shell/intro.css";
 
 // Shared state classes.
 export const INTRO_ACTIVE_CLASS = "is-active";
-export const INTRO_SIGN_IN_STAGED_CLASS = "is-sign-in-staged";
-export const INTRO_SIGN_UP_STAGED_CLASS = "is-sign-up-staged";
 
 // Logo fade phase.
 export const INTRO_LOGO_FADE_CLASS = "is-logo-fade";

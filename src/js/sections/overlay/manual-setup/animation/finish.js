@@ -41,7 +41,6 @@ function manualSetupAnimationSubmitFinish() {
     MANUAL_SETUP_SUBMIT_FADE_CLASS,
     MANUAL_SETUP_SUBMIT_RESTORE_FADE_CLASS,
   );
-  panel?.style.removeProperty("position");
   panel?.querySelectorAll(MANUAL_SETUP_SUBMIT_FADE_SELECTORS).forEach((element) => {
     element.style.removeProperty("opacity");
     element.style.removeProperty("visibility");

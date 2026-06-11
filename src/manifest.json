@@ -35,6 +35,7 @@
       "resources": [
         "css/overlay/scan.css",
         "css/base/color.css",
+        "css/base/layout.css",
         "js/scan/scan-const.js",
         "js/scan/content/content-index.js",
         "js/scan/content/overlay/create.js",

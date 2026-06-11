@@ -9,11 +9,11 @@
     /* Core motion types */
     --slide-ms: 250ms;
     --fade-ms: 250ms;
-    --type-ms: 750ms;
-    --expand-up-ms: 150ms;
-    --expand-full-ms: 150ms;
-    --shrink-down-ms: 150ms;
-    --shrink-full-ms: 150ms;
+    --type-ms: 1000ms;
+    --expand-up-ms: 250ms;
+    --expand-full-ms: 250ms;
+    --shrink-down-ms: 250ms;
+    --shrink-full-ms: 250ms;
 
     /* Secondary globals */
     --dots-run-ms: 2000ms;
