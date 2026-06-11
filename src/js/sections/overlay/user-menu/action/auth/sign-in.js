@@ -5,7 +5,7 @@ import { authStorageGet } from "../../../../../accounts/accounts-index.js";
 import { authStorageSet } from "../../../../../accounts/accounts-index.js";
 import { dataHandleSync } from "../../../../../accounts/accounts-index.js";
 import { bodyAnimationFinish } from "../../../../shell/body/body-index.js";
-import { codesLoadStart } from "../../../../shell/codes/codes-index.js";
+import { codesInit } from "../../../../shell/codes/codes-index.js";
 import { headerAnimationInstant } from "../../../../shell/header/header-index.js";
 import { authChromeApply } from "../../../../../utils/utility-auth.js";
 import { THEME_DARK } from "../../../../../utils/utility-theme.js";
@@ -77,7 +77,7 @@ async function userMenuActionAuthSignIn(input) {
       const accounts = authNumber ? await dataHandleSync(authNumber) : [];
 
       await authChromeApply({ hasAccounts: accounts.length > 0 });
-      await codesLoadStart(accounts, { playIntro: false });
+      await codesInit(accounts, { playIntro: false });
       bodyAnimationFinish();
       headerAnimationInstant();
       return [];

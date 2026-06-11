@@ -66,9 +66,9 @@ async function loadAnimationStart(isSignedIn, options = {}) {
   await headerAnimationStart();
 
   if (isSignedIn) {
-    searchAnimationPrepare("load");
+    searchAnimationPrepare();
     await loadAnimationShrinkSearch();
-    await searchAnimationRun("load");
+    await searchAnimationRun();
   }
 
   await loadAnimationShrinkBody();

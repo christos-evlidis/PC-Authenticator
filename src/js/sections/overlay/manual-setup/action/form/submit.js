@@ -1,6 +1,6 @@
 import { authStorageGet } from "../../../../../accounts/accounts-index.js";
 import { dataActionAddManual } from "../../../../../accounts/accounts-index.js";
-import { codesActionAdd } from "../../../../shell/codes/codes-index.js";
+import { codesActionAdd } from "../../../../shell/codes/action/add.js";
 import { authChromeApply } from "../../../../../utils/utility-auth.js";
 import { manualSetupActionFormEnable } from "./enable.js";
 import { manualSetupActionFormReset } from "./reset.js";

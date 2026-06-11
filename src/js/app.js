@@ -2,7 +2,9 @@ import { authApiVerify } from "./accounts/accounts-index.js";
 import { authStorageGet } from "./accounts/accounts-index.js";
 import { dataHandleSync } from "./accounts/accounts-index.js";
 import { initSectionModules } from "./sections/sections-index.js";
-import { codesLoadStart } from "./sections/shell/codes/codes-index.js";
+import { codesInit } from "./sections/shell/codes/codes-index.js";
+import { INTRO_ACTIVE_CLASS } from "./sections/shell/sequences/sequences-const.js";
+import { INTRO_ROOT_SELECTOR } from "./sections/shell/sequences/sequences-const.js";
 import { loadAnimationStart } from "./sections/shell/sequences/sequences-index.js";
 import { qrSetupActionInstant } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
 import { qrSetupHandlePending } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
@@ -24,11 +26,13 @@ async function startExtension() {
     const accounts = authNumber ? await dataHandleSync(authNumber) : [];
 
     await loadAnimationStart(true, { skipIntro: true });
-    await codesLoadStart(accounts, { playIntro: false });
+    await codesInit(accounts, { playIntro: false });
     qrSetupActionInstant();
     await qrSetupHandlePending();
     return;
   }
+
+  document.querySelector(INTRO_ROOT_SELECTOR)?.classList.add(INTRO_ACTIVE_CLASS);
 
   let isSignedIn = false;
   let accounts = [];
@@ -58,6 +62,6 @@ async function startExtension() {
   await loadAnimationStart(isSignedIn);
 
   if (isSignedIn) {
-    await codesLoadStart(accounts, { playIntro: true });
+    await codesInit(accounts, { playIntro: true });
   }
 }

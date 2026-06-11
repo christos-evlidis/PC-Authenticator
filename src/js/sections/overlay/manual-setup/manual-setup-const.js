@@ -12,6 +12,7 @@ import {
   VAR_SLIDE_MS,
 } from "../../../utils/motion-const.js";
 
+// Overlay shell selectors.
 export const MANUAL_SETUP_ROOT_SELECTOR = ".manual-setup";
 export const MANUAL_SETUP_BACKDROP_SELECTOR = ".manual-setup__backdrop";
 export const MANUAL_SETUP_PANEL_SELECTOR = ".manual-setup__panel";
@@ -25,25 +26,29 @@ export const MANUAL_SETUP_OPEN_BTN_SELECTOR = HEADER_MANUAL_SETUP_BTN_SELECTOR;
 export const MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR = ".manual-setup__type-track";
 export const MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR = ".manual-setup__type-btn";
 
+// Shared state classes.
 export const MANUAL_SETUP_HIDDEN_CLASS = "is-hidden";
 export const MANUAL_SETUP_ACTIVE_CLASS = "is-active";
 export const MANUAL_SETUP_OPEN_CLASS = "is-open";
 export const MANUAL_SETUP_SUBMITTING_CLASS = "is-submitting";
 
+// Panel phase classes.
 export const MANUAL_SETUP_PANEL_OPENING_CLASS = "is-panel-opening";
 export const MANUAL_SETUP_PANEL_OPEN_CLASS = "is-panel-open";
 export const MANUAL_SETUP_PANEL_CLOSING_CLASS = "is-panel-closing";
 export const MANUAL_SETUP_PANEL_BACKDROP_CLOSING_CLASS = "is-panel-backdrop-closing";
-
 export const MANUAL_SETUP_HEADER_BTN_ACTIVE_CLASS = "is-manual-setup-btn-active";
 
+// Shared timing vars (defined on .manual-setup; read via animCssMsGet).
 export const MANUAL_SETUP_VAR_BLUR_MS = VAR_BLUR_MS;
 export const MANUAL_SETUP_VAR_SLIDE_MS = VAR_SLIDE_MS;
 export const MANUAL_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS = VAR_BUFFER_MS;
 
+// Animation run ids.
 export const MANUAL_SETUP_PANEL_ANIMATION_RUN_ID = { value: 0 };
 export const MANUAL_SETUP_SUBMIT_ANIMATION_RUN_ID = { value: 0 };
 
+// Status icon selectors.
 export const MANUAL_SETUP_STATUS_LOADING_SELECTOR =
   ".manual-setup__status .manual-setup-status--loading";
 export const MANUAL_SETUP_STATUS_SUCCESS_SELECTOR =
@@ -53,6 +58,7 @@ export const MANUAL_SETUP_STATUS_ERROR_SELECTOR =
 export const MANUAL_SETUP_STATUS_ICON_CIRCLE_SELECTOR = ".manual-setup-status__icon-circle";
 export const MANUAL_SETUP_STATUS_ICON_MARK_SELECTOR = ".manual-setup-status__icon-mark";
 
+// Submit animation phase classes.
 export const MANUAL_SETUP_SUBMIT_RUNNING_CLASS = "is-submit-running";
 export const MANUAL_SETUP_SUBMIT_LOCKED_CLASS = "is-submit-locked";
 export const MANUAL_SETUP_SUBMIT_ABSOLUTE_CLASS = "is-submit-absolute";
@@ -70,6 +76,7 @@ export const MANUAL_SETUP_SUBMIT_SHRINK_FULL_CLASS = "is-submit-shrink-full";
 export const MANUAL_SETUP_SUBMIT_SHRINK_DOWN_CLASS = "is-submit-shrink-down";
 export const MANUAL_SETUP_SUBMIT_RESTORE_FADE_CLASS = "is-submit-restore-fade";
 
+// Submit timing vars.
 export const MANUAL_SETUP_VAR_SUBMIT_FADE_MS = VAR_FADE_MS;
 export const MANUAL_SETUP_VAR_SUBMIT_EXPAND_UP_MS = VAR_EXPAND_UP_MS;
 export const MANUAL_SETUP_VAR_SUBMIT_EXPAND_FULL_MS = VAR_EXPAND_FULL_MS;
@@ -84,6 +91,7 @@ export const MANUAL_SETUP_VAR_SUBMIT_SHRINK_FULL_MS = VAR_SHRINK_FULL_MS;
 export const MANUAL_SETUP_VAR_SUBMIT_SHRINK_DOWN_MS = VAR_SHRINK_DOWN_MS;
 export const MANUAL_SETUP_VAR_SUBMIT_RESTORE_FADE_MS = VAR_FADE_MS;
 
+// Submit layout vars (from / to positions for expand keyframes).
 export const MANUAL_SETUP_VAR_SUBMIT_ORIGIN_TOP = "--sign-in-origin-top";
 export const MANUAL_SETUP_VAR_SUBMIT_ORIGIN_LEFT = "--sign-in-origin-left";
 export const MANUAL_SETUP_VAR_SUBMIT_ORIGIN_WIDTH = "--sign-in-origin-width";
@@ -109,6 +117,7 @@ export const MANUAL_SETUP_VAR_SUBMIT_RESTORE_LEFT = "--sign-in-restore-left";
 export const MANUAL_SETUP_VAR_SUBMIT_RESTORE_WIDTH = "--sign-in-restore-width";
 export const MANUAL_SETUP_VAR_SUBMIT_RESTORE_HEIGHT = "--sign-in-restore-height";
 
+// Submit animation helpers.
 export const MANUAL_SETUP_SUBMIT_FADE_SELECTORS = [
   MANUAL_SETUP_HEADER_SELECTOR,
   MANUAL_SETUP_FORM_SELECTOR,

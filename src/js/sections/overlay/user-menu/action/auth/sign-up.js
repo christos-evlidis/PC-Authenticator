@@ -3,7 +3,7 @@ import { authApiCreate } from "../../../../../accounts/accounts-index.js";
 import { authSanitizeNumber } from "../../../../../accounts/accounts-index.js";
 import { authStorageSet } from "../../../../../accounts/accounts-index.js";
 import { bodyAnimationFinish } from "../../../../shell/body/body-index.js";
-import { codesLoadStart } from "../../../../shell/codes/codes-index.js";
+import { codesInit } from "../../../../shell/codes/codes-index.js";
 import { headerAnimationInstant } from "../../../../shell/header/header-index.js";
 import { authChromeApply } from "../../../../../utils/utility-auth.js";
 import { THEME_DARK } from "../../../../../utils/utility-theme.js";
@@ -67,7 +67,7 @@ async function userMenuActionAuthSignUp() {
       themeTrack?.classList.toggle(USER_MENU_THEME_DARK_CLASS, isDark);
 
       await authChromeApply({ hasAccounts: false });
-      await codesLoadStart([], { playIntro: false });
+      await codesInit([], { playIntro: false });
       bodyAnimationFinish();
       headerAnimationInstant();
       return [];

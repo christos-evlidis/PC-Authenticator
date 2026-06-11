@@ -1,4 +1,4 @@
-import { bodySignedInAccountsApply } from "../../body/body-index.js";
+import { bodyInit } from "../../body/body-index.js";
 import { codesAnimationAddInstant } from "../animation/add/instant.js";
 import { codesAnimationAddSlide } from "../animation/add/slide.js";
 import { codesAnimationAddStart } from "../animation/add/start.js";
@@ -30,7 +30,7 @@ async function codesActionAdd(account) {
     return;
   }
 
-  bodySignedInAccountsApply(true);
+  bodyInit(true, { hasAccounts: true });
   list.classList.remove(CODES_HIDDEN_CLASS);
 
   const card = codesCardCreate(template, account);

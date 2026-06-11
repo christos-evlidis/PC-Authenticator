@@ -1,7 +1,9 @@
+// Auth API / storage.
 export const AUTH_API_BASE_URL = "https://pc-authenticator-pdpy.onrender.com/api";
 export const AUTH_NUMBER_KEY = "accountNumber";
 export const AUTH_NUMBER_LENGTH = 24;
 
+// Data storage keys.
 export const DATA_KEY_FINAL = "dataReady";
 export const DATA_KEY_PENDING = "dataPending";
 export const dataRestored = "dataRestored";
@@ -25,6 +27,7 @@ export const DATA_KEY_LEGACY = [
   "accountsAll",
 ];
 
+// OTP defaults.
 export const DATA_OTP_TYPE_TOTP = "totp";
 export const DATA_OTP_TYPE_HOTP = "hotp";
 export const DATA_OTP_ALGORITHM_DEFAULT = "SHA1";

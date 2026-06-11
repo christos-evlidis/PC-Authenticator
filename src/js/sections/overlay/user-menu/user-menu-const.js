@@ -12,6 +12,7 @@ import {
   VAR_SLIDE_MS,
 } from "../../../utils/motion-const.js";
 
+// Overlay shell selectors.
 export const USER_MENU_ROOT_SELECTOR = ".app-user-menu";
 export const USER_MENU_BACKDROP_SELECTOR = ".app-user-menu__backdrop";
 export const USER_MENU_PANEL_SELECTOR = ".app-user-menu__panel";
@@ -57,6 +58,7 @@ export const USER_MENU_STATUS_ICON_MARK_SELECTOR = ".user-menu-status__icon-mark
 export const USER_MENU_AUTH_VIEW_SIGN_IN = "sign-in";
 export const USER_MENU_AUTH_VIEW_SIGN_UP = "sign-up";
 
+// Shared state classes.
 export const USER_MENU_HIDDEN_CLASS = "is-hidden";
 export const USER_MENU_ACTIVE_CLASS = "is-active";
 export const USER_MENU_OPEN_CLASS = "is-open";
@@ -66,6 +68,7 @@ export const USER_MENU_PANEL_OPEN_CLASS = "is-panel-open";
 export const USER_MENU_PANEL_CLOSING_CLASS = "is-panel-closing";
 export const USER_MENU_PANEL_BACKDROP_CLOSING_CLASS = "is-panel-backdrop-closing";
 
+// Panel / account state classes.
 export const USER_MENU_ACCOUNT_CONFIRMED_CLASS = "is-confirmed";
 
 export const USER_MENU_AUTH_SIGN_IN_CLASS = "is-sign-in";
@@ -74,6 +77,7 @@ export const USER_MENU_AUTH_SIGN_UP_CLASS = "is-sign-up";
 export const USER_MENU_THEME_LIGHT_CLASS = "is-light";
 export const USER_MENU_THEME_DARK_CLASS = "is-dark";
 
+// Shared timing vars (defined on .app-user-menu; read via animCssMsGet).
 export const USER_MENU_VAR_BLUR_MS = VAR_BLUR_MS;
 export const USER_MENU_VAR_SLIDE_MS = VAR_SLIDE_MS;
 export const USER_MENU_VAR_ACCOUNT_ACTION_CONFIRM_MS = VAR_HOLD_MS;
@@ -88,6 +92,7 @@ export const USER_MENU_SIGN_OUT_ANIMATION_RUN_ID = { value: 0 };
 export const USER_MENU_COPY_BUTTON_ANIMATION_RUN_ID = { value: 0 };
 export const USER_MENU_DOWNLOAD_BUTTON_ANIMATION_RUN_ID = { value: 0 };
 
+// Sign-in animation phase classes.
 export const USER_MENU_SIGN_IN_RUNNING_CLASS = "is-sign-in-running";
 export const USER_MENU_SIGN_IN_LOCKED_CLASS = "is-sign-in-locked";
 export const USER_MENU_SIGN_IN_ABSOLUTE_CLASS = "is-sign-in-absolute";
@@ -106,6 +111,7 @@ export const USER_MENU_SIGN_IN_SHRINK_FULL_CLASS = "is-sign-in-shrink-full";
 export const USER_MENU_SIGN_IN_SHRINK_DOWN_CLASS = "is-sign-in-shrink-down";
 export const USER_MENU_SIGN_IN_RESTORE_FADE_CLASS = "is-sign-in-restore-fade";
 
+// Sign-in timing vars.
 export const USER_MENU_VAR_SIGN_IN_FADE_MS = VAR_FADE_MS;
 export const USER_MENU_VAR_SIGN_IN_EXPAND_UP_MS = VAR_EXPAND_UP_MS;
 export const USER_MENU_VAR_SIGN_IN_EXPAND_FULL_MS = VAR_EXPAND_FULL_MS;
@@ -120,6 +126,7 @@ export const USER_MENU_VAR_SIGN_IN_SHRINK_FULL_MS = VAR_SHRINK_FULL_MS;
 export const USER_MENU_VAR_SIGN_IN_SHRINK_DOWN_MS = VAR_SHRINK_DOWN_MS;
 export const USER_MENU_VAR_SIGN_IN_RESTORE_FADE_MS = VAR_FADE_MS;
 
+// Sign-in layout vars.
 export const USER_MENU_VAR_SIGN_IN_ORIGIN_TOP = "--sign-in-origin-top";
 export const USER_MENU_VAR_SIGN_IN_ORIGIN_LEFT = "--sign-in-origin-left";
 export const USER_MENU_VAR_SIGN_IN_ORIGIN_WIDTH = "--sign-in-origin-width";
@@ -186,6 +193,7 @@ export const USER_MENU_SIGN_IN_CONTENT_PHASE_CLASSES = [
   USER_MENU_SIGN_IN_SHRINK_DOWN_CLASS,
 ];
 
+// Sign-up animation phase classes.
 export const USER_MENU_SIGN_UP_RUNNING_CLASS = "is-sign-in-running";
 export const USER_MENU_SIGN_UP_LOCKED_CLASS = "is-sign-in-locked";
 export const USER_MENU_SIGN_UP_ABSOLUTE_CLASS = "is-sign-in-absolute";
@@ -284,6 +292,7 @@ export const USER_MENU_SIGN_UP_CONTENT_PHASE_CLASSES = [
   USER_MENU_SIGN_UP_SHRINK_DOWN_CLASS,
 ];
 
+// Sign-out animation phase classes.
 export const USER_MENU_SIGN_OUT_RUNNING_CLASS = "is-sign-in-running";
 export const USER_MENU_SIGN_OUT_LOCKED_CLASS = "is-sign-in-locked";
 export const USER_MENU_SIGN_OUT_ABSOLUTE_CLASS = "is-sign-in-absolute";

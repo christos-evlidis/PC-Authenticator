@@ -1,7 +1,9 @@
+// Infrastructure.
 export const VAR_THEME_TRANSITION_MS = "--theme-transition-ms";
 export const VAR_BLUR_MS = "--blur-ms";
 export const VAR_BUFFER_MS = "--buffer-ms";
 
+// Core motion types.
 export const VAR_SLIDE_MS = "--slide-ms";
 export const VAR_FADE_MS = "--fade-ms";
 export const VAR_TYPE_MS = "--type-ms";
@@ -11,6 +13,7 @@ export const VAR_EXPAND_FULL_MS = "--expand-full-ms";
 export const VAR_SHRINK_DOWN_MS = "--shrink-down-ms";
 export const VAR_SHRINK_FULL_MS = "--shrink-full-ms";
 
+// Secondary globals.
 export const VAR_DOTS_RUN_MS = "--dots-run-ms";
 export const VAR_DOTS_BOUNCE_MS = "--dots-bounce-ms";
 export const VAR_DOTS_BOUNCE_DELAY_2_MS = "--dots-bounce-delay-2-ms";

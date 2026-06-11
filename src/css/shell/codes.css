@@ -16,6 +16,10 @@
 }
 
 .codes-section__list {
+    --delete-poof-ms: 1000ms;
+    --delete-poof-shrink-ms: 250ms;
+
+    position: relative;
     flex: 1;
     min-height: 0;
     margin: 0;
@@ -167,30 +171,25 @@
     margin-bottom: 0;
 }
 
-.codes-section__list .account-block__exit-layer {
+.codes-section__list .account-block--poof-exit {
+    transform-origin: center center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.account-block__poof {
+    position: fixed;
+    z-index: 100;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.account-block__poof span {
     position: absolute;
-    top: 0;
-    left: 0;
-    box-sizing: border-box;
-    width: 100%;
-    height: var(--codes-card-height);
-    padding: 10px 15px;
-    border-radius: var(--radius-md);
-    background-color: var(--color-surface-tertiary);
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-sm);
-    will-change: transform;
-}
-
-.codes-section__list .account-block__exit-layer--dash-left {
-    transition: transform var(--slide-ms) ease-out;
-    transform: translate3d(-130%, 0, 0);
-}
-
-.codes-section__list .account-block__exit-layer--dash-right {
-    transition: transform var(--slide-ms) ease-out;
-    transform: translate3d(130%, 0, 0);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    will-change: transform, opacity;
 }
 
 .codes-section__list .account-block.is-copy-feedback-active {
@@ -631,8 +630,8 @@
 }
 
 .codes-section__list .pie-timer-svg {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     display: block;
     shape-rendering: geometricPrecision;
     position: relative;

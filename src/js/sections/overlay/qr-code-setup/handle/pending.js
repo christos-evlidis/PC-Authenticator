@@ -1,7 +1,7 @@
 import { authStorageGet } from "../../../../accounts/accounts-index.js";
 import { dataActionAddQr } from "../../../../accounts/accounts-index.js";
 import { authChromeApply } from "../../../../utils/utility-auth.js";
-import { codesActionAdd } from "../../../shell/codes/codes-index.js";
+import { codesActionAdd } from "../../../shell/codes/action/add.js";
 import { scanPendingClear } from "../../../../scan/scan-index.js";
 import { scanPendingGet } from "../../../../scan/scan-index.js";
 
