@@ -1,24 +1,19 @@
-import { userMenuDomSet } from "./user-menu.dom.js";
-import { userMenuStateGet } from "./user-menu.state.js";
-import { userMenuAnimationAccountConfirm } from "./user-menu.animation.js";
+import { authStorageGet } from "../../../accounts/accounts-index.js";
 
-function userMenuAccountUpdate(value) {
-  userMenuDomSet({ accountValue: value });
-}
-
-async function userMenuAccountCopy() {
-  const { authNumber } = userMenuStateGet();
+// Copies the signed-in user's account number to their clipboard.
+async function userMenuAccountNumberCopy() {
+  const authNumber = await authStorageGet();
 
   if (!authNumber) {
     return;
   }
 
   await navigator.clipboard?.writeText(authNumber);
-  await userMenuAnimationAccountConfirm("copy");
 }
 
-async function userMenuAccountDownload() {
-  const { authNumber } = userMenuStateGet();
+// Triggers a file download containing the signed-in user's account number.
+async function userMenuAccountNumberDownload() {
+  const authNumber = await authStorageGet();
 
   if (!authNumber) {
     return;
@@ -32,10 +27,6 @@ async function userMenuAccountDownload() {
   link.download = "pc-authenticator-account-number.txt";
   link.click();
   URL.revokeObjectURL(url);
-
-  await userMenuAnimationAccountConfirm("download");
 }
 
-export { userMenuAccountCopy };
-export { userMenuAccountDownload };
-export { userMenuAccountUpdate };
+export { userMenuAccountNumberCopy, userMenuAccountNumberDownload };

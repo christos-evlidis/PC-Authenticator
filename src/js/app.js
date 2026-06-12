@@ -10,7 +10,7 @@ import { qrSetupActionInstant } from "./sections/overlay/qr-code-setup/qr-code-s
 import { qrSetupHandlePending } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
 import { qrSetupHandleResume } from "./sections/overlay/qr-code-setup/qr-code-setup-index.js";
 import { authChromeApply } from "./utils/utility-auth.js";
-import { themeChromeStorageSync } from "./utils/utility-theme.js";
+import { themeChromeStorageSync } from "./theme/theme.js";
 
 void startExtension();
 

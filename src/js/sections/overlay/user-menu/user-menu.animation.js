@@ -1,19 +1,14 @@
 import { animAnimationEndWait, animCssMsGet, animDelay, animFrameWait, animPhaseReset, animTransitionEndWait } from "../../../utils/utility-animation.js";
-import { THEME_DARK } from "../../../utils/utility-theme.js";
+import { THEME_DARK } from "../../../theme/theme.js";
 import { userMenuDomGet } from "./user-menu.dom.js";
 import { userMenuStateRunIdGet, userMenuStateRunIdNext } from "./user-menu.state.js";
 import * as UM from "./user-menu.constants.js";
 
-function flowPrefix(flow) {
-  if (flow === "signUp") return "SIGN_UP";
-  if (flow === "signOut") return "SIGN_OUT";
-  return "SIGN_IN";
-}
-
-function getAuthFlowConfig(flow) {
-  const p = flowPrefix(flow);
-  const runIdKey = flow === "signUp" ? "signUp" : flow === "signOut" ? "signOut" : "signIn";
-  return {
+/** Runs the full-panel auth loading and result animation. */
+async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestore) {
+  const p = authType === "signUp" ? "SIGN_UP" : authType === "signOut" ? "SIGN_OUT" : "SIGN_IN";
+  const runIdKey = authType === "signUp" ? "signUp" : authType === "signOut" ? "signOut" : "signIn";
+  const cfg = {
     runIdKey,
     fadeClass: UM[`USER_MENU_${p}_FADE_CLASS`],
     restoreFadeClass: UM[`USER_MENU_${p}_RESTORE_FADE_CLASS`],
@@ -34,45 +29,40 @@ function getAuthFlowConfig(flow) {
     contentPhaseClasses: UM[`USER_MENU_${p}_CONTENT_PHASE_CLASSES`],
     layoutVars: UM[`USER_MENU_${p}_LAYOUT_VARS`],
     fadeSelectors: UM[`USER_MENU_${p}_FADE_SELECTORS`],
-    varFADE_MS: UM[`USER_MENU_VAR_${p}_FADE_MS`],
-    varEXPAND_UP_MS: UM[`USER_MENU_VAR_${p}_EXPAND_UP_MS`],
-    varEXPAND_FULL_MS: UM[`USER_MENU_VAR_${p}_EXPAND_FULL_MS`],
-    varEXPAND_EXTENSION_MS: UM[`USER_MENU_VAR_${p}_EXPAND_EXTENSION_MS`],
-    varDOTS_FADE_IN_MS: UM[`USER_MENU_VAR_${p}_DOTS_FADE_IN_MS`],
-    varDOTS_RUN_MS: UM[`USER_MENU_VAR_${p}_DOTS_RUN_MS`],
-    varDOTS_FADE_OUT_MS: UM[`USER_MENU_VAR_${p}_DOTS_FADE_OUT_MS`],
-    varRESULT_DRAW_MS: UM[`USER_MENU_VAR_${p}_RESULT_DRAW_MS`],
-    varRESULT_FADE_OUT_MS: UM[`USER_MENU_VAR_${p}_RESULT_FADE_OUT_MS`],
-    varSHRINK_TO_FULL_MS: UM[`USER_MENU_VAR_${p}_SHRINK_TO_FULL_MS`],
-    varSHRINK_FULL_MS: UM[`USER_MENU_VAR_${p}_SHRINK_FULL_MS`],
-    varSHRINK_DOWN_MS: UM[`USER_MENU_VAR_${p}_SHRINK_DOWN_MS`],
-    varRESTORE_FADE_MS: UM[`USER_MENU_VAR_${p}_RESTORE_FADE_MS`],
-    varORIGIN_TOP: UM[`USER_MENU_VAR_${p}_ORIGIN_TOP`],
-    varORIGIN_LEFT: UM[`USER_MENU_VAR_${p}_ORIGIN_LEFT`],
-    varORIGIN_WIDTH: UM[`USER_MENU_VAR_${p}_ORIGIN_WIDTH`],
-    varORIGIN_HEIGHT: UM[`USER_MENU_VAR_${p}_ORIGIN_HEIGHT`],
-    varEXPAND_TOP: UM[`USER_MENU_VAR_${p}_EXPAND_TOP`],
-    varEXPAND_LEFT: UM[`USER_MENU_VAR_${p}_EXPAND_LEFT`],
-    varEXPAND_WIDTH: UM[`USER_MENU_VAR_${p}_EXPAND_WIDTH`],
-    varEXPAND_HEIGHT: UM[`USER_MENU_VAR_${p}_EXPAND_HEIGHT`],
-    varFULL_TOP: UM[`USER_MENU_VAR_${p}_FULL_TOP`],
-    varFULL_LEFT: UM[`USER_MENU_VAR_${p}_FULL_LEFT`],
-    varFULL_WIDTH: UM[`USER_MENU_VAR_${p}_FULL_WIDTH`],
-    varFULL_HEIGHT: UM[`USER_MENU_VAR_${p}_FULL_HEIGHT`],
-    varEXTENSION_TOP: UM[`USER_MENU_VAR_${p}_EXTENSION_TOP`],
-    varEXTENSION_LEFT: UM[`USER_MENU_VAR_${p}_EXTENSION_LEFT`],
-    varEXTENSION_WIDTH: UM[`USER_MENU_VAR_${p}_EXTENSION_WIDTH`],
-    varEXTENSION_HEIGHT: UM[`USER_MENU_VAR_${p}_EXTENSION_HEIGHT`],
-    varRESTORE_TOP: UM[`USER_MENU_VAR_${p}_RESTORE_TOP`],
-    varRESTORE_LEFT: UM[`USER_MENU_VAR_${p}_RESTORE_LEFT`],
-    varRESTORE_WIDTH: UM[`USER_MENU_VAR_${p}_RESTORE_WIDTH`],
-    varRESTORE_HEIGHT: UM[`USER_MENU_VAR_${p}_RESTORE_HEIGHT`],
+    varFadeMs: UM[`USER_MENU_VAR_${p}_FADE_MS`],
+    varExpandUpMs: UM[`USER_MENU_VAR_${p}_EXPAND_UP_MS`],
+    varExpandFullMs: UM[`USER_MENU_VAR_${p}_EXPAND_FULL_MS`],
+    varExpandExtensionMs: UM[`USER_MENU_VAR_${p}_EXPAND_EXTENSION_MS`],
+    varDotsFadeInMs: UM[`USER_MENU_VAR_${p}_DOTS_FADE_IN_MS`],
+    varDotsRunMs: UM[`USER_MENU_VAR_${p}_DOTS_RUN_MS`],
+    varDotsFadeOutMs: UM[`USER_MENU_VAR_${p}_DOTS_FADE_OUT_MS`],
+    varResultDrawMs: UM[`USER_MENU_VAR_${p}_RESULT_DRAW_MS`],
+    varResultFadeOutMs: UM[`USER_MENU_VAR_${p}_RESULT_FADE_OUT_MS`],
+    varShrinkToFullMs: UM[`USER_MENU_VAR_${p}_SHRINK_TO_FULL_MS`],
+    varShrinkFullMs: UM[`USER_MENU_VAR_${p}_SHRINK_FULL_MS`],
+    varShrinkDownMs: UM[`USER_MENU_VAR_${p}_SHRINK_DOWN_MS`],
+    varRestoreFadeMs: UM[`USER_MENU_VAR_${p}_RESTORE_FADE_MS`],
+    varOriginTop: UM[`USER_MENU_VAR_${p}_ORIGIN_TOP`],
+    varOriginLeft: UM[`USER_MENU_VAR_${p}_ORIGIN_LEFT`],
+    varOriginWidth: UM[`USER_MENU_VAR_${p}_ORIGIN_WIDTH`],
+    varOriginHeight: UM[`USER_MENU_VAR_${p}_ORIGIN_HEIGHT`],
+    varExpandTop: UM[`USER_MENU_VAR_${p}_EXPAND_TOP`],
+    varExpandLeft: UM[`USER_MENU_VAR_${p}_EXPAND_LEFT`],
+    varExpandWidth: UM[`USER_MENU_VAR_${p}_EXPAND_WIDTH`],
+    varExpandHeight: UM[`USER_MENU_VAR_${p}_EXPAND_HEIGHT`],
+    varFullTop: UM[`USER_MENU_VAR_${p}_FULL_TOP`],
+    varFullLeft: UM[`USER_MENU_VAR_${p}_FULL_LEFT`],
+    varFullWidth: UM[`USER_MENU_VAR_${p}_FULL_WIDTH`],
+    varFullHeight: UM[`USER_MENU_VAR_${p}_FULL_HEIGHT`],
+    varExtensionTop: UM[`USER_MENU_VAR_${p}_EXTENSION_TOP`],
+    varExtensionLeft: UM[`USER_MENU_VAR_${p}_EXTENSION_LEFT`],
+    varExtensionWidth: UM[`USER_MENU_VAR_${p}_EXTENSION_WIDTH`],
+    varExtensionHeight: UM[`USER_MENU_VAR_${p}_EXTENSION_HEIGHT`],
+    varRestoreTop: UM[`USER_MENU_VAR_${p}_RESTORE_TOP`],
+    varRestoreLeft: UM[`USER_MENU_VAR_${p}_RESTORE_LEFT`],
+    varRestoreWidth: UM[`USER_MENU_VAR_${p}_RESTORE_WIDTH`],
+    varRestoreHeight: UM[`USER_MENU_VAR_${p}_RESTORE_HEIGHT`],
   };
-}
-
-/** Runs the full-panel auth loading and result animation. */
-async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
-  const cfg = getAuthFlowConfig(flow);
   const runId = userMenuStateRunIdNext(cfg.runIdKey);
 
   const dom = userMenuDomGet();
@@ -98,14 +88,11 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
     !successStatus ||
     !errorStatus
   ) {
-    return resultIsSuccess;
+    return authResult;
   }
 
   if (panel) {
-    panel.classList.remove(
-      cfg.fadeClass,
-      cfg.restoreFadeClass,
-    );
+    panel.classList.remove(cfg.fadeClass, cfg.restoreFadeClass);
 
     panel.querySelectorAll(cfg.fadeSelectors).forEach((element) => {
       element.style.removeProperty("opacity");
@@ -133,15 +120,22 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
     const panelPaddingTop = Number.parseFloat(panelStyles.paddingTop) || 12;
     const overlayRoot = panel.closest(UM.USER_MENU_ROOT_SELECTOR);
     const overlayRect = overlayRoot?.getBoundingClientRect() ?? panelRect;
-    const overlayStyles = overlayRoot ? getComputedStyle(overlayRoot) : panelStyles;
+    const overlayStyles = overlayRoot
+      ? getComputedStyle(overlayRoot)
+      : panelStyles;
     const overlayPaddingTop = Number.parseFloat(overlayStyles.paddingTop) || 0;
-    const overlayPaddingRight = Number.parseFloat(overlayStyles.paddingRight) || 0;
-    const overlayPaddingBottom = Number.parseFloat(overlayStyles.paddingBottom) || 0;
-    const overlayPaddingLeft = Number.parseFloat(overlayStyles.paddingLeft) || 0;
+    const overlayPaddingRight =
+      Number.parseFloat(overlayStyles.paddingRight) || 0;
+    const overlayPaddingBottom =
+      Number.parseFloat(overlayStyles.paddingBottom) || 0;
+    const overlayPaddingLeft =
+      Number.parseFloat(overlayStyles.paddingLeft) || 0;
     const extensionInnerTop = overlayRect.top + overlayPaddingTop;
     const extensionInnerLeft = overlayRect.left + overlayPaddingLeft;
-    const extensionInnerWidth = overlayRect.width - overlayPaddingLeft - overlayPaddingRight;
-    const extensionInnerHeight = overlayRect.height - overlayPaddingTop - overlayPaddingBottom;
+    const extensionInnerWidth =
+      overlayRect.width - overlayPaddingLeft - overlayPaddingRight;
+    const extensionInnerHeight =
+      overlayRect.height - overlayPaddingTop - overlayPaddingBottom;
     const layout = {
       originTop: contentRect.top - panelRect.top,
       originLeft: contentRect.left - panelRect.left,
@@ -160,40 +154,43 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
       extensionWidth: extensionInnerWidth,
       extensionHeight: extensionInnerHeight,
     };
-    const fadeMs = animCssMsGet(panel, cfg.varFADE_MS);
-    const expandUpMs = animCssMsGet(panel,cfg.varEXPAND_UP_MS);
-    const expandFullMs = animCssMsGet(panel,cfg.varEXPAND_FULL_MS);
-    const expandExtensionMs = animCssMsGet(panel, cfg.varEXPAND_EXTENSION_MS);
-    const dotsFadeInMs = animCssMsGet(panel,cfg.varDOTS_FADE_IN_MS);
-    const dotsRunMs = animCssMsGet(panel,cfg.varDOTS_RUN_MS);
-    const dotsFadeOutMs = animCssMsGet(panel,cfg.varDOTS_FADE_OUT_MS);
-    const resultDrawMs = animCssMsGet(panel,cfg.varRESULT_DRAW_MS);
-    const resultFadeOutMs = animCssMsGet(panel,cfg.varRESULT_FADE_OUT_MS);
-    const shrinkToFullMs = animCssMsGet(panel, cfg.varSHRINK_TO_FULL_MS);
-    const shrinkFullMs = animCssMsGet(panel,cfg.varSHRINK_FULL_MS);
-    const shrinkDownMs = animCssMsGet(panel,cfg.varSHRINK_DOWN_MS);
-    const restoreFadeMs = animCssMsGet(panel,cfg.varRESTORE_FADE_MS);
-    const timeoutBufferMs = animCssMsGet(panel, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS);
+    const fadeMs = animCssMsGet(panel, cfg.varFadeMs);
+    const expandUpMs = animCssMsGet(panel, cfg.varExpandUpMs);
+    const expandFullMs = animCssMsGet(panel, cfg.varExpandFullMs);
+    const expandExtensionMs = animCssMsGet(panel, cfg.varExpandExtensionMs);
+    const dotsFadeInMs = animCssMsGet(panel, cfg.varDotsFadeInMs);
+    const dotsRunMs = animCssMsGet(panel, cfg.varDotsRunMs);
+    const dotsFadeOutMs = animCssMsGet(panel, cfg.varDotsFadeOutMs);
+    const resultDrawMs = animCssMsGet(panel, cfg.varResultDrawMs);
+    const resultFadeOutMs = animCssMsGet(panel, cfg.varResultFadeOutMs);
+    const shrinkToFullMs = animCssMsGet(panel, cfg.varShrinkToFullMs);
+    const shrinkFullMs = animCssMsGet(panel, cfg.varShrinkFullMs);
+    const shrinkDownMs = animCssMsGet(panel, cfg.varShrinkDownMs);
+    const restoreFadeMs = animCssMsGet(panel, cfg.varRestoreFadeMs);
+    const timeoutBufferMs = animCssMsGet(
+      panel,
+      UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS,
+    );
     const circleDuration = Math.round(resultDrawMs * 0.45);
     const markDuration = resultDrawMs - circleDuration;
 
     panel.classList.add(cfg.runningClass);
     [loadingStatus, successStatus, errorStatus].forEach((status) => {
-    if (!status) {
-      return;
-    }
+      if (!status) {
+        return;
+      }
 
-    status.classList.add(UM.USER_MENU_HIDDEN_CLASS);
-    status.classList.remove(
-      cfg.dotsFadeInClass,
-      cfg.dotsFadeOutClass,
-      cfg.dotsRunClass,
-      cfg.resultDrawClass,
-      cfg.resultFadeOutClass,
-      "is-animating",
-      "is-drawn",
-    );
-  });
+      status.classList.add(UM.USER_MENU_HIDDEN_CLASS);
+      status.classList.remove(
+        cfg.dotsFadeInClass,
+        cfg.dotsFadeOutClass,
+        cfg.dotsRunClass,
+        cfg.resultDrawClass,
+        cfg.resultFadeOutClass,
+        "is-animating",
+        "is-drawn",
+      );
+    });
 
     panel.classList.add(cfg.fadeClass);
     await animDelay(fadeMs);
@@ -203,26 +200,38 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
       return false;
     }
 
-    content.style.setProperty(cfg.varORIGIN_TOP, `${layout.originTop}px`);
-  content.style.setProperty(cfg.varORIGIN_LEFT, `${layout.originLeft}px`);
-  content.style.setProperty(cfg.varORIGIN_WIDTH, `${layout.originWidth}px`);
-  content.style.setProperty(cfg.varORIGIN_HEIGHT, `${layout.originHeight}px`);
-  content.style.setProperty(cfg.varEXPAND_TOP, `${layout.expandUpTop}px`);
-  content.style.setProperty(cfg.varEXPAND_LEFT, `${layout.expandUpLeft}px`);
-  content.style.setProperty(cfg.varEXPAND_WIDTH, `${layout.expandUpWidth}px`);
-  content.style.setProperty(cfg.varEXPAND_HEIGHT, `${layout.expandUpHeight}px`);
-  content.style.setProperty(cfg.varFULL_TOP, `${layout.fullTop}px`);
-  content.style.setProperty(cfg.varFULL_LEFT, `${layout.fullLeft}px`);
-  content.style.setProperty(cfg.varFULL_WIDTH, `${layout.fullWidth}px`);
-  content.style.setProperty(cfg.varFULL_HEIGHT, `${layout.fullHeight}px`);
-  content.style.setProperty(cfg.varEXTENSION_TOP, `${layout.extensionTop}px`);
-  content.style.setProperty(cfg.varEXTENSION_LEFT, `${layout.extensionLeft}px`);
-  content.style.setProperty(cfg.varEXTENSION_WIDTH, `${layout.extensionWidth}px`);
-  content.style.setProperty(cfg.varEXTENSION_HEIGHT, `${layout.extensionHeight}px`);
-  content.style.setProperty(cfg.varRESTORE_TOP, `${layout.originTop}px`);
-  content.style.setProperty(cfg.varRESTORE_LEFT, `${layout.originLeft}px`);
-  content.style.setProperty(cfg.varRESTORE_WIDTH, `${layout.originWidth}px`);
-  content.style.setProperty(cfg.varRESTORE_HEIGHT, `${layout.originHeight}px`);
+    content.style.setProperty(cfg.varOriginTop, `${layout.originTop}px`);
+    content.style.setProperty(cfg.varOriginLeft, `${layout.originLeft}px`);
+    content.style.setProperty(cfg.varOriginWidth, `${layout.originWidth}px`);
+    content.style.setProperty(cfg.varOriginHeight, `${layout.originHeight}px`);
+    content.style.setProperty(cfg.varExpandTop, `${layout.expandUpTop}px`);
+    content.style.setProperty(cfg.varExpandLeft, `${layout.expandUpLeft}px`);
+    content.style.setProperty(cfg.varExpandWidth, `${layout.expandUpWidth}px`);
+    content.style.setProperty(
+      cfg.varExpandHeight,
+      `${layout.expandUpHeight}px`,
+    );
+    content.style.setProperty(cfg.varFullTop, `${layout.fullTop}px`);
+    content.style.setProperty(cfg.varFullLeft, `${layout.fullLeft}px`);
+    content.style.setProperty(cfg.varFullWidth, `${layout.fullWidth}px`);
+    content.style.setProperty(cfg.varFullHeight, `${layout.fullHeight}px`);
+    content.style.setProperty(cfg.varExtensionTop, `${layout.extensionTop}px`);
+    content.style.setProperty(
+      cfg.varExtensionLeft,
+      `${layout.extensionLeft}px`,
+    );
+    content.style.setProperty(
+      cfg.varExtensionWidth,
+      `${layout.extensionWidth}px`,
+    );
+    content.style.setProperty(
+      cfg.varExtensionHeight,
+      `${layout.extensionHeight}px`,
+    );
+    content.style.setProperty(cfg.varRestoreTop, `${layout.originTop}px`);
+    content.style.setProperty(cfg.varRestoreLeft, `${layout.originLeft}px`);
+    content.style.setProperty(cfg.varRestoreWidth, `${layout.originWidth}px`);
+    content.style.setProperty(cfg.varRestoreHeight, `${layout.originHeight}px`);
     content.classList.add(cfg.absoluteClass);
 
     await animFrameWait();
@@ -233,10 +242,13 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
       "signInExpandUp",
       expandUpMs + timeoutBufferMs,
     );
-    content.style.setProperty(cfg.varORIGIN_TOP, `${layout.expandUpTop}px`);
-    content.style.setProperty(cfg.varORIGIN_LEFT, `${layout.expandUpLeft}px`);
-    content.style.setProperty(cfg.varORIGIN_WIDTH, `${layout.expandUpWidth}px`);
-    content.style.setProperty(cfg.varORIGIN_HEIGHT, `${layout.expandUpHeight}px`);
+    content.style.setProperty(cfg.varOriginTop, `${layout.expandUpTop}px`);
+    content.style.setProperty(cfg.varOriginLeft, `${layout.expandUpLeft}px`);
+    content.style.setProperty(cfg.varOriginWidth, `${layout.expandUpWidth}px`);
+    content.style.setProperty(
+      cfg.varOriginHeight,
+      `${layout.expandUpHeight}px`,
+    );
     content.classList.remove(cfg.expandUpClass);
 
     if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
@@ -251,10 +263,10 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
       "signInExpandFull",
       expandFullMs + timeoutBufferMs,
     );
-    content.style.setProperty(cfg.varORIGIN_TOP, `${layout.fullTop}px`);
-    content.style.setProperty(cfg.varORIGIN_LEFT, `${layout.fullLeft}px`);
-    content.style.setProperty(cfg.varORIGIN_WIDTH, `${layout.fullWidth}px`);
-    content.style.setProperty(cfg.varORIGIN_HEIGHT, `${layout.fullHeight}px`);
+    content.style.setProperty(cfg.varOriginTop, `${layout.fullTop}px`);
+    content.style.setProperty(cfg.varOriginLeft, `${layout.fullLeft}px`);
+    content.style.setProperty(cfg.varOriginWidth, `${layout.fullWidth}px`);
+    content.style.setProperty(cfg.varOriginHeight, `${layout.fullHeight}px`);
     content.classList.remove(cfg.expandFullClass);
 
     if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
@@ -269,10 +281,13 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
       "signInExpandExtension",
       expandExtensionMs + timeoutBufferMs,
     );
-    content.style.setProperty(cfg.varORIGIN_TOP, `${layout.extensionTop}px`);
-    content.style.setProperty(cfg.varORIGIN_LEFT, `${layout.extensionLeft}px`);
-    content.style.setProperty(cfg.varORIGIN_WIDTH, `${layout.extensionWidth}px`);
-    content.style.setProperty(cfg.varORIGIN_HEIGHT, `${layout.extensionHeight}px`);
+    content.style.setProperty(cfg.varOriginTop, `${layout.extensionTop}px`);
+    content.style.setProperty(cfg.varOriginLeft, `${layout.extensionLeft}px`);
+    content.style.setProperty(cfg.varOriginWidth, `${layout.extensionWidth}px`);
+    content.style.setProperty(
+      cfg.varOriginHeight,
+      `${layout.extensionHeight}px`,
+    );
     content.classList.remove(cfg.expandExtensionClass);
 
     if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
@@ -313,28 +328,19 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
       return false;
     }
 
-    const resultStatus = resultIsSuccess ? successStatus : errorStatus;
-    const circle = resultStatus.querySelector(UM.USER_MENU_STATUS_ICON_CIRCLE_SELECTOR);
+    const resultStatus = authResult ? successStatus : errorStatus;
+    const circle = resultStatus.querySelector(
+      UM.USER_MENU_STATUS_ICON_CIRCLE_SELECTOR,
+    );
     const marks = [
       ...resultStatus.querySelectorAll(UM.USER_MENU_STATUS_ICON_MARK_SELECTOR),
     ];
 
-    let extensionFades = [];
-    let afterFades = null;
-
     resultStatus.classList.remove(UM.USER_MENU_HIDDEN_CLASS);
     resultStatus.classList.add(cfg.resultDrawClass, "is-animating");
 
-    if (onPreRestore) {
-      const restoreResult =
-        flow === "signOut" ? await onPreRestore() : await onPreRestore(resultIsSuccess);
-
-      if (Array.isArray(restoreResult)) {
-        extensionFades = restoreResult;
-      } else {
-        extensionFades = restoreResult?.extensionFades ?? [];
-        afterFades = restoreResult?.afterFades ?? null;
-      }
+    if (onResultDraw) {
+      onResultDraw().catch(console.error);
     }
 
     if (circle) {
@@ -351,7 +357,11 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
 
     await Promise.all(
       marks.map((mark) =>
-        animAnimationEndWait(mark, "userMenuStatusMarkDraw", markDuration + timeoutBufferMs),
+        animAnimationEndWait(
+          mark,
+          "userMenuStatusMarkDraw",
+          markDuration + timeoutBufferMs,
+        ),
       ),
     );
 
@@ -384,10 +394,10 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
       "signInShrinkToFull",
       shrinkToFullMs + timeoutBufferMs,
     );
-    content.style.setProperty(cfg.varORIGIN_TOP, `${layout.fullTop}px`);
-    content.style.setProperty(cfg.varORIGIN_LEFT, `${layout.fullLeft}px`);
-    content.style.setProperty(cfg.varORIGIN_WIDTH, `${layout.fullWidth}px`);
-    content.style.setProperty(cfg.varORIGIN_HEIGHT, `${layout.fullHeight}px`);
+    content.style.setProperty(cfg.varOriginTop, `${layout.fullTop}px`);
+    content.style.setProperty(cfg.varOriginLeft, `${layout.fullLeft}px`);
+    content.style.setProperty(cfg.varOriginWidth, `${layout.fullWidth}px`);
+    content.style.setProperty(cfg.varOriginHeight, `${layout.fullHeight}px`);
     content.classList.remove(cfg.shrinkToFullClass);
 
     if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
@@ -402,10 +412,13 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
       "signInShrinkFull",
       shrinkFullMs + timeoutBufferMs,
     );
-    content.style.setProperty(cfg.varORIGIN_TOP, `${layout.expandUpTop}px`);
-    content.style.setProperty(cfg.varORIGIN_LEFT, `${layout.expandUpLeft}px`);
-    content.style.setProperty(cfg.varORIGIN_WIDTH, `${layout.expandUpWidth}px`);
-    content.style.setProperty(cfg.varORIGIN_HEIGHT, `${layout.expandUpHeight}px`);
+    content.style.setProperty(cfg.varOriginTop, `${layout.expandUpTop}px`);
+    content.style.setProperty(cfg.varOriginLeft, `${layout.expandUpLeft}px`);
+    content.style.setProperty(cfg.varOriginWidth, `${layout.expandUpWidth}px`);
+    content.style.setProperty(
+      cfg.varOriginHeight,
+      `${layout.expandUpHeight}px`,
+    );
     content.classList.remove(cfg.shrinkFullClass);
 
     if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
@@ -420,10 +433,10 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
       "signInShrinkDown",
       shrinkDownMs + timeoutBufferMs,
     );
-    content.style.setProperty(cfg.varORIGIN_TOP, `${layout.originTop}px`);
-    content.style.setProperty(cfg.varORIGIN_LEFT, `${layout.originLeft}px`);
-    content.style.setProperty(cfg.varORIGIN_WIDTH, `${layout.originWidth}px`);
-    content.style.setProperty(cfg.varORIGIN_HEIGHT, `${layout.originHeight}px`);
+    content.style.setProperty(cfg.varOriginTop, `${layout.originTop}px`);
+    content.style.setProperty(cfg.varOriginLeft, `${layout.originLeft}px`);
+    content.style.setProperty(cfg.varOriginWidth, `${layout.originWidth}px`);
+    content.style.setProperty(cfg.varOriginHeight, `${layout.originHeight}px`);
     content.classList.remove(cfg.shrinkDownClass);
 
     if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
@@ -438,21 +451,18 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
       });
     }
 
+    if (onRestore) {
+      await onRestore();
+    }
+
     await animFrameWait();
     panel.classList.add(cfg.restoreFadeClass);
 
-    await Promise.all([
-      ...extensionFades,
-      animAnimationEndWait(
-        header,
-        "userMenuRestoreFade",
-        restoreFadeMs + timeoutBufferMs,
-      ),
-    ]);
-
-    if (afterFades) {
-      await afterFades();
-    }
+    await animAnimationEndWait(
+      header,
+      "userMenuRestoreFade",
+      restoreFadeMs + timeoutBufferMs,
+    );
 
     if (panel) {
       panel.classList.remove(
@@ -468,7 +478,7 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
       });
     }
 
-    return resultIsSuccess;
+    return authResult;
   } finally {
     if (runId === userMenuStateRunIdGet(cfg.runIdKey)) {
       root?.classList.toggle(cfg.lockedClass, false);
@@ -476,6 +486,7 @@ async function userMenuRunAnimation(flow, resultIsSuccess, onPreRestore) {
   }
 }
 
+// Animates the user menu panel sliding open.
 async function userMenuAnimationPanelOpen() {
   const runId = userMenuStateRunIdNext("panel");
   const dom = userMenuDomGet();
@@ -516,9 +527,9 @@ async function userMenuAnimationPanelOpen() {
     await animTransitionEndWait(
       panel,
       "transform",
-      animCssMsGet(root, UM.USER_MENU_VAR_SLIDE_MS)
-        + animCssMsGet(root, UM.USER_MENU_VAR_BLUR_MS)
-        + animCssMsGet(root, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
+      animCssMsGet(root, UM.USER_MENU_VAR_SLIDE_MS) +
+        animCssMsGet(root, UM.USER_MENU_VAR_BLUR_MS) +
+        animCssMsGet(root, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
     );
   } finally {
     if (runId === userMenuStateRunIdGet("panel")) {
@@ -527,6 +538,7 @@ async function userMenuAnimationPanelOpen() {
   }
 }
 
+// Animates the user menu panel sliding closed.
 async function userMenuAnimationPanelClose() {
   const runId = userMenuStateRunIdNext("panel");
   const dom = userMenuDomGet();
@@ -546,7 +558,8 @@ async function userMenuAnimationPanelClose() {
     await animTransitionEndWait(
       panel,
       "transform",
-      animCssMsGet(root, UM.USER_MENU_VAR_SLIDE_MS) + animCssMsGet(root, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
+      animCssMsGet(root, UM.USER_MENU_VAR_SLIDE_MS) +
+        animCssMsGet(root, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
     );
 
     if (runId !== userMenuStateRunIdGet("panel")) {
@@ -566,7 +579,8 @@ async function userMenuAnimationPanelClose() {
       await animTransitionEndWait(
         backdrop,
         "opacity",
-        animCssMsGet(root, UM.USER_MENU_VAR_BLUR_MS) + animCssMsGet(root, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
+        animCssMsGet(root, UM.USER_MENU_VAR_BLUR_MS) +
+          animCssMsGet(root, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
       );
     }
 
@@ -593,7 +607,8 @@ async function userMenuAnimationPanelClose() {
   }
 }
 
-async function userMenuAnimationAuthThumb(authView) {
+// Animates the toggle switch between the sign in and sign up views.
+async function userMenuAnimationSwitchAuth(view) {
   const dom = userMenuDomGet();
   const { authTrack: track, authThumb: thumb } = dom;
 
@@ -601,7 +616,7 @@ async function userMenuAnimationAuthThumb(authView) {
     return;
   }
 
-  const isSignUp = authView === UM.USER_MENU_AUTH_VIEW_SIGN_UP;
+  const isSignUp = view === UM.USER_MENU_AUTH_VIEW_SIGN_UP;
 
   track.classList.toggle(UM.USER_MENU_AUTH_SIGN_IN_CLASS, !isSignUp);
   track.classList.toggle(UM.USER_MENU_AUTH_SIGN_UP_CLASS, isSignUp);
@@ -609,11 +624,13 @@ async function userMenuAnimationAuthThumb(authView) {
   await animTransitionEndWait(
     thumb,
     "transform",
-    animCssMsGet(track, UM.USER_MENU_VAR_AUTH_THUMB_MS) + animCssMsGet(track, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
+    animCssMsGet(track, UM.USER_MENU_VAR_AUTH_THUMB_MS) +
+      animCssMsGet(track, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
   );
 }
 
-async function userMenuAnimationThemeThumb(theme) {
+// Animates the toggle switch between the light and dark theme views.
+async function userMenuAnimationSwitchTheme(theme) {
   const dom = userMenuDomGet();
   const { themeTrack: track, themeThumb: thumb } = dom;
 
@@ -629,38 +646,9 @@ async function userMenuAnimationThemeThumb(theme) {
   await animTransitionEndWait(
     thumb,
     "transform",
-    animCssMsGet(track, UM.USER_MENU_VAR_THEME_THUMB_MS) + animCssMsGet(track, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
+    animCssMsGet(track, UM.USER_MENU_VAR_THEME_THUMB_MS) +
+      animCssMsGet(track, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
   );
 }
 
-async function userMenuAnimationAccountConfirm(kind) {
-  const dom = userMenuDomGet();
-  const button = kind === "download" ? dom.accountDownloadBtn : dom.accountCopyBtn;
-  const icon = button?.querySelector("i");
-
-  if (!button || !icon) {
-    return;
-  }
-
-  const runKey = kind === "download" ? "download" : "copy";
-  const runId = userMenuStateRunIdNext(runKey);
-
-  button.classList.add(UM.USER_MENU_ACCOUNT_CONFIRMED_CLASS);
-  icon.className = "fas fa-check";
-
-  await animDelay(animCssMsGet(button, UM.USER_MENU_VAR_ACCOUNT_ACTION_CONFIRM_MS));
-
-  if (runId !== userMenuStateRunIdGet(runKey)) {
-    return;
-  }
-
-  button.classList.remove(UM.USER_MENU_ACCOUNT_CONFIRMED_CLASS);
-  icon.className = kind === "download" ? "fas fa-download" : "fas fa-copy";
-}
-
-export { userMenuAnimationAccountConfirm };
-export { userMenuAnimationAuthThumb };
-export { userMenuAnimationPanelClose };
-export { userMenuAnimationPanelOpen };
-export { userMenuAnimationThemeThumb };
-export { userMenuRunAnimation };
+export { userMenuAnimationPanelClose, userMenuAnimationPanelOpen, userMenuAnimationSwitchAuth, userMenuAnimationSwitchTheme, userMenuAnimationRun };

@@ -1,26 +1,29 @@
 import { userMenuStateGet, userMenuStateSet } from "./user-menu.state.js";
 import { userMenuAnimationPanelClose, userMenuAnimationPanelOpen } from "./user-menu.animation.js";
 
+// Opens the user menu panel.
 async function userMenuPanelOpen() {
-  if (userMenuStateGet().isOpen) {
+  if (userMenuStateGet().statePanel) {
     return;
   }
 
-  userMenuStateSet({ isOpen: true });
+  userMenuStateSet({ statePanel: true });
   await userMenuAnimationPanelOpen();
 }
 
+// Closes the user menu panel.
 async function userMenuPanelClose() {
-  if (!userMenuStateGet().isOpen || userMenuStateGet().isAuthRunning) {
+  if (!userMenuStateGet().statePanel) {
     return;
   }
 
-  userMenuStateSet({ isOpen: false });
+  userMenuStateSet({ statePanel: false });
   await userMenuAnimationPanelClose();
 }
 
+// Toggles the user menu panel open or closed.
 async function userMenuPanelToggle() {
-  if (userMenuStateGet().isOpen) {
+  if (userMenuStateGet().statePanel) {
     await userMenuPanelClose();
     return;
   }
@@ -28,6 +31,4 @@ async function userMenuPanelToggle() {
   await userMenuPanelOpen();
 }
 
-export { userMenuPanelClose };
-export { userMenuPanelOpen };
-export { userMenuPanelToggle };
+export { userMenuPanelClose, userMenuPanelOpen, userMenuPanelToggle };

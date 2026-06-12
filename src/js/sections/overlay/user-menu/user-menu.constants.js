@@ -1,16 +1,4 @@
-import {
-  VAR_BLUR_MS,
-  VAR_BUFFER_MS,
-  VAR_DOTS_RUN_MS,
-  VAR_EXPAND_FULL_MS,
-  VAR_EXPAND_UP_MS,
-  VAR_FADE_MS,
-  VAR_HOLD_MS,
-  VAR_RESULT_MAIN_DRAW_MS,
-  VAR_SHRINK_DOWN_MS,
-  VAR_SHRINK_FULL_MS,
-  VAR_SLIDE_MS,
-} from "../../../utils/motion-const.js";
+import { VAR_BLUR_MS, VAR_BUFFER_MS, VAR_DOTS_RUN_MS, VAR_EXPAND_FULL_MS, VAR_EXPAND_UP_MS, VAR_FADE_MS, VAR_HOLD_MS, VAR_RESULT_MAIN_DRAW_MS, VAR_SHRINK_DOWN_MS, VAR_SHRINK_FULL_MS, VAR_SLIDE_MS } from "../../../utils/motion-const.js";
 
 // Overlay shell selectors.
 export const USER_MENU_ROOT_SELECTOR = ".app-user-menu";
@@ -23,37 +11,54 @@ export const USER_MENU_OPEN_BTN_SELECTOR = ".app-header__user-menu-btn";
 
 export const USER_MENU_HEADER_BTN_ACTIVE_CLASS = "is-user-menu-btn-active";
 
-export const USER_MENU_SIGNED_OUT_VIEW_SELECTOR = ".app-user-menu__view--signed-out";
-export const USER_MENU_SIGNED_IN_VIEW_SELECTOR = ".app-user-menu__view--signed-in";
+export const USER_MENU_SIGNED_OUT_VIEW_SELECTOR =
+  ".app-user-menu__view--signed-out";
+export const USER_MENU_SIGNED_IN_VIEW_SELECTOR =
+  ".app-user-menu__view--signed-in";
 
 export const USER_MENU_AUTH_BAR_SELECTOR = ".app-user-menu__auth-bar";
-export const USER_MENU_AUTH_TRACK_SELECTOR = ".app-user-menu__auth-switch-track";
-export const USER_MENU_AUTH_THUMB_SELECTOR = ".app-user-menu__auth-switch-thumb";
+export const USER_MENU_AUTH_TRACK_SELECTOR =
+  ".app-user-menu__auth-switch-track";
+export const USER_MENU_AUTH_THUMB_SELECTOR =
+  ".app-user-menu__auth-switch-thumb";
 export const USER_MENU_AUTH_BTN_SELECTOR = ".app-user-menu__auth-switch-btn";
 
 export const USER_MENU_THEME_BAR_SELECTOR = ".app-user-menu__theme-bar";
-export const USER_MENU_THEME_TRACK_SELECTOR = ".app-user-menu__theme-switch-track";
-export const USER_MENU_THEME_THUMB_SELECTOR = ".app-user-menu__theme-switch-thumb";
+export const USER_MENU_THEME_TRACK_SELECTOR =
+  ".app-user-menu__theme-switch-track";
+export const USER_MENU_THEME_THUMB_SELECTOR =
+  ".app-user-menu__theme-switch-thumb";
 export const USER_MENU_THEME_BTN_SELECTOR = ".app-user-menu__theme-switch-btn";
 
-export const USER_MENU_SIGN_IN_VIEW_SELECTOR = ".app-user-menu__auth-view--sign-in";
+export const USER_MENU_SIGN_IN_VIEW_SELECTOR =
+  ".app-user-menu__auth-view--sign-in";
 export const USER_MENU_SIGN_IN_FORM_SELECTOR = ".app-user-menu__form--sign-in";
-export const USER_MENU_SIGN_IN_INPUT_SELECTOR = ".app-user-menu__sign-in-input";
+export const USER_MENU_ACCOUNT_FIELD_SIGNED_OUT_SELECTOR =
+  ".app-user-menu__sign-in-input";
 
-export const USER_MENU_SIGN_UP_VIEW_SELECTOR = ".app-user-menu__auth-view--sign-up";
+export const USER_MENU_SIGN_UP_VIEW_SELECTOR =
+  ".app-user-menu__auth-view--sign-up";
 export const USER_MENU_SIGN_UP_BTN_SELECTOR = ".app-user-menu__sign-up-submit";
 
-export const USER_MENU_ACCOUNT_INPUT_SELECTOR = ".app-user-menu__account-input";
-export const USER_MENU_ACCOUNT_COPY_BTN_SELECTOR = ".app-user-menu__account-copy-btn";
-export const USER_MENU_ACCOUNT_DOWNLOAD_BTN_SELECTOR = ".app-user-menu__account-download-btn";
+export const USER_MENU_ACCOUNT_FIELD_SIGNED_IN_SELECTOR =
+  ".app-user-menu__account-input";
+export const USER_MENU_ACCOUNT_COPY_BTN_SELECTOR =
+  ".app-user-menu__account-copy-btn";
+export const USER_MENU_ACCOUNT_DOWNLOAD_BTN_SELECTOR =
+  ".app-user-menu__account-download-btn";
 
 export const USER_MENU_LOGOUT_BTN_SELECTOR = ".app-user-menu__logout-btn";
 
-export const USER_MENU_STATUS_LOADING_SELECTOR = ".app-user-menu__status .user-menu-status--loading";
-export const USER_MENU_STATUS_SUCCESS_SELECTOR = ".app-user-menu__status .user-menu-status--success";
-export const USER_MENU_STATUS_ERROR_SELECTOR = ".app-user-menu__status .user-menu-status--error";
-export const USER_MENU_STATUS_ICON_CIRCLE_SELECTOR = ".user-menu-status__icon-circle";
-export const USER_MENU_STATUS_ICON_MARK_SELECTOR = ".user-menu-status__icon-mark";
+export const USER_MENU_STATUS_LOADING_SELECTOR =
+  ".app-user-menu__status .user-menu-status--loading";
+export const USER_MENU_STATUS_SUCCESS_SELECTOR =
+  ".app-user-menu__status .user-menu-status--success";
+export const USER_MENU_STATUS_ERROR_SELECTOR =
+  ".app-user-menu__status .user-menu-status--error";
+export const USER_MENU_STATUS_ICON_CIRCLE_SELECTOR =
+  ".user-menu-status__icon-circle";
+export const USER_MENU_STATUS_ICON_MARK_SELECTOR =
+  ".user-menu-status__icon-mark";
 
 export const USER_MENU_AUTH_VIEW_SIGN_IN = "sign-in";
 export const USER_MENU_AUTH_VIEW_SIGN_UP = "sign-up";
@@ -66,10 +71,10 @@ export const USER_MENU_OPEN_CLASS = "is-open";
 export const USER_MENU_PANEL_OPENING_CLASS = "is-panel-opening";
 export const USER_MENU_PANEL_OPEN_CLASS = "is-panel-open";
 export const USER_MENU_PANEL_CLOSING_CLASS = "is-panel-closing";
-export const USER_MENU_PANEL_BACKDROP_CLOSING_CLASS = "is-panel-backdrop-closing";
+export const USER_MENU_PANEL_BACKDROP_CLOSING_CLASS =
+  "is-panel-backdrop-closing";
 
 // Panel / account state classes.
-export const USER_MENU_ACCOUNT_CONFIRMED_CLASS = "is-confirmed";
 
 export const USER_MENU_AUTH_SIGN_IN_CLASS = "is-sign-in";
 export const USER_MENU_AUTH_SIGN_UP_CLASS = "is-sign-up";
@@ -80,11 +85,10 @@ export const USER_MENU_THEME_DARK_CLASS = "is-dark";
 // Shared timing vars (defined on .app-user-menu; read via animCssMsGet).
 export const USER_MENU_VAR_BLUR_MS = VAR_BLUR_MS;
 export const USER_MENU_VAR_SLIDE_MS = VAR_SLIDE_MS;
-export const USER_MENU_VAR_ACCOUNT_ACTION_CONFIRM_MS = VAR_HOLD_MS;
+
 export const USER_MENU_VAR_AUTH_THUMB_MS = VAR_SLIDE_MS;
 export const USER_MENU_VAR_THEME_THUMB_MS = VAR_SLIDE_MS;
 export const USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS = VAR_BUFFER_MS;
-
 
 // Sign-in animation phase classes.
 export const USER_MENU_SIGN_IN_RUNNING_CLASS = "is-sign-in-running";
@@ -94,13 +98,16 @@ export const USER_MENU_SIGN_IN_ABSOLUTE_CLASS = "is-sign-in-absolute";
 export const USER_MENU_SIGN_IN_FADE_CLASS = "is-sign-in-fade";
 export const USER_MENU_SIGN_IN_EXPAND_UP_CLASS = "is-sign-in-expand-up";
 export const USER_MENU_SIGN_IN_EXPAND_FULL_CLASS = "is-sign-in-expand-full";
-export const USER_MENU_SIGN_IN_EXPAND_EXTENSION_CLASS = "is-sign-in-expand-extension";
+export const USER_MENU_SIGN_IN_EXPAND_EXTENSION_CLASS =
+  "is-sign-in-expand-extension";
 export const USER_MENU_SIGN_IN_DOTS_FADE_IN_CLASS = "is-sign-in-dots-fade-in";
 export const USER_MENU_SIGN_IN_DOTS_RUN_CLASS = "is-sign-in-dots-run";
 export const USER_MENU_SIGN_IN_DOTS_FADE_OUT_CLASS = "is-sign-in-dots-fade-out";
 export const USER_MENU_SIGN_IN_RESULT_DRAW_CLASS = "is-sign-in-result-draw";
-export const USER_MENU_SIGN_IN_RESULT_FADE_OUT_CLASS = "is-sign-in-result-fade-out";
-export const USER_MENU_SIGN_IN_SHRINK_TO_FULL_CLASS = "is-sign-in-shrink-to-full";
+export const USER_MENU_SIGN_IN_RESULT_FADE_OUT_CLASS =
+  "is-sign-in-result-fade-out";
+export const USER_MENU_SIGN_IN_SHRINK_TO_FULL_CLASS =
+  "is-sign-in-shrink-to-full";
 export const USER_MENU_SIGN_IN_SHRINK_FULL_CLASS = "is-sign-in-shrink-full";
 export const USER_MENU_SIGN_IN_SHRINK_DOWN_CLASS = "is-sign-in-shrink-down";
 export const USER_MENU_SIGN_IN_RESTORE_FADE_CLASS = "is-sign-in-restore-fade";
@@ -138,8 +145,10 @@ export const USER_MENU_VAR_SIGN_IN_FULL_HEIGHT = "--sign-in-full-height";
 
 export const USER_MENU_VAR_SIGN_IN_EXTENSION_TOP = "--sign-in-extension-top";
 export const USER_MENU_VAR_SIGN_IN_EXTENSION_LEFT = "--sign-in-extension-left";
-export const USER_MENU_VAR_SIGN_IN_EXTENSION_WIDTH = "--sign-in-extension-width";
-export const USER_MENU_VAR_SIGN_IN_EXTENSION_HEIGHT = "--sign-in-extension-height";
+export const USER_MENU_VAR_SIGN_IN_EXTENSION_WIDTH =
+  "--sign-in-extension-width";
+export const USER_MENU_VAR_SIGN_IN_EXTENSION_HEIGHT =
+  "--sign-in-extension-height";
 
 export const USER_MENU_VAR_SIGN_IN_RESTORE_TOP = "--sign-in-restore-top";
 export const USER_MENU_VAR_SIGN_IN_RESTORE_LEFT = "--sign-in-restore-left";
@@ -195,13 +204,16 @@ export const USER_MENU_SIGN_UP_ABSOLUTE_CLASS = "is-sign-in-absolute";
 export const USER_MENU_SIGN_UP_FADE_CLASS = "is-sign-up-fade";
 export const USER_MENU_SIGN_UP_EXPAND_UP_CLASS = "is-sign-up-expand-up";
 export const USER_MENU_SIGN_UP_EXPAND_FULL_CLASS = "is-sign-up-expand-full";
-export const USER_MENU_SIGN_UP_EXPAND_EXTENSION_CLASS = "is-sign-up-expand-extension";
+export const USER_MENU_SIGN_UP_EXPAND_EXTENSION_CLASS =
+  "is-sign-up-expand-extension";
 export const USER_MENU_SIGN_UP_DOTS_FADE_IN_CLASS = "is-sign-up-dots-fade-in";
 export const USER_MENU_SIGN_UP_DOTS_RUN_CLASS = "is-sign-up-dots-run";
 export const USER_MENU_SIGN_UP_DOTS_FADE_OUT_CLASS = "is-sign-up-dots-fade-out";
 export const USER_MENU_SIGN_UP_RESULT_DRAW_CLASS = "is-sign-up-result-draw";
-export const USER_MENU_SIGN_UP_RESULT_FADE_OUT_CLASS = "is-sign-up-result-fade-out";
-export const USER_MENU_SIGN_UP_SHRINK_TO_FULL_CLASS = "is-sign-up-shrink-to-full";
+export const USER_MENU_SIGN_UP_RESULT_FADE_OUT_CLASS =
+  "is-sign-up-result-fade-out";
+export const USER_MENU_SIGN_UP_SHRINK_TO_FULL_CLASS =
+  "is-sign-up-shrink-to-full";
 export const USER_MENU_SIGN_UP_SHRINK_FULL_CLASS = "is-sign-up-shrink-full";
 export const USER_MENU_SIGN_UP_SHRINK_DOWN_CLASS = "is-sign-up-shrink-down";
 export const USER_MENU_SIGN_UP_RESTORE_FADE_CLASS = "is-sign-up-restore-fade";
@@ -237,8 +249,10 @@ export const USER_MENU_VAR_SIGN_UP_FULL_HEIGHT = "--sign-in-full-height";
 
 export const USER_MENU_VAR_SIGN_UP_EXTENSION_TOP = "--sign-in-extension-top";
 export const USER_MENU_VAR_SIGN_UP_EXTENSION_LEFT = "--sign-in-extension-left";
-export const USER_MENU_VAR_SIGN_UP_EXTENSION_WIDTH = "--sign-in-extension-width";
-export const USER_MENU_VAR_SIGN_UP_EXTENSION_HEIGHT = "--sign-in-extension-height";
+export const USER_MENU_VAR_SIGN_UP_EXTENSION_WIDTH =
+  "--sign-in-extension-width";
+export const USER_MENU_VAR_SIGN_UP_EXTENSION_HEIGHT =
+  "--sign-in-extension-height";
 
 export const USER_MENU_VAR_SIGN_UP_RESTORE_TOP = "--sign-in-restore-top";
 export const USER_MENU_VAR_SIGN_UP_RESTORE_LEFT = "--sign-in-restore-left";
@@ -294,13 +308,17 @@ export const USER_MENU_SIGN_OUT_ABSOLUTE_CLASS = "is-sign-in-absolute";
 export const USER_MENU_SIGN_OUT_FADE_CLASS = "is-sign-out-fade";
 export const USER_MENU_SIGN_OUT_EXPAND_UP_CLASS = "is-sign-out-expand-up";
 export const USER_MENU_SIGN_OUT_EXPAND_FULL_CLASS = "is-sign-out-expand-full";
-export const USER_MENU_SIGN_OUT_EXPAND_EXTENSION_CLASS = "is-sign-out-expand-extension";
+export const USER_MENU_SIGN_OUT_EXPAND_EXTENSION_CLASS =
+  "is-sign-out-expand-extension";
 export const USER_MENU_SIGN_OUT_DOTS_FADE_IN_CLASS = "is-sign-out-dots-fade-in";
 export const USER_MENU_SIGN_OUT_DOTS_RUN_CLASS = "is-sign-out-dots-run";
-export const USER_MENU_SIGN_OUT_DOTS_FADE_OUT_CLASS = "is-sign-out-dots-fade-out";
+export const USER_MENU_SIGN_OUT_DOTS_FADE_OUT_CLASS =
+  "is-sign-out-dots-fade-out";
 export const USER_MENU_SIGN_OUT_RESULT_DRAW_CLASS = "is-sign-out-result-draw";
-export const USER_MENU_SIGN_OUT_RESULT_FADE_OUT_CLASS = "is-sign-out-result-fade-out";
-export const USER_MENU_SIGN_OUT_SHRINK_TO_FULL_CLASS = "is-sign-out-shrink-to-full";
+export const USER_MENU_SIGN_OUT_RESULT_FADE_OUT_CLASS =
+  "is-sign-out-result-fade-out";
+export const USER_MENU_SIGN_OUT_SHRINK_TO_FULL_CLASS =
+  "is-sign-out-shrink-to-full";
 export const USER_MENU_SIGN_OUT_SHRINK_FULL_CLASS = "is-sign-out-shrink-full";
 export const USER_MENU_SIGN_OUT_SHRINK_DOWN_CLASS = "is-sign-out-shrink-down";
 export const USER_MENU_SIGN_OUT_RESTORE_FADE_CLASS = "is-sign-out-restore-fade";
@@ -336,8 +354,10 @@ export const USER_MENU_VAR_SIGN_OUT_FULL_HEIGHT = "--sign-in-full-height";
 
 export const USER_MENU_VAR_SIGN_OUT_EXTENSION_TOP = "--sign-in-extension-top";
 export const USER_MENU_VAR_SIGN_OUT_EXTENSION_LEFT = "--sign-in-extension-left";
-export const USER_MENU_VAR_SIGN_OUT_EXTENSION_WIDTH = "--sign-in-extension-width";
-export const USER_MENU_VAR_SIGN_OUT_EXTENSION_HEIGHT = "--sign-in-extension-height";
+export const USER_MENU_VAR_SIGN_OUT_EXTENSION_WIDTH =
+  "--sign-in-extension-width";
+export const USER_MENU_VAR_SIGN_OUT_EXTENSION_HEIGHT =
+  "--sign-in-extension-height";
 
 export const USER_MENU_VAR_SIGN_OUT_RESTORE_TOP = "--sign-in-restore-top";
 export const USER_MENU_VAR_SIGN_OUT_RESTORE_LEFT = "--sign-in-restore-left";

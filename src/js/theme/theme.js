@@ -1,6 +1,6 @@
-import { animCssMsGet } from "./utility-animation.js";
-import { animDelay } from "./utility-animation.js";
-import { VAR_BUFFER_MS, VAR_THEME_TRANSITION_MS } from "./motion-const.js";
+import { animCssMsGet } from "../utils/utility-animation.js";
+import { animDelay } from "../utils/utility-animation.js";
+import { VAR_BUFFER_MS, VAR_THEME_TRANSITION_MS } from "../utils/motion-const.js";
 
 const THEME_LIGHT = "light";
 const THEME_DARK = "dark";
