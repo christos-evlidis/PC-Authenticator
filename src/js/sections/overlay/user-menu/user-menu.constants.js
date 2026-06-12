@@ -85,12 +85,6 @@ export const USER_MENU_VAR_AUTH_THUMB_MS = VAR_SLIDE_MS;
 export const USER_MENU_VAR_THEME_THUMB_MS = VAR_SLIDE_MS;
 export const USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS = VAR_BUFFER_MS;
 
-export const USER_MENU_PANEL_ANIMATION_RUN_ID = { value: 0 };
-export const USER_MENU_SIGN_IN_ANIMATION_RUN_ID = { value: 0 };
-export const USER_MENU_SIGN_UP_ANIMATION_RUN_ID = { value: 0 };
-export const USER_MENU_SIGN_OUT_ANIMATION_RUN_ID = { value: 0 };
-export const USER_MENU_COPY_BUTTON_ANIMATION_RUN_ID = { value: 0 };
-export const USER_MENU_DOWNLOAD_BUTTON_ANIMATION_RUN_ID = { value: 0 };
 
 // Sign-in animation phase classes.
 export const USER_MENU_SIGN_IN_RUNNING_CLASS = "is-sign-in-running";

@@ -3,7 +3,7 @@ import { bodyInit } from "../sections/shell/body/body-index.js";
 import { codesApply } from "../sections/shell/codes/codes-index.js";
 import { headerInit } from "../sections/shell/header/header-index.js";
 import { searchApply } from "../sections/shell/search/search-index.js";
-import { userMenuInit } from "../sections/overlay/user-menu/user-menu-index.js";
+import { userMenuInit } from "../sections/overlay/user-menu/user-menu.index.js";
 
 /** Returns whether a stored auth number exists in local storage. */
 async function authSignedInIs() {
