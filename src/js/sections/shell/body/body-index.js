@@ -7,6 +7,7 @@ import { BODY_SIGNED_IN_VIEW_SELECTOR } from "./body-const.js";
 import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "./body-const.js";
 import { CODES_HIDDEN_CLASS } from "../codes/codes-const.js";
 import { CODES_ROOT_SELECTOR } from "../codes/codes-const.js";
+import { bodyAnimationFinish } from "./animation/finish.js";
 
 function bodyInit(isSignedIn, options = {}) {
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
@@ -27,6 +28,16 @@ function bodyInit(isSignedIn, options = {}) {
 }
 
 export { bodyInit };
+
+function bodyApplySignedIn(options = {}) {
+  bodyInit(true, { hasAccounts: options.hasAccounts });
+}
+
+function bodyApplySignedOut() {
+  bodyInit(false, { hasAccounts: false });
+}
+
+export { bodyApplySignedIn, bodyApplySignedOut };
 
 export { bodyAnimationFinish } from "./animation/finish.js";
 export { bodyAnimationInstant } from "./animation/instant.js";

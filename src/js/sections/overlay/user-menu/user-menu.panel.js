@@ -25,10 +25,9 @@ async function userMenuPanelClose() {
 async function userMenuPanelToggle() {
   if (userMenuStateGet().statePanel) {
     await userMenuPanelClose();
-    return;
+  } else {
+    await userMenuPanelOpen();
   }
-
-  await userMenuPanelOpen();
 }
 
 export { userMenuPanelClose, userMenuPanelOpen, userMenuPanelToggle };

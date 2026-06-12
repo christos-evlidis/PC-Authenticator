@@ -1,4 +1,4 @@
-import { dataCodeTypeHotp } from "../../../../accounts/accounts-index.js";
+import { dataCodeTypeHotp } from "../../../../services/data/data-index.js";
 
 import { codesActionCopy } from "../action/copy.js";
 import { codesActionDelete } from "../action/delete.js";

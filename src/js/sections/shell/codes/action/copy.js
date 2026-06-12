@@ -1,8 +1,5 @@
-import { authStorageGet } from "../../../../accounts/accounts-index.js";
-import { dataActionUpdate } from "../../../../accounts/accounts-index.js";
-import { DATA_OTP_DIGITS } from "../../../../accounts/accounts-index.js";
-import { dataCodeOptions } from "../../../../accounts/accounts-index.js";
-import { dataCodeTypeHotp } from "../../../../accounts/accounts-index.js";
+import { authStorageGet } from "../../../../services/auth/auth-index.js";
+import { dataActionUpdate, DATA_OTP_DIGITS, dataCodeOptions, dataCodeTypeHotp } from "../../../../services/data/data-index.js";
 
 import { codesAnimationCopyStart } from "../animation/copy/start.js";
 import { codesStateStore } from "../state/store.js";

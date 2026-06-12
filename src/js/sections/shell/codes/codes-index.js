@@ -1,5 +1,5 @@
-import { authStorageGet } from "../../../accounts/accounts-index.js";
-import { dataHandleSync } from "../../../accounts/accounts-index.js";
+import { authStorageGet } from "../../../services/auth/auth-index.js";
+import { dataHandleSync } from "../../../services/data/data-index.js";
 
 import { bodyInit } from "../body/body-index.js";
 import { codesActionWheel } from "./action/wheel.js";

@@ -1,6 +1,6 @@
 import { searchActionReset } from "./reset.js";
 
-import { INTRO_ROOT_SELECTOR } from "../../sequences/sequences-const.js";
+import { INTRO_ROOT_SELECTOR } from "../../../../services/sequences/sequences-const.js";
 import { SEARCH_HIDDEN_CLASS } from "../search-const.js";
 import { SEARCH_ROOT_SELECTOR } from "../search-const.js";
 

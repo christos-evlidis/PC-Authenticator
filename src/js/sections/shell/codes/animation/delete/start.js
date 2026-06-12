@@ -1,5 +1,5 @@
 import { animCssMsGet } from "../../../../../utils/utility-animation.js";
-import { authChromeApply } from "../../../../../utils/utility-auth.js";
+import { appShellApply } from "../../../../../app/app.shell.js";
 import { bodyAnimationReset } from "../../../body/body-index.js";
 import { bodyAnimationStart } from "../../../body/body-index.js";
 
@@ -239,11 +239,11 @@ async function codesAnimationDeleteStart(card, remainingAccounts) {
   if (!safeRemaining.length) {
     codesTickerStop();
     list.classList.add(CODES_HIDDEN_CLASS);
-    await authChromeApply({ isSignedIn: true, hasAccounts: false });
+    appShellApply({ isSignedIn: true, hasAccounts: false });
     bodyAnimationReset();
     await bodyAnimationStart();
   } else {
-    await authChromeApply({ isSignedIn: true, hasAccounts: true });
+    appShellApply({ isSignedIn: true, hasAccounts: true });
   }
 }
 

@@ -30,8 +30,8 @@
 }
 
 /* Theme switch — one duration for all themed properties */
-body.theme-transition-active,
-body.theme-transition-active * {
+body.is-animating,
+body.is-animating * {
     transition-property: background-color, background, color, border-color, fill, stroke, box-shadow !important;
     transition-duration: var(--theme-transition-ms) !important;
     transition-timing-function: ease !important;

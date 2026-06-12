@@ -747,12 +747,22 @@
     cursor: default;
 }
 
-.app-user-menu__panel.is-sign-in-running {
+.app-user-menu__panel.is-animating:not(:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade, .is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade)) .app-user-menu__header,
+.app-user-menu__panel.is-animating:not(:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade, .is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade)) .app-user-menu__auth-bar:not(.is-hidden),
+.app-user-menu__panel.is-animating:not(:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade, .is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade)) .app-user-menu__theme-bar:not(.is-hidden),
+.app-user-menu__panel.is-animating:not(:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade, .is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade)) .app-user-menu__view--signed-out:not(.is-hidden),
+.app-user-menu__panel.is-animating:not(:is(.is-sign-in-fade, .is-sign-up-fade, .is-sign-out-fade, .is-sign-in-restore-fade, .is-sign-up-restore-fade, .is-sign-out-restore-fade)) .app-user-menu__view--signed-in:not(.is-hidden) {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.app-user-menu__panel.is-animating {
     position: relative;
     overflow: visible;
 }
 
-.app-user-menu__panel.is-sign-in-running .app-user-menu__content {
+.app-user-menu__panel.is-animating .app-user-menu__content {
     overflow: hidden;
 }
 

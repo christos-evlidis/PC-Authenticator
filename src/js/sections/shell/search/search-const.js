@@ -1,4 +1,4 @@
-import { VAR_BUFFER_MS, VAR_FADE_MS } from "../../../utils/motion-const.js";
+import { VAR_BUFFER_MS, VAR_FADE_MS } from "../../../utils/utility-const.js";
 
 // Shell selectors.
 export const SEARCH_ROOT_SELECTOR = ".codes-search";

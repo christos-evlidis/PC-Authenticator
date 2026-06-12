@@ -1,8 +1,12 @@
-import { userMenuDomGet, userMenuDomSet } from "./user-menu.dom.js";
+import { userMenuDomSet } from "./user-menu.dom.js";
 import { userMenuStateSet } from "./user-menu.state.js";
-import { userMenuAnimationSwitchAuth } from "./user-menu.animation.js";
-import { USER_MENU_ACTIVE_CLASS, USER_MENU_THEME_LIGHT_CLASS, USER_MENU_THEME_DARK_CLASS, USER_MENU_AUTH_VIEW_SIGN_UP, USER_MENU_AUTH_VIEW_SIGN_IN, USER_MENU_AUTH_SIGN_UP_CLASS } from "./user-menu.constants.js";
-import { THEME_DARK } from "../../../theme/theme.js";
+import { USER_MENU_ACTIVE_CLASS } from "./user-menu.constants.js";
+import { USER_MENU_THEME_LIGHT_CLASS } from "./user-menu.constants.js";
+import { USER_MENU_THEME_DARK_CLASS } from "./user-menu.constants.js";
+import { USER_MENU_AUTH_VIEW_SIGN_IN } from "./user-menu.constants.js";
+import { USER_MENU_AUTH_VIEW_SIGN_UP } from "./user-menu.constants.js";
+import { THEME_DARK_KEY } from "../../../services/theme/theme-index.js";
+import { THEME_LIGHT_KEY } from "../../../services/theme/theme-index.js";
 
 // Renders the user menu in the signed-in state.
 function userMenuRenderSignedIn(number) {
@@ -18,7 +22,7 @@ function userMenuRenderSignedIn(number) {
 }
 
 // Renders the user menu in the signed-out state.
-function userMenuRenderSignedOut() {
+function userMenuRenderSignedOut(authNumber) {
   userMenuStateSet({ stateAuth: false });
 
   userMenuDomSet({
@@ -27,13 +31,18 @@ function userMenuRenderSignedOut() {
     showViewSignedOut: true,
     showViewSignedIn: false,
     accountFieldSignedIn: "",
+    accountFieldSignedOut: authNumber,
   });
 }
 
 // Updates the UI to reflect the selected theme.
-function userMenuRenderTheme(theme) {
-  const dom = userMenuDomGet();
-  const isDark = theme === THEME_DARK;
+function userMenuRenderSwitchTheme(theme) {
+  if (theme !== THEME_DARK_KEY) {
+    theme = THEME_LIGHT_KEY;
+  }
+
+  const isDark = theme === THEME_DARK_KEY;
+  const dom = userMenuDomSet();
 
   dom.themeBtns.forEach((button) => {
     button.classList.toggle(USER_MENU_ACTIVE_CLASS, button.dataset.theme === theme);
@@ -43,29 +52,24 @@ function userMenuRenderTheme(theme) {
   dom.themeTrack?.classList.toggle(USER_MENU_THEME_DARK_CLASS, isDark);
 }
 
-// Switches the authentication view between sign-in and sign-up.
-function userMenuAuthSwitch(view) {
-  const nextView = view === USER_MENU_AUTH_VIEW_SIGN_UP
-    ? USER_MENU_AUTH_VIEW_SIGN_UP
-    : USER_MENU_AUTH_VIEW_SIGN_IN;
-
-  const dom = userMenuDomGet();
-  const isSignUp = nextView === USER_MENU_AUTH_VIEW_SIGN_UP;
-
-  if (dom.authTrack?.classList.contains(USER_MENU_AUTH_SIGN_UP_CLASS) === isSignUp) {
-    return;
+// Updates the UI to reflect the selected authentication view.
+function userMenuRenderSwitchAuth(view) {
+  if (view !== USER_MENU_AUTH_VIEW_SIGN_UP) {
+    view = USER_MENU_AUTH_VIEW_SIGN_IN;
   }
-
-  userMenuDomSet({
+  
+  const isSignUp = view === USER_MENU_AUTH_VIEW_SIGN_UP;
+  const dom = userMenuDomSet({
     showViewSignIn: !isSignUp,
     showViewSignUp: isSignUp,
   });
 
   dom.authBtns.forEach((button) => {
-    button.classList.toggle(USER_MENU_ACTIVE_CLASS, button.dataset.view === nextView);
+    button.classList.toggle(USER_MENU_ACTIVE_CLASS, button.dataset.view === view);
   });
-
-  void userMenuAnimationSwitchAuth(nextView);
 }
 
-export { userMenuAuthSwitch, userMenuRenderSignedIn, userMenuRenderSignedOut, userMenuRenderTheme };
+export { userMenuRenderSignedIn };
+export { userMenuRenderSignedOut };
+export { userMenuRenderSwitchTheme };
+export { userMenuRenderSwitchAuth };

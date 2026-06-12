@@ -1,6 +1,5 @@
-import { authStorageGet } from "../../../../accounts/accounts-index.js";
-import { dataActionUpdate } from "../../../../accounts/accounts-index.js";
-import { dataCodeTypeHotp } from "../../../../accounts/accounts-index.js";
+import { authStorageGet } from "../../../../services/auth/auth-index.js";
+import { dataActionUpdate, dataCodeTypeHotp } from "../../../../services/data/data-index.js";
 
 import { headerActionIconsDisable } from "../../header/header-index.js";
 import { headerActionIconsEnable } from "../../header/header-index.js";

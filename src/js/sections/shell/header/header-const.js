@@ -4,7 +4,7 @@ import {
   VAR_POP_MS,
   VAR_STAGGER_MS,
   VAR_TYPE_MS,
-} from "../../../utils/motion-const.js";
+} from "../../../utils/utility-const.js";
 
 // Shell selectors.
 export const HEADER_ROOT_SELECTOR = ".app-header";

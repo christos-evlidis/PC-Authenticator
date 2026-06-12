@@ -1,4 +1,4 @@
-import { VAR_BLUR_MS, VAR_BUFFER_MS, VAR_DOTS_RUN_MS, VAR_EXPAND_FULL_MS, VAR_EXPAND_UP_MS, VAR_FADE_MS, VAR_HOLD_MS, VAR_RESULT_MAIN_DRAW_MS, VAR_SHRINK_DOWN_MS, VAR_SHRINK_FULL_MS, VAR_SLIDE_MS } from "../../../utils/motion-const.js";
+import { VAR_BLUR_MS, VAR_BUFFER_MS, VAR_DOTS_RUN_MS, VAR_EXPAND_FULL_MS, VAR_EXPAND_UP_MS, VAR_FADE_MS, VAR_HOLD_MS, VAR_RESULT_MAIN_DRAW_MS, VAR_SHRINK_DOWN_MS, VAR_SHRINK_FULL_MS, VAR_SLIDE_MS } from "../../../utils/utility-const.js";
 
 // Overlay shell selectors.
 export const USER_MENU_ROOT_SELECTOR = ".app-user-menu";
@@ -91,7 +91,7 @@ export const USER_MENU_VAR_THEME_THUMB_MS = VAR_SLIDE_MS;
 export const USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS = VAR_BUFFER_MS;
 
 // Sign-in animation phase classes.
-export const USER_MENU_SIGN_IN_RUNNING_CLASS = "is-sign-in-running";
+export const USER_MENU_SIGN_IN_RUNNING_CLASS = "is-animating";
 export const USER_MENU_SIGN_IN_LOCKED_CLASS = "is-sign-in-locked";
 export const USER_MENU_SIGN_IN_ABSOLUTE_CLASS = "is-sign-in-absolute";
 
@@ -197,7 +197,7 @@ export const USER_MENU_SIGN_IN_CONTENT_PHASE_CLASSES = [
 ];
 
 // Sign-up animation phase classes.
-export const USER_MENU_SIGN_UP_RUNNING_CLASS = "is-sign-in-running";
+export const USER_MENU_SIGN_UP_RUNNING_CLASS = "is-animating";
 export const USER_MENU_SIGN_UP_LOCKED_CLASS = "is-sign-in-locked";
 export const USER_MENU_SIGN_UP_ABSOLUTE_CLASS = "is-sign-in-absolute";
 
@@ -301,7 +301,7 @@ export const USER_MENU_SIGN_UP_CONTENT_PHASE_CLASSES = [
 ];
 
 // Sign-out animation phase classes.
-export const USER_MENU_SIGN_OUT_RUNNING_CLASS = "is-sign-in-running";
+export const USER_MENU_SIGN_OUT_RUNNING_CLASS = "is-animating";
 export const USER_MENU_SIGN_OUT_LOCKED_CLASS = "is-sign-in-locked";
 export const USER_MENU_SIGN_OUT_ABSOLUTE_CLASS = "is-sign-in-absolute";
 

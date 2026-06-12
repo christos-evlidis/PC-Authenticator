@@ -1,5 +1,5 @@
 import { animCssMsGet } from "../../../../../utils/utility-animation.js";
-import { VAR_SLIDE_MS } from "../../../../../utils/motion-const.js";
+import { VAR_SLIDE_MS } from "../../../../../utils/utility-const.js";
 import { CODES_LIST_SELECTOR, CODES_ROOT_SELECTOR } from "../../codes-const.js";
 
 const CARD_SELECTOR =

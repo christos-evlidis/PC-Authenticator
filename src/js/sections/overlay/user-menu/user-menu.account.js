@@ -1,25 +1,21 @@
-import { authStorageGet } from "../../../accounts/accounts-index.js";
+import { appStateGet } from "../../../app/app.state.js";
 
 // Copies the signed-in user's account number to their clipboard.
 async function userMenuAccountNumberCopy() {
-  const authNumber = await authStorageGet();
+  const authKey = appStateGet().authKey;
 
-  if (!authNumber) {
-    return;
-  }
+  if (!authKey) { return; }
 
-  await navigator.clipboard?.writeText(authNumber);
+  await navigator.clipboard?.writeText(authKey);
 }
 
 // Triggers a file download containing the signed-in user's account number.
 async function userMenuAccountNumberDownload() {
-  const authNumber = await authStorageGet();
+  const authKey = appStateGet().authKey;
 
-  if (!authNumber) {
-    return;
-  }
+  if (!authKey) { return; }
 
-  const blob = new Blob([`${authNumber}\n`], { type: "text/plain" });
+  const blob = new Blob([authKey], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
 

@@ -1,5 +1,5 @@
-import { authStorageGet } from "../../../../accounts/accounts-index.js";
-import { dataActionDelete } from "../../../../accounts/accounts-index.js";
+import { authStorageGet } from "../../../../services/auth/auth-index.js";
+import { dataActionDelete } from "../../../../services/data/data-index.js";
 
 import { headerActionIconsDisable } from "../../header/header-index.js";
 import { headerActionIconsEnable } from "../../header/header-index.js";

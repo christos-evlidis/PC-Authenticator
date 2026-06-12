@@ -1,4 +1,4 @@
-import { VAR_SLIDE_MS, VAR_STAGGER_MS } from "../../../utils/motion-const.js";
+import { VAR_SLIDE_MS, VAR_STAGGER_MS } from "../../../utils/utility-const.js";
 
 // Shell selectors.
 export const CODES_ROOT_SELECTOR = ".codes-section";

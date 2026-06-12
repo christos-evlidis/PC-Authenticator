@@ -1,6 +1,7 @@
 import { HEADER_HIDDEN_CLASS } from "./header-const.js";
 import { HEADER_SIGNED_IN_VIEW_SELECTOR } from "./header-const.js";
 import { HEADER_SIGNED_OUT_VIEW_SELECTOR } from "./header-const.js";
+import { headerAnimationInstant } from "./animation/instant.js";
 
 function headerInit(isSignedIn) {
   const signedOutView = document.querySelector(HEADER_SIGNED_OUT_VIEW_SELECTOR);
@@ -11,6 +12,24 @@ function headerInit(isSignedIn) {
 }
 
 export { headerInit };
+
+function headerApplySignedIn(options = {}) {
+  headerInit(true);
+
+  if (options.instant) {
+    headerAnimationInstant();
+  }
+}
+
+function headerApplySignedOut(options = {}) {
+  headerInit(false);
+
+  if (options.instant) {
+    headerAnimationInstant();
+  }
+}
+
+export { headerApplySignedIn, headerApplySignedOut };
 
 export { headerActionIconsDisable } from "./action/icons/disable.js";
 export { headerActionIconsEnable } from "./action/icons/enable.js";

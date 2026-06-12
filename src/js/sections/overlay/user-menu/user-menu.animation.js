@@ -1,5 +1,5 @@
 import { animAnimationEndWait, animCssMsGet, animDelay, animFrameWait, animPhaseReset, animTransitionEndWait } from "../../../utils/utility-animation.js";
-import { THEME_DARK } from "../../../theme/theme.js";
+import { THEME_DARK_KEY } from "../../../services/theme/theme-index.js";
 import { userMenuDomGet } from "./user-menu.dom.js";
 import { userMenuStateRunIdGet, userMenuStateRunIdNext } from "./user-menu.state.js";
 import * as UM from "./user-menu.constants.js";
@@ -638,7 +638,7 @@ async function userMenuAnimationSwitchTheme(theme) {
     return;
   }
 
-  const isDark = theme === THEME_DARK;
+  const isDark = theme === THEME_DARK_KEY;
 
   track.classList.toggle(UM.USER_MENU_THEME_LIGHT_CLASS, !isDark);
   track.classList.toggle(UM.USER_MENU_THEME_DARK_CLASS, isDark);

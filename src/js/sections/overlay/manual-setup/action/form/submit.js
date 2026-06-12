@@ -1,7 +1,7 @@
-import { authStorageGet } from "../../../../../accounts/accounts-index.js";
-import { dataActionAddManual } from "../../../../../accounts/accounts-index.js";
+import { authStorageGet } from "../../../../../services/auth/auth-index.js";
+import { dataActionAddManual } from "../../../../../services/data/data-index.js";
 import { codesActionAdd } from "../../../../shell/codes/action/add.js";
-import { authChromeApply } from "../../../../../utils/utility-auth.js";
+import { appSessionRefresh } from "../../../../../app/app.session.js";
 import { manualSetupActionFormEnable } from "./enable.js";
 import { manualSetupActionFormReset } from "./reset.js";
 import { manualSetupActionPanelClose } from "../panel/close.js";
@@ -64,11 +64,7 @@ async function manualSetupActionFormSubmit(event) {
 
   if (isSuccess && addedAccount) {
     await codesActionAdd(addedAccount);
-    await authChromeApply({
-      isSignedIn: true,
-      hasAccounts: true,
-      authNumber: await authStorageGet(),
-    });
+    await appSessionRefresh();
   }
 
   document.querySelector(MANUAL_SETUP_ROOT_SELECTOR)?.classList.remove(MANUAL_SETUP_SUBMITTING_CLASS);

@@ -1,4 +1,4 @@
-import { VAR_BUFFER_MS, VAR_POP_MS, VAR_TYPE_MS } from "../../../utils/motion-const.js";
+import { VAR_BUFFER_MS, VAR_POP_MS, VAR_TYPE_MS } from "../../../utils/utility-const.js";
 
 // Layout measurement anchors.
 export const EXTENSION_FRAME_SELECTOR = ".extension-frame";

@@ -1,5 +1,5 @@
-import { qrSetupActionPanelClose } from "../../../qr-code-setup/action/panel/close.js";
-import { qrSetupStateGet } from "../../../qr-code-setup/state/get.js";
+import { qrSetupPanelClose } from "../../../qr-code-setup/qr-code-setup.index.js";
+import { qrSetupStateGet } from "../../../qr-code-setup/qr-code-setup.state.js";
 import { manualSetupAnimationOpen } from "../../animation/open.js";
 import { manualSetupStateGet } from "../../state/get.js";
 import { manualSetupStateSet } from "../../state/set.js";
@@ -11,7 +11,7 @@ async function manualSetupActionPanelOpen() {
   }
 
   if (qrSetupStateGet().isOpen) {
-    await qrSetupActionPanelClose();
+    await qrSetupPanelClose();
   }
 
   manualSetupStateSet({ isOpen: true });

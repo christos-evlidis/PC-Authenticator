@@ -1,18 +1,18 @@
 import { userMenuDomGet } from "./user-menu.dom.js";
 import { userMenuEventsBind } from "./user-menu.events.js";
-import { userMenuRenderSignedIn, userMenuRenderSignedOut, userMenuRenderTheme } from "./user-menu.render.js";
+import { userMenuRenderSignedIn } from "./user-menu.render.js";
+import { userMenuRenderSignedOut } from "./user-menu.render.js";
+import { userMenuRenderSwitchTheme } from "./user-menu.render.js";
+import { userMenuRenderSwitchAuth } from "./user-menu.render.js";
 
-import { themeGet } from "../../../theme/theme.js";
+import { appShellThemeGet } from "../../../app/app.shell.js";
+import { appShellAuthGet } from "../../../app/app.shell.js";
 
 // Initializes the user menu module and its DOM elements.
 function userMenuInit(isSignedIn, authNumber) {
-  userMenuDomGet();
   userMenuEventsBind();
-  userMenuRenderTheme(themeGet());
-
-  if (isSignedIn === undefined) {
-    return;
-  }
+  userMenuRenderSwitchTheme(appShellThemeGet());
+  userMenuRenderSwitchAuth(appShellAuthGet());
 
   if (isSignedIn) {
     userMenuRenderSignedIn(authNumber);

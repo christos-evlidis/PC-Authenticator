@@ -360,11 +360,20 @@ body.is-auth-flow-locked .qr-setup.is-panel-open .qr-setup__backdrop {
     transition: opacity var(--fade-ms) ease !important;
 }
 
-.qr-setup__panel.is-resume-running:not(.is-resume-fade) .qr-setup__header,
-.qr-setup__panel.is-resume-running:not(.is-resume-fade) .qr-setup__guide {
+.qr-setup__panel.is-animating:not(.is-resume-fade) .qr-setup__header,
+.qr-setup__panel.is-animating:not(.is-resume-fade) .qr-setup__guide {
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
+}
+
+.qr-setup__panel.is-animating {
+    position: relative;
+    overflow: visible;
+}
+
+.qr-setup__panel.is-animating .qr-setup__content {
+    overflow: hidden;
 }
 
 @keyframes qrSetupStatusFadeIn {

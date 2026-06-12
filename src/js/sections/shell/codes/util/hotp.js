@@ -1,5 +1,4 @@
-import { DATA_COUNTER_MIN } from "../../../../accounts/accounts-index.js";
-import { DATA_HOTP_COUNTER_DEFAULT } from "../../../../accounts/accounts-index.js";
+import { DATA_COUNTER_MIN, DATA_HOTP_COUNTER_DEFAULT } from "../../../../services/data/data-index.js";
 
 /** Returns the numeric HOTP counter for an account. */
 function codesUtilHotpCounterValue(account) {

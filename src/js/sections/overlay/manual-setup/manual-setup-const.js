@@ -10,7 +10,7 @@ import {
   VAR_SHRINK_DOWN_MS,
   VAR_SHRINK_FULL_MS,
   VAR_SLIDE_MS,
-} from "../../../utils/motion-const.js";
+} from "../../../utils/utility-const.js";
 
 // Overlay shell selectors.
 export const MANUAL_SETUP_ROOT_SELECTOR = ".manual-setup";

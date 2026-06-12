@@ -1,7 +1,4 @@
-import { dataCodeClock } from "../../../../accounts/accounts-index.js";
-import { dataCodeGenerate } from "../../../../accounts/accounts-index.js";
-import { dataCodeOptions } from "../../../../accounts/accounts-index.js";
-import { dataCodeTypeHotp } from "../../../../accounts/accounts-index.js";
+import { dataCodeClock, dataCodeGenerate, dataCodeOptions, dataCodeTypeHotp } from "../../../../services/data/data-index.js";
 
 import { codesStateStore } from "../state/store.js";
 import { codesUtilPiePathBuild } from "../util/pie.js";
