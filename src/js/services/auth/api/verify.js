@@ -8,19 +8,18 @@ async function authApiVerify(authNumber) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ account_number: authNumber }),
     });
-
     if (!response.ok) {
       console.warn(
         `[auth-api] authApiVerify HTTP ${response.status}`,
         response.statusText,
       );
-      return { success: false };
+      return false;
     }
-
-    return response.json();
+    const data = await response.json();
+    return data?.success === true;
   } catch (error) {
     console.warn("[auth-api] authApiVerify failed", error);
-    throw error;
+    return false;
   }
 }
 

@@ -1,7 +1,7 @@
-import { authStorageGet } from "../../../../../services/auth/auth-index.js";
-import { dataActionAddManual } from "../../../../../services/data/data-index.js";
-import { codesActionAdd } from "../../../../shell/codes/action/add.js";
-import { appSessionRefresh } from "../../../../../app/app.session.js";
+import { authStorageGet } from "../../../../services/auth/auth-index.js";
+import { dataActionAddManual } from "../../../../services/data/data-index.js";
+import { codesActionAdd } from "../../../shell/codes/action/add.js";
+import { appSessionRefresh } from "../../../../app/app.session.js";
 import { manualSetupPanelClose } from "./manual-setup.panel.js";
 import { manualSetupAnimationSubmitFinish, manualSetupAnimationSubmit } from "../manual-setup.animation.js";
 import { manualSetupStateGet } from "../manual-setup.state.js";
@@ -10,7 +10,7 @@ import {
   MANUAL_SETUP_ROOT_SELECTOR,
   MANUAL_SETUP_SUBMITTING_CLASS,
   MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR,
-} from "../../../../../const/const.manual-setup.js";
+} from "../../../../const/const.manual-setup.js";
 
 function manualSetupFormEnable(form) {
   const submit = form.querySelector(".manual-setup__submit");

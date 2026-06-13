@@ -11,7 +11,6 @@ import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../../../const/const.user-menu.js";
 // Renders the user menu in the signed-in state.
 function userMenuRenderSignedIn(authKey) {
   userMenuStateSet({ stateAuth: true });
-
   userMenuDomSet({
     showBarAuth: false,
     showBarTheme: true,
@@ -24,7 +23,6 @@ function userMenuRenderSignedIn(authKey) {
 // Renders the user menu in the signed-out state.
 function userMenuRenderSignedOut(authKey) {
   userMenuStateSet({ stateAuth: false });
-
   userMenuDomSet({
     showBarAuth: true,
     showBarTheme: false,
@@ -40,7 +38,6 @@ function userMenuRenderSwitchTheme(themeView) {
   if (themeView !== THEME_DARK_KEY) {
     themeView = THEME_LIGHT_KEY;
   }
-
   userMenuDomSet({ theme: themeView });
 }
 
@@ -49,7 +46,6 @@ function userMenuRenderSwitchAuth(authView) {
   if (authView !== USER_MENU_AUTH_VIEW_SIGN_UP) {
     authView = USER_MENU_AUTH_VIEW_SIGN_IN;
   }
-  
   userMenuDomSet({
     showViewSignIn: authView !== USER_MENU_AUTH_VIEW_SIGN_UP,
     showViewSignUp: authView === USER_MENU_AUTH_VIEW_SIGN_UP,

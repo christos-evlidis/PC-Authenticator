@@ -12,13 +12,10 @@ import { bodyAnimationFinish } from "./animation/finish.js";
 function bodyInit(isSignedIn, options = {}) {
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
   const signedInView = document.querySelector(BODY_SIGNED_IN_VIEW_SELECTOR);
-
   signedOutView?.classList.toggle(BODY_HIDDEN_CLASS, isSignedIn);
   signedInView?.classList.toggle(BODY_HIDDEN_CLASS, !isSignedIn);
-
   if (isSignedIn) {
-    const showCodes = options.hasAccounts === true;
-
+    const showCodes = options.stateCodes === true;
     document
       .querySelector(BODY_CONTENT_SIGNED_IN_SELECTOR)
       ?.classList.toggle(BODY_CONTENT_HIDDEN_CLASS, showCodes);
@@ -30,11 +27,11 @@ function bodyInit(isSignedIn, options = {}) {
 export { bodyInit };
 
 function bodyApplySignedIn(options = {}) {
-  bodyInit(true, { hasAccounts: options.hasAccounts });
+  bodyInit(true, { stateCodes: options.stateCodes });
 }
 
 function bodyApplySignedOut() {
-  bodyInit(false, { hasAccounts: false });
+  bodyInit(false, { stateCodes: false });
 }
 
 export { bodyApplySignedIn, bodyApplySignedOut };

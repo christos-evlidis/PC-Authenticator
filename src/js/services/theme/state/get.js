@@ -1,6 +1,6 @@
-import { THEME_DARK_CLASS } from "../../../const/const.theme.js";
+import { THEME_DARK_CLASS, THEME_DARK_KEY, THEME_LIGHT_KEY } from "../../../const/const.theme.js";
 
-/** Returns whether dark mode is active on the body layer. */
+/** Returns the theme active on the body layer. */
 export function themeStateGet() {
-  return document.body.classList.contains(THEME_DARK_CLASS);
+  return document.body.classList.contains(THEME_DARK_CLASS) ? THEME_DARK_KEY : THEME_LIGHT_KEY;
 }

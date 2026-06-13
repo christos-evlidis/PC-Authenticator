@@ -82,64 +82,48 @@ function userMenuDomGet() {
 // Updates user menu DOM element properties based on the provided state object.
 function userMenuDomSet(next = {}) {
   const dom = userMenuDomQuery();
-
   if (typeof next.accountFieldSignedIn === "string" && dom.accountFieldSignedIn) {
     dom.accountFieldSignedIn.value = next.accountFieldSignedIn;
   }
-
   if (typeof next.accountFieldSignedOut === "string" && dom.accountFieldSignedOut) {
     dom.accountFieldSignedOut.value = next.accountFieldSignedOut;
   }
-
   if (typeof next.showBarAuth === "boolean") {
     dom.authBar?.classList.toggle(USER_MENU_HIDDEN_CLASS, !next.showBarAuth);
   }
-
   if (typeof next.showBarTheme === "boolean") {
     dom.themeBar?.classList.toggle(USER_MENU_HIDDEN_CLASS, !next.showBarTheme);
   }
-
   if (typeof next.showViewSignedIn === "boolean") {
     dom.signedInView?.classList.toggle(USER_MENU_HIDDEN_CLASS, !next.showViewSignedIn);
   }
-
   if (typeof next.showViewSignedOut === "boolean") {
     dom.signedOutView?.classList.toggle(USER_MENU_HIDDEN_CLASS, !next.showViewSignedOut);
   }
-
   if (typeof next.showViewSignIn === "boolean") {
     dom.signInView?.classList.toggle(USER_MENU_HIDDEN_CLASS, !next.showViewSignIn);
   }
-
   if (typeof next.showViewSignUp === "boolean") {
     dom.signUpView?.classList.toggle(USER_MENU_HIDDEN_CLASS, !next.showViewSignUp);
   }
-
   if (typeof next.authView === "string") {
     const isSignUp = next.authView === USER_MENU_AUTH_VIEW_SIGN_UP;
     dom.authBtns.forEach((button) => button.classList.toggle(USER_MENU_VIEW_ACTIVE_AUTH, button.dataset.view === next.authView));
     dom.authTrack?.classList.toggle(USER_MENU_AUTH_SIGN_IN_CLASS, !isSignUp);
     dom.authTrack?.classList.toggle(USER_MENU_AUTH_SIGN_UP_CLASS, isSignUp);
   }
-
   if (typeof next.theme === "string") {
     const isDark = next.theme === THEME_DARK_KEY;
-    
     dom.themeBtns.forEach((button) => button.classList.toggle(USER_MENU_VIEW_ACTIVE_THEME, button.dataset.theme === next.theme));
-
     dom.themeTrack?.classList.toggle(USER_MENU_THEME_VIEW_LIGHT, !isDark);
-
     dom.themeTrack?.classList.toggle(USER_MENU_THEME_VIEW_DARK, isDark);
   }
-
   if (typeof next.showCopyCheck === "boolean") {
     dom.accountCopyBtn?.classList.toggle("is-success-active", next.showCopyCheck);
   }
-
   if (typeof next.showDownloadCheck === "boolean") {
     dom.accountDownloadBtn?.classList.toggle("is-success-active", next.showDownloadCheck);
   }
-
   return dom;
 }
 

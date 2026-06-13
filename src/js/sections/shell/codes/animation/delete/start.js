@@ -239,11 +239,11 @@ async function codesAnimationDeleteStart(card, remainingAccounts) {
   if (!safeRemaining.length) {
     codesTickerStop();
     list.classList.add(CODES_HIDDEN_CLASS);
-    appShellRefresh({ isSignedIn: true, hasAccounts: false });
+    appShellRefresh({ stateAuth: true, stateCodes: false });
     bodyAnimationReset();
     await bodyAnimationStart();
   } else {
-    appShellRefresh({ isSignedIn: true, hasAccounts: true });
+    appShellRefresh({ stateAuth: true, stateCodes: true });
   }
 }
 

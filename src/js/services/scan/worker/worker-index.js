@@ -12,12 +12,12 @@ import { MESSAGES, UNSUPPORTED_PAGE_ERROR } from "../../../const/const.scan.js";
 function workerScriptInit() {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     const { action } = message;
-
     if (action === MESSAGES.CANCELLED_EVENT) {
-      workerHandleAbort({ removeTabOverlay: false });
+      workerHandleAbort({ removeTabOverlay: false }).then(() => {
+        chrome.action.openPopup().catch(() => {});
+      });
       return false;
     }
-
     const asyncAction = {
       [MESSAGES.START]: () => workerHandleStart(),
       [MESSAGES.GET_SCAN_TARGET]: () => workerHandleTarget(),
@@ -30,13 +30,10 @@ function workerScriptInit() {
       },
       [MESSAGES.CANCEL]: () => workerHandleAbort({ removeTabOverlay: true }),
     };
-
     const run = asyncAction[action];
-
     if (!run) {
       return false;
     }
-
     run()
       .then((result) => {
         sendResponse(
@@ -47,7 +44,6 @@ function workerScriptInit() {
         console.warn("[scan-worker] message handler failed", error);
         sendResponse({ success: false, error: UNSUPPORTED_PAGE_ERROR });
       });
-
     return true;
   });
 }

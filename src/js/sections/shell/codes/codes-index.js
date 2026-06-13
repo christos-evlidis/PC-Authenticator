@@ -1,4 +1,4 @@
-﻿import { authStorageGet } from "../../../services/auth/auth-index.js";
+import { authStorageGet } from "../../../services/auth/auth-index.js";
 import { dataHandleSync } from "../../../services/data/data-index.js";
 
 import { bodyInit } from "../body/body-index.js";
@@ -22,43 +22,31 @@ let codesInitListenersRegistered = false;
 function codesCardRender(accounts, options = {}) {
   const { list, template } = codesElementsGet();
   const playIntro = Boolean(options.playIntro);
-
   codesTickerStop();
-
   if (!list || !template) {
     return [];
   }
-
   list.replaceChildren([]);
-
   const safeAccounts = Array.isArray(accounts) ? accounts : [];
   const renderableAccounts = safeAccounts.filter((account) => account?.secret);
   const isEmpty = renderableAccounts.length === 0;
-
-  bodyInit(true, { hasAccounts: !isEmpty });
+  bodyInit(true, { stateCodes: !isEmpty });
   list.classList.toggle(CODES_HIDDEN_CLASS, isEmpty);
-
   if (isEmpty) {
     return [];
   }
-
   const cards = [];
-
   for (const account of renderableAccounts) {
     const card = codesCardCreate(template, account);
-
     if (card) {
       if (playIntro) {
         codesAnimationIntroReset(card);
       }
-
       list.append(card);
       cards.push(card);
     }
   }
-
   codesTickerStart();
-
   return cards;
 }
 

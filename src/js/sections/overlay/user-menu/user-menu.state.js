@@ -19,11 +19,9 @@ function userMenuStateSet(next) {
   if (typeof next.statePanel === "boolean") {
     userMenuStateStore.statePanel = next.statePanel;
   }
-
   if (typeof next.stateAuth === "boolean") {
     userMenuStateStore.stateAuth = next.stateAuth;
   }
-
   if (typeof next.stateAnim === "boolean") {
     userMenuStateStore.stateAnim = next.stateAnim;
   }

@@ -11,8 +11,8 @@ import { userMenuRenderSwitchAuth } from "../user-menu.render.js";
 
 import { appStateGet } from "../../../../app/app.state.js";
 
-import { appActionGetTheme } from "../../../../app/app.actions.js";
-import { appActionGetAuth } from "../../../../app/app.actions.js";
+import { appAuthGet } from "../../../../app/app.actions.js";
+import { themeStateGet } from "../../../../services/theme/state/get.js";
 
 
 // Opens the user menu panel.
@@ -20,19 +20,15 @@ async function userMenuPanelOpen() {
   if (userMenuStateGet().statePanel) {
     return;
   }
-
   const { stateAuth, authKey } = appStateGet();
-  userMenuRenderSwitchTheme(appActionGetTheme());
-  userMenuRenderSwitchAuth(appActionGetAuth());
-
+  userMenuRenderSwitchTheme(themeStateGet());
+  userMenuRenderSwitchAuth(appAuthGet());
   if (stateAuth) {
     userMenuRenderSignedIn(authKey);
   } else {
     userMenuRenderSignedOut(authKey);
   }
-
   userMenuStateSet({ statePanel: true });
-
   await userMenuAnimationPanelOpen();
 }
 
@@ -41,9 +37,7 @@ async function userMenuPanelClose() {
   if (!userMenuStateGet().statePanel) {
     return;
   }
-
   userMenuStateSet({ statePanel: false });
-
   await userMenuAnimationPanelClose();
 }
 

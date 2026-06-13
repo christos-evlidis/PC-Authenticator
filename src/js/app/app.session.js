@@ -11,29 +11,23 @@ import { appStateSet } from "./app.state.js";
  */
 async function appSessionRefresh() {
   const authKey = await authStorageGet();
-
   const authState = Boolean(authKey);
-
-  const accounts = (await dataStorageReadyGet()) || [];
-
+  const authCodes = (await dataStorageReadyGet()) || [];
   appStateSet({
     stateAuth: authState,
     authKey,
   });
-
   appShellRefresh({
-    isSignedIn: authState,
-    hasAccounts: accounts.length > 0,
+    stateAuth: authState,
+    stateCodes: authCodes.length > 0,
   });
-
   if (authState) {
     userMenuRenderSignedIn(authKey);
   } else {
     userMenuRenderSignedOut();
   }
-
   if (authState) {
-    await codesInit(accounts);
+    await codesInit(authCodes);
   }
 }
 
