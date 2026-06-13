@@ -5,15 +5,16 @@ import { authStorageClear } from "../services/auth/auth-index.js";
 import { authStorageSet } from "../services/auth/auth-index.js";
 
 import { dataStoragePurge } from "../services/data/data-index.js";
-import { themeActionApply, THEME_DARK_KEY, THEME_LIGHT_KEY } from "../services/theme/theme-index.js";
+import { themeActionApply } from "../services/theme/theme-index.js";
+import { themeStateGet } from "../services/theme/state/get.js";
 import { appStateGet } from "./app.state.js";
 
 /**
  * Initiates the sign-in process with the provided account number.
  */
 async function appSignIn(input) {
-  const authKey = authSanitizeNumber(input);
   try {
+    const authKey = authSanitizeNumber(input);
     const result = await authApiVerify(authKey);
     if (result) {
       await authStorageSet(authKey);
@@ -54,14 +55,29 @@ async function appSignOut() {
  * Applies the specified theme.
  */
 function appThemeApply(theme) {
-  themeActionApply(theme);
+  try {
+    themeActionApply(theme);
+  } catch {}
 }
 
 /**
  * Retrieves the active account authentication key from state.
  */
 function appAuthGet() {
-  return appStateGet().authKey;
+  try {
+    return appStateGet().authKey;
+  } catch {}
+  return null;
+}
+
+/**
+ * Retrieves the active application theme key.
+ */
+function appThemeGet() {
+  try {
+    return themeStateGet();
+  } catch {}
+  return null;
 }
 
 export { appSignIn };
@@ -69,4 +85,4 @@ export { appSignOut };
 export { appSignUp };
 export { appAuthGet };
 export { appThemeApply };
-export { THEME_DARK_KEY, THEME_LIGHT_KEY };
+export { appThemeGet };

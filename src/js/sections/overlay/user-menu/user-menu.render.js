@@ -1,60 +1,52 @@
 import { userMenuDomSet } from "./user-menu.dom.js";
 import { userMenuStateSet } from "./user-menu.state.js";
 
-import { THEME_DARK_KEY } from "../../../app/app.actions.js";
-import { THEME_LIGHT_KEY } from "../../../app/app.actions.js";
+import { THEME_DARK_KEY, THEME_LIGHT_KEY } from "../../../const/const.theme.js";
+import { USER_MENU_AUTH_VIEW_SIGN_IN, USER_MENU_AUTH_VIEW_SIGN_UP } from "../../../const/const.user-menu.js";
 
-import { USER_MENU_AUTH_VIEW_SIGN_IN } from "../../../const/const.user-menu.js";
-import { USER_MENU_AUTH_VIEW_SIGN_UP } from "../../../const/const.user-menu.js";
-
-
-// Renders the user menu in the signed-in state.
+/** Renders the user menu in the signed-in state. */
 function userMenuRenderSignedIn(authKey) {
-  userMenuStateSet({ stateAuth: true });
+  userMenuStateSet({ stateAuth: true }); // Mark the user-menu state as signed in.
   userMenuDomSet({
-    showBarAuth: false,
-    showBarTheme: true,
-    showViewSignedOut: false,
-    showViewSignedIn: true,
-    accountFieldSignedIn: authKey ?? "",
+    showBarAuth: false, // Hide the sign-in/sign-up tab bar.
+    showBarTheme: true, // Show the light/dark theme tab bar.
+    showViewSignedOut: false, // Hide the signed-out content block.
+    showViewSignedIn: true, // Show the signed-in content block.
+    accountFieldSignedIn: authKey ?? "", // Fill the signed-in account number field.
   });
 }
 
-// Renders the user menu in the signed-out state.
+/** Renders the user menu in the signed-out state. */
 function userMenuRenderSignedOut(authKey) {
-  userMenuStateSet({ stateAuth: false });
+  userMenuStateSet({ stateAuth: false }); // Mark the user-menu state as signed out.
   userMenuDomSet({
-    showBarAuth: true,
-    showBarTheme: false,
-    showViewSignedOut: true,
-    showViewSignedIn: false,
-    accountFieldSignedIn: "",
-    accountFieldSignedOut: authKey,
+    showBarAuth: true, // Show the sign-in/sign-up tab bar.
+    showBarTheme: false, // Hide the light/dark theme tab bar.
+    showViewSignedOut: true, // Show the signed-out content block.
+    showViewSignedIn: false, // Hide the signed-in content block.
+    accountFieldSignedIn: "", // Clear the signed-in account number field.
+    accountFieldSignedOut: authKey, // Seed the sign-in input with the provided account key when available.
   });
 }
 
-// Updates the UI to reflect the selected theme.
+/** Updates the user-menu theme toggle UI for the selected theme. */
 function userMenuRenderSwitchTheme(themeView) {
-  if (themeView !== THEME_DARK_KEY) {
-    themeView = THEME_LIGHT_KEY;
+  if (themeView !== THEME_DARK_KEY) { // Fall back to light theme for any non-dark value.
+    themeView = THEME_LIGHT_KEY; // Normalize the theme key to light mode.
   }
-  userMenuDomSet({ theme: themeView });
+  userMenuDomSet({ theme: themeView }); // Apply the active theme classes and button states.
 }
 
-// Updates the UI to reflect the selected authentication view.
+/** Updates the user-menu auth tab UI for the selected auth view. */
 function userMenuRenderSwitchAuth(authView) {
-  if (authView !== USER_MENU_AUTH_VIEW_SIGN_UP) {
-    authView = USER_MENU_AUTH_VIEW_SIGN_IN;
+  if (authView !== USER_MENU_AUTH_VIEW_SIGN_UP) { // Fall back to sign-in for any non-sign-up value.
+    authView = USER_MENU_AUTH_VIEW_SIGN_IN; // Normalize the auth view to sign-in.
   }
   userMenuDomSet({
-    showViewSignIn: authView !== USER_MENU_AUTH_VIEW_SIGN_UP,
-    showViewSignUp: authView === USER_MENU_AUTH_VIEW_SIGN_UP,
-    authView: authView,
+    showViewSignIn: authView !== USER_MENU_AUTH_VIEW_SIGN_UP, // Show the sign-in form unless sign-up is active.
+    showViewSignUp: authView === USER_MENU_AUTH_VIEW_SIGN_UP, // Show the sign-up view only when sign-up is active.
+    authView: authView, // Apply the active auth tab classes and thumb position.
   });
 }
 
-
-export { userMenuRenderSignedIn };
-export { userMenuRenderSignedOut };
-export { userMenuRenderSwitchTheme };
-export { userMenuRenderSwitchAuth };
+export { userMenuRenderSignedIn, userMenuRenderSignedOut, userMenuRenderSwitchAuth, userMenuRenderSwitchTheme };

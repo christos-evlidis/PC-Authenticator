@@ -20,7 +20,7 @@ function appStateSet(next) {
   if (typeof next.stateAuth === "boolean") {
     appStateStore.stateAuth = next.stateAuth;
   }
-  if (typeof next.authKey === "string" || next.authKey === null) {
+  if (typeof next.authKey === "string") {
     appStateStore.authKey = next.authKey;
   }
 }

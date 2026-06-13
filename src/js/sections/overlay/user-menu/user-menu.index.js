@@ -1,25 +1,18 @@
+import { appAuthGet, appThemeGet } from "../../../app/app.actions.js";
+
 import { userMenuEventsBind } from "./user-menu.events.js";
+import { userMenuRenderSignedIn, userMenuRenderSignedOut, userMenuRenderSwitchAuth, userMenuRenderSwitchTheme } from "./user-menu.render.js";
 
-import { userMenuRenderSignedIn } from "./user-menu.render.js";
-import { userMenuRenderSignedOut } from "./user-menu.render.js";
-import { userMenuRenderSwitchTheme } from "./user-menu.render.js";
-import { userMenuRenderSwitchAuth } from "./user-menu.render.js";
-
-import { appAuthGet } from "../../../app/app.actions.js";
-import { themeStateGet } from "../../../services/theme/state/get.js";
-
-
-// Initializes the user menu module and its DOM elements.
+/** Initializes the user-menu module, binds events, and renders the initial view. */
 function userMenuInit(authState, authKey) {
-  userMenuEventsBind();
-  userMenuRenderSwitchTheme(themeStateGet());
-  userMenuRenderSwitchAuth(appAuthGet());
-  if (authState) {
-    userMenuRenderSignedIn(authKey);
-  } else {
-    userMenuRenderSignedOut(authKey);
+  userMenuEventsBind(); // Attach all user-menu click and submit handlers once.
+  userMenuRenderSwitchTheme(appThemeGet()); // Sync the theme toggle UI to the active Chrome theme.
+  userMenuRenderSwitchAuth(appAuthGet()); // Sync the auth tab UI to the current sign-in or sign-up view.
+  if (authState) { // Use the signed-in render path when the app is authenticated.
+    userMenuRenderSignedIn(authKey); // Show the signed-in account view and account number field.
+  } else { // Use the signed-out render path when the app is not authenticated.
+    userMenuRenderSignedOut(authKey); // Show the sign-in form, sign-up button, and auth bar.
   }
 }
-
 
 export { userMenuInit };

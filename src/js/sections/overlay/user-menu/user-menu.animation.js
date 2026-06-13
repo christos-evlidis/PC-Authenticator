@@ -1,22 +1,11 @@
-import { animAnimationEndWait } from "../../../utils/utility-animation.js";
-import { animCssMsGet } from "../../../utils/utility-animation.js";
-import { animDelay } from "../../../utils/utility-animation.js";
-import { animFrameWait } from "../../../utils/utility-animation.js";
-import { animPhaseReset } from "../../../utils/utility-animation.js";
-import { animTransitionEndWait } from "../../../utils/utility-animation.js";
+import { animAnimationEndWait, animCssMsGet, animDelay, animFrameWait, animPhaseReset, animTransitionEndWait } from "../../../utils/utility-animation.js";
 
-import { userMenuDomGet } from "./user-menu.dom.js";
-import { userMenuDomSet } from "./user-menu.dom.js";
-
-import { userMenuStateRunIdGet } from "./user-menu.state.js";
-import { userMenuStateRunIdNext } from "./user-menu.state.js";
-
-import { VAR_BUFFER_MS } from "../../../const/const.utility.js";
-import { VAR_FADE_MS } from "../../../const/const.utility.js";
-import { VAR_HOLD_MS } from "../../../const/const.utility.js";
-import { VAR_RESULT_COPY_DRAW_MS } from "../../../const/const.utility.js";
+import { userMenuDomGet, userMenuDomSet } from "./user-menu.dom.js";
+import { userMenuStateRunIdGet, userMenuStateRunIdNext } from "./user-menu.state.js";
 
 import * as UM from "../../../const/const.user-menu.js";
+
+import { VAR_BUFFER_MS, VAR_FADE_MS, VAR_HOLD_MS, VAR_RESULT_COPY_DRAW_MS } from "../../../const/const.utility.js";
 
 
 /** Cleans up all animation classes, status views, and layout variables from the user menu. */
@@ -186,7 +175,6 @@ async function userMenuAnimationRun(authType, authResult, onResult, onRestore) {
   ) {
     return authResult;
   }
-  userMenuAnimationCleanup();
   root?.classList.toggle(cfg.lockedClass, true);
   const panelRect = panel.getBoundingClientRect();
   const contentRect = content.getBoundingClientRect();
@@ -495,10 +483,10 @@ async function userMenuAnimationRun(authType, authResult, onResult, onRestore) {
     "userMenuRestoreFade",
     restoreFadeMs + timeoutBufferMs,
   );
-  userMenuAnimationCleanup();
   return authResult;
 }
 
+/** Plays the user-menu panel open animation. */
 async function userMenuAnimationPanelOpen() {
   const id = userMenuStateRunIdNext("panel");
   const dom = userMenuDomGet();
@@ -530,6 +518,7 @@ async function userMenuAnimationPanelOpen() {
   }
 }
 
+/** Plays the user-menu panel close animation. */
 async function userMenuAnimationPanelClose() {
   const id = userMenuStateRunIdNext("panel");
   const dom = userMenuDomGet();
@@ -574,7 +563,8 @@ async function userMenuAnimationPanelClose() {
   }
 }
 
-async function userMenuAnimationSwitchAuth(authView) {
+/** Waits for the auth thumb transition after a view switch. */
+async function userMenuAnimationSwitchAuth() {
   const dom = userMenuDomGet();
   const { authTrack: track, authThumb: thumb } = dom;
   if (!track || !thumb) {
@@ -588,7 +578,8 @@ async function userMenuAnimationSwitchAuth(authView) {
   );
 }
 
-async function userMenuAnimationSwitchTheme(themeView) {
+/** Waits for the theme thumb transition after a theme switch. */
+async function userMenuAnimationSwitchTheme() {
   const dom = userMenuDomGet();
   const { themeTrack: track, themeThumb: thumb } = dom;
   if (!track || !thumb) {
@@ -602,6 +593,7 @@ async function userMenuAnimationSwitchTheme(themeView) {
   );
 }
 
+/** Plays the account copy confirmation animation. */
 async function userMenuAnimationCopyRun() {
   const dom = userMenuDomGet();
   const btn = dom.accountCopyBtn;
@@ -609,10 +601,10 @@ async function userMenuAnimationCopyRun() {
     return;
   }
   const id = userMenuStateRunIdNext("copy");
-  const checkDrawMs = animCssMsGet(btn, VAR_RESULT_COPY_DRAW_MS) || 250;
-  const holdMs = animCssMsGet(btn, VAR_HOLD_MS) || 250;
-  const fadeMs = animCssMsGet(btn, VAR_FADE_MS) || 250;
-  const timeoutBufferMs = animCssMsGet(btn, VAR_BUFFER_MS) || 50;
+  const checkDrawMs = animCssMsGet(btn, VAR_RESULT_COPY_DRAW_MS);
+  const holdMs = animCssMsGet(btn, VAR_HOLD_MS);
+  const fadeMs = animCssMsGet(btn, VAR_FADE_MS);
+  const timeoutBufferMs = animCssMsGet(btn, VAR_BUFFER_MS);
   userMenuDomSet({ showCopyCheck: true });
   await animDelay(checkDrawMs + holdMs + fadeMs + timeoutBufferMs);
   if (id !== userMenuStateRunIdGet("copy")) {
@@ -623,6 +615,7 @@ async function userMenuAnimationCopyRun() {
   }
 }
 
+/** Plays the account download confirmation animation. */
 async function userMenuAnimationDownloadRun() {
   const dom = userMenuDomGet();
   const btn = dom.accountDownloadBtn;
@@ -630,10 +623,10 @@ async function userMenuAnimationDownloadRun() {
     return;
   }
   const id = userMenuStateRunIdNext("download");
-  const checkDrawMs = animCssMsGet(btn, VAR_RESULT_COPY_DRAW_MS) || 250;
-  const holdMs = animCssMsGet(btn, VAR_HOLD_MS) || 250;
-  const fadeMs = animCssMsGet(btn, VAR_FADE_MS) || 250;
-  const timeoutBufferMs = animCssMsGet(btn, VAR_BUFFER_MS) || 50;
+  const checkDrawMs = animCssMsGet(btn, VAR_RESULT_COPY_DRAW_MS);
+  const holdMs = animCssMsGet(btn, VAR_HOLD_MS);
+  const fadeMs = animCssMsGet(btn, VAR_FADE_MS);
+  const timeoutBufferMs = animCssMsGet(btn, VAR_BUFFER_MS);
   userMenuDomSet({ showDownloadCheck: true });
   await animDelay(checkDrawMs + holdMs + fadeMs + timeoutBufferMs);
   if (id !== userMenuStateRunIdGet("download")) {
@@ -645,13 +638,6 @@ async function userMenuAnimationDownloadRun() {
 }
 
 
-export { userMenuAnimationPanelClose };
-export { userMenuAnimationPanelOpen };
-export { userMenuAnimationRun };
-export { userMenuAnimationSwitchAuth };
-export { userMenuAnimationSwitchTheme };
-export { userMenuAnimationCopyRun };
-export { userMenuAnimationDownloadRun };
-export { userMenuAnimationCleanup };
+export { userMenuAnimationCleanup, userMenuAnimationCopyRun, userMenuAnimationDownloadRun, userMenuAnimationPanelClose, userMenuAnimationPanelOpen, userMenuAnimationRun, userMenuAnimationSwitchAuth, userMenuAnimationSwitchTheme };
 
 

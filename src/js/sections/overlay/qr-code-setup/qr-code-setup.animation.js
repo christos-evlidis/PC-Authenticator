@@ -1,5 +1,5 @@
 import { animAnimationEndWait, animCssMsGet, animDelay, animFrameWait, animPhaseReset, animTransitionEndWait } from '../../../utils/utility-animation.js';
-import * as QR from './qr-code-setup.constants.js';
+import * as QR from "./qr-code-setup.constants.js";
 import { qrSetupStateSet, qrSetupStateRunIdGet, qrSetupStateRunIdNext } from './qr-code-setup.state.js';
 import { qrSetupPanelLockSet } from './qr-code-setup.panel.js';
 

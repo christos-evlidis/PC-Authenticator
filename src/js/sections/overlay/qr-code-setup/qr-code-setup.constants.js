@@ -1,4 +1,4 @@
-import { HEADER_SCAN_QR_BTN_SELECTOR } from "../../shell/header/header-const.js";
+import { HEADER_SCAN_QR_BTN_SELECTOR } from "../../../const/const.header.js";
 import {
   VAR_BLUR_MS,
   VAR_BUFFER_MS,
@@ -10,7 +10,7 @@ import {
   VAR_SHRINK_DOWN_MS,
   VAR_SHRINK_FULL_MS,
   VAR_SLIDE_MS,
-} from "../../../utils/utility-const.js";
+} from "../../../const/const.utility.js";
 
 // Overlay shell selectors.
 export const QR_SETUP_ROOT_SELECTOR = ".qr-setup";
