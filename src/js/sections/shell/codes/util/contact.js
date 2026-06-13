@@ -1,5 +1,5 @@
-import { CODES_DEFAULT_CONTACT } from "../codes-const.js";
-import { CODES_EMAIL_PLACEHOLDER } from "../codes-const.js";
+﻿import { CODES_DEFAULT_CONTACT } from "../../../../const/const.codes.js";
+import { CODES_EMAIL_PLACEHOLDER } from "../../../../const/const.codes.js";
 
 /** Normalizes editable contact text, treating placeholder as empty. */
 function codesUtilContactNormalize(text) {

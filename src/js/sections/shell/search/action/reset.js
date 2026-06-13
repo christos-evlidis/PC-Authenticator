@@ -1,10 +1,6 @@
 import { searchActionFilter } from "./filter.js";
 
-import { SEARCH_ANIMATION_PENDING_CLASS } from "../search-const.js";
-import { SEARCH_FADE_IN_CLASS } from "../search-const.js";
-import { SEARCH_HIDDEN_CLASS } from "../search-const.js";
-import { SEARCH_INPUT_SELECTOR } from "../search-const.js";
-import { SEARCH_ROOT_SELECTOR } from "../search-const.js";
+import { SEARCH_ANIMATION_PENDING_CLASS, SEARCH_FADE_IN_CLASS, SEARCH_HIDDEN_CLASS, SEARCH_INPUT_SELECTOR, SEARCH_ROOT_SELECTOR } from "../../../../const/const.search.js";
 
 /** Clears search input, hides the bar, and removes card filters. */
 function searchActionReset() {

@@ -1,4 +1,4 @@
-import { PENDING_KEY } from "../../../scan-const.js";
+import { PENDING_KEY } from "../../../../../const/const.scan.js";
 
 /** Reads the pending QR scan payload from session storage. */
 async function workerStoragePendingGet() {

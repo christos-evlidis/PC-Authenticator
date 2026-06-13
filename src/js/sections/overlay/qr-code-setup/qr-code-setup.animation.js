@@ -1,7 +1,8 @@
 import { animAnimationEndWait, animCssMsGet, animDelay, animFrameWait, animPhaseReset, animTransitionEndWait } from '../../../utils/utility-animation.js';
-import * as QR from './qr-code-setup.constants.js';
+import * as QR from '../../../const/const.qr-code-setup.js';
 import { qrSetupStateSet, qrSetupStateRunIdGet, qrSetupStateRunIdNext } from './qr-code-setup.state.js';
-import { qrSetupPanelLockSet } from './qr-code-setup.panel.js';
+import { qrSetupPanelLockSet, qrSetupPanelLockClear } from './action/qr-code-setup.lock.js';
+
 
 /** Plays the QR panel close slide and backdrop fade. */
 // Executes the animation sequence for closing the QR setup panel.
@@ -131,7 +132,7 @@ async function qrSetupAnimationPanelOpen() {
 }
 
 /** Tears down resume animation state after panel close. */
-function qrSetupAnimationResumeFinish() {
+function qrSetupAnimationFinish() {
   const root = document.querySelector(QR.QR_SETUP_ROOT_SELECTOR);
   const panel = document.querySelector(QR.QR_SETUP_PANEL_SELECTOR);
   const content = document.querySelector(QR.QR_SETUP_CONTENT_SELECTOR);
@@ -173,9 +174,8 @@ function qrSetupAnimationResumeFinish() {
   root?.classList.toggle(QR.QR_SETUP_RESUME_LOCKED_CLASS, false);
 }
 
-
 // Executes the resume animation sequence, indicating success or failure.
-async function qrSetupAnimationResumeRun(scanResult) {
+async function qrSetupAnimationRun(scanResult) {
   const runId = qrSetupStateRunIdNext("resume");
 
   const root = document.querySelector(QR.QR_SETUP_ROOT_SELECTOR);
@@ -210,7 +210,7 @@ async function qrSetupAnimationResumeRun(scanResult) {
 
 
   root.classList.toggle(QR.QR_SETUP_RESUME_LOCKED_CLASS, true);
-  qrSetupPanelLockSet(true);
+  qrSetupPanelLockSet();
 
 
 
@@ -486,12 +486,11 @@ async function qrSetupAnimationResumeRun(scanResult) {
     if (runId === qrSetupStateRunIdGet("resume")) {
       qrSetupStateSet({ stateScan: false });
       root.classList.toggle(QR.QR_SETUP_RESUME_LOCKED_CLASS, false);
-      qrSetupPanelLockSet(false);
+      qrSetupPanelLockClear();
     }
   }
 }
 
 
-
-export { qrSetupAnimationPanelOpen, qrSetupAnimationPanelClose, qrSetupAnimationResumeRun, qrSetupAnimationResumeFinish };
+export { qrSetupAnimationPanelOpen, qrSetupAnimationPanelClose, qrSetupAnimationRun, qrSetupAnimationFinish };
 

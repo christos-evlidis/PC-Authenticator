@@ -1,4 +1,4 @@
-import { DATA_KEY_FINAL } from "../../data-const.js";
+import { DATA_KEY_FINAL } from "../../../../const/const.data.js";
 
 /** Reads ready accounts from local storage. */
 async function dataStorageReadyGet() {

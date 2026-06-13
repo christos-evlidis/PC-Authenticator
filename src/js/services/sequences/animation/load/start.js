@@ -13,36 +13,38 @@ import { loadAnimationFinish } from "./finish.js";
 import { loadAnimationInstant } from "./instant.js";
 import { loadAnimationReset } from "./reset.js";
 
-import { INTRO_BODY_SELECTOR } from "../../sequences-const.js";
-import { INTRO_FRAME_SELECTOR } from "../../sequences-const.js";
-import { INTRO_HEADER_SELECTOR } from "../../sequences-const.js";
-import { INTRO_LOGO_FADE_CLASS } from "../../sequences-const.js";
-import { INTRO_OVERLAY_SELECTOR } from "../../sequences-const.js";
-import { INTRO_ROOT_SELECTOR } from "../../sequences-const.js";
-import { INTRO_ROUNDED_CLASS } from "../../sequences-const.js";
-import { INTRO_SEARCH_SELECTOR } from "../../sequences-const.js";
-import { INTRO_SHRINK_BODY_CLASS } from "../../sequences-const.js";
-import { INTRO_SHRINK_FRAME_CLASS } from "../../sequences-const.js";
-import { INTRO_SHRINK_HEADER_CLASS } from "../../sequences-const.js";
-import { INTRO_SHRINK_SEARCH_CLASS } from "../../sequences-const.js";
-import { INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../sequences-const.js";
-import { INTRO_VAR_FROM_HEIGHT } from "../../sequences-const.js";
-import { INTRO_VAR_FROM_LEFT } from "../../sequences-const.js";
-import { INTRO_VAR_FROM_TOP } from "../../sequences-const.js";
-import { INTRO_VAR_FROM_WIDTH } from "../../sequences-const.js";
-import { INTRO_VAR_HEIGHT } from "../../sequences-const.js";
-import { INTRO_VAR_LEFT } from "../../sequences-const.js";
-import { INTRO_VAR_LOGO_HOLD_MS } from "../../sequences-const.js";
-import { INTRO_VAR_SHRINK_BODY_MS } from "../../sequences-const.js";
-import { INTRO_VAR_SHRINK_FRAME_MS } from "../../sequences-const.js";
-import { INTRO_VAR_SHRINK_HEADER_MS } from "../../sequences-const.js";
-import { INTRO_VAR_SHRINK_SEARCH_MS } from "../../sequences-const.js";
-import { INTRO_VAR_TOP } from "../../sequences-const.js";
-import { INTRO_VAR_TO_HEIGHT } from "../../sequences-const.js";
-import { INTRO_VAR_TO_LEFT } from "../../sequences-const.js";
-import { INTRO_VAR_TO_TOP } from "../../sequences-const.js";
-import { INTRO_VAR_TO_WIDTH } from "../../sequences-const.js";
-import { INTRO_VAR_WIDTH } from "../../sequences-const.js";
+import {
+  INTRO_BODY_SELECTOR,
+  INTRO_FRAME_SELECTOR,
+  INTRO_HEADER_SELECTOR,
+  INTRO_LOGO_FADE_CLASS,
+  INTRO_OVERLAY_SELECTOR,
+  INTRO_ROOT_SELECTOR,
+  INTRO_ROUNDED_CLASS,
+  INTRO_SEARCH_SELECTOR,
+  INTRO_SHRINK_BODY_CLASS,
+  INTRO_SHRINK_FRAME_CLASS,
+  INTRO_SHRINK_HEADER_CLASS,
+  INTRO_SHRINK_SEARCH_CLASS,
+  INTRO_VAR_ANIMATION_TIMEOUT_BUFFER_MS,
+  INTRO_VAR_FROM_HEIGHT,
+  INTRO_VAR_FROM_LEFT,
+  INTRO_VAR_FROM_TOP,
+  INTRO_VAR_FROM_WIDTH,
+  INTRO_VAR_HEIGHT,
+  INTRO_VAR_LEFT,
+  INTRO_VAR_LOGO_HOLD_MS,
+  INTRO_VAR_SHRINK_BODY_MS,
+  INTRO_VAR_SHRINK_FRAME_MS,
+  INTRO_VAR_SHRINK_HEADER_MS,
+  INTRO_VAR_SHRINK_SEARCH_MS,
+  INTRO_VAR_TOP,
+  INTRO_VAR_TO_HEIGHT,
+  INTRO_VAR_TO_LEFT,
+  INTRO_VAR_TO_TOP,
+  INTRO_VAR_TO_WIDTH,
+  INTRO_VAR_WIDTH,
+} from "../../../../const/const.sequences.js";
 
 async function loadAnimationStart(isSignedIn, options = {}) {
   const { skipIntro = false } = options;

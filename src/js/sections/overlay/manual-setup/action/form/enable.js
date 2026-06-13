@@ -1,4 +1,4 @@
-import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../manual-setup-const.js";
+import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../../../../const/const.manual-setup.js";
 
 /** Re-enables manual-setup form controls after submit. */
 function manualSetupActionFormEnable(form) {

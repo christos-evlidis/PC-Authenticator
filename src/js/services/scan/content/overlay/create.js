@@ -1,10 +1,12 @@
-import { OVERLAY_CLASS } from "../../scan-const.js";
-import { OVERLAY_CSS_PATH } from "../../scan-const.js";
-import { OVERLAY_HOST_CLASS } from "../../scan-const.js";
-import { OVERLAY_HOST_STYLE_ID } from "../../scan-const.js";
-import { OVERLAY_INSTRUCTION_CLASS } from "../../scan-const.js";
-import { OVERLAY_INSTRUCTION_TEXT } from "../../scan-const.js";
-import { OVERLAY_SELECTION_CLASS } from "../../scan-const.js";
+import {
+  OVERLAY_CLASS,
+  OVERLAY_CSS_PATH,
+  OVERLAY_HOST_CLASS,
+  OVERLAY_HOST_STYLE_ID,
+  OVERLAY_INSTRUCTION_CLASS,
+  OVERLAY_INSTRUCTION_TEXT,
+  OVERLAY_SELECTION_CLASS,
+} from "../../../../const/const.scan.js";
 
 /** Creates and mounts the QR scan overlay in the page DOM. */
 function contentOverlayCreate() {

@@ -1,4 +1,4 @@
-import { AUTH_NUMBER_LENGTH } from "../auth-const.js";
+import { AUTH_NUMBER_LENGTH } from "../../../const/const.auth.js";
 
 /** Strips non-digits and truncates to the auth number length. */
 function authSanitizeNumber(value) {

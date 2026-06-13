@@ -1,4 +1,4 @@
-import { PENDING_KEY } from "../../../scan-const.js";
+import { PENDING_KEY } from "../../../../../const/const.scan.js";
 
 /** Removes the pending QR scan entry from session storage. */
 async function workerStoragePendingClear() {

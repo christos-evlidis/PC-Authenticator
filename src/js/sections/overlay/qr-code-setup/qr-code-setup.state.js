@@ -1,6 +1,7 @@
 const qrSetupStateStore = {
   statePanel: false,
   stateScan: false,
+  stateLock: false,
   runIds: {
     panel: 0,
     resume: 0,
@@ -12,6 +13,7 @@ function qrSetupStateGet() {
   return {
     statePanel: qrSetupStateStore.statePanel,
     stateScan: qrSetupStateStore.stateScan,
+    stateLock: qrSetupStateStore.stateLock,
   };
 }
 
@@ -24,11 +26,16 @@ function qrSetupStateSet(next) {
   if (typeof next.stateScan === "boolean") {
     qrSetupStateStore.stateScan = next.stateScan;
   }
+
+  if (typeof next.stateLock === "boolean") {
+    qrSetupStateStore.stateLock = next.stateLock;
+  }
 }
 
 // Increments and returns the next run ID for a given animation/process key.
 function qrSetupStateRunIdNext(key) {
   qrSetupStateStore.runIds[key] += 1;
+  
   return qrSetupStateStore.runIds[key];
 }
 
@@ -36,6 +43,7 @@ function qrSetupStateRunIdNext(key) {
 function qrSetupStateRunIdGet(key) {
   return qrSetupStateStore.runIds[key];
 }
+
 
 export {
   qrSetupStateGet,

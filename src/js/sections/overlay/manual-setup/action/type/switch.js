@@ -1,8 +1,8 @@
 import { manualSetupStateGet } from "../../state/get.js";
 
-import { MANUAL_SETUP_FORM_SELECTOR } from "../../manual-setup-const.js";
-import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../manual-setup-const.js";
-import { MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR } from "../../manual-setup-const.js";
+import { MANUAL_SETUP_FORM_SELECTOR } from "../../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR } from "../../../../../const/const.manual-setup.js";
 
 /** Switches the manual-setup form between TOTP and HOTP. */
 function manualSetupActionTypeSwitch(otpType) {

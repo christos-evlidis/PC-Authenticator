@@ -1,5 +1,5 @@
-import { CODES_CARD_INTRO_PENDING_CLASS } from "../../codes-const.js";
-import { CODES_ROOT_SELECTOR } from "../../codes-const.js";
+﻿import { CODES_CARD_INTRO_PENDING_CLASS } from "../../../../../const/const.codes.js";
+import { CODES_ROOT_SELECTOR } from "../../../../../const/const.codes.js";
 
 /** Clears card intro pending class after load animation completes. */
 function codesAnimationIntroFinish() {

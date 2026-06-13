@@ -1,4 +1,4 @@
-import { CONTENT_INDEX_PATH } from "../../scan-const.js";
+import { CONTENT_INDEX_PATH } from "../../../../const/const.scan.js";
 
 /** Injects the scan content script into a tab if not already loaded. */
 async function workerTabInject(tabId) {

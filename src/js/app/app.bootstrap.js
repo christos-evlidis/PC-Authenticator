@@ -1,10 +1,9 @@
 import { authApiVerify, authStorageGet } from "../services/auth/auth-index.js";
 import { dataHandleSync } from "../services/data/data-index.js";
 import { initSectionModules } from "../sections/sections-index.js";
-import { INTRO_ACTIVE_CLASS } from "../services/sequences/sequences-const.js";
-import { INTRO_ROOT_SELECTOR } from "../services/sequences/sequences-const.js";
+import { INTRO_ACTIVE_CLASS, INTRO_ROOT_SELECTOR } from "../const/const.sequences.js";
 import { loadAnimationStart } from "../services/sequences/sequences-index.js";
-import { appResumeCheck } from "./app.resume.js";
+import { qrSetupResumeCheck } from "../sections/overlay/qr-code-setup/qr-code-setup.index.js";
 import { themeActionApply, themeStorageGet } from "../services/theme/theme-index.js";
 import { appSessionRefresh } from "./app.session.js";
 
@@ -12,7 +11,7 @@ async function appBootstrapStart() {
   themeActionApply(themeStorageGet(), { instant: true });
   initSectionModules();
 
-  const isResuming = await appResumeCheck();
+  const isResuming = await qrSetupResumeCheck();
 
   if (isResuming) {
     return;

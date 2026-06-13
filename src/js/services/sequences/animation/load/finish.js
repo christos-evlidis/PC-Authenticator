@@ -1,5 +1,4 @@
-import { INTRO_ROOT_SELECTOR } from "../../sequences-const.js";
-import { INTRO_STYLESHEET_HREF } from "../../sequences-const.js";
+import { INTRO_ROOT_SELECTOR, INTRO_STYLESHEET_HREF } from "../../../../const/const.sequences.js";
 
 const LOAD_OVERLAY_ROOT_SELECTORS = [
   ".app-user-menu",

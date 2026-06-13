@@ -3,13 +3,13 @@ import { manualSetupActionPanelClose } from "./action/panel/close.js";
 import { manualSetupActionPanelOpen } from "./action/panel/open.js";
 import { manualSetupActionTypeSwitch } from "./action/type/switch.js";
 
-import { MANUAL_SETUP_BACKDROP_SELECTOR } from "./manual-setup-const.js";
-import { MANUAL_SETUP_CLOSE_BTN_SELECTOR } from "./manual-setup-const.js";
-import { MANUAL_SETUP_FORM_SELECTOR } from "./manual-setup-const.js";
-import { MANUAL_SETUP_OPEN_BTN_SELECTOR } from "./manual-setup-const.js";
-import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "./manual-setup-const.js";
-import { MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR } from "./manual-setup-const.js";
-import { MANUAL_SETUP_PANEL_SELECTOR } from "./manual-setup-const.js";
+import { MANUAL_SETUP_BACKDROP_SELECTOR } from "../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_CLOSE_BTN_SELECTOR } from "../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_FORM_SELECTOR } from "../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_OPEN_BTN_SELECTOR } from "../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR } from "../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_PANEL_SELECTOR } from "../../../const/const.manual-setup.js";
 
 /** Registers manual-setup panel listeners and form handlers. */
 function manualSetupInit() {

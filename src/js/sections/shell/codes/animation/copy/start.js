@@ -9,7 +9,7 @@ import {
   VAR_FILL_CONTRACT_MS,
   VAR_FILL_EXPAND_MS,
   VAR_RESULT_COPY_DRAW_MS,
-} from "../../../../../utils/utility-const.js";
+} from "../../../../../const/const.utility.js";
 import { codesAnimationCopyFinish } from "./finish.js";
 import { codesAnimationCopyReset } from "./reset.js";
 

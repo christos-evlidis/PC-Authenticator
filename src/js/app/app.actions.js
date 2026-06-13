@@ -7,8 +7,12 @@ import { dataActionAddQr } from "../services/data/data-index.js";
 import { dataHandleSync } from "../services/data/data-index.js";
 import { dataStoragePurge } from "../services/data/data-index.js";
 import { themeActionClear } from "../services/theme/theme-index.js";
+import { themeActionApply } from "../services/theme/theme-index.js";
+import { THEME_DARK_KEY, THEME_LIGHT_KEY } from "../services/theme/theme-index.js";
 import { appSessionRefresh } from "./app.session.js";
 import { appStateGet } from "./app.state.js";
+import { appShellThemeGet } from "./app.shell.js";
+import { scanStart, scanCancel } from "../services/scan/scan-index.js";
 
 /**
  * Adds a new account from a scanned QR code URI.
@@ -74,15 +78,56 @@ async function appActionSignOut() {
 
     await dataStoragePurge();
 
-    await themeActionClear();
-
     return true;
   } catch {}
 
   return false;
 }
 
+/**
+ * Applies the specified theme.
+ */
+function appActionThemeApply(theme) {
+  themeActionApply(theme);
+}
+
+/**
+ * Returns the current authenticated account key from app state.
+ */
+function appActionGetAuth() {
+  return appStateGet().authKey;
+}
+
+/**
+ * Returns the currently active theme.
+ */
+function appActionGetTheme() {
+  return appShellThemeGet();
+}
+
+/**
+ * Initiates the scan process.
+ */
+async function appActionScanStart() {
+  return await scanStart();
+}
+
+/**
+ * Cancels the ongoing scan process.
+ */
+async function appActionScanCancel() {
+  return await scanCancel();
+}
+
 export { appActionAddQr };
 export { appActionSignIn };
 export { appActionSignOut };
 export { appActionSignUp };
+export { appActionGetAuth };
+export { appActionGetTheme };
+export { appActionThemeApply };
+export { appActionScanStart };
+export { appActionScanCancel };
+export { THEME_DARK_KEY, THEME_LIGHT_KEY };
+
+

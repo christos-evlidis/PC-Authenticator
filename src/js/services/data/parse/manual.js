@@ -1,7 +1,7 @@
 import { dataRecordBuildIssuer } from "../record/build/issuer.js";
 import { dataRecordSanitizeSecret } from "../record/sanitize/secret.js";
 
-import { DATA_HOTP_COUNTER_DEFAULT, DATA_OTP_ALGORITHM_DEFAULT, DATA_OTP_DIGITS, DATA_OTP_PERIOD, DATA_OTP_TYPE_HOTP, DATA_OTP_TYPE_TOTP } from "../data-const.js";
+import { DATA_HOTP_COUNTER_DEFAULT, DATA_OTP_ALGORITHM_DEFAULT, DATA_OTP_DIGITS, DATA_OTP_PERIOD, DATA_OTP_TYPE_HOTP, DATA_OTP_TYPE_TOTP } from "../../../const/const.otp.js";
 
 /** Parses manual form fields into a normalized account object. */
 function dataParseManual({ name, secret, email, type }) {

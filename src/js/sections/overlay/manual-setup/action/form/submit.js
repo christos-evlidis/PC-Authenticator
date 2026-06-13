@@ -9,9 +9,9 @@ import { manualSetupAnimationSubmitFinish } from "../../animation/finish.js";
 import { manualSetupAnimationSubmit } from "../../animation/submit.js";
 import { manualSetupStateGet } from "../../state/get.js";
 
-import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../manual-setup-const.js";
-import { MANUAL_SETUP_ROOT_SELECTOR } from "../../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMITTING_CLASS } from "../../manual-setup-const.js";
+import { MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR } from "../../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_ROOT_SELECTOR } from "../../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMITTING_CLASS } from "../../../../../const/const.manual-setup.js";
 
 /** Validates and adds a manual account with submit animation. */
 async function manualSetupActionFormSubmit(event) {

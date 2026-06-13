@@ -1,4 +1,4 @@
-import { DATA_RESTORED } from "../../data-const.js";
+import { DATA_RESTORED } from "../../../../const/const.data.js";
 
 /** Removes the restored accounts key from storage. */
 export async function dataStorageRestoredClear() {

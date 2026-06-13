@@ -1,4 +1,4 @@
-import { VAR_BUFFER_MS, VAR_HOLD_MS, VAR_SLIDE_MS } from "../../utils/utility-const.js";
+﻿import { VAR_BUFFER_MS, VAR_HOLD_MS, VAR_SLIDE_MS } from "../../const/const.utility.js";
 
 // Overlay shell.
 export const INTRO_ROOT_SELECTOR = ".app-intro";

@@ -1,4 +1,4 @@
-import { AUTH_NUMBER_KEY } from "../auth-const.js";
+import { AUTH_NUMBER_KEY } from "../../../const/const.auth.js";
 
 /** Persists the auth number to local storage. */
 async function authStorageSet(authNumber) {

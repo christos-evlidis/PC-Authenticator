@@ -3,10 +3,7 @@ import { contentOverlayRemove } from "./remove.js";
 import { contentOverlayStateStore } from "./state/store.js";
 
 import { contentScreenshotCapture } from "../screenshot/capture.js";
-import { MESSAGES } from "../../scan-const.js";
-import { OVERLAY_DIMMED_CLASS } from "../../scan-const.js";
-import { OVERLAY_SELECTING_CLASS } from "../../scan-const.js";
-import { UNSUPPORTED_PAGE_ERROR } from "../../scan-const.js";
+import { MESSAGES, OVERLAY_DIMMED_CLASS, OVERLAY_SELECTING_CLASS, UNSUPPORTED_PAGE_ERROR } from "../../../../const/const.scan.js";
 
 const SCAN_SEL_LEFT_VAR = "--scan-sel-left";
 const SCAN_SEL_TOP_VAR = "--scan-sel-top";

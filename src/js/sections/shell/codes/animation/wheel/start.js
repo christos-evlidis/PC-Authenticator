@@ -1,6 +1,6 @@
 import { animCssMsGet } from "../../../../../utils/utility-animation.js";
-import { VAR_SLIDE_MS } from "../../../../../utils/utility-const.js";
-import { CODES_LIST_SELECTOR, CODES_ROOT_SELECTOR } from "../../codes-const.js";
+import { VAR_SLIDE_MS } from "../../../../../const/const.utility.js";
+import { CODES_LIST_SELECTOR, CODES_ROOT_SELECTOR } from "../../../../../const/const.codes.js";
 
 const CARD_SELECTOR =
   ".account-block:not(.account-block--manual-add-spacer):not(.account-block--exit-spacer):not(.is-filtered-out)";

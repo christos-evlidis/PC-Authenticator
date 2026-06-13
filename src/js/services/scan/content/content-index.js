@@ -1,7 +1,7 @@
 import { contentOverlayRemove } from "./overlay/remove.js";
 import { contentOverlayStart } from "./overlay/start.js";
 
-import { MESSAGES } from "../scan-const.js";
+import { MESSAGES } from "../../../const/const.scan.js";
 
 /** Registers content-script listeners for scan overlay messages. */
 function contentScriptInit() {

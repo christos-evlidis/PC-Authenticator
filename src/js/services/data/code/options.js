@@ -1,4 +1,4 @@
-import { DATA_OTP_TYPE_HOTP } from "../data-const.js";
+import { DATA_OTP_TYPE_HOTP } from "../../../const/const.otp.js";
 
 /** Builds OTP generation options from an account record. */
 function dataCodeOptions(account) {

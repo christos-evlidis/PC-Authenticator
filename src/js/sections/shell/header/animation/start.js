@@ -1,25 +1,25 @@
-import { animCssMsGet } from "../../../../utils/utility-animation.js";
+﻿import { animCssMsGet } from "../../../../utils/utility-animation.js";
 import { animDelay } from "../../../../utils/utility-animation.js";
 import { animFrameWait } from "../../../../utils/utility-animation.js";
 import { headerAnimationFinish } from "./finish.js";
 
-import { HEADER_ANIMATION_PENDING_CLASS } from "../header-const.js";
-import { HEADER_BUTTON_SELECTOR } from "../header-const.js";
-import { HEADER_FADE_IN_CLASS } from "../header-const.js";
-import { HEADER_HIDDEN_CLASS } from "../header-const.js";
-import { HEADER_ICON_POP_PENDING_CLASS } from "../header-const.js";
-import { HEADER_ICON_POP_REVEALED_CLASS } from "../header-const.js";
-import { HEADER_ROOT_SELECTOR } from "../header-const.js";
-import { HEADER_TITLE_DISPLAY_SELECTOR } from "../header-const.js";
-import { HEADER_TITLE_SELECTOR } from "../header-const.js";
-import { HEADER_TITLE_TEXT } from "../header-const.js";
-import { HEADER_TITLE_TYPING_CLASS } from "../header-const.js";
-import { HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../header-const.js";
-import { HEADER_VAR_ICON_POP_MS } from "../header-const.js";
-import { HEADER_VAR_ICON_POP_STAGGER_MS } from "../header-const.js";
-import { HEADER_VAR_INTRO_FADE_MS } from "../header-const.js";
-import { HEADER_VAR_TITLE_TYPE_MS } from "../header-const.js";
-import { HEADER_VIEW_SELECTOR } from "../header-const.js";
+import { HEADER_ANIMATION_PENDING_CLASS } from "../../../../const/const.header.js";
+import { HEADER_BUTTON_SELECTOR } from "../../../../const/const.header.js";
+import { HEADER_FADE_IN_CLASS } from "../../../../const/const.header.js";
+import { HEADER_HIDDEN_CLASS } from "../../../../const/const.header.js";
+import { HEADER_ICON_POP_PENDING_CLASS } from "../../../../const/const.header.js";
+import { HEADER_ICON_POP_REVEALED_CLASS } from "../../../../const/const.header.js";
+import { HEADER_ROOT_SELECTOR } from "../../../../const/const.header.js";
+import { HEADER_TITLE_DISPLAY_SELECTOR } from "../../../../const/const.header.js";
+import { HEADER_TITLE_SELECTOR } from "../../../../const/const.header.js";
+import { HEADER_TITLE_TEXT } from "../../../../const/const.header.js";
+import { HEADER_TITLE_TYPING_CLASS } from "../../../../const/const.header.js";
+import { HEADER_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../../../const/const.header.js";
+import { HEADER_VAR_ICON_POP_MS } from "../../../../const/const.header.js";
+import { HEADER_VAR_ICON_POP_STAGGER_MS } from "../../../../const/const.header.js";
+import { HEADER_VAR_INTRO_FADE_MS } from "../../../../const/const.header.js";
+import { HEADER_VAR_TITLE_TYPE_MS } from "../../../../const/const.header.js";
+import { HEADER_VIEW_SELECTOR } from "../../../../const/const.header.js";
 
 async function headerAnimationStart() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);

@@ -1,4 +1,4 @@
-import { AUTH_API_BASE_URL } from "../../auth/auth-const.js";
+import { AUTH_API_BASE_URL } from "../../../const/const.auth.js";
 
 /** Sends encrypted accounts to the remote backup API. */
 async function dataApiBackup(authNumber, encryptedAccounts) {

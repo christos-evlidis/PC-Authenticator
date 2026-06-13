@@ -1,24 +1,24 @@
 import { animPhaseReset } from "../../../../utils/utility-animation.js";
 
-import { MANUAL_SETUP_CONTENT_SELECTOR } from "../manual-setup-const.js";
-import { MANUAL_SETUP_HIDDEN_CLASS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_PANEL_SELECTOR } from "../manual-setup-const.js";
-import { MANUAL_SETUP_ROOT_SELECTOR } from "../manual-setup-const.js";
-import { MANUAL_SETUP_STATUS_ERROR_SELECTOR } from "../manual-setup-const.js";
-import { MANUAL_SETUP_STATUS_LOADING_SELECTOR } from "../manual-setup-const.js";
-import { MANUAL_SETUP_STATUS_SUCCESS_SELECTOR } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_CONTENT_PHASE_CLASSES } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_DOTS_FADE_IN_CLASS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_DOTS_FADE_OUT_CLASS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_DOTS_RUN_CLASS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_FADE_CLASS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_FADE_SELECTORS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_LAYOUT_VARS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_LOCKED_CLASS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_RESULT_DRAW_CLASS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_RESULT_FADE_OUT_CLASS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_RESTORE_FADE_CLASS } from "../manual-setup-const.js";
-import { MANUAL_SETUP_SUBMIT_RUNNING_CLASS } from "../manual-setup-const.js";
+import { MANUAL_SETUP_CONTENT_SELECTOR } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_HIDDEN_CLASS } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_PANEL_SELECTOR } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_ROOT_SELECTOR } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_STATUS_ERROR_SELECTOR } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_STATUS_LOADING_SELECTOR } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_STATUS_SUCCESS_SELECTOR } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMIT_CONTENT_PHASE_CLASSES } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMIT_DOTS_FADE_IN_CLASS } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMIT_DOTS_FADE_OUT_CLASS } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMIT_DOTS_RUN_CLASS } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMIT_FADE_CLASS } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMIT_FADE_SELECTORS } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMIT_LAYOUT_VARS } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMIT_LOCKED_CLASS } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMIT_RESULT_DRAW_CLASS } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMIT_RESULT_FADE_OUT_CLASS } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMIT_RESTORE_FADE_CLASS } from "../../../../const/const.manual-setup.js";
+import { MANUAL_SETUP_SUBMIT_RUNNING_CLASS } from "../../../../const/const.manual-setup.js";
 
 /** Resets manual-setup submit animation classes and layout. */
 function manualSetupAnimationSubmitFinish() {

@@ -1,4 +1,4 @@
-import { AUTH_API_BASE_URL } from "../auth-const.js";
+import { AUTH_API_BASE_URL } from "../../../const/const.auth.js";
 
 /** Creates a new account via the auth API and returns the account number. */
 async function authApiCreate() {

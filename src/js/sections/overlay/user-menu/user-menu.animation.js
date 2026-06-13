@@ -1,11 +1,26 @@
-import { animAnimationEndWait, animCssMsGet, animDelay, animFrameWait, animPhaseReset, animTransitionEndWait } from "../../../utils/utility-animation.js";
-import { THEME_DARK_KEY } from "../../../services/theme/theme-index.js";
+import { animAnimationEndWait } from "../../../utils/utility-animation.js";
+import { animCssMsGet } from "../../../utils/utility-animation.js";
+import { animDelay } from "../../../utils/utility-animation.js";
+import { animFrameWait } from "../../../utils/utility-animation.js";
+import { animPhaseReset } from "../../../utils/utility-animation.js";
+import { animTransitionEndWait } from "../../../utils/utility-animation.js";
+
 import { userMenuDomGet } from "./user-menu.dom.js";
-import { userMenuStateRunIdGet, userMenuStateRunIdNext } from "./user-menu.state.js";
-import * as UM from "./user-menu.constants.js";
+import { userMenuDomSet } from "./user-menu.dom.js";
+
+import { userMenuStateRunIdGet } from "./user-menu.state.js";
+import { userMenuStateRunIdNext } from "./user-menu.state.js";
+
+import { VAR_BUFFER_MS } from "../../../const/const.utility.js";
+import { VAR_FADE_MS } from "../../../const/const.utility.js";
+import { VAR_HOLD_MS } from "../../../const/const.utility.js";
+import { VAR_RESULT_COPY_DRAW_MS } from "../../../const/const.utility.js";
+
+import * as UM from "../../../const/const.user-menu.js";
+
 
 /** Runs the full-panel auth loading and result animation. */
-async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestore) {
+async function userMenuAnimationRun(authType, authResult, onResult, onRestore) {
   const p = authType === "signUp" ? "SIGN_UP" : authType === "signOut" ? "SIGN_OUT" : "SIGN_IN";
   const runIdKey = authType === "signUp" ? "signUp" : authType === "signOut" ? "signOut" : "signIn";
   const cfg = {
@@ -63,7 +78,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
     varRestoreWidth: UM[`USER_MENU_VAR_${p}_RESTORE_WIDTH`],
     varRestoreHeight: UM[`USER_MENU_VAR_${p}_RESTORE_HEIGHT`],
   };
-  const runId = userMenuStateRunIdNext(cfg.runIdKey);
+  const id = userMenuStateRunIdNext(cfg.runIdKey);
 
   const dom = userMenuDomGet();
   const {
@@ -196,7 +211,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
     await animDelay(fadeMs);
     panel.classList.remove(cfg.fadeClass);
 
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
@@ -251,7 +266,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
     );
     content.classList.remove(cfg.expandUpClass);
 
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
@@ -269,7 +284,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
     content.style.setProperty(cfg.varOriginHeight, `${layout.fullHeight}px`);
     content.classList.remove(cfg.expandFullClass);
 
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
@@ -290,7 +305,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
     );
     content.classList.remove(cfg.expandExtensionClass);
 
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
@@ -304,13 +319,13 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
     loadingStatus.classList.remove(cfg.dotsFadeInClass);
     loadingStatus.classList.add(cfg.dotsRunClass);
 
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
     await animDelay(dotsRunMs);
 
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
@@ -324,7 +339,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
     loadingStatus.classList.remove(cfg.dotsFadeOutClass);
     loadingStatus.classList.add(UM.USER_MENU_HIDDEN_CLASS);
 
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
@@ -339,8 +354,8 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
     resultStatus.classList.remove(UM.USER_MENU_HIDDEN_CLASS);
     resultStatus.classList.add(cfg.resultDrawClass, "is-animating");
 
-    if (onResultDraw) {
-      onResultDraw().catch(console.error);
+    if (onResult) {
+      onResult().catch(console.error);
     }
 
     if (circle) {
@@ -351,7 +366,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
       );
     }
 
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
@@ -365,7 +380,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
       ),
     );
 
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
@@ -384,7 +399,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
       "is-drawn",
     );
     resultStatus.classList.add(UM.USER_MENU_HIDDEN_CLASS);
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
@@ -400,7 +415,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
     content.style.setProperty(cfg.varOriginHeight, `${layout.fullHeight}px`);
     content.classList.remove(cfg.shrinkToFullClass);
 
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
@@ -421,7 +436,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
     );
     content.classList.remove(cfg.shrinkFullClass);
 
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
@@ -439,7 +454,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
     content.style.setProperty(cfg.varOriginHeight, `${layout.originHeight}px`);
     content.classList.remove(cfg.shrinkDownClass);
 
-    if (runId !== userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id !== userMenuStateRunIdGet(cfg.runIdKey)) {
       return false;
     }
 
@@ -480,7 +495,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
 
     return authResult;
   } finally {
-    if (runId === userMenuStateRunIdGet(cfg.runIdKey)) {
+    if (id === userMenuStateRunIdGet(cfg.runIdKey)) {
       root?.classList.toggle(cfg.lockedClass, false);
     }
   }
@@ -488,7 +503,7 @@ async function userMenuAnimationRun(authType, authResult, onResultDraw, onRestor
 
 // Animates the user menu panel sliding open.
 async function userMenuAnimationPanelOpen() {
-  const runId = userMenuStateRunIdNext("panel");
+  const id = userMenuStateRunIdNext("panel");
   const dom = userMenuDomGet();
   const { root, panel } = dom;
 
@@ -512,13 +527,13 @@ async function userMenuAnimationPanelOpen() {
     dom.openBtns.forEach((button) => {
       button.classList.toggle(UM.USER_MENU_HEADER_BTN_ACTIVE_CLASS, true);
     });
-    root.classList.add(UM.USER_MENU_ACTIVE_CLASS);
+    root.classList.add(UM.USER_MENU_PANEL_ACTIVE_CLASS);
     root.classList.add(UM.USER_MENU_OPEN_CLASS);
     root.classList.add(UM.USER_MENU_PANEL_OPENING_CLASS);
 
     await animFrameWait();
 
-    if (runId !== userMenuStateRunIdGet("panel")) {
+    if (id !== userMenuStateRunIdGet("panel")) {
       return;
     }
 
@@ -532,7 +547,7 @@ async function userMenuAnimationPanelOpen() {
         animCssMsGet(root, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
     );
   } finally {
-    if (runId === userMenuStateRunIdGet("panel")) {
+    if (id === userMenuStateRunIdGet("panel")) {
       root.classList.remove(UM.USER_MENU_PANEL_OPENING_CLASS);
     }
   }
@@ -540,7 +555,7 @@ async function userMenuAnimationPanelOpen() {
 
 // Animates the user menu panel sliding closed.
 async function userMenuAnimationPanelClose() {
-  const runId = userMenuStateRunIdNext("panel");
+  const id = userMenuStateRunIdNext("panel");
   const dom = userMenuDomGet();
   const { root, panel, backdrop } = dom;
 
@@ -562,7 +577,7 @@ async function userMenuAnimationPanelClose() {
         animCssMsGet(root, UM.USER_MENU_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
     );
 
-    if (runId !== userMenuStateRunIdGet("panel")) {
+    if (id !== userMenuStateRunIdGet("panel")) {
       return;
     }
 
@@ -571,7 +586,7 @@ async function userMenuAnimationPanelClose() {
 
     await animFrameWait();
 
-    if (runId !== userMenuStateRunIdGet("panel")) {
+    if (id !== userMenuStateRunIdGet("panel")) {
       return;
     }
 
@@ -584,14 +599,14 @@ async function userMenuAnimationPanelClose() {
       );
     }
 
-    if (runId !== userMenuStateRunIdGet("panel")) {
+    if (id !== userMenuStateRunIdGet("panel")) {
       return;
     }
 
     root.classList.remove(UM.USER_MENU_OPEN_CLASS);
-    root.classList.remove(UM.USER_MENU_ACTIVE_CLASS);
+    root.classList.remove(UM.USER_MENU_PANEL_ACTIVE_CLASS);
   } finally {
-    if (runId === userMenuStateRunIdGet("panel")) {
+    if (id === userMenuStateRunIdGet("panel")) {
       root.classList.remove(
         UM.USER_MENU_PANEL_OPENING_CLASS,
         UM.USER_MENU_PANEL_OPEN_CLASS,
@@ -608,18 +623,13 @@ async function userMenuAnimationPanelClose() {
 }
 
 // Animates the toggle switch between the sign in and sign up views.
-async function userMenuAnimationSwitchAuth(view) {
+async function userMenuAnimationSwitchAuth(authView) {
   const dom = userMenuDomGet();
   const { authTrack: track, authThumb: thumb } = dom;
 
   if (!track || !thumb) {
     return;
   }
-
-  const isSignUp = view === UM.USER_MENU_AUTH_VIEW_SIGN_UP;
-
-  track.classList.toggle(UM.USER_MENU_AUTH_SIGN_IN_CLASS, !isSignUp);
-  track.classList.toggle(UM.USER_MENU_AUTH_SIGN_UP_CLASS, isSignUp);
 
   await animTransitionEndWait(
     thumb,
@@ -630,18 +640,13 @@ async function userMenuAnimationSwitchAuth(view) {
 }
 
 // Animates the toggle switch between the light and dark theme views.
-async function userMenuAnimationSwitchTheme(theme) {
+async function userMenuAnimationSwitchTheme(themeView) {
   const dom = userMenuDomGet();
   const { themeTrack: track, themeThumb: thumb } = dom;
 
   if (!track || !thumb) {
     return;
   }
-
-  const isDark = theme === THEME_DARK_KEY;
-
-  track.classList.toggle(UM.USER_MENU_THEME_LIGHT_CLASS, !isDark);
-  track.classList.toggle(UM.USER_MENU_THEME_DARK_CLASS, isDark);
 
   await animTransitionEndWait(
     thumb,
@@ -651,4 +656,75 @@ async function userMenuAnimationSwitchTheme(theme) {
   );
 }
 
-export { userMenuAnimationPanelClose, userMenuAnimationPanelOpen, userMenuAnimationSwitchAuth, userMenuAnimationSwitchTheme, userMenuAnimationRun };
+// Animates copy button checkmark feedback.
+async function userMenuAnimationCopyRun() {
+  const dom = userMenuDomGet();
+  const btn = dom.accountCopyBtn;
+
+  if (!btn) {
+    return;
+  }
+
+  const id = userMenuStateRunIdNext("copy");
+
+  const checkDrawMs = animCssMsGet(btn, VAR_RESULT_COPY_DRAW_MS) || 250;
+  const holdMs = animCssMsGet(btn, VAR_HOLD_MS) || 250;
+  const fadeMs = animCssMsGet(btn, VAR_FADE_MS) || 250;
+  const timeoutBufferMs = animCssMsGet(btn, VAR_BUFFER_MS) || 50;
+
+  try {
+    userMenuDomSet({ showCopyCheck: true });
+
+    await animDelay(checkDrawMs + holdMs + fadeMs + timeoutBufferMs);
+
+    if (id !== userMenuStateRunIdGet("copy")) {
+      return;
+    }
+  } finally {
+    if (id === userMenuStateRunIdGet("copy")) {
+      userMenuDomSet({ showCopyCheck: false });
+    }
+  }
+}
+
+// Animates download button checkmark feedback.
+async function userMenuAnimationDownloadRun() {
+  const dom = userMenuDomGet();
+  const btn = dom.accountDownloadBtn;
+
+  if (!btn) {
+    return;
+  }
+
+  const id = userMenuStateRunIdNext("download");
+
+  const checkDrawMs = animCssMsGet(btn, VAR_RESULT_COPY_DRAW_MS) || 250;
+  const holdMs = animCssMsGet(btn, VAR_HOLD_MS) || 250;
+  const fadeMs = animCssMsGet(btn, VAR_FADE_MS) || 250;
+  const timeoutBufferMs = animCssMsGet(btn, VAR_BUFFER_MS) || 50;
+
+  try {
+    userMenuDomSet({ showDownloadCheck: true });
+
+    await animDelay(checkDrawMs + holdMs + fadeMs + timeoutBufferMs);
+
+    if (id !== userMenuStateRunIdGet("download")) {
+      return;
+    }
+  } finally {
+    if (id === userMenuStateRunIdGet("download")) {
+      userMenuDomSet({ showDownloadCheck: false });
+    }
+  }
+}
+
+
+export { userMenuAnimationPanelClose };
+export { userMenuAnimationPanelOpen };
+export { userMenuAnimationRun };
+export { userMenuAnimationSwitchAuth };
+export { userMenuAnimationSwitchTheme };
+export { userMenuAnimationCopyRun };
+export { userMenuAnimationDownloadRun };
+
+

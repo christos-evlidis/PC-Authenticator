@@ -1,4 +1,4 @@
-import { authStorageGet } from "../../../services/auth/auth-index.js";
+﻿import { authStorageGet } from "../../../services/auth/auth-index.js";
 import { dataHandleSync } from "../../../services/data/data-index.js";
 
 import { bodyInit } from "../body/body-index.js";
@@ -13,8 +13,8 @@ import { codesTickerStop } from "./ticker/run.js";
 import { codesElementsGet } from "./util/elements.js";
 import { codesUtilTimerPreferenceLoad } from "./util/timer-preference.js";
 
-import { CODES_HIDDEN_CLASS } from "./codes-const.js";
-import { CODES_ROOT_SELECTOR } from "./codes-const.js";
+import { CODES_HIDDEN_CLASS } from "../../../const/const.codes.js";
+import { CODES_ROOT_SELECTOR } from "../../../const/const.codes.js";
 
 let codesInitListenersRegistered = false;
 

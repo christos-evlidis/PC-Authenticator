@@ -1,4 +1,4 @@
-import { DATA_KEY_FINAL } from "../../data-const.js";
+import { DATA_KEY_FINAL } from "../../../../const/const.data.js";
 
 /** Removes ready accounts from local storage. */
 async function dataStorageReadyClear() {

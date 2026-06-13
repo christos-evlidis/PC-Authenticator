@@ -1,4 +1,4 @@
-import { DATA_OTP_PERIOD, DATA_OTP_TYPE_HOTP } from "../data-const.js";
+import { DATA_OTP_PERIOD, DATA_OTP_TYPE_HOTP } from "../../../const/const.otp.js";
 
 /** Returns the HOTP counter or TOTP time step for code generation. */
 function dataCodeCounter(options) {

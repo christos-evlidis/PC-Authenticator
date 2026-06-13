@@ -39,4 +39,5 @@ export { dataStorageReadySet } from "./storage/ready/set.js";
 export { dataStorageRestoredClear } from "./storage/restored/clear.js";
 export { dataStorageRestoredGet } from "./storage/restored/get.js";
 export { dataStorageRestoredSet } from "./storage/restored/set.js";
-export { DATA_KEY_FINAL, DATA_KEY_PENDING, DATA_RESTORED, DATA_MERGED, DATA_KEY_LEGACY, DATA_OTP_TYPE_TOTP, DATA_OTP_TYPE_HOTP, DATA_OTP_ALGORITHM_DEFAULT, DATA_OTP_DIGITS, DATA_OTP_PERIOD, DATA_HOTP_COUNTER_DEFAULT, DATA_COUNTER_MIN } from "./data-const.js";
+export { DATA_KEY_FINAL, DATA_KEY_PENDING, DATA_RESTORED, DATA_MERGED, DATA_KEY_LEGACY } from "../../const/const.data.js";
+export { DATA_OTP_TYPE_TOTP, DATA_OTP_TYPE_HOTP, DATA_OTP_ALGORITHM_DEFAULT, DATA_OTP_DIGITS, DATA_OTP_PERIOD, DATA_HOTP_COUNTER_DEFAULT, DATA_COUNTER_MIN } from "../../const/const.otp.js";

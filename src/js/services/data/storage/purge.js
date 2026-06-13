@@ -3,7 +3,7 @@ import { dataStoragePendingClear } from "./pending/clear.js";
 import { dataStorageReadyClear } from "./ready/clear.js";
 import { dataStorageRestoredClear } from "./restored/clear.js";
 
-import { DATA_KEY_LEGACY } from "../data-const.js";
+import { DATA_KEY_LEGACY } from "../../../const/const.data.js";
 
 /** Clears all account storage keys including legacy entries. */
 async function dataStoragePurge() {

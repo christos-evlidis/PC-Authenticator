@@ -1,8 +1,7 @@
 import { workerTabInject } from "../tab/inject.js";
 import { workerTabResolve } from "../tab/resolve.js";
 
-import { MESSAGES } from "../../scan-const.js";
-import { START_FAILED_ERROR } from "../../scan-const.js";
+import { MESSAGES, START_FAILED_ERROR } from "../../../../const/const.scan.js";
 import { messageContent } from "../../message/message-index.js";
 
 /** Injects the content script and opens the scan overlay on the target tab. */

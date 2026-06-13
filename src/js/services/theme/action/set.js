@@ -1,4 +1,4 @@
-import { THEME_DARK_KEY, THEME_LIGHT_KEY, THEME_WHITE_CLASS, THEME_DARK_CLASS, THEME_ICON_SIZES } from "../theme-const.js";
+import { THEME_DARK_KEY, THEME_LIGHT_KEY, THEME_WHITE_CLASS, THEME_DARK_CLASS, THEME_ICON_SIZES } from "../../../const/const.theme.js";
 
 export function themeActionSet(theme) {
   const isDark = theme === THEME_DARK_KEY;

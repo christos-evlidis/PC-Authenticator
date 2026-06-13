@@ -1,4 +1,4 @@
-import { bodyInit } from "../../body/body-index.js";
+﻿import { bodyInit } from "../../body/body-index.js";
 import { codesAnimationAddInstant } from "../animation/add/instant.js";
 import { codesAnimationAddSlide } from "../animation/add/slide.js";
 import { codesAnimationAddStart } from "../animation/add/start.js";
@@ -9,7 +9,7 @@ import { codesTickerSecondRun } from "../ticker/run.js";
 import { codesTickerStart } from "../ticker/run.js";
 import { codesElementsGet } from "../util/elements.js";
 
-import { CODES_HIDDEN_CLASS } from "../codes-const.js";
+import { CODES_HIDDEN_CLASS } from "../../../../const/const.codes.js";
 
 /** Inserts a newly added account card with intro animation. */
 async function codesActionAdd(account) {

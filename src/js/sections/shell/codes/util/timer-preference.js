@@ -1,6 +1,6 @@
-import { codesStateStore } from "../state/store.js";
+﻿import { codesStateStore } from "../state/store.js";
 
-import { CODES_TIMER_INVERTED_KEY } from "../codes-const.js";
+import { CODES_TIMER_INVERTED_KEY } from "../../../../const/const.codes.js";
 
 /** Loads global timer invert preference from storage. */
 async function codesUtilTimerPreferenceLoad() {

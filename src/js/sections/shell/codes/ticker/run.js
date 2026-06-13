@@ -1,10 +1,10 @@
-import { dataCodeClock, dataCodeGenerate, dataCodeOptions, dataCodeTypeHotp } from "../../../../services/data/data-index.js";
+﻿import { dataCodeClock, dataCodeGenerate, dataCodeOptions, dataCodeTypeHotp } from "../../../../services/data/data-index.js";
 
 import { codesStateStore } from "../state/store.js";
 import { codesUtilPiePathBuild } from "../util/pie.js";
 import { codesUtilTimerPreferenceSave } from "../util/timer-preference.js";
 
-import { CODES_HIDDEN_CLASS } from "../codes-const.js";
+import { CODES_HIDDEN_CLASS } from "../../../../const/const.codes.js";
 
 /** Updates the TOTP pie timer SVG for the current angle. */
 function codesTickerPieUpdate(piePath, angle, lastPathRef) {

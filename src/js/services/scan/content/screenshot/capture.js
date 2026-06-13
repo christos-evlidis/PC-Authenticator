@@ -1,8 +1,7 @@
 import { contentScreenshotCrop } from "./crop.js";
 import { contentScreenshotLoad } from "./load.js";
 
-import { MESSAGES } from "../../scan-const.js";
-import { UNSUPPORTED_PAGE_ERROR } from "../../scan-const.js";
+import { MESSAGES, UNSUPPORTED_PAGE_ERROR } from "../../../../const/const.scan.js";
 
 /** Captures the visible tab and crops it to the given selection. */
 async function contentScreenshotCapture(selection) {

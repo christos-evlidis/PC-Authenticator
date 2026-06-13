@@ -1,5 +1,5 @@
-import { animCssMsGet } from "../../../../../utils/utility-animation.js";
-import { CODES_VAR_SLIDE_MS } from "../../codes-const.js";
+﻿import { animCssMsGet } from "../../../../../utils/utility-animation.js";
+import { CODES_VAR_SLIDE_MS } from "../../../../../const/const.codes.js";
 
 /** Expands the add spacer and pushes existing cards down. */
 function codesAnimationAddStart(spacer, durationMs) {

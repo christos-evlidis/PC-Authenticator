@@ -1,4 +1,4 @@
-import { dataCodeTypeHotp } from "../../../../services/data/data-index.js";
+﻿import { dataCodeTypeHotp } from "../../../../services/data/data-index.js";
 
 import { codesActionCopy } from "../action/copy.js";
 import { codesActionDelete } from "../action/delete.js";
@@ -7,7 +7,7 @@ import { codesStateStore } from "../state/store.js";
 import { codesUtilContactDisplay } from "../util/contact.js";
 import { codesUtilHotpCounterDisplay } from "../util/hotp.js";
 
-import { CODES_HIDDEN_CLASS } from "../codes-const.js";
+import { CODES_HIDDEN_CLASS } from "../../../../const/const.codes.js";
 
 /** Clones the card template, binds it to an account, and registers the ticker root. */
 function codesCardCreate(template, account) {

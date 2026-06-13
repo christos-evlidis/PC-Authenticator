@@ -1,4 +1,4 @@
-import { DATA_RESTORED } from "../../data-const.js";
+import { DATA_RESTORED } from "../../../../const/const.data.js";
 
 /** Retrieves restored accounts from storage. */
 export async function dataStorageRestoredGet() {

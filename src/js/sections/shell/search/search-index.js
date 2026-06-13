@@ -1,6 +1,6 @@
 import { searchActionFilter } from "./action/filter.js";
 
-import { SEARCH_INPUT_SELECTOR } from "./search-const.js";
+import { SEARCH_INPUT_SELECTOR } from "../../../const/const.search.js";
 
 function searchInit() {
   document.querySelector(SEARCH_INPUT_SELECTOR)?.addEventListener("input", () => {

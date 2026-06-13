@@ -6,8 +6,7 @@ import { workerHandleTarget } from "./handle/target.js";
 import { workerStoragePendingClear } from "./storage/pending/clear.js";
 import { workerStoragePendingGet } from "./storage/pending/get.js";
 
-import { MESSAGES } from "../scan-const.js";
-import { UNSUPPORTED_PAGE_ERROR } from "../scan-const.js";
+import { MESSAGES, UNSUPPORTED_PAGE_ERROR } from "../../../const/const.scan.js";
 
 /** Registers service-worker listeners for scan messages. */
 function workerScriptInit() {

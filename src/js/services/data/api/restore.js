@@ -1,4 +1,4 @@
-import { AUTH_API_BASE_URL } from "../../auth/auth-const.js";
+import { AUTH_API_BASE_URL } from "../../../const/const.auth.js";
 
 /** Fetches account backup from the remote restore API. */
 async function dataApiRestore(authNumber) {

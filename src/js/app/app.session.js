@@ -14,7 +14,7 @@ async function appSessionRefresh() {
 
   const authState = Boolean(authKey);
 
-  const accounts = await dataStorageReadyGet();
+  const accounts = (await dataStorageReadyGet()) || [];
 
   appStateSet({
     stateAuth: authState,

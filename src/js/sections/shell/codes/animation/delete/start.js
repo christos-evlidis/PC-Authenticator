@@ -1,5 +1,5 @@
 import { animCssMsGet } from "../../../../../utils/utility-animation.js";
-import { appShellApply } from "../../../../../app/app.shell.js";
+import { appShellRefresh } from "../../../../../app/app.shell.js";
 import { bodyAnimationReset } from "../../../body/body-index.js";
 import { bodyAnimationStart } from "../../../body/body-index.js";
 
@@ -7,10 +7,10 @@ import { codesStateStore } from "../../state/store.js";
 import { codesTickerStop } from "../../ticker/run.js";
 import { codesElementsGet } from "../../util/elements.js";
 
-import { CODES_HIDDEN_CLASS } from "../../codes-const.js";
-import { CODES_VAR_DELETE_POOF_MS } from "../../codes-const.js";
-import { CODES_VAR_DELETE_POOF_SHRINK_MS } from "../../codes-const.js";
-import { CODES_VAR_SLIDE_MS } from "../../codes-const.js";
+import { CODES_HIDDEN_CLASS } from "../../../../../const/const.codes.js";
+import { CODES_VAR_DELETE_POOF_MS } from "../../../../../const/const.codes.js";
+import { CODES_VAR_DELETE_POOF_SHRINK_MS } from "../../../../../const/const.codes.js";
+import { CODES_VAR_SLIDE_MS } from "../../../../../const/const.codes.js";
 
 const DELETE_POOF_PARTICLE_COUNT = 28;
 const DELETE_POOF_SHAPES = [
@@ -239,11 +239,11 @@ async function codesAnimationDeleteStart(card, remainingAccounts) {
   if (!safeRemaining.length) {
     codesTickerStop();
     list.classList.add(CODES_HIDDEN_CLASS);
-    appShellApply({ isSignedIn: true, hasAccounts: false });
+    appShellRefresh({ isSignedIn: true, hasAccounts: false });
     bodyAnimationReset();
     await bodyAnimationStart();
   } else {
-    appShellApply({ isSignedIn: true, hasAccounts: true });
+    appShellRefresh({ isSignedIn: true, hasAccounts: true });
   }
 }
 

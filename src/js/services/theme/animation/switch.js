@@ -1,7 +1,7 @@
-import { THEME_TRANSITION_CLASS } from "../theme-const.js";
+import { THEME_TRANSITION_CLASS } from "../../../const/const.theme.js";
 import { themeActionSet } from "../action/set.js";
 import { animCssMsGet, animDelay } from "../../../utils/utility-animation.js";
-import { VAR_BUFFER_MS, VAR_THEME_TRANSITION_MS } from "../../../utils/utility-const.js";
+import { VAR_BUFFER_MS, VAR_THEME_TRANSITION_MS } from "../../../const/const.utility.js";
 
 export async function themeAnimationSwitch(theme) {
   document.body.classList.add(THEME_TRANSITION_CLASS);

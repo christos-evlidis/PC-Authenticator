@@ -1,12 +1,12 @@
-import { BODY_ACTIVE_CLASS } from "./body-const.js";
-import { BODY_CONTENT_HIDDEN_CLASS } from "./body-const.js";
-import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "./body-const.js";
-import { BODY_HIDDEN_CLASS } from "./body-const.js";
-import { BODY_ROOT_SELECTOR } from "./body-const.js";
-import { BODY_SIGNED_IN_VIEW_SELECTOR } from "./body-const.js";
-import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "./body-const.js";
-import { CODES_HIDDEN_CLASS } from "../codes/codes-const.js";
-import { CODES_ROOT_SELECTOR } from "../codes/codes-const.js";
+import { BODY_ACTIVE_CLASS } from "../../../const/const.body.js";
+import { BODY_CONTENT_HIDDEN_CLASS } from "../../../const/const.body.js";
+import { BODY_CONTENT_SIGNED_IN_SELECTOR } from "../../../const/const.body.js";
+import { BODY_HIDDEN_CLASS } from "../../../const/const.body.js";
+import { BODY_ROOT_SELECTOR } from "../../../const/const.body.js";
+import { BODY_SIGNED_IN_VIEW_SELECTOR } from "../../../const/const.body.js";
+import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "../../../const/const.body.js";
+import { CODES_HIDDEN_CLASS } from "../../../const/const.codes.js";
+import { CODES_ROOT_SELECTOR } from "../../../const/const.codes.js";
 import { bodyAnimationFinish } from "./animation/finish.js";
 
 function bodyInit(isSignedIn, options = {}) {

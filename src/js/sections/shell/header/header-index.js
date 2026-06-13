@@ -1,6 +1,6 @@
-import { HEADER_HIDDEN_CLASS } from "./header-const.js";
-import { HEADER_SIGNED_IN_VIEW_SELECTOR } from "./header-const.js";
-import { HEADER_SIGNED_OUT_VIEW_SELECTOR } from "./header-const.js";
+﻿import { HEADER_HIDDEN_CLASS } from "../../../const/const.header.js";
+import { HEADER_SIGNED_IN_VIEW_SELECTOR } from "../../../const/const.header.js";
+import { HEADER_SIGNED_OUT_VIEW_SELECTOR } from "../../../const/const.header.js";
 import { headerAnimationInstant } from "./animation/instant.js";
 
 function headerInit(isSignedIn) {

@@ -1,4 +1,4 @@
-import { THEME_LIGHT_KEY } from "../theme-const.js";
+import { THEME_LIGHT_KEY } from "../../../const/const.theme.js";
 import { themeStorageClear } from "../storage/clear.js";
 import { themeStateGet } from "../state/get.js";
 import { themeAnimationSwitch } from "../animation/switch.js";

@@ -1,4 +1,4 @@
-import { DATA_OTP_TYPE_HOTP } from "../../data-const.js";
+import { DATA_OTP_TYPE_HOTP } from "../../../../const/const.otp.js";
 
 /** Returns whether the account uses HOTP. */
 function dataCodeTypeHotp(account) {

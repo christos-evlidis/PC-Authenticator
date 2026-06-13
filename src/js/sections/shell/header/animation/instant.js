@@ -1,16 +1,16 @@
-import { HEADER_ANIMATION_PENDING_CLASS } from "../header-const.js";
-import { HEADER_BUTTON_SELECTOR } from "../header-const.js";
-import { HEADER_CONTENT_PENDING_CLASS } from "../header-const.js";
-import { HEADER_FADE_IN_CLASS } from "../header-const.js";
-import { HEADER_HIDDEN_CLASS } from "../header-const.js";
-import { HEADER_ICON_POP_PENDING_CLASS } from "../header-const.js";
-import { HEADER_ICON_POP_REVEALED_CLASS } from "../header-const.js";
-import { HEADER_ROOT_SELECTOR } from "../header-const.js";
-import { HEADER_TITLE_DISPLAY_SELECTOR } from "../header-const.js";
-import { HEADER_TITLE_SELECTOR } from "../header-const.js";
-import { HEADER_TITLE_TEXT } from "../header-const.js";
-import { HEADER_TITLE_TYPING_CLASS } from "../header-const.js";
-import { HEADER_VIEW_SELECTOR } from "../header-const.js";
+﻿import { HEADER_ANIMATION_PENDING_CLASS } from "../../../../const/const.header.js";
+import { HEADER_BUTTON_SELECTOR } from "../../../../const/const.header.js";
+import { HEADER_CONTENT_PENDING_CLASS } from "../../../../const/const.header.js";
+import { HEADER_FADE_IN_CLASS } from "../../../../const/const.header.js";
+import { HEADER_HIDDEN_CLASS } from "../../../../const/const.header.js";
+import { HEADER_ICON_POP_PENDING_CLASS } from "../../../../const/const.header.js";
+import { HEADER_ICON_POP_REVEALED_CLASS } from "../../../../const/const.header.js";
+import { HEADER_ROOT_SELECTOR } from "../../../../const/const.header.js";
+import { HEADER_TITLE_DISPLAY_SELECTOR } from "../../../../const/const.header.js";
+import { HEADER_TITLE_SELECTOR } from "../../../../const/const.header.js";
+import { HEADER_TITLE_TEXT } from "../../../../const/const.header.js";
+import { HEADER_TITLE_TYPING_CLASS } from "../../../../const/const.header.js";
+import { HEADER_VIEW_SELECTOR } from "../../../../const/const.header.js";
 
 function headerAnimationInstant() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);

@@ -1,5 +1,5 @@
-import { animCssMsGet } from "../../../../../utils/utility-animation.js";
-import { CODES_VAR_SLIDE_MS } from "../../codes-const.js";
+﻿import { animCssMsGet } from "../../../../../utils/utility-animation.js";
+import { CODES_VAR_SLIDE_MS } from "../../../../../const/const.codes.js";
 
 /** Slides a newly inserted card in from the top. */
 function codesAnimationAddSlide(card, durationMs) {

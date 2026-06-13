@@ -1,4 +1,4 @@
-import { DATA_OTP_TYPE_TOTP } from "../../data-const.js";
+import { DATA_OTP_TYPE_TOTP } from "../../../../const/const.otp.js";
 
 /** Returns whether the account uses TOTP. */
 function dataCodeTypeTotp(account) {

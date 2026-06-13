@@ -1,7 +1,6 @@
 import { contentOverlayStateStore } from "./state/store.js";
 
-import { MESSAGES } from "../../scan-const.js";
-import { OVERLAY_HOST_CLASS } from "../../scan-const.js";
+import { MESSAGES, OVERLAY_HOST_CLASS } from "../../../../const/const.scan.js";
 
 /** Removes the QR scan overlay and optionally notifies cancellation. */
 function contentOverlayRemove({ notifyCancel = false } = {}) {

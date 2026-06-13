@@ -1,4 +1,4 @@
-import { DATA_KEY_PENDING } from "../../data-const.js";
+import { DATA_KEY_PENDING } from "../../../../const/const.data.js";
 
 /** Reads pending accounts from local storage. */
 async function dataStoragePendingGet() {

@@ -1,12 +1,13 @@
-import { qrSetupDomGet } from "./qr-code-setup.dom.js";
 import { qrSetupEventsBind } from "./qr-code-setup.events.js";
 
+
+// Initializes the QR code setup module and binds events.
 function qrSetupInit() {
-  qrSetupDomGet();
   qrSetupEventsBind();
 }
 
+
 export { qrSetupInit };
-export { qrSetupPanelOpen, qrSetupPanelClose, qrSetupPanelInstant } from "./qr-code-setup.panel.js";
-export { qrSetupScanCancel } from "./qr-code-setup.scan.js";
-export { qrSetupResumeCancel, qrSetupResumePerform } from "./qr-code-setup.resume.js";
+export { qrSetupPanelOpen, qrSetupPanelClose } from "./action/qr-code-setup.panel.js";
+export { qrSetupScanCancel } from "./action/qr-code-setup.scan.js";
+export { qrSetupResumeCancel, qrSetupResumePerform, qrSetupResumeCheck } from "./action/qr-code-setup.resume.js";

@@ -1,4 +1,4 @@
-import { AUTH_API_BASE_URL } from "../auth-const.js";
+import { AUTH_API_BASE_URL } from "../../../const/const.auth.js";
 
 /** Verifies an account number with the auth API. */
 async function authApiVerify(authNumber) {

@@ -1,4 +1,4 @@
-import { authStorageGet } from "../../../../services/auth/auth-index.js";
+﻿import { authStorageGet } from "../../../../services/auth/auth-index.js";
 import { dataActionUpdate, dataCodeTypeHotp } from "../../../../services/data/data-index.js";
 
 import { headerActionIconsDisable } from "../../header/header-index.js";
@@ -13,7 +13,7 @@ import { codesUtilEmailValid } from "../util/contact.js";
 import { codesUtilHotpCounterDisplay } from "../util/hotp.js";
 import { codesUtilHotpCounterParse } from "../util/hotp.js";
 
-import { CODES_HIDDEN_CLASS } from "../codes-const.js";
+import { CODES_HIDDEN_CLASS } from "../../../../const/const.codes.js";
 
 /** Enters inline edit mode for an account card. */
 function codesActionEdit(card, account, els, onCardClick) {

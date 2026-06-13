@@ -245,8 +245,7 @@
     margin-left: auto;
 }
 
-.app-user-menu__btn,
-.app-user-menu__account-action-btn {
+.app-user-menu__btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -255,6 +254,23 @@
     padding: 0;
     border: none;
     border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-icon-primary);
+    cursor: pointer;
+    transition:
+        background-color var(--hover-ms) ease,
+        color var(--hover-ms) ease;
+}
+
+.app-user-menu__account-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--user-menu-btn-size);
+    height: var(--user-menu-btn-size);
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-sm);
     background: transparent;
     color: var(--color-icon-primary);
     cursor: pointer;
@@ -328,8 +344,14 @@
     transition: transform var(--slide-ms) ease;
 }
 
+body.is-animating .app-user-menu__theme-switch-thumb {
+    transition-property: transform, background-color, background, color, border-color, fill, stroke, box-shadow !important;
+    transition-duration: var(--slide-ms), var(--theme-transition-ms) !important;
+}
+
+
 .app-user-menu__auth-switch-track.is-sign-up .app-user-menu__auth-switch-thumb,
-.app-user-menu__theme-switch-track.is-dark .app-user-menu__theme-switch-thumb {
+.app-user-menu__theme-switch-track.dark .app-user-menu__theme-switch-thumb {
     transform: translateX(100%);
 }
 
@@ -398,6 +420,12 @@
 
 .app-user-menu__input::placeholder {
     color: var(--color-text-tertiary);
+}
+
+.app-user-menu__account-input {
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
 }
 
 .app-user-menu__field {
@@ -846,3 +874,68 @@
 .app-user-menu__status .user-menu-status.is-sign-out-result-fade-out {
     animation-duration: var(--fade-ms);
 }
+
+/* Copy and download button micro-animations */
+.app-user-menu__account-action-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-user-menu__btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 150ms ease, transform 150ms ease;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+.app-user-menu__btn-icon--check {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0) scale(0.5);
+    opacity: 0;
+    pointer-events: none;
+    color: var(--color-brand);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+}
+
+.app-user-menu__account-action-btn.is-success-active .app-user-menu__btn-icon--default {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+.app-user-menu__account-action-btn.is-success-active .app-user-menu__btn-icon--check {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0) scale(1);
+}
+
+/* Prevent buttons from being clicked again/multiple times during animations */
+.app-user-menu.is-panel-opening button,
+.app-user-menu.is-panel-closing button,
+.app-user-menu.is-panel-backdrop-closing button,
+.app-user-menu.is-sign-in-locked button,
+.app-user-menu__panel.is-animating button,
+.app-user-menu:has(.is-success-active) button,
+body.is-animating .app-user-menu button,
+.app-user-menu__auth-switch-btn.is-active,
+.app-user-menu__theme-switch-btn.is-active {
+    pointer-events: none !important;
+    cursor: default !important;
+}
+
+/* Also disable the header toggle button during panel transitions to prevent multiple quick toggles */
+body:has(.app-user-menu.is-panel-opening) .app-header__user-menu-btn,
+body:has(.app-user-menu.is-panel-closing) .app-header__user-menu-btn,
+body:has(.app-user-menu.is-panel-backdrop-closing) .app-header__user-menu-btn,
+body:has(.app-user-menu.is-sign-in-locked) .app-header__user-menu-btn {
+    pointer-events: none !important;
+    cursor: default !important;
+}
+
+

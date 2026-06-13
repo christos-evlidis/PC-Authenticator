@@ -1,4 +1,4 @@
-import { HEADER_SCAN_QR_BTN_SELECTOR } from "../../shell/header/header-const.js";
+import { HEADER_SCAN_QR_BTN_SELECTOR } from "./const.header.js";
 import {
   VAR_BLUR_MS,
   VAR_BUFFER_MS,
@@ -10,7 +10,7 @@ import {
   VAR_SHRINK_DOWN_MS,
   VAR_SHRINK_FULL_MS,
   VAR_SLIDE_MS,
-} from "../../../utils/utility-const.js";
+} from "./const.utility.js";
 
 // Overlay shell selectors.
 export const QR_SETUP_ROOT_SELECTOR = ".qr-setup";
@@ -43,8 +43,6 @@ export const BODY_AUTH_FLOW_LOCK_CLASS = "is-auth-flow-locked";
 export const QR_SETUP_VAR_BLUR_MS = VAR_BLUR_MS;
 export const QR_SETUP_VAR_SLIDE_MS = VAR_SLIDE_MS;
 export const QR_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS = VAR_BUFFER_MS;
-
-
 
 // Status icon selectors.
 export const QR_SETUP_STATUS_LOADING_SELECTOR =

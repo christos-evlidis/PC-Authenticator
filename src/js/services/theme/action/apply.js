@@ -1,4 +1,4 @@
-import { THEME_DARK_KEY } from "../theme-const.js";
+import { THEME_DARK_KEY } from "../../../const/const.theme.js";
 import { themeParse } from "../parse/parse.js";
 import { themeStateGet } from "../state/get.js";
 import { themeStorageSet } from "../storage/set.js";

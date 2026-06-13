@@ -1,4 +1,4 @@
-import { AUTH_NUMBER_KEY } from "../auth-const.js";
+import { AUTH_NUMBER_KEY } from "../../../const/const.auth.js";
 
 /** Removes the stored auth number from local storage. */
 async function authStorageClear() {

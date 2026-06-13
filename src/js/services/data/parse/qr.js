@@ -1,7 +1,7 @@
 import { dataRecordSanitizeName } from "../record/sanitize/name.js";
 import { dataRecordSanitizeSecret } from "../record/sanitize/secret.js";
 
-import { DATA_HOTP_COUNTER_DEFAULT, DATA_OTP_ALGORITHM_DEFAULT, DATA_OTP_DIGITS, DATA_OTP_PERIOD, DATA_OTP_TYPE_HOTP } from "../data-const.js";
+import { DATA_HOTP_COUNTER_DEFAULT, DATA_OTP_ALGORITHM_DEFAULT, DATA_OTP_DIGITS, DATA_OTP_PERIOD, DATA_OTP_TYPE_HOTP } from "../../../const/const.otp.js";
 
 /** Parses an otpauth URI into a normalized account object. */
 function dataParseQr(uri) {

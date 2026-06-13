@@ -1,7 +1,7 @@
 import { workerTabCapture } from "../tab/capture.js";
 import { workerTabResolve } from "../tab/resolve.js";
 
-import { START_FAILED_ERROR } from "../../scan-const.js";
+import { START_FAILED_ERROR } from "../../../../const/const.scan.js";
 
 /** Captures a screenshot of the resolved scan target tab. */
 async function workerHandleCapture() {

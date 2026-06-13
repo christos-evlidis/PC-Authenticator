@@ -1,4 +1,4 @@
-import { DATA_MERGED } from "../../data-const.js";
+import { DATA_MERGED } from "../../../../const/const.data.js";
 
 /** Saves the merged accounts list to storage. */
 export async function dataStorageMergedSet(accounts) {

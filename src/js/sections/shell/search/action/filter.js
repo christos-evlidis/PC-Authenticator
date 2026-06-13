@@ -1,5 +1,4 @@
-import { SEARCH_FILTER_CARD_SELECTOR } from "../search-const.js";
-import { SEARCH_INPUT_SELECTOR } from "../search-const.js";
+import { SEARCH_FILTER_CARD_SELECTOR, SEARCH_INPUT_SELECTOR } from "../../../../const/const.search.js";
 
 /** Filters account cards by the current search query. */
 function searchActionFilter() {
