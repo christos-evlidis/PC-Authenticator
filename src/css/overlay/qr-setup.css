@@ -330,6 +330,11 @@ body.is-auth-flow-locked .qr-setup.is-panel-open .qr-setup__backdrop {
     cursor: default;
 }
 
+body.is-auth-flow-locked .qr-setup.is-resume-locked.is-panel-open .qr-setup__backdrop {
+    pointer-events: auto;
+    cursor: default;
+}
+
 .qr-setup.is-panel-opening .qr-setup__panel,
 .qr-setup.is-panel-open.is-panel-closing .qr-setup__panel {
     transform: translateY(100%);

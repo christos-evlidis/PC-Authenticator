@@ -1,48 +1,39 @@
-import { animAnimationEndWait, animCssMsGet, animDelay, animFrameWait, animPhaseReset, animTransitionEndWait } from '../../../utils/utility-animation.js';
-import * as QR from "./qr-code-setup.constants.js";
-import { qrSetupStateSet, qrSetupStateRunIdGet, qrSetupStateRunIdNext } from './qr-code-setup.state.js';
-import { qrSetupPanelLockSet } from './qr-code-setup.panel.js';
+import { animAnimationEndWait, animCssMsGet, animDelay, animFrameWait, animPhaseReset, animTransitionEndWait } from "../../../utils/utility-animation.js";
 
-/** Plays the QR panel close slide and backdrop fade. */
-// Executes the animation sequence for closing the QR setup panel.
+import { qrSetupDomGet } from "./qr-code-setup.dom.js";
+import { qrSetupStateRunIdGet, qrSetupStateRunIdNext, qrSetupStateSet } from "./qr-code-setup.state.js";
+
+import * as QR from "../../../const/const.qr-setup.js";
+
 async function qrSetupAnimationPanelClose() {
   const runId = qrSetupStateRunIdNext("panel");
-
-  const root = document.querySelector(QR.QR_SETUP_ROOT_SELECTOR);
-  const panel = document.querySelector(QR.QR_SETUP_PANEL_SELECTOR);
-  const backdrop = document.querySelector(QR.QR_SETUP_BACKDROP_SELECTOR);
+  const dom = qrSetupDomGet();
+  const { root, panel, backdrop, openBtns } = dom;
 
   if (!root || !panel) {
     return;
   }
 
   try {
-    document.querySelectorAll(QR.QR_SETUP_OPEN_BTN_SELECTOR).forEach((button) => {
+    openBtns.forEach((button) => {
       button.classList.toggle(QR.QR_SETUP_HEADER_BTN_ACTIVE_CLASS, false);
     });
-
     root.classList.add(QR.QR_SETUP_PANEL_CLOSING_CLASS);
-
     await animTransitionEndWait(
       panel,
       "transform",
       animCssMsGet(root, QR.QR_SETUP_VAR_SLIDE_MS)
         + animCssMsGet(root, QR.QR_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
     );
-
     if (runId !== qrSetupStateRunIdGet("panel")) {
       return;
     }
-
     root.classList.remove(QR.QR_SETUP_PANEL_OPEN_CLASS);
     root.classList.add(QR.QR_SETUP_PANEL_BACKDROP_CLOSING_CLASS);
-
     await animFrameWait();
-
     if (runId !== qrSetupStateRunIdGet("panel")) {
       return;
     }
-
     if (backdrop) {
       await animTransitionEndWait(
         backdrop,
@@ -51,11 +42,9 @@ async function qrSetupAnimationPanelClose() {
           + animCssMsGet(root, QR.QR_SETUP_VAR_ANIMATION_TIMEOUT_BUFFER_MS),
       );
     }
-
     if (runId !== qrSetupStateRunIdGet("panel")) {
       return;
     }
-
     root.classList.remove(QR.QR_SETUP_OPEN_CLASS);
     root.classList.remove(QR.QR_SETUP_ACTIVE_CLASS);
     root.classList.remove(QR.QR_SETUP_BUSY_CLASS);
@@ -76,13 +65,10 @@ async function qrSetupAnimationPanelClose() {
   }
 }
 
-/** Plays the QR panel open slide and blur animation. */
-// Executes the animation sequence for opening the QR setup panel.
 async function qrSetupAnimationPanelOpen() {
   const runId = qrSetupStateRunIdNext("panel");
-
-  const root = document.querySelector(QR.QR_SETUP_ROOT_SELECTOR);
-  const panel = document.querySelector(QR.QR_SETUP_PANEL_SELECTOR);
+  const dom = qrSetupDomGet();
+  const { root, panel, openBtns } = dom;
 
   if (!root || !panel) {
     return;
@@ -101,21 +87,17 @@ async function qrSetupAnimationPanelOpen() {
   );
 
   try {
-    document.querySelectorAll(QR.QR_SETUP_OPEN_BTN_SELECTOR).forEach((button) => {
+    openBtns.forEach((button) => {
       button.classList.toggle(QR.QR_SETUP_HEADER_BTN_ACTIVE_CLASS, true);
     });
     root.classList.add(QR.QR_SETUP_ACTIVE_CLASS);
     root.classList.add(QR.QR_SETUP_OPEN_CLASS);
     root.classList.add(QR.QR_SETUP_PANEL_OPENING_CLASS);
-
     await animFrameWait();
-
     if (runId !== qrSetupStateRunIdGet("panel")) {
       return;
     }
-
     root.classList.add(QR.QR_SETUP_PANEL_OPEN_CLASS);
-
     await animTransitionEndWait(
       panel,
       "transform",
@@ -130,14 +112,9 @@ async function qrSetupAnimationPanelOpen() {
   }
 }
 
-/** Tears down resume animation state after panel close. */
-function qrSetupAnimationResumeFinish() {
-  const root = document.querySelector(QR.QR_SETUP_ROOT_SELECTOR);
-  const panel = document.querySelector(QR.QR_SETUP_PANEL_SELECTOR);
-  const content = document.querySelector(QR.QR_SETUP_CONTENT_SELECTOR);
-  const loadingStatus = document.querySelector(QR.QR_SETUP_STATUS_LOADING_SELECTOR);
-  const successStatus = document.querySelector(QR.QR_SETUP_STATUS_SUCCESS_SELECTOR);
-  const errorStatus = document.querySelector(QR.QR_SETUP_STATUS_ERROR_SELECTOR);
+function qrSetupAnimationCleanup() {
+  const dom = qrSetupDomGet();
+  const { root, panel, content, statusLoading, statusSuccess, statusError } = dom;
 
   if (content) {
     animPhaseReset(content, ...QR.QR_SETUP_RESUME_CONTENT_PHASE_CLASSES);
@@ -145,19 +122,16 @@ function qrSetupAnimationResumeFinish() {
       content.style.removeProperty(layoutVar);
     });
   }
-
   panel?.classList.remove(QR.QR_SETUP_RESUME_RUNNING_CLASS, QR.QR_SETUP_RESUME_FADE_CLASS);
   panel?.querySelectorAll(QR.QR_SETUP_RESUME_FADE_SELECTORS).forEach((element) => {
     element.style.removeProperty("opacity");
     element.style.removeProperty("visibility");
     element.style.removeProperty("pointer-events");
   });
-
-  [loadingStatus, successStatus, errorStatus].forEach((status) => {
+  [statusLoading, statusSuccess, statusError].forEach((status) => {
     if (!status) {
       return;
     }
-
     status.classList.add(QR.QR_SETUP_HIDDEN_CLASS);
     status.classList.remove(
       QR.QR_SETUP_RESUME_DOTS_FADE_IN_CLASS,
@@ -169,21 +143,20 @@ function qrSetupAnimationResumeFinish() {
       "is-drawn",
     );
   });
-
   root?.classList.toggle(QR.QR_SETUP_RESUME_LOCKED_CLASS, false);
 }
 
-
-// Executes the resume animation sequence, indicating success or failure.
 async function qrSetupAnimationResumeRun(scanResult) {
   const runId = qrSetupStateRunIdNext("resume");
-
-  const root = document.querySelector(QR.QR_SETUP_ROOT_SELECTOR);
-  const panel = document.querySelector(QR.QR_SETUP_PANEL_SELECTOR);
-  const content = document.querySelector(QR.QR_SETUP_CONTENT_SELECTOR);
-  const loadingStatus = document.querySelector(QR.QR_SETUP_STATUS_LOADING_SELECTOR);
-  const successStatus = document.querySelector(QR.QR_SETUP_STATUS_SUCCESS_SELECTOR);
-  const errorStatus = document.querySelector(QR.QR_SETUP_STATUS_ERROR_SELECTOR);
+  const dom = qrSetupDomGet();
+  const {
+    root,
+    panel,
+    content,
+    statusLoading: loadingStatus,
+    statusSuccess: successStatus,
+    statusError: errorStatus,
+  } = dom;
 
   if (
     !root ||
@@ -208,11 +181,7 @@ async function qrSetupAnimationResumeRun(scanResult) {
   });
   panel.classList.remove(QR.QR_SETUP_RESUME_RUNNING_CLASS);
 
-
   root.classList.toggle(QR.QR_SETUP_RESUME_LOCKED_CLASS, true);
-  qrSetupPanelLockSet(true);
-
-
 
   try {
     const panelRect = panel.getBoundingClientRect();
@@ -481,17 +450,24 @@ async function qrSetupAnimationResumeRun(scanResult) {
     content.style.setProperty(QR.QR_SETUP_VAR_RESUME_ORIGIN_HEIGHT, `${layout.expandUpHeight}px`);
     content.classList.remove(QR.QR_SETUP_RESUME_SHRINK_FULL_CLASS);
 
+    if (runId !== qrSetupStateRunIdGet("resume")) {
+      return false;
+    }
+
+    animPhaseReset(content, ...QR.QR_SETUP_RESUME_CONTENT_PHASE_CLASSES);
+    QR.QR_SETUP_RESUME_LAYOUT_VARS.forEach((layoutVar) => {
+      content.style.removeProperty(layoutVar);
+    });
+    panel.classList.remove(QR.QR_SETUP_RESUME_RUNNING_CLASS);
+
     return scanResult;
   } finally {
     if (runId === qrSetupStateRunIdGet("resume")) {
       qrSetupStateSet({ stateScan: false });
       root.classList.toggle(QR.QR_SETUP_RESUME_LOCKED_CLASS, false);
-      qrSetupPanelLockSet(false);
     }
   }
 }
 
-
-
-export { qrSetupAnimationPanelOpen, qrSetupAnimationPanelClose, qrSetupAnimationResumeRun, qrSetupAnimationResumeFinish };
+export { qrSetupAnimationPanelClose, qrSetupAnimationPanelOpen, qrSetupAnimationCleanup, qrSetupAnimationResumeRun };
 

@@ -1,3 +1,4 @@
+import { extensionWindowOpen } from "../../../../shell/extension-window.js";
 import { workerStoragePendingSet } from "../pending/set.js";
 
 /** Stores a scan failure message and opens the extension popup. */
@@ -7,7 +8,7 @@ async function workerStorageStoreFailure(message) {
       status: "error",
       message,
     });
-    await chrome.action.openPopup();
+    await extensionWindowOpen();
   } catch (error) {
     console.warn("[scan-storage] workerStorageStoreFailure failed", error);
     throw error;

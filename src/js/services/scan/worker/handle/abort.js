@@ -7,7 +7,7 @@ import { messageContent } from "../../message/message-index.js";
 /** Aborts an in-progress scan and clears pending storage. */
 async function workerHandleAbort(options = {}) {
   try {
-    const { removeTabOverlay = false } = options;
+    const { removeTabOverlay = false, broadcast = false } = options;
 
     if (removeTabOverlay) {
       const { tab } = await workerTabResolve();
@@ -18,7 +18,10 @@ async function workerHandleAbort(options = {}) {
     }
 
     await workerStoragePendingClear();
-    chrome.runtime.sendMessage({ action: MESSAGES.CANCELLED_EVENT });
+
+    if (broadcast) {
+      chrome.runtime.sendMessage({ action: MESSAGES.CANCELLED_EVENT });
+    }
 
     return { success: true };
   } catch (error) {

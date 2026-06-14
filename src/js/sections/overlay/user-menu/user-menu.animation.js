@@ -7,8 +7,6 @@ import * as UM from "../../../const/const.user-menu.js";
 
 import { VAR_BUFFER_MS, VAR_FADE_MS, VAR_HOLD_MS, VAR_RESULT_COPY_DRAW_MS } from "../../../const/const.utility.js";
 
-
-/** Cleans up all animation classes, status views, and layout variables from the user menu. */
 function userMenuAnimationCleanup() {
   const dom = userMenuDomGet();
   const { root, panel, content, statusLoading, statusSuccess, statusError } = dom;
@@ -17,7 +15,6 @@ function userMenuAnimationCleanup() {
     UM.USER_MENU_SIGN_UP_LOCKED_CLASS,
     UM.USER_MENU_SIGN_OUT_LOCKED_CLASS,
     UM.USER_MENU_PANEL_OPENING_CLASS,
-    UM.USER_MENU_PANEL_OPEN_CLASS,
     UM.USER_MENU_PANEL_CLOSING_CLASS,
     UM.USER_MENU_PANEL_BACKDROP_CLOSING_CLASS
   );
@@ -91,7 +88,6 @@ function userMenuAnimationCleanup() {
   });
 }
 
-/** Runs the full-panel auth loading and result animation. */
 async function userMenuAnimationRun(authType, authResult, onResult, onRestore) {
   const p = authType === "signUp" ? "SIGN_UP" : authType === "signOut" ? "SIGN_OUT" : "SIGN_IN";
   const runIdKey = authType === "signUp" ? "signUp" : authType === "signOut" ? "signOut" : "signIn";
@@ -176,6 +172,7 @@ async function userMenuAnimationRun(authType, authResult, onResult, onRestore) {
     return authResult;
   }
   root?.classList.toggle(cfg.lockedClass, true);
+  try {
   const panelRect = panel.getBoundingClientRect();
   const contentRect = content.getBoundingClientRect();
   const panelStyles = getComputedStyle(panel);
@@ -484,9 +481,13 @@ async function userMenuAnimationRun(authType, authResult, onResult, onRestore) {
     restoreFadeMs + timeoutBufferMs,
   );
   return authResult;
+  } finally {
+    if (id === userMenuStateRunIdGet(cfg.runIdKey)) {
+      userMenuAnimationCleanup();
+    }
+  }
 }
 
-/** Plays the user-menu panel open animation. */
 async function userMenuAnimationPanelOpen() {
   const id = userMenuStateRunIdNext("panel");
   const dom = userMenuDomGet();
@@ -518,7 +519,6 @@ async function userMenuAnimationPanelOpen() {
   }
 }
 
-/** Plays the user-menu panel close animation. */
 async function userMenuAnimationPanelClose() {
   const id = userMenuStateRunIdNext("panel");
   const dom = userMenuDomGet();
@@ -563,7 +563,6 @@ async function userMenuAnimationPanelClose() {
   }
 }
 
-/** Waits for the auth thumb transition after a view switch. */
 async function userMenuAnimationSwitchAuth() {
   const dom = userMenuDomGet();
   const { authTrack: track, authThumb: thumb } = dom;
@@ -578,7 +577,6 @@ async function userMenuAnimationSwitchAuth() {
   );
 }
 
-/** Waits for the theme thumb transition after a theme switch. */
 async function userMenuAnimationSwitchTheme() {
   const dom = userMenuDomGet();
   const { themeTrack: track, themeThumb: thumb } = dom;
@@ -593,7 +591,6 @@ async function userMenuAnimationSwitchTheme() {
   );
 }
 
-/** Plays the account copy confirmation animation. */
 async function userMenuAnimationCopyRun() {
   const dom = userMenuDomGet();
   const btn = dom.accountCopyBtn;
@@ -615,7 +612,6 @@ async function userMenuAnimationCopyRun() {
   }
 }
 
-/** Plays the account download confirmation animation. */
 async function userMenuAnimationDownloadRun() {
   const dom = userMenuDomGet();
   const btn = dom.accountDownloadBtn;
@@ -637,7 +633,5 @@ async function userMenuAnimationDownloadRun() {
   }
 }
 
-
 export { userMenuAnimationCleanup, userMenuAnimationCopyRun, userMenuAnimationDownloadRun, userMenuAnimationPanelClose, userMenuAnimationPanelOpen, userMenuAnimationRun, userMenuAnimationSwitchAuth, userMenuAnimationSwitchTheme };
-
 

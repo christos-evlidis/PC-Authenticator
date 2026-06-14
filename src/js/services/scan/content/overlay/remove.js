@@ -9,7 +9,7 @@ function contentOverlayRemove({ notifyCancel = false } = {}) {
   document.querySelector(`.${OVERLAY_HOST_CLASS}`)?.remove();
 
   if (notifyCancel) {
-    chrome.runtime.sendMessage({ action: MESSAGES.CANCELLED_EVENT });
+    chrome.runtime.sendMessage({ action: MESSAGES.CANCELLED_EVENT, reopenPopup: true });
   }
 }
 

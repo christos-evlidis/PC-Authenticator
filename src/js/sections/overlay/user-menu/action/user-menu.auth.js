@@ -11,7 +11,6 @@ async function userMenuAuthSignIn(input) {
     return; // Exit without starting another sign-in flow.
   }
   const request = await appSignIn(input); // Verify the entered account number and persist it when valid.
-  const authKey = appAuthGet(); // Read the current auth key from app state after the sign-in attempt.
   userMenuStateSet({ stateAnim: true }); // Mark the user menu as busy before the sign-in animation starts.
   await userMenuAnimationRun("signIn", request, // Run the full sign-in loading and result animation.
     async () => { // Runs when the animation reaches the shell switch point.
@@ -19,9 +18,9 @@ async function userMenuAuthSignIn(input) {
     },
     async () => { // Runs after the animation finishes to restore the user-menu panel.
       if (request) { // Use the signed-in layout when sign-in succeeded.
-        userMenuRenderSignedIn(authKey); // Show the signed-in account view and account number field.
+        userMenuRenderSignedIn(appAuthGet()); // Show the signed-in account view with the stored account key.
       } else { // Use the signed-out layout when sign-in failed.
-        userMenuRenderSignedOut(authKey); // Restore the sign-in and sign-up auth views.
+        userMenuRenderSignedOut(appAuthGet()); // Restore the sign-in and sign-up auth views.
       }
     }
   );
@@ -34,7 +33,6 @@ async function userMenuAuthSignUp() {
     return; // Exit without starting another sign-up flow.
   }
   const request = await appSignUp(); // Create a new account number and store it when successful.
-  const authKey = appAuthGet(); // Read the current auth key from app state after the sign-up attempt.
   userMenuStateSet({ stateAnim: true }); // Mark the user menu as busy before the sign-up animation starts.
   await userMenuAnimationRun("signUp", request, // Run the full sign-up loading and result animation.
     async () => { // Runs when the animation reaches the shell switch point.
@@ -42,9 +40,9 @@ async function userMenuAuthSignUp() {
     },
     async () => { // Runs after the animation finishes to restore the user-menu panel.
       if (request) { // Use the signed-in layout when sign-up succeeded.
-        userMenuRenderSignedIn(authKey); // Show the signed-in account view and account number field.
+        userMenuRenderSignedIn(appAuthGet()); // Show the signed-in account view with the stored account key.
       } else { // Use the signed-out layout when sign-up failed.
-        userMenuRenderSignedOut(authKey); // Restore the sign-in and sign-up auth views.
+        userMenuRenderSignedOut(appAuthGet()); // Restore the sign-in and sign-up auth views.
       }
     }
   );
