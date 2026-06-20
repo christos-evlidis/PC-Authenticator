@@ -1,3 +1,5 @@
+import CryptoJS from "crypto-js";
+
 /** Encrypts account data as JSON with the auth number key. */
 function dataCryptoEncrypt(accounts, authNumber) {
   try {

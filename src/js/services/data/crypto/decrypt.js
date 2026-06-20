@@ -1,3 +1,5 @@
+import CryptoJS from "crypto-js";
+
 /** Decrypts encrypted account data with the auth number key. */
 function dataCryptoDecrypt(encryptedData, authNumber) {
   try {

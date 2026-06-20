@@ -1,3 +1,4 @@
+import CryptoJS from "crypto-js";
 import { dataCodeCounter } from "./counter.js";
 import { dataRecordSanitizeSecret } from "../record/sanitize/secret.js";
 

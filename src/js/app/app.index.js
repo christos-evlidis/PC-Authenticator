@@ -1,3 +1,4 @@
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import { authApiVerify, authStorageGet } from "../services/auth/auth-index.js";
 import { dataHandleSync } from "../services/data/data-index.js";
 import { loadAnimationStart } from "../services/sequences/sequences-index.js";
