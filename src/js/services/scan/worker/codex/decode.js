@@ -1,4 +1,4 @@
-import jsQR from "../../../../../libs/jsqr.esm.js";
+import jsQR from "jsqr";
 
 /** Decodes QR code pixel data using jsQR and returns the result or null. */
 function workerCodexDecode(imageData, width, height) {
