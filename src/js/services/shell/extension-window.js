@@ -24,6 +24,15 @@ async function extensionWindowFind() {
 
 async function extensionWindowOpen() {
   try {
+    if (typeof chrome.action.openPopup === "function") {
+      try {
+        await chrome.action.openPopup();
+        return null;
+      } catch (error) {
+        console.warn("[extension-window] chrome.action.openPopup failed", error);
+      }
+    }
+
     const existing = await extensionWindowFind();
 
     if (existing?.id != null) {
@@ -48,10 +57,6 @@ async function extensionWindowOpen() {
 }
 
 function extensionWindowInit() {
-  chrome.action.onClicked.addListener(() => {
-    void extensionWindowOpen();
-  });
-
   chrome.windows.onRemoved.addListener((windowId) => {
     if (windowId === extensionWindowId) {
       extensionWindowId = null;

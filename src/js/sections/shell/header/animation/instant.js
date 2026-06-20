@@ -1,4 +1,4 @@
-﻿import { HEADER_ANIMATION_PENDING_CLASS } from "../../../../const/const.header.js";
+import { HEADER_ANIMATION_PENDING_CLASS } from "../../../../const/const.header.js";
 import { HEADER_BUTTON_SELECTOR } from "../../../../const/const.header.js";
 import { HEADER_CONTENT_PENDING_CLASS } from "../../../../const/const.header.js";
 import { HEADER_FADE_IN_CLASS } from "../../../../const/const.header.js";
@@ -12,7 +12,7 @@ import { HEADER_TITLE_TEXT } from "../../../../const/const.header.js";
 import { HEADER_TITLE_TYPING_CLASS } from "../../../../const/const.header.js";
 import { HEADER_VIEW_SELECTOR } from "../../../../const/const.header.js";
 
-function headerAnimationInstant() {
+function _headerAnimationInstant() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
   const title = document.querySelector(HEADER_TITLE_SELECTOR);
   const display = document.querySelector(HEADER_TITLE_DISPLAY_SELECTOR);
@@ -42,4 +42,4 @@ function headerAnimationInstant() {
     });
 }
 
-export { headerAnimationInstant };
+export { _headerAnimationInstant as headerAnimationInstant };

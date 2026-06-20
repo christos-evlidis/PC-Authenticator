@@ -1,4 +1,4 @@
-﻿import { dataCodeClock, dataCodeGenerate, dataCodeOptions, dataCodeTypeHotp } from "../../../../services/data/data-index.js";
+import { dataCodeClock, dataCodeGenerate, dataCodeOptions, dataCodeTypeHotp } from "../../../../services/data/data-index.js";
 
 import { codesStateStore } from "../state/store.js";
 import { codesUtilPiePathBuild } from "../util/pie.js";
@@ -7,7 +7,7 @@ import { codesUtilTimerPreferenceSave } from "../util/timer-preference.js";
 import { CODES_HIDDEN_CLASS } from "../../../../const/const.codes.js";
 
 /** Updates the TOTP pie timer SVG for the current angle. */
-function codesTickerPieUpdate(piePath, angle, lastPathRef) {
+function _codesTickerPieUpdate(piePath, angle, lastPathRef) {
   if (!piePath) {
     return lastPathRef;
   }
@@ -24,14 +24,14 @@ function codesTickerPieUpdate(piePath, angle, lastPathRef) {
 }
 
 /** Applies global timer invert preference to all card timers. */
-function codesTickerInvertedSync() {
+function _codesTickerInvertedSync() {
   for (const root of codesStateStore.cardRoots) {
     root.els.timer?.classList.toggle("inverted", codesStateStore.globalTimerInverted);
   }
 }
 
 /** Flips timer direction when the TOTP period rolls over. */
-function codesTickerPeriodRollover(clock) {
+function _codesTickerPeriodRollover(clock) {
   if (codesStateStore.globalLastTimerPeriod === null) {
     codesStateStore.globalLastTimerPeriod = clock.period;
     return;
@@ -43,12 +43,12 @@ function codesTickerPeriodRollover(clock) {
 
   codesStateStore.globalTimerInverted = !codesStateStore.globalTimerInverted;
   void codesUtilTimerPreferenceSave(codesStateStore.globalTimerInverted);
-  codesTickerInvertedSync();
+  _codesTickerInvertedSync();
   codesStateStore.globalLastTimerPeriod = clock.period;
 }
 
 /** Regenerates and displays the OTP code for a card. */
-function codesTickerAccountCodeUpdate(root) {
+function _codesTickerAccountCodeUpdate(root) {
   const { account, els } = root;
   const otpOptions = dataCodeOptions(account);
   const otp = dataCodeGenerate(account.secret, otpOptions);
@@ -61,7 +61,7 @@ function codesTickerAccountCodeUpdate(root) {
 }
 
 /** Updates timer pie visuals for a TOTP card. */
-function codesTickerVisualsUpdate(root, clock) {
+function _codesTickerVisualsUpdate(root, clock) {
   const pieFg = root.els.pieFg;
 
   if (!pieFg) {
@@ -69,11 +69,11 @@ function codesTickerVisualsUpdate(root, clock) {
   }
 
   pieFg.classList.remove(CODES_HIDDEN_CLASS);
-  codesTickerPieUpdate(pieFg, clock.angle, root.lastPiePath);
+  _codesTickerPieUpdate(pieFg, clock.angle, root.lastPiePath);
 }
 
 /** Runs one ticker tick for all TOTP cards. */
-function codesTickerSecondRun() {
+function _codesTickerSecondRun() {
   let rolloverClock = null;
 
   for (const root of codesStateStore.cardRoots) {
@@ -87,11 +87,11 @@ function codesTickerSecondRun() {
       rolloverClock = clock;
     }
 
-    codesTickerAccountCodeUpdate(root);
+    _codesTickerAccountCodeUpdate(root);
   }
 
   if (rolloverClock) {
-    codesTickerPeriodRollover(rolloverClock);
+    _codesTickerPeriodRollover(rolloverClock);
   }
 
   for (const root of codesStateStore.cardRoots) {
@@ -100,12 +100,12 @@ function codesTickerSecondRun() {
     }
 
     const clock = dataCodeClock(dataCodeOptions(root.account));
-    codesTickerVisualsUpdate(root, clock);
+    _codesTickerVisualsUpdate(root, clock);
   }
 }
 
 /** Stops the interval ticker and clears card roots. */
-function codesTickerStop() {
+function _codesTickerStop() {
   if (codesStateStore.tickIntervalId != null) {
     clearInterval(codesStateStore.tickIntervalId);
     codesStateStore.tickIntervalId = null;
@@ -115,19 +115,19 @@ function codesTickerStop() {
 }
 
 /** Returns whether any rendered account uses TOTP. */
-function codesTickerHasTotp() {
+function _codesTickerHasTotp() {
   return codesStateStore.cardRoots.some((root) => !dataCodeTypeHotp(root.account));
 }
 
 /** Returns the first TOTP card root, if any. */
-function codesTickerFirstTotpRoot() {
+function _codesTickerFirstTotpRoot() {
   return (
     codesStateStore.cardRoots.find((root) => !dataCodeTypeHotp(root.account)) ?? null
   );
 }
 
 /** Starts aligned second-bound ticker updates for TOTP cards. */
-function codesTickerStart() {
+function _codesTickerStart() {
   if (codesStateStore.tickIntervalId != null) {
     clearInterval(codesStateStore.tickIntervalId);
     codesStateStore.tickIntervalId = null;
@@ -139,19 +139,19 @@ function codesTickerStart() {
 
   for (const root of codesStateStore.cardRoots) {
     if (dataCodeTypeHotp(root.account)) {
-      codesTickerAccountCodeUpdate(root);
+      _codesTickerAccountCodeUpdate(root);
     }
   }
 
-  if (!codesTickerHasTotp()) {
+  if (!_codesTickerHasTotp()) {
     return;
   }
 
   codesStateStore.globalLastTimerPeriod = null;
-  codesTickerInvertedSync();
+  _codesTickerInvertedSync();
 
-  const firstTotp = codesTickerFirstTotpRoot();
-  codesTickerPeriodRollover(
+  const firstTotp = _codesTickerFirstTotpRoot();
+  _codesTickerPeriodRollover(
     dataCodeClock(firstTotp ? dataCodeOptions(firstTotp.account) : {}),
   );
 
@@ -161,20 +161,20 @@ function codesTickerStart() {
     }
 
     const clock = dataCodeClock(dataCodeOptions(root.account));
-    codesTickerAccountCodeUpdate(root);
-    codesTickerVisualsUpdate(root, clock);
+    _codesTickerAccountCodeUpdate(root);
+    _codesTickerVisualsUpdate(root, clock);
   }
 
   const msUntilNextSecond = 1000 - (Date.now() % 1000);
 
   window.setTimeout(() => {
-    codesTickerSecondRun();
-    codesStateStore.tickIntervalId = window.setInterval(codesTickerSecondRun, 1000);
+    _codesTickerSecondRun();
+    codesStateStore.tickIntervalId = window.setInterval(_codesTickerSecondRun, 1000);
   }, msUntilNextSecond);
 }
 
 /** Primes OTP display and timer visuals for one card. */
-function codesTickerCardPrime(card) {
+function _codesTickerCardPrime(card) {
   const root = codesStateStore.cardRoots.find((item) => item.card === card);
 
   if (!root) {
@@ -182,7 +182,7 @@ function codesTickerCardPrime(card) {
   }
 
   if (dataCodeTypeHotp(root.account)) {
-    codesTickerAccountCodeUpdate(root);
+    _codesTickerAccountCodeUpdate(root);
     return;
   }
 
@@ -190,12 +190,14 @@ function codesTickerCardPrime(card) {
   root.lastPiePath.value = "";
 
   const clock = dataCodeClock(dataCodeOptions(root.account));
-  codesTickerAccountCodeUpdate(root);
-  codesTickerVisualsUpdate(root, clock);
+  _codesTickerAccountCodeUpdate(root);
+  _codesTickerVisualsUpdate(root, clock);
 }
 
-export { codesTickerAccountCodeUpdate };
-export { codesTickerCardPrime };
-export { codesTickerSecondRun };
-export { codesTickerStart };
-export { codesTickerStop };
+export {
+  _codesTickerAccountCodeUpdate as codesTickerAccountCodeUpdate,
+  _codesTickerCardPrime as codesTickerCardPrime,
+  _codesTickerSecondRun as codesTickerSecondRun,
+  _codesTickerStart as codesTickerStart,
+  _codesTickerStop as codesTickerStop,
+};

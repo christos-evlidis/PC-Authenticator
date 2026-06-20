@@ -1,8 +1,7 @@
 import { manualSetupEventsBind } from "./manual-setup.events.js";
 import { manualSetupDomGet } from "./manual-setup.dom.js";
 
-/** Registers manual-setup panel listeners and form handlers. */
-function manualSetupInit() {
+function _manualSetupInit() {
   manualSetupEventsBind();
   const dom = manualSetupDomGet();
   if (dom.form) {
@@ -19,4 +18,10 @@ function manualSetupInit() {
   }
 }
 
-export { manualSetupInit };
+export { _manualSetupInit as manualSetupInit };
+
+// Functions exported from this section:
+// - manualSetupInit
+
+// Functions used by other parts of the codebase:
+// - manualSetupInit (used in project/src/js/sections/sections-index.js)

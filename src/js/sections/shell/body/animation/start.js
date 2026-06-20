@@ -23,7 +23,7 @@ import { BODY_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../../../const/const.bo
 import { BODY_VAR_ICON_POP_MS } from "../../../../const/const.body.js";
 import { BODY_VAR_MESSAGE_TYPE_MS } from "../../../../const/const.body.js";
 
-async function bodyAnimationStart() {
+async function _bodyAnimationStart() {
   const body = document.querySelector(BODY_ROOT_SELECTOR);
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
   const signedInView = document.querySelector(BODY_SIGNED_IN_VIEW_SELECTOR);
@@ -93,4 +93,4 @@ async function bodyAnimationStart() {
   }
 }
 
-export { bodyAnimationStart };
+export { _bodyAnimationStart as bodyAnimationStart };

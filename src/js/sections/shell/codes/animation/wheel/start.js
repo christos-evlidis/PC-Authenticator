@@ -6,7 +6,7 @@ const CARD_SELECTOR =
   ".account-block:not(.account-block--manual-add-spacer):not(.account-block--exit-spacer):not(.is-filtered-out)";
 
 /** Binds smooth one-card-per-tick wheel scrolling on the codes list. */
-function codesAnimationWheelStart() {
+function _codesAnimationWheelStart() {
   const root = document.querySelector(CODES_ROOT_SELECTOR);
   const list = document.querySelector(CODES_LIST_SELECTOR);
 
@@ -105,4 +105,4 @@ function codesAnimationWheelStart() {
   );
 }
 
-export { codesAnimationWheelStart };
+export { _codesAnimationWheelStart as codesAnimationWheelStart };

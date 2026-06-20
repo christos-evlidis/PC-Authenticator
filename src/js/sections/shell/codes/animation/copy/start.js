@@ -16,7 +16,7 @@ import { codesAnimationCopyReset } from "./reset.js";
 const COPY_FILL_COVERAGE_RATIO = 0.75;
 
 /** Plays the copy fill and checkmark feedback on a card. */
-async function codesAnimationCopyStart(card, options = {}) {
+async function _codesAnimationCopyStart(card, options = {}) {
   if (card.dataset.copyFeedbackActive === "1") {
     return;
   }
@@ -76,4 +76,4 @@ async function codesAnimationCopyStart(card, options = {}) {
   codesAnimationCopyFinish(card, fill, check);
 }
 
-export { codesAnimationCopyStart };
+export { _codesAnimationCopyStart as codesAnimationCopyStart };

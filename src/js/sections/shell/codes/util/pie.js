@@ -1,8 +1,8 @@
-﻿import { CODES_PIE_ARC_RADIUS } from "../../../../const/const.codes.js";
+import { CODES_PIE_ARC_RADIUS } from "../../../../const/const.codes.js";
 import { CODES_PIE_CENTER } from "../../../../const/const.codes.js";
 
 /** Builds an SVG path for the TOTP timer pie slice. */
-function codesUtilPiePathBuild(angle) {
+function _codesUtilPiePathBuild(angle) {
   if (angle <= 0) {
     return "";
   }
@@ -36,4 +36,4 @@ function codesUtilPiePathBuild(angle) {
   return `M${CODES_PIE_CENTER} ${CODES_PIE_CENTER} L${startX} ${startY} A${CODES_PIE_ARC_RADIUS} ${CODES_PIE_ARC_RADIUS} 0 1 1 ${midX} ${midY} A${CODES_PIE_ARC_RADIUS} ${CODES_PIE_ARC_RADIUS} 0 0 1 ${endX} ${endY} Z`;
 }
 
-export { codesUtilPiePathBuild };
+export { _codesUtilPiePathBuild as codesUtilPiePathBuild };

@@ -1,5 +1,5 @@
 /** Assigns random slide direction before card intro animation. */
-function codesAnimationIntroReset(card) {
+function _codesAnimationIntroReset(card) {
   const fromLeft = Math.random() < 0.5;
 
   card.classList.add("is-slide-pending");
@@ -7,4 +7,4 @@ function codesAnimationIntroReset(card) {
   card.classList.add(fromLeft ? "is-slide-from-left" : "is-slide-from-right");
 }
 
-export { codesAnimationIntroReset };
+export { _codesAnimationIntroReset as codesAnimationIntroReset };

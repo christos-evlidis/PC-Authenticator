@@ -16,10 +16,10 @@ import { codesUtilTimerPreferenceLoad } from "./util/timer-preference.js";
 import { CODES_HIDDEN_CLASS } from "../../../const/const.codes.js";
 import { CODES_ROOT_SELECTOR } from "../../../const/const.codes.js";
 
-let codesInitListenersRegistered = false;
+let _codesInitListenersRegistered = false;
 
 /** Rebuilds account cards from data and starts the ticker. */
-function codesCardRender(accounts, options = {}) {
+function _codesCardRender(accounts, options = {}) {
   const { list, template } = codesElementsGet();
   const playIntro = Boolean(options.playIntro);
   codesTickerStop();
@@ -51,23 +51,23 @@ function codesCardRender(accounts, options = {}) {
 }
 
 /** Stops the ticker and clears rendered account cards. */
-function codesLoadClear() {
+function _codesLoadClear() {
   codesTickerStop();
-  codesCardRender([]);
+  _codesCardRender([]);
 }
 
 /** Syncs accounts from storage and renders the codes list. */
-async function codesLoadRestore() {
+async function _codesLoadRestore() {
   const authNumber = await authStorageGet();
 
   if (!authNumber) {
-    codesCardRender([]);
+    _codesCardRender([]);
     return [];
   }
 
   await codesUtilTimerPreferenceLoad();
   const accounts = await dataHandleSync(authNumber);
-  codesCardRender(accounts);
+  _codesCardRender(accounts);
   return accounts;
 }
 
@@ -75,10 +75,10 @@ async function codesLoadRestore() {
  * Registers codes listeners and optionally loads accounts with intro animation.
  * Call with no arguments during module init; pass accounts to render the list.
  */
-async function codesInit(accounts, options) {
-  if (!codesInitListenersRegistered) {
+async function _codesInit(accounts, options) {
+  if (!_codesInitListenersRegistered) {
     codesActionWheel();
-    codesInitListenersRegistered = true;
+    _codesInitListenersRegistered = true;
   }
 
   if (accounts === undefined) {
@@ -92,7 +92,7 @@ async function codesInit(accounts, options) {
     await codesUtilTimerPreferenceLoad();
 
     const safeAccounts = Array.isArray(accounts) ? accounts : [];
-    const cards = codesCardRender(safeAccounts, { playIntro });
+    const cards = _codesCardRender(safeAccounts, { playIntro });
 
     if (playIntro && cards.length) {
       await codesAnimationIntroStart(cards);
@@ -104,13 +104,24 @@ async function codesInit(accounts, options) {
 }
 
 /** Shows or hides the codes section on sign-out and clears cards. */
-function codesApply(isSignedIn) {
+function _codesApply(isSignedIn) {
   if (!isSignedIn) {
     document.querySelector(CODES_ROOT_SELECTOR)?.classList.add(CODES_HIDDEN_CLASS);
-    codesLoadClear();
+    _codesLoadClear();
   }
 }
 
-export { codesApply };
-export { codesInit };
-export { codesLoadRestore };
+export {
+  _codesApply as codesApply,
+  _codesInit as codesInit,
+  _codesLoadRestore as codesLoadRestore,
+};
+
+// Functions exported from this section:
+// - codesApply
+// - codesInit
+// - codesLoadRestore
+
+// Functions used by other parts of the codebase:
+// - codesInit (used in project/src/js/app/app.session.js, project/src/js/sections/sections-index.js)
+// - codesApply (used in project/src/js/app/app.shell.js)

@@ -1,9 +1,9 @@
-﻿import { codesStateStore } from "../state/store.js";
+import { codesStateStore } from "../state/store.js";
 
 import { CODES_TIMER_INVERTED_KEY } from "../../../../const/const.codes.js";
 
 /** Loads global timer invert preference from storage. */
-async function codesUtilTimerPreferenceLoad() {
+async function _codesUtilTimerPreferenceLoad() {
   try {
     const stored = await chrome.storage.local.get([CODES_TIMER_INVERTED_KEY]);
     codesStateStore.globalTimerInverted = Boolean(stored[CODES_TIMER_INVERTED_KEY]);
@@ -13,7 +13,7 @@ async function codesUtilTimerPreferenceLoad() {
 }
 
 /** Persists global timer invert preference to storage. */
-async function codesUtilTimerPreferenceSave(inverted) {
+async function _codesUtilTimerPreferenceSave(inverted) {
   codesStateStore.globalTimerInverted = inverted;
 
   try {
@@ -23,5 +23,7 @@ async function codesUtilTimerPreferenceSave(inverted) {
   }
 }
 
-export { codesUtilTimerPreferenceLoad };
-export { codesUtilTimerPreferenceSave };
+export {
+  _codesUtilTimerPreferenceLoad as codesUtilTimerPreferenceLoad,
+  _codesUtilTimerPreferenceSave as codesUtilTimerPreferenceSave,
+};

@@ -301,16 +301,5 @@ project
 │   │   │       └── theme-index.js
 │   │   └── utils
 │   │       └── utility-animation.js
-│   ├── libs
-│   │   ├── fontawesome
-│   │   │   ├── css
-│   │   │   │   └── all.min.css
-│   │   │   └── webfonts
-│   │   │       ├── fa-brands-400.woff2
-│   │   │       ├── fa-regular-400.woff2
-│   │   │       └── fa-solid-900.woff2
-│   │   ├── crypto-js.min.js
-│   │   ├── jsqr.esm.js
-│   │   └── jsQR.js
 │   └── manifest.json
 └── manifest.json

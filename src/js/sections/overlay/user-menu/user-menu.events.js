@@ -6,14 +6,14 @@ import { userMenuDomGet, userMenuDomSet } from "./user-menu.dom.js";
 
 import { USER_MENU_ACCOUNT_FIELD_SIGNED_OUT_SELECTOR } from "../../../const/const.user-menu.js";
 
-let userMenuEventsBound = false;
+let _userMenuEventsBound = false;
 
 /** Binds all user-menu event listeners once. */
-function userMenuEventsBind() {
-  if (userMenuEventsBound) { // Stop when listeners are already attached.
+function _userMenuEventsBind() {
+  if (_userMenuEventsBound) { // Stop when listeners are already attached.
     return; // Exit without binding duplicate handlers.
   }
-  userMenuEventsBound = true; // Mark event binding as complete for this session.
+  _userMenuEventsBound = true; // Mark event binding as complete for this session.
   const dom = userMenuDomGet(); // Read the current user-menu DOM references.
   dom.openBtns.forEach((button) => { // Attach open handlers to every header user-menu button.
     button.addEventListener("click", userMenuPanelToggle); // Toggle the panel open or closed on header button click.
@@ -51,4 +51,4 @@ function userMenuEventsBind() {
   userMenuDomSet({ showViewSignUp: false }); // Hide the sign-up view during initial event binding.
 }
 
-export { userMenuEventsBind };
+export { _userMenuEventsBind as userMenuEventsBind };

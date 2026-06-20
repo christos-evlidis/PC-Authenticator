@@ -1,8 +1,8 @@
-﻿import { HEADER_BUTTON_SELECTOR } from "../../../../../const/const.header.js";
+import { HEADER_BUTTON_SELECTOR } from "../../../../../const/const.header.js";
 import { HEADER_DISABLED_CLASS } from "../../../../../const/const.header.js";
 import { HEADER_ROOT_SELECTOR } from "../../../../../const/const.header.js";
 
-function headerActionIconsEnable() {
+function _headerActionIconsEnable() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
 
   if (header) {
@@ -15,4 +15,4 @@ function headerActionIconsEnable() {
   });
 }
 
-export { headerActionIconsEnable };
+export { _headerActionIconsEnable as headerActionIconsEnable };

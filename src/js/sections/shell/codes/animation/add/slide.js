@@ -1,8 +1,8 @@
-﻿import { animCssMsGet } from "../../../../../utils/utility-animation.js";
+import { animCssMsGet } from "../../../../../utils/utility-animation.js";
 import { CODES_VAR_SLIDE_MS } from "../../../../../const/const.codes.js";
 
 /** Slides a newly inserted card in from the top. */
-function codesAnimationAddSlide(card, durationMs) {
+function _codesAnimationAddSlide(card, durationMs) {
   const slideMs = durationMs ?? animCssMsGet(card, CODES_VAR_SLIDE_MS);
 
   return new Promise((resolve) => {
@@ -47,4 +47,4 @@ function codesAnimationAddSlide(card, durationMs) {
   });
 }
 
-export { codesAnimationAddSlide };
+export { _codesAnimationAddSlide as codesAnimationAddSlide };

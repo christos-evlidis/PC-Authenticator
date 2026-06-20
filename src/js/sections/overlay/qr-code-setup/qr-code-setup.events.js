@@ -4,14 +4,14 @@ import { qrSetupScanStart } from "./action/qr-code-setup.scan.js";
 import { qrSetupDomGet } from "./qr-code-setup.dom.js";
 import { qrSetupStateGet } from "./qr-code-setup.state.js";
 
-let qrSetupEventsBound = false;
+let _qrSetupEventsBound = false;
 
 /** Binds all QR setup event listeners once. */
-function qrSetupEventsBind() {
-  if (qrSetupEventsBound) { // Stop when listeners are already attached.
+function _qrSetupEventsBind() {
+  if (_qrSetupEventsBound) { // Stop when listeners are already attached.
     return; // Exit without binding duplicate handlers.
   }
-  qrSetupEventsBound = true; // Mark event binding as complete for this session.
+  _qrSetupEventsBound = true; // Mark event binding as complete for this session.
   const dom = qrSetupDomGet(); // Read the current QR setup DOM references.
   chrome.runtime.onMessage.addListener((message) => { // Listen for scan cancellation messages from the extension runtime.
     if (message.action === "qrScanCancelled") { // Handle explicit scan cancel events from the content script.
@@ -56,4 +56,4 @@ function qrSetupEventsBind() {
 }
 
 
-export { qrSetupEventsBind };
+export { _qrSetupEventsBind as qrSetupEventsBind };

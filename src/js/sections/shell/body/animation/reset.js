@@ -16,7 +16,7 @@ import { BODY_SIGNED_IN_VIEW_SELECTOR } from "../../../../const/const.body.js";
 import { BODY_SIGNED_OUT_MESSAGE_TEXT } from "../../../../const/const.body.js";
 import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "../../../../const/const.body.js";
 
-function bodyAnimationReset() {
+function _bodyAnimationReset() {
   const body = document.querySelector(BODY_ROOT_SELECTOR);
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
   const signedInView = document.querySelector(BODY_SIGNED_IN_VIEW_SELECTOR);
@@ -67,4 +67,4 @@ function bodyAnimationReset() {
   body.classList.remove(BODY_ACTIVE_CLASS);
 }
 
-export { bodyAnimationReset };
+export { _bodyAnimationReset as bodyAnimationReset };

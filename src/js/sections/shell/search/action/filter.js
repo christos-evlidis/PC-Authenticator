@@ -1,7 +1,7 @@
 import { SEARCH_FILTER_CARD_SELECTOR, SEARCH_INPUT_SELECTOR } from "../../../../const/const.search.js";
 
 /** Filters account cards by the current search query. */
-function searchActionFilter() {
+function _searchActionFilter() {
   const query =
     document.querySelector(SEARCH_INPUT_SELECTOR)?.value.trim().toLowerCase() ?? "";
 
@@ -18,4 +18,4 @@ function searchActionFilter() {
   });
 }
 
-export { searchActionFilter };
+export { _searchActionFilter as searchActionFilter };

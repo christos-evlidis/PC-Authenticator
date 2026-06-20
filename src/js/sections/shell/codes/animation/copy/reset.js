@@ -1,5 +1,5 @@
 /** Clears copy feedback animation classes and cancels animations. */
-function codesAnimationCopyReset(fill, check) {
+function _codesAnimationCopyReset(fill, check) {
   fill.classList.remove("is-expanding", "is-contracting");
   fill.style.removeProperty("clip-path");
   check.classList.remove("is-visible", "is-animating", "is-drawn", "is-hiding");
@@ -12,4 +12,4 @@ function codesAnimationCopyReset(fill, check) {
   mark?.getAnimations?.().forEach((animation) => animation.cancel());
 }
 
-export { codesAnimationCopyReset };
+export { _codesAnimationCopyReset as codesAnimationCopyReset };

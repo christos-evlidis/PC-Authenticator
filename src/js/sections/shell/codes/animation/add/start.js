@@ -1,8 +1,8 @@
-﻿import { animCssMsGet } from "../../../../../utils/utility-animation.js";
+import { animCssMsGet } from "../../../../../utils/utility-animation.js";
 import { CODES_VAR_SLIDE_MS } from "../../../../../const/const.codes.js";
 
 /** Expands the add spacer and pushes existing cards down. */
-function codesAnimationAddStart(spacer, durationMs) {
+function _codesAnimationAddStart(spacer, durationMs) {
   const slideMs = durationMs ?? animCssMsGet(spacer, CODES_VAR_SLIDE_MS);
 
   return new Promise((resolve) => {
@@ -45,4 +45,4 @@ function codesAnimationAddStart(spacer, durationMs) {
   });
 }
 
-export { codesAnimationAddStart };
+export { _codesAnimationAddStart as codesAnimationAddStart };

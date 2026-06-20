@@ -8,7 +8,7 @@ import { THEME_DARK_KEY, THEME_LIGHT_KEY } from "../../../../const/const.theme.j
 import { USER_MENU_AUTH_SIGN_UP_CLASS, USER_MENU_AUTH_VIEW_SIGN_IN, USER_MENU_AUTH_VIEW_SIGN_UP, USER_MENU_THEME_VIEW_DARK } from "../../../../const/const.user-menu.js";
 
 /** Switches the user-menu auth view between sign-in and sign-up. */
-function userMenuSwitchAuth(authView) {
+function _userMenuSwitchAuth(authView) {
   authView = authView === USER_MENU_AUTH_VIEW_SIGN_UP ? USER_MENU_AUTH_VIEW_SIGN_UP : USER_MENU_AUTH_VIEW_SIGN_IN; // Normalize the requested auth view to sign-in or sign-up.
   const isSignUp = authView === USER_MENU_AUTH_VIEW_SIGN_UP; // Track whether the sign-up view should be active.
   const dom = userMenuDomGet(); // Read the current user-menu DOM references.
@@ -20,7 +20,7 @@ function userMenuSwitchAuth(authView) {
 }
 
 /** Switches the application theme between light and dark. */
-function userMenuSwitchTheme(themeView) {
+function _userMenuSwitchTheme(themeView) {
   themeView = themeView === THEME_DARK_KEY ? THEME_DARK_KEY : THEME_LIGHT_KEY; // Normalize the requested theme to light or dark.
   const isDark = themeView === THEME_DARK_KEY; // Track whether dark theme should be active.
   const dom = userMenuDomGet(); // Read the current user-menu DOM references.
@@ -32,4 +32,4 @@ function userMenuSwitchTheme(themeView) {
   void userMenuAnimationSwitchTheme(); // Animate the theme thumb to the selected light or dark position.
 }
 
-export { userMenuSwitchAuth, userMenuSwitchTheme };
+export { _userMenuSwitchAuth as userMenuSwitchAuth, _userMenuSwitchTheme as userMenuSwitchTheme };

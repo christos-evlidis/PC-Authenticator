@@ -1,4 +1,4 @@
-﻿import { animCssMsGet } from "../../../../utils/utility-animation.js";
+import { animCssMsGet } from "../../../../utils/utility-animation.js";
 import { animDelay } from "../../../../utils/utility-animation.js";
 import { animFrameWait } from "../../../../utils/utility-animation.js";
 import { headerAnimationFinish } from "./finish.js";
@@ -21,7 +21,7 @@ import { HEADER_VAR_INTRO_FADE_MS } from "../../../../const/const.header.js";
 import { HEADER_VAR_TITLE_TYPE_MS } from "../../../../const/const.header.js";
 import { HEADER_VIEW_SELECTOR } from "../../../../const/const.header.js";
 
-async function headerAnimationStart() {
+async function _headerAnimationStart() {
   const header = document.querySelector(HEADER_ROOT_SELECTOR);
 
   if (!header) {
@@ -87,4 +87,4 @@ async function headerAnimationStart() {
   }
 }
 
-export { headerAnimationStart };
+export { _headerAnimationStart as headerAnimationStart };

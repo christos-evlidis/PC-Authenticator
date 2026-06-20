@@ -15,7 +15,7 @@ import { BODY_SIGNED_IN_VIEW_SELECTOR } from "../../../../const/const.body.js";
 import { BODY_SIGNED_OUT_MESSAGE_TEXT } from "../../../../const/const.body.js";
 import { BODY_SIGNED_OUT_VIEW_SELECTOR } from "../../../../const/const.body.js";
 
-function bodyAnimationFinish() {
+function _bodyAnimationFinish() {
   const body = document.querySelector(BODY_ROOT_SELECTOR);
   const signedOutView = document.querySelector(BODY_SIGNED_OUT_VIEW_SELECTOR);
   const signedInView = document.querySelector(BODY_SIGNED_IN_VIEW_SELECTOR);
@@ -75,4 +75,4 @@ function bodyAnimationFinish() {
   icon?.classList.add(BODY_ACTIVE_CLASS);
 }
 
-export { bodyAnimationFinish };
+export { _bodyAnimationFinish as bodyAnimationFinish };

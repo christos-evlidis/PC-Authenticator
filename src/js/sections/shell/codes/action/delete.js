@@ -8,7 +8,7 @@ import { codesAnimationDeleteStart } from "../animation/delete/start.js";
 import { codesStateStore } from "../state/store.js";
 
 /** Confirms and removes an account from storage with exit animation. */
-function codesActionDelete(account, card, deleteBtn) {
+function _codesActionDelete(account, card, deleteBtn) {
   const dismiss = () => {
     document.querySelectorAll(".delete-confirmation").forEach((dialog) => {
       dialog.remove();
@@ -97,4 +97,4 @@ function codesActionDelete(account, card, deleteBtn) {
   }
 }
 
-export { codesActionDelete };
+export { _codesActionDelete as codesActionDelete };

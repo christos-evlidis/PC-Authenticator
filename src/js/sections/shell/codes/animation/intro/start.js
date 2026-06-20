@@ -1,4 +1,4 @@
-﻿import { animCssMsGet } from "../../../../../utils/utility-animation.js";
+import { animCssMsGet } from "../../../../../utils/utility-animation.js";
 import { codesAnimationIntroInstant } from "./instant.js";
 
 import { CODES_CARD_INTRO_PENDING_CLASS } from "../../../../../const/const.codes.js";
@@ -6,7 +6,7 @@ import { CODES_ROOT_SELECTOR } from "../../../../../const/const.codes.js";
 import { CODES_VAR_STAGGER_MS } from "../../../../../const/const.codes.js";
 
 /** Plays staggered intro for all cards and sets pending class. */
-async function codesAnimationIntroStart(cards) {
+async function _codesAnimationIntroStart(cards) {
   if (!cards.length) {
     return;
   }
@@ -41,4 +41,4 @@ async function codesAnimationIntroStart(cards) {
   });
 }
 
-export { codesAnimationIntroStart };
+export { _codesAnimationIntroStart as codesAnimationIntroStart };

@@ -3,7 +3,7 @@ import { manualSetupPanelOpen, manualSetupPanelClose } from "./action/manual-set
 import { manualSetupFormSubmit } from "./action/manual-setup.form.js";
 import { manualSetupTypeSwitch } from "./action/manual-setup.type.js";
 
-function manualSetupEventsBind() {
+function _manualSetupEventsBind() {
   const dom = manualSetupDomGet();
   dom.openBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -30,4 +30,4 @@ function manualSetupEventsBind() {
   });
 }
 
-export { manualSetupEventsBind };
+export { _manualSetupEventsBind as manualSetupEventsBind };

@@ -66,7 +66,7 @@ import {
   MANUAL_SETUP_SUBMIT_SHRINK_FULL_CLASS,
 } from "../../../const/const.manual-setup.js";
 
-async function manualSetupAnimationOpen() {
+async function _manualSetupAnimationOpen() {
   const runId = manualSetupStateRunIdNext("panel");
   const dom = manualSetupDomGet();
   const { root, panel, openBtns } = dom;
@@ -110,7 +110,7 @@ async function manualSetupAnimationOpen() {
   }
 }
 
-async function manualSetupAnimationClose() {
+async function _manualSetupAnimationClose() {
   const runId = manualSetupStateRunIdNext("panel");
   const dom = manualSetupDomGet();
   const { root, panel, backdrop, openBtns } = dom;
@@ -168,7 +168,7 @@ async function manualSetupAnimationClose() {
   }
 }
 
-async function manualSetupAnimationSubmit(resolveSubmit) {
+async function _manualSetupAnimationSubmit(resolveSubmit) {
   const runId = manualSetupStateRunIdNext("submit");
   const dom = manualSetupDomGet();
   const {
@@ -464,7 +464,7 @@ async function manualSetupAnimationSubmit(resolveSubmit) {
   }
 }
 
-function manualSetupAnimationSubmitFinish() {
+function _manualSetupAnimationSubmitFinish() {
   const dom = manualSetupDomGet();
   const {
     root,
@@ -509,8 +509,8 @@ function manualSetupAnimationSubmitFinish() {
 }
 
 export {
-  manualSetupAnimationOpen,
-  manualSetupAnimationClose,
-  manualSetupAnimationSubmit,
-  manualSetupAnimationSubmitFinish,
+  _manualSetupAnimationOpen as manualSetupAnimationOpen,
+  _manualSetupAnimationClose as manualSetupAnimationClose,
+  _manualSetupAnimationSubmit as manualSetupAnimationSubmit,
+  _manualSetupAnimationSubmitFinish as manualSetupAnimationSubmitFinish,
 };

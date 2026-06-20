@@ -3,7 +3,7 @@ import { appAuthGet } from "../../../../app/app.actions.js";
 import { userMenuAnimationCopyRun, userMenuAnimationDownloadRun } from "../user-menu.animation.js";
 
 /** Copies the signed-in account number to the clipboard. */
-async function userMenuAccountNumberCopy() {
+async function _userMenuAccountNumberCopy() {
   const authKey = appAuthGet(); // Read the signed-in account number from app state.
   if (!authKey) { return; } // Stop when there is no account number to copy.
   await navigator.clipboard?.writeText(authKey); // Write the account number to the clipboard.
@@ -11,7 +11,7 @@ async function userMenuAccountNumberCopy() {
 }
 
 /** Downloads the signed-in account number as a text file. */
-async function userMenuAccountNumberDownload() {
+async function _userMenuAccountNumberDownload() {
   const authKey = appAuthGet(); // Read the signed-in account number from app state.
   if (!authKey) { return; } // Stop when there is no account number to download.
   const blob = new Blob([authKey], { type: "text/plain" }); // Build a plain-text file payload from the account number.
@@ -26,4 +26,7 @@ async function userMenuAccountNumberDownload() {
   void userMenuAnimationDownloadRun(); // Play the download confirmation animation on the button.
 }
 
-export { userMenuAccountNumberCopy, userMenuAccountNumberDownload };
+export {
+  _userMenuAccountNumberCopy as userMenuAccountNumberCopy,
+  _userMenuAccountNumberDownload as userMenuAccountNumberDownload,
+};

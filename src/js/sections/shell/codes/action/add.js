@@ -12,7 +12,7 @@ import { codesElementsGet } from "../util/elements.js";
 import { CODES_HIDDEN_CLASS } from "../../../../const/const.codes.js";
 
 /** Inserts a newly added account card with intro animation. */
-async function codesActionAdd(account) {
+async function _codesActionAdd(account) {
   const { list, template } = codesElementsGet();
   if (!list || !template || !account?.secret) {
     return;
@@ -55,4 +55,4 @@ async function codesActionAdd(account) {
   codesTickerCardPrime(card);
 }
 
-export { codesActionAdd };
+export { _codesActionAdd as codesActionAdd };

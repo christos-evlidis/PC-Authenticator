@@ -5,7 +5,7 @@ import { THEME_DARK_KEY, THEME_LIGHT_KEY } from "../../../const/const.theme.js";
 import { USER_MENU_AUTH_VIEW_SIGN_IN, USER_MENU_AUTH_VIEW_SIGN_UP } from "../../../const/const.user-menu.js";
 
 /** Renders the user menu in the signed-in state. */
-function userMenuRenderSignedIn(authKey) {
+function _userMenuRenderSignedIn(authKey) {
   userMenuStateSet({ stateAuth: true }); // Mark the user-menu state as signed in.
   userMenuDomSet({
     showBarAuth: false, // Hide the sign-in/sign-up tab bar.
@@ -17,7 +17,7 @@ function userMenuRenderSignedIn(authKey) {
 }
 
 /** Renders the user menu in the signed-out state. */
-function userMenuRenderSignedOut(authKey) {
+function _userMenuRenderSignedOut(authKey) {
   userMenuStateSet({ stateAuth: false }); // Mark the user-menu state as signed out.
   userMenuDomSet({
     showBarAuth: true, // Show the sign-in/sign-up tab bar.
@@ -30,7 +30,7 @@ function userMenuRenderSignedOut(authKey) {
 }
 
 /** Updates the user-menu theme toggle UI for the selected theme. */
-function userMenuRenderSwitchTheme(themeView) {
+function _userMenuRenderSwitchTheme(themeView) {
   if (themeView !== THEME_DARK_KEY) { // Fall back to light theme for any non-dark value.
     themeView = THEME_LIGHT_KEY; // Normalize the theme key to light mode.
   }
@@ -38,7 +38,7 @@ function userMenuRenderSwitchTheme(themeView) {
 }
 
 /** Updates the user-menu auth tab UI for the selected auth view. */
-function userMenuRenderSwitchAuth(authView) {
+function _userMenuRenderSwitchAuth(authView) {
   if (authView !== USER_MENU_AUTH_VIEW_SIGN_UP) { // Fall back to sign-in for any non-sign-up value.
     authView = USER_MENU_AUTH_VIEW_SIGN_IN; // Normalize the auth view to sign-in.
   }
@@ -49,4 +49,9 @@ function userMenuRenderSwitchAuth(authView) {
   });
 }
 
-export { userMenuRenderSignedIn, userMenuRenderSignedOut, userMenuRenderSwitchAuth, userMenuRenderSwitchTheme };
+export {
+  _userMenuRenderSignedIn as userMenuRenderSignedIn,
+  _userMenuRenderSignedOut as userMenuRenderSignedOut,
+  _userMenuRenderSwitchAuth as userMenuRenderSwitchAuth,
+  _userMenuRenderSwitchTheme as userMenuRenderSwitchTheme,
+};

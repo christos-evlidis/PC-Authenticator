@@ -7,7 +7,7 @@ import { searchAnimationStart } from "./start.js";
 import { SEARCH_ANIMATION_PENDING_CLASS, SEARCH_ROOT_SELECTOR, SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS } from "../../../../const/const.search.js";
 
 /** Runs the search reveal sequence after an intro shrink phase. */
-async function searchAnimationRun() {
+async function _searchAnimationRun() {
   const search = document.querySelector(SEARCH_ROOT_SELECTOR);
 
   if (!search) {
@@ -28,4 +28,4 @@ async function searchAnimationRun() {
   }
 }
 
-export { searchAnimationRun };
+export { _searchAnimationRun as searchAnimationRun };

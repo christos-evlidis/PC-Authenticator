@@ -6,7 +6,7 @@ import { userMenuRenderSignedIn, userMenuRenderSignedOut } from "../user-menu.re
 import { userMenuStateGet, userMenuStateSet } from "../user-menu.state.js";
 
 /** Starts the user-menu sign-in flow with the provided account number. */
-async function userMenuAuthSignIn(input) {
+async function _userMenuAuthSignIn(input) {
   if (userMenuStateGet().stateAnim) { // Block a second sign-in while an auth animation is already running.
     return; // Exit without starting another sign-in flow.
   }
@@ -28,7 +28,7 @@ async function userMenuAuthSignIn(input) {
 }
 
 /** Starts the user-menu sign-up flow. */
-async function userMenuAuthSignUp() {
+async function _userMenuAuthSignUp() {
   if (userMenuStateGet().stateAnim) { // Block a second sign-up while an auth animation is already running.
     return; // Exit without starting another sign-up flow.
   }
@@ -50,7 +50,7 @@ async function userMenuAuthSignUp() {
 }
 
 /** Starts the user-menu sign-out flow. */
-async function userMenuAuthSignOut() {
+async function _userMenuAuthSignOut() {
   if (userMenuStateGet().stateAnim) { // Block a second sign-out while an auth animation is already running.
     return; // Exit without starting another sign-out flow.
   }
@@ -72,4 +72,8 @@ async function userMenuAuthSignOut() {
   userMenuStateSet({ stateAnim: false }); // Clear the busy flag once the sign-out flow is complete.
 }
 
-export { userMenuAuthSignIn, userMenuAuthSignOut, userMenuAuthSignUp };
+export {
+  _userMenuAuthSignIn as userMenuAuthSignIn,
+  _userMenuAuthSignOut as userMenuAuthSignOut,
+  _userMenuAuthSignUp as userMenuAuthSignUp,
+};

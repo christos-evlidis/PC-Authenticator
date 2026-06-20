@@ -3,7 +3,7 @@ import { animDelay } from "../../../../utils/utility-animation.js";
 
 import { SEARCH_FADE_IN_CLASS, SEARCH_ROOT_SELECTOR, SEARCH_VAR_ANIMATION_TIMEOUT_BUFFER_MS, SEARCH_VAR_INTRO_FADE_MS } from "../../../../const/const.search.js";
 
-async function searchAnimationStart() {
+async function _searchAnimationStart() {
   const search = document.querySelector(SEARCH_ROOT_SELECTOR);
 
   if (!search) {
@@ -17,4 +17,4 @@ async function searchAnimationStart() {
   await animDelay(fadeMs + timeoutBufferMs);
 }
 
-export { searchAnimationStart };
+export { _searchAnimationStart as searchAnimationStart };

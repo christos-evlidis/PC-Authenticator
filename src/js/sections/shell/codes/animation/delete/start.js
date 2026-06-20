@@ -25,7 +25,8 @@ const DELETE_POOF_SHAPES = [
 ];
 
 /** Runs smoke puff exit animation and updates signed-in chrome. */
-async function codesAnimationDeleteStart(card, remainingAccounts) {
+/** Runs smoke puff exit animation and updates signed-in chrome. */
+async function _codesAnimationDeleteStart(card, remainingAccounts) {
   const { list } = codesElementsGet();
   const slideMs = animCssMsGet(card, CODES_VAR_SLIDE_MS);
   const poofMs = animCssMsGet(card, CODES_VAR_DELETE_POOF_MS);
@@ -247,4 +248,4 @@ async function codesAnimationDeleteStart(card, remainingAccounts) {
   }
 }
 
-export { codesAnimationDeleteStart };
+export { _codesAnimationDeleteStart as codesAnimationDeleteStart };

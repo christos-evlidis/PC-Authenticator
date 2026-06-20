@@ -1,6 +1,6 @@
 import { manualSetupDomGet } from "./manual-setup.dom.js";
 
-function manualSetupRenderTypeSwitch(type) {
+function _manualSetupRenderTypeSwitch(type) {
   const dom = manualSetupDomGet();
   if (dom.typeTrack) {
     dom.typeTrack.classList.toggle("is-hotp", type === "hotp");
@@ -10,4 +10,4 @@ function manualSetupRenderTypeSwitch(type) {
   });
 }
 
-export { manualSetupRenderTypeSwitch };
+export { _manualSetupRenderTypeSwitch as manualSetupRenderTypeSwitch };

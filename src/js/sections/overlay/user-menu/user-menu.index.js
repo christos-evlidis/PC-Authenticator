@@ -4,7 +4,7 @@ import { userMenuEventsBind } from "./user-menu.events.js";
 import { userMenuRenderSignedIn, userMenuRenderSignedOut, userMenuRenderSwitchAuth, userMenuRenderSwitchTheme } from "./user-menu.render.js";
 
 /** Initializes the user-menu module, binds events, and renders the initial view. */
-function userMenuInit(authState, authKey) {
+function _userMenuInit(authState, authKey) {
   userMenuEventsBind(); // Attach all user-menu click and submit handlers once.
   userMenuRenderSwitchTheme(appThemeGet()); // Sync the theme toggle UI to the active Chrome theme.
   userMenuRenderSwitchAuth(appAuthGet()); // Sync the auth tab UI to the current sign-in or sign-up view.
@@ -15,4 +15,10 @@ function userMenuInit(authState, authKey) {
   }
 }
 
-export { userMenuInit };
+export { _userMenuInit as userMenuInit };
+
+// Functions exported from this section:
+// - userMenuInit
+
+// Functions used by other parts of the codebase:
+// - userMenuInit (used in project/src/js/sections/sections-index.js)

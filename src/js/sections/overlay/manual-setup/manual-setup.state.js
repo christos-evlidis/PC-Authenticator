@@ -1,35 +1,35 @@
-const manualSetupStateStore = {
+const _manualSetupStateStore = {
   isOpen: false,
   isSubmitting: false,
   runIds: { panel: 0, submit: 0 },
 };
 
-function manualSetupStateGet() {
+function _manualSetupStateGet() {
   return {
-    isOpen: manualSetupStateStore.isOpen,
-    isSubmitting: manualSetupStateStore.isSubmitting,
+    isOpen: _manualSetupStateStore.isOpen,
+    isSubmitting: _manualSetupStateStore.isSubmitting,
   };
 }
 
-function manualSetupStateSet(next) {
+function _manualSetupStateSet(next) {
   if (typeof next.isOpen === "boolean") {
-    manualSetupStateStore.isOpen = next.isOpen;
+    _manualSetupStateStore.isOpen = next.isOpen;
   }
   if (typeof next.isSubmitting === "boolean") {
-    manualSetupStateStore.isSubmitting = next.isSubmitting;
+    _manualSetupStateStore.isSubmitting = next.isSubmitting;
   }
 }
 
-function manualSetupStateRunIdNext(key) {
-  manualSetupStateStore.runIds[key] += 1;
-  return manualSetupStateStore.runIds[key];
+function _manualSetupStateRunIdNext(key) {
+  _manualSetupStateStore.runIds[key] += 1;
+  return _manualSetupStateStore.runIds[key];
 }
 
-function manualSetupStateRunIdGet(key) {
-  return manualSetupStateStore.runIds[key];
+function _manualSetupStateRunIdGet(key) {
+  return _manualSetupStateStore.runIds[key];
 }
 
-export { manualSetupStateGet };
-export { manualSetupStateRunIdGet };
-export { manualSetupStateRunIdNext };
-export { manualSetupStateSet };
+export { _manualSetupStateGet as manualSetupStateGet };
+export { _manualSetupStateRunIdGet as manualSetupStateRunIdGet };
+export { _manualSetupStateRunIdNext as manualSetupStateRunIdNext };
+export { _manualSetupStateSet as manualSetupStateSet };

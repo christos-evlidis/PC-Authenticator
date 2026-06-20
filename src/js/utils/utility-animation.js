@@ -19,7 +19,23 @@ function animCssMsGet(element, varName) {
     return 0;
   }
 
-  return Number.parseFloat(getComputedStyle(element).getPropertyValue(varName)) || 0;
+  const rawValue = getComputedStyle(element).getPropertyValue(varName).trim();
+  if (!rawValue) {
+    return 0;
+  }
+
+  const value = Number.parseFloat(rawValue);
+  if (Number.isNaN(value)) {
+    return 0;
+  }
+
+  if (rawValue.endsWith("ms")) {
+    return value;
+  } else if (rawValue.endsWith("s")) {
+    return value * 1000;
+  }
+
+  return value;
 }
 
 /** Reads a length custom property on an element as pixels. */

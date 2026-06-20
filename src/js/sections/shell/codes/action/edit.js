@@ -1,4 +1,4 @@
-﻿import { authStorageGet } from "../../../../services/auth/auth-index.js";
+import { authStorageGet } from "../../../../services/auth/auth-index.js";
 import { dataActionUpdate, dataCodeTypeHotp } from "../../../../services/data/data-index.js";
 
 import { headerActionIconsDisable } from "../../header/header-index.js";
@@ -16,7 +16,7 @@ import { codesUtilHotpCounterParse } from "../util/hotp.js";
 import { CODES_HIDDEN_CLASS } from "../../../../const/const.codes.js";
 
 /** Enters inline edit mode for an account card. */
-function codesActionEdit(card, account, els, onCardClick) {
+function _codesActionEdit(card, account, els, onCardClick) {
   const editBtn = card.querySelector(".edit-button");
   const deleteBtn = card.querySelector(".delete-button");
   const actions = card.querySelector(".account-block__actions");
@@ -225,4 +225,4 @@ function codesActionEdit(card, account, els, onCardClick) {
   });
 }
 
-export { codesActionEdit };
+export { _codesActionEdit as codesActionEdit };

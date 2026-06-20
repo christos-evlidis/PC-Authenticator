@@ -7,7 +7,7 @@ import * as UM from "../../../const/const.user-menu.js";
 
 import { VAR_BUFFER_MS, VAR_FADE_MS, VAR_HOLD_MS, VAR_RESULT_COPY_DRAW_MS } from "../../../const/const.utility.js";
 
-function userMenuAnimationCleanup() {
+function _userMenuAnimationCleanup() {
   const dom = userMenuDomGet();
   const { root, panel, content, statusLoading, statusSuccess, statusError } = dom;
   root?.classList.remove(
@@ -88,7 +88,7 @@ function userMenuAnimationCleanup() {
   });
 }
 
-async function userMenuAnimationRun(authType, authResult, onResult, onRestore) {
+async function _userMenuAnimationRun(authType, authResult, onResult, onRestore) {
   const p = authType === "signUp" ? "SIGN_UP" : authType === "signOut" ? "SIGN_OUT" : "SIGN_IN";
   const runIdKey = authType === "signUp" ? "signUp" : authType === "signOut" ? "signOut" : "signIn";
   const cfg = {
@@ -483,19 +483,19 @@ async function userMenuAnimationRun(authType, authResult, onResult, onRestore) {
   return authResult;
   } finally {
     if (id === userMenuStateRunIdGet(cfg.runIdKey)) {
-      userMenuAnimationCleanup();
+      _userMenuAnimationCleanup();
     }
   }
 }
 
-async function userMenuAnimationPanelOpen() {
+async function _userMenuAnimationPanelOpen() {
   const id = userMenuStateRunIdNext("panel");
   const dom = userMenuDomGet();
   const { root, panel } = dom;
   if (!root || !panel) {
     return;
   }
-  userMenuAnimationCleanup();
+  _userMenuAnimationCleanup();
   dom.openBtns.forEach((button) => {
     button.classList.toggle(UM.USER_MENU_HEADER_BTN_ACTIVE_CLASS, true);
   });
@@ -519,7 +519,7 @@ async function userMenuAnimationPanelOpen() {
   }
 }
 
-async function userMenuAnimationPanelClose() {
+async function _userMenuAnimationPanelClose() {
   const id = userMenuStateRunIdNext("panel");
   const dom = userMenuDomGet();
   const { root, panel, backdrop } = dom;
@@ -559,11 +559,11 @@ async function userMenuAnimationPanelClose() {
   root.classList.remove(UM.USER_MENU_OPEN_CLASS);
   root.classList.remove(UM.USER_MENU_PANEL_ACTIVE_CLASS);
   if (id === userMenuStateRunIdGet("panel")) {
-    userMenuAnimationCleanup();
+    _userMenuAnimationCleanup();
   }
 }
 
-async function userMenuAnimationSwitchAuth() {
+async function _userMenuAnimationSwitchAuth() {
   const dom = userMenuDomGet();
   const { authTrack: track, authThumb: thumb } = dom;
   if (!track || !thumb) {
@@ -577,7 +577,7 @@ async function userMenuAnimationSwitchAuth() {
   );
 }
 
-async function userMenuAnimationSwitchTheme() {
+async function _userMenuAnimationSwitchTheme() {
   const dom = userMenuDomGet();
   const { themeTrack: track, themeThumb: thumb } = dom;
   if (!track || !thumb) {
@@ -591,7 +591,7 @@ async function userMenuAnimationSwitchTheme() {
   );
 }
 
-async function userMenuAnimationCopyRun() {
+async function _userMenuAnimationCopyRun() {
   const dom = userMenuDomGet();
   const btn = dom.accountCopyBtn;
   if (!btn) {
@@ -612,7 +612,7 @@ async function userMenuAnimationCopyRun() {
   }
 }
 
-async function userMenuAnimationDownloadRun() {
+async function _userMenuAnimationDownloadRun() {
   const dom = userMenuDomGet();
   const btn = dom.accountDownloadBtn;
   if (!btn) {
@@ -633,5 +633,13 @@ async function userMenuAnimationDownloadRun() {
   }
 }
 
-export { userMenuAnimationCleanup, userMenuAnimationCopyRun, userMenuAnimationDownloadRun, userMenuAnimationPanelClose, userMenuAnimationPanelOpen, userMenuAnimationRun, userMenuAnimationSwitchAuth, userMenuAnimationSwitchTheme };
-
+export {
+  _userMenuAnimationCleanup as userMenuAnimationCleanup,
+  _userMenuAnimationCopyRun as userMenuAnimationCopyRun,
+  _userMenuAnimationDownloadRun as userMenuAnimationDownloadRun,
+  _userMenuAnimationPanelClose as userMenuAnimationPanelClose,
+  _userMenuAnimationPanelOpen as userMenuAnimationPanelOpen,
+  _userMenuAnimationRun as userMenuAnimationRun,
+  _userMenuAnimationSwitchAuth as userMenuAnimationSwitchAuth,
+  _userMenuAnimationSwitchTheme as userMenuAnimationSwitchTheme,
+};

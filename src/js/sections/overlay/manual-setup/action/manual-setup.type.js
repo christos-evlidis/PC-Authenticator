@@ -2,8 +2,7 @@ import { manualSetupStateGet } from "../manual-setup.state.js";
 import { manualSetupDomGet } from "../manual-setup.dom.js";
 import { manualSetupRenderTypeSwitch } from "../manual-setup.render.js";
 
-/** Switches the manual-setup form between TOTP and HOTP. */
-function manualSetupTypeSwitch(otpType) {
+function _manualSetupTypeSwitch(otpType) {
   if (manualSetupStateGet().isSubmitting) {
     return;
   }
@@ -19,4 +18,4 @@ function manualSetupTypeSwitch(otpType) {
   manualSetupRenderTypeSwitch(type);
 }
 
-export { manualSetupTypeSwitch };
+export { _manualSetupTypeSwitch as manualSetupTypeSwitch };

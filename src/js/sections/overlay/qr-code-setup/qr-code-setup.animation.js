@@ -5,7 +5,7 @@ import { qrSetupStateRunIdGet, qrSetupStateRunIdNext, qrSetupStateSet } from "./
 
 import * as QR from "../../../const/const.qr-setup.js";
 
-async function qrSetupAnimationPanelClose() {
+async function _qrSetupAnimationPanelClose() {
   const runId = qrSetupStateRunIdNext("panel");
   const dom = qrSetupDomGet();
   const { root, panel, backdrop, openBtns } = dom;
@@ -65,7 +65,7 @@ async function qrSetupAnimationPanelClose() {
   }
 }
 
-async function qrSetupAnimationPanelOpen() {
+async function _qrSetupAnimationPanelOpen() {
   const runId = qrSetupStateRunIdNext("panel");
   const dom = qrSetupDomGet();
   const { root, panel, openBtns } = dom;
@@ -112,7 +112,7 @@ async function qrSetupAnimationPanelOpen() {
   }
 }
 
-function qrSetupAnimationCleanup() {
+function _qrSetupAnimationCleanup() {
   const dom = qrSetupDomGet();
   const { root, panel, content, statusLoading, statusSuccess, statusError } = dom;
 
@@ -146,7 +146,7 @@ function qrSetupAnimationCleanup() {
   root?.classList.toggle(QR.QR_SETUP_RESUME_LOCKED_CLASS, false);
 }
 
-async function qrSetupAnimationResumeRun(scanResult) {
+async function _qrSetupAnimationResumeRun(scanResult) {
   const runId = qrSetupStateRunIdNext("resume");
   const dom = qrSetupDomGet();
   const {
@@ -469,5 +469,10 @@ async function qrSetupAnimationResumeRun(scanResult) {
   }
 }
 
-export { qrSetupAnimationPanelClose, qrSetupAnimationPanelOpen, qrSetupAnimationCleanup, qrSetupAnimationResumeRun };
+export {
+  _qrSetupAnimationPanelClose as qrSetupAnimationPanelClose,
+  _qrSetupAnimationPanelOpen as qrSetupAnimationPanelOpen,
+  _qrSetupAnimationCleanup as qrSetupAnimationCleanup,
+  _qrSetupAnimationResumeRun as qrSetupAnimationResumeRun,
+};
 

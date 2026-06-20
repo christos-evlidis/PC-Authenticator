@@ -17,7 +17,7 @@ import {
   MANUAL_SETUP_STATUS_ICON_MARK_SELECTOR,
 } from "../../../const/const.manual-setup.js";
 
-function manualSetupDomQuery() {
+function _manualSetupDomQuery() {
   return {
     root: document.querySelector(MANUAL_SETUP_ROOT_SELECTOR),
     backdrop: document.querySelector(MANUAL_SETUP_BACKDROP_SELECTOR),
@@ -38,14 +38,14 @@ function manualSetupDomQuery() {
   };
 }
 
-function manualSetupDomGet() {
-  return manualSetupDomQuery();
+function _manualSetupDomGet() {
+  return _manualSetupDomQuery();
 }
 
-function manualSetupDomSet(next = {}) {
-  const dom = manualSetupDomQuery();
+function _manualSetupDomSet(next = {}) {
+  const dom = _manualSetupDomQuery();
   return dom;
 }
 
-export { manualSetupDomGet };
-export { manualSetupDomSet };
+export { _manualSetupDomGet as manualSetupDomGet };
+export { _manualSetupDomSet as manualSetupDomSet };

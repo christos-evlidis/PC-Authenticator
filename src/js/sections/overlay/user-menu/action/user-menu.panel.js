@@ -6,7 +6,7 @@ import { userMenuRenderSignedIn, userMenuRenderSignedOut, userMenuRenderSwitchAu
 import { userMenuStateGet, userMenuStateSet } from "../user-menu.state.js";
 
 /** Opens the user-menu panel and refreshes its content. */
-async function userMenuPanelOpen() {
+async function _userMenuPanelOpen() {
   if (userMenuStateGet().statePanel) { // Stop when the panel is already open.
     return; // Exit without replaying the open animation.
   }
@@ -23,7 +23,7 @@ async function userMenuPanelOpen() {
 }
 
 /** Closes the user-menu panel. */
-async function userMenuPanelClose() {
+async function _userMenuPanelClose() {
   if (!userMenuStateGet().statePanel) { // Stop when the panel is already closed.
     return; // Exit without replaying the close animation.
   }
@@ -32,12 +32,16 @@ async function userMenuPanelClose() {
 }
 
 /** Toggles the user-menu panel open or closed. */
-async function userMenuPanelToggle() {
+async function _userMenuPanelToggle() {
   if (userMenuStateGet().statePanel) { // Use the close flow when the panel is currently open.
-    await userMenuPanelClose(); // Run the close animation and update panel state.
+    await _userMenuPanelClose(); // Run the close animation and update panel state.
   } else { // Use the open flow when the panel is currently closed.
-    await userMenuPanelOpen(); // Refresh panel content and run the open animation.
+    await _userMenuPanelOpen(); // Refresh panel content and run the open animation.
   }
 }
 
-export { userMenuPanelClose, userMenuPanelOpen, userMenuPanelToggle };
+export {
+  _userMenuPanelClose as userMenuPanelClose,
+  _userMenuPanelOpen as userMenuPanelOpen,
+  _userMenuPanelToggle as userMenuPanelToggle,
+};

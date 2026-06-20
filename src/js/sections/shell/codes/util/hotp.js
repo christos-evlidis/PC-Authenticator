@@ -1,17 +1,17 @@
 import { DATA_COUNTER_MIN, DATA_HOTP_COUNTER_DEFAULT } from "../../../../services/data/data-index.js";
 
 /** Returns the numeric HOTP counter for an account. */
-function codesUtilHotpCounterValue(account) {
+function _codesUtilHotpCounterValue(account) {
   return Number.isInteger(account?.counter) ? account.counter : DATA_HOTP_COUNTER_DEFAULT;
 }
 
 /** Returns HOTP counter text for display on a card. */
-function codesUtilHotpCounterDisplay(account) {
-  return String(codesUtilHotpCounterValue(account));
+function _codesUtilHotpCounterDisplay(account) {
+  return String(_codesUtilHotpCounterValue(account));
 }
 
 /** Parses user-entered HOTP counter text. */
-function codesUtilHotpCounterParse(text) {
+function _codesUtilHotpCounterParse(text) {
   const trimmed = String(text ?? "").trim();
 
   if (!/^\d+$/.test(trimmed)) {
@@ -27,6 +27,8 @@ function codesUtilHotpCounterParse(text) {
   return counter;
 }
 
-export { codesUtilHotpCounterDisplay };
-export { codesUtilHotpCounterParse };
-export { codesUtilHotpCounterValue };
+export {
+  _codesUtilHotpCounterDisplay as codesUtilHotpCounterDisplay,
+  _codesUtilHotpCounterParse as codesUtilHotpCounterParse,
+  _codesUtilHotpCounterValue as codesUtilHotpCounterValue,
+};

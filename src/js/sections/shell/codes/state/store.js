@@ -1,4 +1,4 @@
-export const codesStateStore = {
+const _codesStateStore = {
   shouldPlayIntro: true,
   tickIntervalId: null,
   cardRoots: [],
@@ -7,3 +7,5 @@ export const codesStateStore = {
   headerLockedForEdit: false,
   headerLockedForDelete: false,
 };
+
+export { _codesStateStore as codesStateStore };

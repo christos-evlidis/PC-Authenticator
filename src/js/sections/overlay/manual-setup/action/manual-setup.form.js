@@ -7,7 +7,7 @@ import { manualSetupAnimationSubmitFinish, manualSetupAnimationSubmit } from "..
 import { manualSetupStateGet } from "../manual-setup.state.js";
 import {MANUAL_SETUP_OTP_TYPE_BTN_SELECTOR,MANUAL_SETUP_ROOT_SELECTOR,MANUAL_SETUP_SUBMITTING_CLASS,MANUAL_SETUP_OTP_TYPE_TRACK_SELECTOR } from "../../../../const/const.manual-setup.js";
 
-function manualSetupFormEnable(form) {
+function _manualSetupFormEnable(form) {
   const submit = form.querySelector(".manual-setup__submit");
   if (submit) {
     submit.disabled = false;
@@ -17,7 +17,7 @@ function manualSetupFormEnable(form) {
   });
 }
 
-function manualSetupFormReset(form) {
+function _manualSetupFormReset(form) {
   form.reset();
   const typeInput = form.querySelector('[name="type"]');
   if (typeInput) {
@@ -29,7 +29,7 @@ function manualSetupFormReset(form) {
   });
 }
 
-async function manualSetupFormSubmit(event) {
+async function _manualSetupFormSubmit(event) {
   event.preventDefault();
   if (manualSetupStateGet().isSubmitting) {
     return;
@@ -60,9 +60,9 @@ async function manualSetupFormSubmit(event) {
     return true;
   });
   if (isSuccess) {
-    manualSetupFormReset(form);
+    _manualSetupFormReset(form);
   }
-  manualSetupFormEnable(form);
+  _manualSetupFormEnable(form);
   await manualSetupPanelClose();
   manualSetupAnimationSubmitFinish();
   if (isSuccess && addedAccount) {
@@ -72,4 +72,4 @@ async function manualSetupFormSubmit(event) {
   document.querySelector(MANUAL_SETUP_ROOT_SELECTOR)?.classList.remove(MANUAL_SETUP_SUBMITTING_CLASS);
 }
 
-export { manualSetupFormEnable, manualSetupFormReset, manualSetupFormSubmit };
+export { _manualSetupFormEnable as manualSetupFormEnable, _manualSetupFormReset as manualSetupFormReset, _manualSetupFormSubmit as manualSetupFormSubmit };

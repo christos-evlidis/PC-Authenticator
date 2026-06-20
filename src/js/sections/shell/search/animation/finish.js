@@ -1,6 +1,6 @@
 import { SEARCH_ANIMATION_PENDING_CLASS, SEARCH_FADE_IN_CLASS, SEARCH_ROOT_SELECTOR } from "../../../../const/const.search.js";
 
-function searchAnimationFinish() {
+function _searchAnimationFinish() {
   const search = document.querySelector(SEARCH_ROOT_SELECTOR);
 
   if (!search) {
@@ -10,4 +10,4 @@ function searchAnimationFinish() {
   search.classList.remove(SEARCH_ANIMATION_PENDING_CLASS, SEARCH_FADE_IN_CLASS);
 }
 
-export { searchAnimationFinish };
+export { _searchAnimationFinish as searchAnimationFinish };
